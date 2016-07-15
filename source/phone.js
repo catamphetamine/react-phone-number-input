@@ -5,6 +5,24 @@ export const formats =
 		code: 7, // can be a string
 		city: 3,
 		number: [3, 2, 2]
+	},
+	UA:
+	{
+		code: 380, // can be a string
+		city: 2,
+		number: [3, 2, 2]
+	},
+	BY:
+	{
+		code: 375, // can be a string
+		city: 2,
+		number: [3, 2, 2]
+	},
+	US:
+	{
+		code: 1, // can be a string
+		city: 3,
+		number: [3, 4]
 	}
 }
 

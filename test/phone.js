@@ -5,24 +5,25 @@ describe(`phone`, function()
 	it(`should generate phone template`, function()
 	{
 		// Russia
-		template({ code: 7, city: 3, number: [3, 2, 2] }).should.equal('(xxx) xxx-xx-xx')
+		template(formats.RU).should.equal('(xxx) xxx-xx-xx')
 
 		// Ukraine
-		template({ code: 380, city: 2, number: [3, 2, 2] }).should.equal('(xx) xxx-xx-xx')
+		template(formats.UA).should.equal('(xx) xxx-xx-xx')
 
-		// Belorussia
-		template({ code: 375, city: 2, number: [3, 2, 2] }).should.equal('(xx) xxx-xx-xx')
+		// Belarus
+		template(formats.BY).should.equal('(xx) xxx-xx-xx')
+
+		// USA
+		template(formats.US).should.equal('(xxx) xxx-xxxx')
 	})
 
 	it(`should parse raw digits`, function()
 	{
-		const format = { city: 3, number: [3, 2, 2] }
-		
-		digits('', format).should.equal('')
-		digits('(9  ) ', format).should.equal('9')
-		digits(' ( 9 9  9) 1 23 45  ', format).should.equal('99912345')
-		digits('( 999  )  1-2-3-4-5-6  7', format).should.equal('9991234567')
-		digits('( 999  )  1-2-3-4-5-6  7 8 9 - 10 ', format).should.equal('9991234567')
+		digits('', formats.RU).should.equal('')
+		digits('(9  ) ', formats.RU).should.equal('9')
+		digits(' ( 9 9  9) 1 23 45  ', formats.RU).should.equal('99912345')
+		digits('( 999  )  1-2-3-4-5-6  7', formats.RU).should.equal('9991234567')
+		digits('( 999  )  1-2-3-4-5-6  7 8 9 - 10 ', formats.RU).should.equal('9991234567')
 	})
 
 	it(`should count digits`, function()
@@ -35,36 +36,34 @@ describe(`phone`, function()
 
 	it(`should parse phone digits`, function()
 	{
-		const format = { city: 3, number: [3, 2, 2] }
-		
-		parse_digits('', format).should.deep.equal({ city: '', number: '' })
-		parse_digits('9', format).should.deep.equal({ city: '9', number: '' })
-		parse_digits('99', format).should.deep.equal({ city: '99', number: '' })
-		parse_digits('999', format).should.deep.equal({ city: '999', number: '' })
-		parse_digits('9991', format).should.deep.equal({ city: '999', number: '1' })
-		parse_digits('99912', format).should.deep.equal({ city: '999', number: '12' })
-		parse_digits('999123', format).should.deep.equal({ city: '999', number: '123' })
-		parse_digits('9991234', format).should.deep.equal({ city: '999', number: '1234' })
-		parse_digits('99912345', format).should.deep.equal({ city: '999', number: '12345' })
-		parse_digits('999123456', format).should.deep.equal({ city: '999', number: '123456' })
-		parse_digits('9991234567', format).should.deep.equal({ city: '999', number: '1234567' })
+		parse_digits('', formats.RU).should.deep.equal({ city: '', number: '' })
+		parse_digits('9', formats.RU).should.deep.equal({ city: '9', number: '' })
+		parse_digits('99', formats.RU).should.deep.equal({ city: '99', number: '' })
+		parse_digits('999', formats.RU).should.deep.equal({ city: '999', number: '' })
+		parse_digits('9991', formats.RU).should.deep.equal({ city: '999', number: '1' })
+		parse_digits('99912', formats.RU).should.deep.equal({ city: '999', number: '12' })
+		parse_digits('999123', formats.RU).should.deep.equal({ city: '999', number: '123' })
+		parse_digits('9991234', formats.RU).should.deep.equal({ city: '999', number: '1234' })
+		parse_digits('99912345', formats.RU).should.deep.equal({ city: '999', number: '12345' })
+		parse_digits('999123456', formats.RU).should.deep.equal({ city: '999', number: '123456' })
+		parse_digits('9991234567', formats.RU).should.deep.equal({ city: '999', number: '1234567' })
 	})
 
 	it(`should format digits`, function()
 	{
-		const _format = { city: 3, number: [3, 2, 2] }
+		format('', formats.RU).should.equal('')
+		format('9', formats.RU).should.equal('(9  ) ')
+		format('99', formats.RU).should.equal('(99 ) ')
+		format('999', formats.RU).should.equal('(999) ')
+		format('9991', formats.RU).should.equal('(999) 1')
+		format('99912', formats.RU).should.equal('(999) 12')
+		format('999123', formats.RU).should.equal('(999) 123')
+		format('9991234', formats.RU).should.equal('(999) 123-4')
+		format('99912345', formats.RU).should.equal('(999) 123-45')
+		format('999123456', formats.RU).should.equal('(999) 123-45-6')
+		format('9991234567', formats.RU).should.equal('(999) 123-45-67')
 
-		format('', _format).should.equal('')
-		format('9', _format).should.equal('(9  ) ')
-		format('99', _format).should.equal('(99 ) ')
-		format('999', _format).should.equal('(999) ')
-		format('9991', _format).should.equal('(999) 1')
-		format('99912', _format).should.equal('(999) 12')
-		format('999123', _format).should.equal('(999) 123')
-		format('9991234', _format).should.equal('(999) 123-4')
-		format('99912345', _format).should.equal('(999) 123-45')
-		format('999123456', _format).should.equal('(999) 123-45-6')
-		format('9991234567', _format).should.equal('(999) 123-45-67')
+		format('9991234567', formats.US).should.equal('(999) 123-4567')
 	})
 
 	it(`should count digits in number`, function()
@@ -104,21 +103,19 @@ describe(`phone`, function()
 
 	it(`should calculate index for digit in template`, function()
 	{
-		const format = { city: 3, number: [3, 2, 2] }
-		
-		index_in_template(0, format).should.equal(1)
-		index_in_template(1, format).should.equal(2)
-		index_in_template(2, format).should.equal(3)
+		index_in_template(0, formats.RU).should.equal(1)
+		index_in_template(1, formats.RU).should.equal(2)
+		index_in_template(2, formats.RU).should.equal(3)
 
-		index_in_template(3, format).should.equal(6)
-		index_in_template(4, format).should.equal(7)
-		index_in_template(5, format).should.equal(8)
+		index_in_template(3, formats.RU).should.equal(6)
+		index_in_template(4, formats.RU).should.equal(7)
+		index_in_template(5, formats.RU).should.equal(8)
 
-		index_in_template(6, format).should.equal(10)
-		index_in_template(7, format).should.equal(11)
+		index_in_template(6, formats.RU).should.equal(10)
+		index_in_template(7, formats.RU).should.equal(11)
 
-		index_in_template(8, format).should.equal(13)
-		index_in_template(9, format).should.equal(14)
+		index_in_template(8, formats.RU).should.equal(13)
+		index_in_template(9, formats.RU).should.equal(14)
 	})
 
 	it(`should repeat string N times`, function()
