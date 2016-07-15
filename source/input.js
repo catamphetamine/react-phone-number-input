@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-import { format } from './phone'
+import { cleartext_international } from './phone'
 import edit from './editor'
 
 // Key codes
@@ -67,7 +67,7 @@ export default class Phone_input extends React.Component
 
 		if (this.props.onChange)
 		{
-			this.props.onChange(value)
+			this.props.onChange(cleartext_international(value))
 		}
 
 		// Set caret position (with the neccessary adjustments)

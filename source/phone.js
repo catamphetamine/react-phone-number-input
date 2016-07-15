@@ -29,6 +29,11 @@ export const formats =
 // Validates an international cleartext phone number
 export function validate(cleartext_international, format)
 {
+	if (!format)
+	{
+		throw new Error(`No "format" specified for phone number validation`)
+	}
+
 	return cleartext_international.length === 
 		'+'.length + String(format.country).length + digits_in_number(format)
 }
@@ -37,11 +42,6 @@ export function validate(cleartext_international, format)
 // E.g. "(999) 123-45-67" -> "+79991234567"
 export function cleartext_international(formatted, format)
 {
-	if (!format)
-	{
-		throw new Error(`No "format" specified`)
-	}
-
 	return `+${format.country}${digits(formatted, format)}`
 }
 
