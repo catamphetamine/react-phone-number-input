@@ -2,27 +2,27 @@ export const formats =
 {
 	RU:
 	{
-		country: 7, // can be a string
-		city: 3,
-		number: [3, 2, 2]
+		country : 7, // can be a string
+		city    : 3,
+		number  : [3, 2, 2]
 	},
 	UA:
 	{
-		country: 380, // can be a string
-		city: 2,
-		number: [3, 2, 2]
+		country : 380, // can be a string
+		city    : 2,
+		number  : [3, 2, 2]
 	},
 	BY:
 	{
-		country: 375, // can be a string
-		city: 2,
-		number: [3, 2, 2]
+		country : 375, // can be a string
+		city    : 2,
+		number  : [3, 2, 2]
 	},
 	US:
 	{
-		country: 1, // can be a string
-		city: 3,
-		number: [3, 4]
+		country : 1, // can be a string
+		city    : 3,
+		number  : [3, 4]
 	}
 }
 
@@ -65,8 +65,12 @@ export function count_digits(value)
   return value.replace(/[^0-9]/g, '').length
 }
 
-// Converts digits to a formatted phone number
-// (e.g. "9991234567" -> "(999) 123-45-67")
+// Formats a cleartext phone number
+// as a local phone number.
+//
+// E.g.: "+79991234567" -> "(999) 123-45-67"
+//         "9991234567" -> "(999) 123-45-67"
+//
 export function format(value, format)
 {
 	if (!value)
@@ -124,6 +128,17 @@ export function format(value, format)
 	// The resulting formatted phone number
 	// (e.g. '(999) 123-45-67')
 	return `(${city}) ${number}`
+}
+
+// Formats a cleartext phone number
+// as an international phone number.
+//
+// E.g.: "+79991234567" -> "+7 (999) 123-45-67"
+//         "9991234567" -> "+7 (999) 123-45-67"
+//
+export function format_international(cleartext, phone_format)
+{
+	return `+${String(phone_format.country)} ${format(cleartext, phone_format)}`
 }
 
 // Transforms raw digits "9991234567"

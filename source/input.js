@@ -139,7 +139,13 @@ export default class Phone_input extends React.Component
 
 Phone_input.propTypes =
 {
-	format    : PropTypes.object.isRequired,
+	format    : PropTypes.shape
+	({
+		country : PropTypes.number.isRequired,
+		city    : PropTypes.number.isRequired,
+		number  : PropTypes.arrayOf(PropTypes.number),
+	})
+	.isRequired,
 	value     : PropTypes.string.isRequired,
 	onChange  : PropTypes.func.isRequired,
 	className : PropTypes.string,

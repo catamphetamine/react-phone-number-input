@@ -15,7 +15,7 @@ npm install react-phone-number-input --save
 ## Usage
 
 ```js
-import Phone, { format, isValid } from 'react-phone-number-input'
+import Phone, { phoneNumberFormat, isValidPhoneNumber } from 'react-phone-number-input'
 
 ...
 
@@ -27,11 +27,11 @@ return (
 	<div>
 		+7
 		<Phone
-			format={ format.RU }
+			format={ phoneNumberFormat.RU }
 			value={ this.state.phone }
 			onChange={ phone => this.setState({ phone }) }
 			className={ classnames('phone', {
-				'phone--invalid': !isValid(this.state.phone, format.RU)
+				'phone--invalid': !isValidPhoneNumber(this.state.phone, phoneNumberFormat.RU)
 			}) } />
 	</div>
 )
@@ -39,6 +39,75 @@ return (
 // Outputs "(999) 123-45-67" in the <input/> field.
 // `this.state.phone` is cleartext: "+79991234567".
 ```
+
+## API
+
+### default
+
+A React component with the following props
+
+```js
+{
+	format    : PropTypes.shape
+	({
+		country : PropTypes.number.isRequired,
+		city    : PropTypes.number.isRequired,
+		number  : PropTypes.arrayOf(PropTypes.number),
+	})
+	.isRequired,
+	value     : PropTypes.string.isRequired,
+	onChange  : PropTypes.func.isRequired,
+	className : PropTypes.string,
+	style     : PropTypes.object
+}
+```
+
+### phone_number_format
+
+(aka `phoneNumberFormat`)
+
+A map with phone number format examples
+
+```js
+{
+	RU:
+	{
+		country : 7, // can be a string
+		city    : 3,
+		number  : [3, 2, 2]
+	},
+	US:
+	{
+		country : 1, // can be a string
+		city    : 3,
+		number  : [3, 4]
+	}
+}
+```
+
+### is_valid_phone_number(cleartext, format)
+
+(aka `isValidPhoneNumber`)
+
+Returns `true` if `cleartext` phone number is valid given the `format`.
+
+### format_phone_number(cleartext, format)
+
+(aka `formatPhoneNumber`)
+
+Formats `cleartext` phone number given the `format`. The output format is local (without country code).
+
+ * `+79991234567` → `(999) 123-45-67`
+ * `9991234567` → `(999) 123-45-67`
+
+### format_phone_number_international(cleartext, format)
+
+(aka `formatPhoneNumberInternational`)
+
+Formats `cleartext` phone number given the `format`. The output format is international (with `+` sign and country code prepended).
+
+ * `+79991234567` → `+7 (999) 123-45-67`
+ * `9991234567` → `+7 (999) 123-45-67`
 
 ## Contributing
 

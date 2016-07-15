@@ -1,4 +1,4 @@
-import { formats, validate, cleartext_international, template, digits, count_digits, format, parse_digits, digits_in_number, digit_index, index_in_template, repeat } from '../source/phone'
+import { formats, validate, cleartext_international, template, digits, count_digits, format, format_international, parse_digits, digits_in_number, digit_index, index_in_template, repeat } from '../source/phone'
 
 describe(`phone`, function()
 {
@@ -76,6 +76,14 @@ describe(`phone`, function()
 		format('9991234567', formats.RU).should.equal('(999) 123-45-67')
 
 		format('9991234567', formats.US).should.equal('(999) 123-4567')
+	})
+
+	it(`should format digits (internationally)`, function()
+	{
+		format_international('999123456', formats.RU).should.equal('+7 (999) 123-45-6')
+		format_international('9991234567', formats.RU).should.equal('+7 (999) 123-45-67')
+
+		format_international('9991234567', formats.US).should.equal('+1 (999) 123-4567')
 	})
 
 	it(`should count digits in number`, function()
