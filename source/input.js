@@ -12,7 +12,7 @@ import edit from './editor'
 // 	value={this.state.phone}
 // 	format={formats.RU}
 // 	onChange={phone => this.setState({ phone })}
-// 	className=".phone-input"
+// 	className="phone-input"
 // 	style={{ color: 'black' }} />
 //
 export default class Phone_input extends React.Component
