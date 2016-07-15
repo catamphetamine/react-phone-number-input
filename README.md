@@ -37,7 +37,7 @@ return (
 )
 
 // Outputs "(999) 123-45-67" in the <input/> field.
-// `this.state.value` is cleartext: "+79991234567".
+// `this.state.phone` is cleartext: "+79991234567".
 ```
 
 ## Contributing
