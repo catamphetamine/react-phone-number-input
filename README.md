@@ -27,6 +27,8 @@ state = { phone: '' }
 	format={ formats.RU }
 	value={ this.state.phone }
 	onChange={ phone => this.setState({ phone }) } />
+
+// Outputs: (915) 123-45-67
 ```
 
 ## Contributing
