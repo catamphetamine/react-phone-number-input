@@ -7,14 +7,19 @@ import ReactDOM from 'react-dom'
 import edit from './editor'
 
 // Usage:
-// <PhoneInput value={this.state.number} format={format.RU} onChange={number => this.setState({ number })}/>
-export default class Input extends React.Component
+//
+// <Phone
+// 	value={this.state.phone}
+// 	format={formats.RU}
+// 	onChange={phone => this.setState({ phone })}
+// 	className=".phone-input"
+// 	style={{ color: 'black' }} />
+//
+export default class Phone_input extends React.Component
 {
 	constructor(props, context)
 	{
 		super(props, context)
-
-		this.state = {}
 
 		this.onKeyDown = this.onKeyDown.bind(this)
 		this.format_input_value = this.format_input_value.bind(this)
@@ -22,13 +27,18 @@ export default class Input extends React.Component
 
 	render()
 	{
+		const { className, style } = this.props
+		
 		return <input
+			type="tel"
 			ref="input"
 			value={this.props.value}
 			onKeyDown={this.onKeyDown}
 			onChange={event => this.format_input_value()}
 			onPaste={event => this.format_input_value()}
-			onCut={event => this.format_input_value({ delete: true })}/>
+			onCut={event => this.format_input_value({ delete: true })}
+			className={className}
+			style={style} />
 	}
 
 	// Sets <input/> value and caret position
@@ -129,9 +139,11 @@ export default class Input extends React.Component
 	}
 }
 
-Input.propTypes =
+Phone_input.propTypes =
 {
-	format: PropTypes.object.isRequired,
-	value: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired
+	format    : PropTypes.object.isRequired,
+	value     : PropTypes.string.isRequired,
+	onChange  : PropTypes.func.isRequired,
+	className : PropTypes.string,
+	style     : PropTypes.object
 }
