@@ -23,13 +23,21 @@ state = { phone: '+79991234567' }
 
 ...
 
-<Phone
-	format={ format.RU }
-	value={ this.state.phone }
-	onChange={ phone => this.setState({ phone }) }
-	className={ classnames({ 'invalid': !isValid(this.state.phone) }) } />
+return (
+	<div>
+		+7
+		<Phone
+			format={ format.RU }
+			value={ this.state.phone }
+			onChange={ phone => this.setState({ phone }) }
+			className={ classnames('phone', {
+				'phone-invalid': !isValid(this.state.phone)
+			}) } />
+	</div>
+)
 
-// Outputs "(999) 123-45-67" in the <input/> field
+// Outputs "(999) 123-45-67" in the <input/> field.
+// `this.state.value` is cleartext: "+79991234567".
 ```
 
 ## Contributing

@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-import { cleartext_international } from './phone'
+import { format, cleartext_international } from './phone'
 import edit from './editor'
 
 // Key codes
@@ -35,13 +35,13 @@ export default class Phone_input extends React.Component
 
 	render()
 	{
-		const { className, style } = this.props
+		const { value, className, style } = this.props
 
 		return (
 			<input
 				type="tel"
 				ref="input"
-				value={this.props.value}
+				value={format(value, this.props.format)}
 				onKeyDown={this.onKeyDown}
 				onChange={event => this.format_input_value()}
 				onPaste={event => this.format_input_value()}
@@ -63,17 +63,20 @@ export default class Phone_input extends React.Component
 		// DOM Node
 		const input = this.input_element()
 
+		// set <input/> value manually to also set caret position
+		// and prevent React from resetting the caret position later
+		// inside subsequent `render()`.
 		input.value = value
-
-		if (this.props.onChange)
-		{
-			this.props.onChange(cleartext_international(value, this.props.format))
-		}
 
 		// Set caret position (with the neccessary adjustments)
 		if (caret_position !== undefined)
 		{
 			input.setSelectionRange(caret_position, caret_position)
+		}
+
+		if (this.props.onChange)
+		{
+			this.props.onChange(cleartext_international(value, this.props.format))
 		}
 	}
 
