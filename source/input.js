@@ -41,7 +41,7 @@ export default class Phone_input extends React.Component
 			<input
 				type="tel"
 				ref="input"
-				value={this.format_phone_number(this.props.value)}
+				value={this.props.value}
 				onKeyDown={this.onKeyDown}
 				onChange={event => this.format_input_value()}
 				onPaste={event => this.format_input_value()}

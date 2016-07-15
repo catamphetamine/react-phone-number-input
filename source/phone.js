@@ -33,14 +33,6 @@ export function validate(cleartext_international, format)
 		'+'.length + String(format.country).length + digits_in_number(format)
 }
 
-// // Formats a cleartext phone number.
-// // E.g. "+79991234567" -> "+7 (999) 123-45-67"
-// // (currently this function is not used)
-// export function format_phone_number(cleartext, phone_format)
-// {
-// 	return format(`+${format.country}${cleartext}`, phone_format)
-// }
-
 // Reduces a formatted phone number to a cleartext one (with country code).
 // E.g. "(999) 123-45-67" -> "+79991234567"
 export function cleartext_international(formatted, format)
@@ -49,7 +41,7 @@ export function cleartext_international(formatted, format)
 	{
 		throw new Error(`No "format" specified`)
 	}
-	
+
 	return `+${format.country}${digits(formatted, format)}`
 }
 
