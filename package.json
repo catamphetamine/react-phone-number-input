@@ -1,0 +1,68 @@
+{
+  "name": "react-phone-number-input",
+  "version": "0.1.0",
+  "description": "Telephone input for React",
+  "main": "index.umd.js",
+  "jsnext:main": "index.es6.js",
+  "peerDependencies": {
+    "react": ">= 0.14.0",
+    "react-dom": ">= 0.14.0"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.2",
+    "babel-loader": "^6.2.2",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-transform-react-display-name": "^6.5.0",
+    "babel-plugin-transform-runtime": "^6.6.0",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.7.2",
+    "chai": "^3.5.0",
+    "istanbul": "^1.0.0-alpha.2",
+    "mocha": "^2.4.5",
+    "npm-run-all": "^1.4.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "rimraf": "^2.5.0"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register --colors --bail --reporter spec test/runner.js --recursive",
+    "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/runner.js --recursive",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --colors --reporter spec test/runner.js --recursive",
+    "gh-pages": "webpack --action=gh-pages --colors --config ./config",
+    "deploy-gh-pages": "TARGET=gh-pages node ./config/deploy-gh-pages.js",
+    "clean-for-build": "rimraf ./build/**/*",
+    "build-modules": "babel ./source --optional runtime --out-dir ./build --source-maps",
+    "build": "npm-run-all clean-for-build build-modules",
+    "commit-new-build": "git commit --all --message=\"Update build\"",
+    "prepublish": "npm-run-all test build",
+    "watch": "babel scripts/watch.js | node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halt-hammerzeit/react-phone-number-input.git"
+  },
+  "keywords": [
+    "javascript",
+    "retina",
+    "detect",
+    "screen",
+    "device",
+    "pixel",
+    "ratio",
+    "density",
+    "ddpx"
+  ],
+  "author": "Halt Hammerzeit <halt.hammerzeit.at@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/halt-hammerzeit/react-phone-number-input/issues"
+  },
+  "homepage": "https://github.com/halt-hammerzeit/react-phone-number-input#readme"
+}

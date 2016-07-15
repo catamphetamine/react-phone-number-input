@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": ".",
+			"folder_exclude_patterns": ["react-phone-number-input/node_modules", "react-phone-number-input/coverage", "react-phone-number-input/build", "project.sublime-workspace"]
+		}
+	],
+  "settings":
+  {
+    "tab_size": 3,
+    "translate_tabs_to_spaces": false,
+  }
+}
