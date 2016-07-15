@@ -61,7 +61,7 @@ export default class Phone_input extends React.Component
 	set_input_value(value, caret_position)
 	{
 		// DOM Node
-		const input = input_element()
+		const input = this.input_element()
 
 		input.value = value
 
@@ -80,20 +80,20 @@ export default class Phone_input extends React.Component
 	// Gets <input/> value
 	get_input_value()
 	{
-		return input_element().value
+		return this.input_element().value
 	}
 
 	// Gets <input/> caret position
 	get_caret_position()
 	{
-		return input_element().selectionStart
+		return this.input_element().selectionStart
 	}
 
 	// Gets <input/> selected position
 	get_selection()
 	{
 		// DOM Node
-		const input = input_element()
+		const input = this.input_element()
 
 		// If no selection, return nothing
 		if (input.selectionStart === input.selectionEnd)
