@@ -6,6 +6,8 @@
 
 International phone number `<input/>` in React
 
+![screenshot of react-phone-number-input](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/screenshot.png)
+
 ## Installation
 
 ```
