@@ -141,7 +141,7 @@ Phone_input.propTypes =
 {
 	format    : PropTypes.shape
 	({
-		country : PropTypes.number.isRequired,
+		country : PropTypes.string.isRequired,
 		city    : PropTypes.number.isRequired,
 		number  : PropTypes.arrayOf(PropTypes.number),
 	})
