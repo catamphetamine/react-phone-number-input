@@ -2,28 +2,55 @@ export const formats =
 {
 	RU:
 	{
-		code: 7, // can be a string
+		country: 7, // can be a string
 		city: 3,
 		number: [3, 2, 2]
 	},
 	UA:
 	{
-		code: 380, // can be a string
+		country: 380, // can be a string
 		city: 2,
 		number: [3, 2, 2]
 	},
 	BY:
 	{
-		code: 375, // can be a string
+		country: 375, // can be a string
 		city: 2,
 		number: [3, 2, 2]
 	},
 	US:
 	{
-		code: 1, // can be a string
+		country: 1, // can be a string
 		city: 3,
 		number: [3, 4]
 	}
+}
+
+// Validates an international cleartext phone number
+export function validate(cleartext_international, format)
+{
+	return cleartext_international.length === 
+		'+'.length + String(format.country).length + digits_in_number(format)
+}
+
+// // Formats a cleartext phone number.
+// // E.g. "+79991234567" -> "+7 (999) 123-45-67"
+// // (currently this function is not used)
+// export function format_phone_number(cleartext, phone_format)
+// {
+// 	return format(`+${format.country}${cleartext}`, phone_format)
+// }
+
+// Reduces a formatted phone number to a cleartext one (with country code).
+// E.g. "(999) 123-45-67" -> "+79991234567"
+export function cleartext_international(formatted, format)
+{
+	if (!format)
+	{
+		throw new Error(`No "format" specified`)
+	}
+	
+	return `+${format.country}${digits(formatted, format)}`
 }
 
 // Generates phone number template based on the phone format structure.
@@ -58,14 +85,22 @@ export function format(value, format)
 	// Trims the value
 	value = value.trim()
 
+	// If the value starts with a plus sign,
+	// then trim it along with the country code.
+	// (because country code is not editable)
+	if (value[0] === '+')
+	{
+		value = value.substring('+'.length + String(format.country).length)
+	}
+
 	// If the value has something except digits, then abort
 	if (value.match(/[^0-9]/))
 	{
 		return value
 	}
 
-	// Преобразовать текстовый телефон вида "9991234567"
-	// в структуру вида { city: '999', number: '1234567' }
+	// Transform raw digits "9991234567"
+	// into a structure { city: '999', number: '1234567' }
 	const phone = parse_digits(value, format)
 
 	// Adds hyphens to phone number
@@ -99,8 +134,8 @@ export function format(value, format)
 	return `(${city}) ${number}`
 }
 
-// Преобразует текстовый телефон вида "9991234567"
-// в структуру вида { city: '999', number: '1234567' }
+// Transforms raw digits "9991234567"
+// into a structure { city: '999', number: '1234567' }
 export function parse_digits(digits, format)
 {
 	const phone =

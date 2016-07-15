@@ -4,13 +4,21 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
+import { format } from './phone'
 import edit from './editor'
+
+// Key codes
+const Keys =
+{
+	Backspace : 8,
+	Delete    : 46
+}
 
 // Usage:
 //
 // <Phone
 // 	value={this.state.phone}
-// 	format={formats.RU}
+// 	format={format.RU}
 // 	onChange={phone => this.setState({ phone })}
 // 	className="phone-input"
 // 	style={{ color: 'black' }} />
@@ -33,7 +41,7 @@ export default class Phone_input extends React.Component
 			<input
 				type="tel"
 				ref="input"
-				value={this.props.value}
+				value={this.format_phone_number(this.props.value)}
 				onKeyDown={this.onKeyDown}
 				onChange={event => this.format_input_value()}
 				onPaste={event => this.format_input_value()}
@@ -43,11 +51,17 @@ export default class Phone_input extends React.Component
 		)
 	}
 
+	// Returns <input/> DOM Element
+	input_element()
+	{
+		return ReactDOM.findDOMNode(this.refs.input)
+	}
+
 	// Sets <input/> value and caret position
 	set_input_value(value, caret_position)
 	{
 		// DOM Node
-		const input = ReactDOM.findDOMNode(this.refs.input)
+		const input = input_element()
 
 		input.value = value
 
@@ -66,27 +80,22 @@ export default class Phone_input extends React.Component
 	// Gets <input/> value
 	get_input_value()
 	{
-		// DOM Node
-		const input = ReactDOM.findDOMNode(this.refs.input)
-
-		return input.value
+		return input_element().value
 	}
 
 	// Gets <input/> caret position
 	get_caret_position()
 	{
-		// DOM Node
-		const input = ReactDOM.findDOMNode(this.refs.input)
-
-		return input.selectionStart
+		return input_element().selectionStart
 	}
 
 	// Gets <input/> selected position
 	get_selection()
 	{
 		// DOM Node
-		const input = ReactDOM.findDOMNode(this.refs.input)
+		const input = input_element()
 
+		// If no selection, return nothing
 		if (input.selectionStart === input.selectionEnd)
 		{
 			return
@@ -109,24 +118,18 @@ export default class Phone_input extends React.Component
 	}
 
 	// Intercepts "Delete" and "Backspace" keys
+	// (hitting "Delete" or "Backspace"
+	//  at any caret position should always result in 
+	//  erasing a digit)
 	onKeyDown(event)
 	{
-		const key = event.keyCode
+		const backspace = event.keyCode === Keys.Backspace
+		const Delete    = event.keyCode === Keys.Delete
 
-		// If "Backspace" key was pressed (key code: 8)
-		if (key === 8)
+		if (backspace || Delete)
 		{
-			this.format_input_value({ backspace: true })
-			event.preventDefault()
-			return
-		}
-
-		// If "Delete" key was pressed (key code: 46)
-		if (key === 46)
-		{
-			this.format_input_value({ delete: true })
-			event.preventDefault()
-			return
+			this.format_input_value({ backspace, delete: Delete })
+			return event.preventDefault()
 		}
 	}
 }

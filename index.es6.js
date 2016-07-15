@@ -1,2 +1,2 @@
 export { default as default } from './source/input'
-export { formats } from './source/phone'
+export { formats as format, validate as isValid } from './source/phone'

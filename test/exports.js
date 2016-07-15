@@ -1,19 +1,21 @@
-// testing exported variables and functions
-
 import React from 'react'
+import Phone, { format, isValid } from '../index.es6'
 
-// ES6
+describe(`exports`, function()
+{
+	it(`should export ES6`, function()
+	{
+		const render = (<Phone value="" format={ format.RU } onChange={ () => {} }/>)
+		format.RU.city
+		isValid('+79991234567', format.RU)
+	})
 
-import Phone, { formats } from '../index.es6'
+	it(`should export CommonJS`, function()
+	{
+		const Phone = require('../index.common')
 
-(<Phone input="" format={ formats.RU } onChange={ () => {} }/>);
-formats.RU.city
-
-// UMD
-
-var Phone_2 = require('../index.umd')
-
-var formats_2 = Phone_2.formats;
-
-(<Phone_2 input="" format={ formats_2.RU } onChange={ () => {} }/>);
-formats_2.RU.city
+		const render = (<Phone value="" format={ Phone.format.RU } onChange={ () => {} }/>)
+		Phone.format.RU.city
+		Phone.isValid('+79991234567', Phone.format.RU)
+	})
+})

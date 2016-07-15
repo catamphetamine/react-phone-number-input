@@ -4,6 +4,7 @@ var Input = require('./build/input') // ['default']
 
 exports = module.exports = Input
 
-exports.formats = require('./build/phone').formats
+exports.format  = require('./build/phone').formats
+exports.isValid = require('./build/phone').validate
 
 exports['default'] = Input

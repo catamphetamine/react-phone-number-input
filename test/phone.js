@@ -1,7 +1,19 @@
-import { formats, template, digits, count_digits, format, parse_digits, digits_in_number, digit_index, index_in_template, repeat } from '../source/phone'
+import { formats, validate, cleartext_international, template, digits, count_digits, format, parse_digits, digits_in_number, digit_index, index_in_template, repeat } from '../source/phone'
 
 describe(`phone`, function()
 {
+	it(`should validate phone number`, function()
+	{
+		validate('+79991234567', formats.RU).should.equal(true)
+		validate('+7999123456', formats.RU).should.equal(false)
+	})
+
+	it(`should reduce formatted phone number to cleartext (international)`, function()
+	{
+		cleartext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
+		cleartext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
+	})
+
 	it(`should generate phone template`, function()
 	{
 		// Russia

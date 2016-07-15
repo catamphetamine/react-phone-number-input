@@ -15,20 +15,21 @@ npm install react-phone-number-input --save
 ## Usage
 
 ```js
-import Phone, { formats } from 'react-phone-number-input'
+import Phone, { format, isValid } from 'react-phone-number-input'
 
 ...
 
-state = { phone: '' }
+state = { phone: '+79991234567' }
 
 ...
 
 <Phone
-	format={ formats.RU }
+	format={ format.RU }
 	value={ this.state.phone }
-	onChange={ phone => this.setState({ phone }) } />
+	onChange={ phone => this.setState({ phone }) }
+	className={ classnames({ 'invalid': !isValid(this.state.phone) }) } />
 
-// Outputs: (915) 123-45-67
+// Outputs "(999) 123-45-67" in the <input/> field
 ```
 
 ## Contributing
