@@ -15,13 +15,18 @@ npm install react-phone-number-input --save
 ## Usage
 
 ```js
-import PhoneInput, { formats } from 'react-phone-number-input'
+import Phone, { formats } from 'react-phone-number-input'
 
 ...
-<PhoneInput
+
+state = { phone: '' }
+
+...
+
+<Phone
 	format={ formats.RU }
-	value={ this.state.number }
-	onChange={ number => this.setState({ number }) } />
+	value={ this.state.phone }
+	onChange={ phone => this.setState({ phone }) } />
 ```
 
 ## Contributing
