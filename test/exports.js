@@ -13,7 +13,6 @@ formats.RU.city
 
 var Phone_2 = require('../index.umd')
 
-console.log(Phone_2)
 var formats_2 = Phone_2.formats;
 
 (<Phone_2 format={ formats_2.RU } onChange={ () => {} }/>);
