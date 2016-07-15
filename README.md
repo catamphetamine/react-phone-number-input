@@ -31,7 +31,7 @@ return (
 			value={ this.state.phone }
 			onChange={ phone => this.setState({ phone }) }
 			className={ classnames('phone', {
-				'phone--invalid': !isValid(this.state.phone)
+				'phone--invalid': !isValid(this.state.phone, format.RU)
 			}) } />
 	</div>
 )
