@@ -67,7 +67,7 @@ export default class Phone_input extends React.Component
 
 		if (this.props.onChange)
 		{
-			this.props.onChange(cleartext_international(value))
+			this.props.onChange(cleartext_international(value, this.props.format))
 		}
 
 		// Set caret position (with the neccessary adjustments)
