@@ -1,5 +1,7 @@
 import React from 'react'
-import Phone, {
+
+import Phone,
+{
 	phone_number_format,
 	phoneNumberFormat,
 	is_valid_phone_number,
@@ -8,7 +10,8 @@ import Phone, {
 	formatPhoneNumber,
 	format_phone_number_international,
 	formatPhoneNumberInternational
-} from '../index.es6'
+}
+from '../index.es6'
 
 describe(`exports`, function()
 {

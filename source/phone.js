@@ -2,25 +2,25 @@ export const formats =
 {
 	RU:
 	{
-		country : 7, // can be a string
+		country : '7',
 		city    : 3,
 		number  : [3, 2, 2]
 	},
 	UA:
 	{
-		country : 380, // can be a string
+		country : '380',
 		city    : 2,
 		number  : [3, 2, 2]
 	},
 	BY:
 	{
-		country : 375, // can be a string
+		country : '375',
 		city    : 2,
 		number  : [3, 2, 2]
 	},
 	US:
 	{
-		country : 1, // can be a string
+		country : '1',
 		city    : 3,
 		number  : [3, 4]
 	}
@@ -35,7 +35,7 @@ export function validate(cleartext_international, format)
 	}
 
 	return cleartext_international.length === 
-		'+'.length + String(format.country).length + digits_in_number(format)
+		'+'.length + format.country.length + digits_in_number(format)
 }
 
 // Reduces a formatted phone number to a cleartext one (with country code).
@@ -86,7 +86,7 @@ export function format(value, format)
 	// (because country code is not editable)
 	if (value[0] === '+')
 	{
-		value = value.substring('+'.length + String(format.country).length)
+		value = value.substring('+'.length + format.country.length)
 	}
 
 	// If the value has something except digits, then abort
@@ -138,7 +138,7 @@ export function format(value, format)
 //
 export function format_international(cleartext, phone_format)
 {
-	return `+${String(phone_format.country)} ${format(cleartext, phone_format)}`
+	return `+${phone_format.country} ${format(cleartext, phone_format)}`
 }
 
 // Transforms raw digits "9991234567"

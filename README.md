@@ -72,13 +72,13 @@ A map with phone number format examples
 {
 	RU:
 	{
-		country : 7, // can be a string
+		country : '7',
 		city    : 3,
 		number  : [3, 2, 2]
 	},
 	US:
 	{
-		country : 1, // can be a string
+		country : '1',
 		city    : 3,
 		number  : [3, 4]
 	}
