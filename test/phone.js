@@ -10,6 +10,10 @@ describe(`phone`, function()
 
 	it(`should reduce formatted phone number to cleartext (international)`, function()
 	{
+		cleartext_international('', formats.RU).should.equal('')
+		cleartext_international('(', formats.RU).should.equal('')
+		cleartext_international('(9  )', formats.RU).should.equal('+79')
+		cleartext_international('(9  )', formats.RU).should.equal('+79')
 		cleartext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
 		cleartext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
 	})

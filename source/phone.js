@@ -42,7 +42,14 @@ export function validate(cleartext_international, format)
 // E.g. "(999) 123-45-67" -> "+79991234567"
 export function cleartext_international(formatted, format)
 {
-	return `+${format.country}${digits(formatted, format)}`
+	const phone_digits = digits(formatted, format)
+
+	if (!phone_digits)
+	{
+		return ''
+	}
+	
+	return `+${format.country}${phone_digits}`
 }
 
 // Generates phone number template based on the phone format structure.
