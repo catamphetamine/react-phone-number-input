@@ -143,7 +143,7 @@ export function format_international(cleartext, phone_format)
 	
 	if (!number)
 	{
-		return prefix
+		return ''
 	}
 
 	return `${prefix} ${number}`

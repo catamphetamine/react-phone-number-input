@@ -88,8 +88,8 @@ describe(`phone`, function()
 
 		format_international('9991234567', formats.US).should.equal('+1 (999) 123-4567')
 
-		format_international('', formats.RU).should.equal('+7')
-		format_international('+7', formats.RU).should.equal('+7')
+		format_international('', formats.RU).should.equal('')
+		format_international('+7', formats.RU).should.equal('')
 		format_international('+79', formats.RU).should.equal('+7 (9  ) ')
 	})
 
