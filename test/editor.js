@@ -5,6 +5,8 @@ describe(`editor`, function()
 {
 	it(`should edit inputted phone (delete)`, function()
 	{
+		edit('(9  )', 0, formats.RU, { delete: true }).should.deep.equal({ phone: '', caret: 0 })
+
 		edit('  999 ) 123 45 -67 ', 0, formats.RU, { delete: true }).should.deep.equal({ phone: '(991) 234-56-7', caret: 1 })
 		edit(' (999 ) 123 45 -67 ', 1, formats.RU, { delete: true }).should.deep.equal({ phone: '(991) 234-56-7', caret: 1 })
 		edit(' (999 ) 123 45 -67 ', 2, formats.RU, { delete: true }).should.deep.equal({ phone: '(991) 234-56-7', caret: 1 })
@@ -29,6 +31,8 @@ describe(`editor`, function()
 
 	it(`should edit inputted phone (backspace)`, function()
 	{
+		edit('(9  )', 2, formats.RU, { backspace: true }).should.deep.equal({ phone: '', caret: 0 })
+
 		edit('  999 ) 123 45 -67 ', 0, formats.RU, { backspace: true }).should.deep.equal({ phone: '(999) 123-45-67', caret: 1 })
 		edit(' (999 ) 123 45 -67 ', 1, formats.RU, { backspace: true }).should.deep.equal({ phone: '(999) 123-45-67', caret: 1 })
 		edit(' (999 ) 123 45 -67 ', 2, formats.RU, { backspace: true }).should.deep.equal({ phone: '(999) 123-45-67', caret: 1 })
@@ -53,8 +57,8 @@ describe(`editor`, function()
 
 	it(`should edit inputted phone (selection)`, function()
 	{
-		edit('  999 ) 123 45 -67 ', 0, formats.RU, { delete: true, selection: { start: 4, end: 13 } }).should.deep.equal({ phone: '(995) 67', caret: 3 })
-		edit('  999 ) 123 45 -67 ', 0, formats.RU, { backspace: true, selection: { start: 4, end: 13 } }).should.deep.equal({ phone: '(995) 67', caret: 3 })
+		edit('  999 ) 123 45 -67 ', 4, formats.RU, { delete: true, selection: { end: 13 } }).should.deep.equal({ phone: '(995) 67', caret: 3 })
+		edit('  999 ) 123 45 -67 ', 4, formats.RU, { backspace: true, selection: { end: 13 } }).should.deep.equal({ phone: '(995) 67', caret: 3 })
 	})
 
 	it(`should edit inputted phone (symbol)`, function()

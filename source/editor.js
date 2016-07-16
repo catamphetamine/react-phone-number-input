@@ -10,7 +10,7 @@ import { template as phone_template, digits as phone_digits, format as format_ph
 // {
 // 	delete: false,
 // 	backspace: false,
-// 	selection: { start: 123, end: 456 } // `end` specifies the index of the character after the selection
+// 	selection: { end: 456 } // `end` specifies the index of the character after the selection
 // }
 //
 // Returns
@@ -30,6 +30,20 @@ export default function edit(value, caret_position, format, options = {})
 	// Phone number digits (may be altered later)
 	let digits = phone_digits(value, format)
 
+	// How many are there digits in a valid phone number
+	// (excluding coutry code)
+	const digits_in_phone_number = digits_in_number(format)
+
+	// Trim excessive digits (just in case)
+	if (digits.length > digits_in_phone_number)
+	{
+		digits = digits.substring(0, digits_in_phone_number.length)
+	}
+
+	// Current digit index in the phone number
+	// (not a character index, but a digit index)
+	const digit_index = phone_digit_index(value, caret_position)
+
 	// Generate phone number template based on the phone format structure.
 	// e.g. { code: '7', city: 3, number: [3, 2, 2] } -> '(xxx) xxx-xx-xx'
 	const template = phone_template(format)
@@ -37,79 +51,95 @@ export default function edit(value, caret_position, format, options = {})
 	// Adjust caret position
 	if (options.backspace)
 	{
-		// Find the closest previous digit
-		const previous_digit_index = phone_digit_index(value, caret_position) - 1
+		// Find the previous (the one being erased) digit index
+		// inside a valid phone number.
+		const previous_digit_index = digit_index - 1
+
+		// If there's no previous digit,
+		// then just position the caret before the first digit.
 		if (previous_digit_index < 0)
 		{
-			// Adjust caret position
-			caret_position = index_in_template(0, format)
+			// (if there is the first digit)
+			caret_position = caret_position_for_digit(0, digits.length, format)
 		}
+		// Else, if there is previous digit,
+		// then erase it and reposition the caret.
 		else
 		{
-			const digits_in_phone_number = digits_in_number(format)
-			if (previous_digit_index < digits_in_phone_number)
+			// If the input is broken, then just position the caret
+			// after the last valid digit.
+			if (previous_digit_index >= digits_in_phone_number)
 			{
-				// Remove the previous digit
-				digits = digits.substring(0, previous_digit_index) + digits.substring(previous_digit_index + 1)
-				// Adjust caret position
-				caret_position = index_in_template(previous_digit_index, format)
+				// Position the caret after the last digit in phone number
+				caret_position = caret_position_for_digit(digits.length - 1, digits.length, format) + 1
 			}
 			else
 			{
-				// Adjust caret position
-				caret_position = index_in_template(digits_in_phone_number - 1, format) + 1
+				// Remove the previous digit
+				digits = digits.substring(0, previous_digit_index) + digits.substring(digit_index)
+
+				// Position the caret before the erased digit
+				caret_position = caret_position_for_digit(previous_digit_index, digits.length, format)
 			}
 		}
 	}
 	else if (options.delete)
 	{
+		// If there was any selection, then simply erase it
 		if (options.selection)
 		{
-			const digit_index = phone_digit_index(value, options.selection.start)
-
-			value = value.substring(0, options.selection.start) + value.substring(options.selection.end)
+			value = value.substring(0, caret_position) + value.substring(options.selection.end)
 			digits = phone_digits(value, format)
 
-			// Adjust caret position
-			caret_position = index_in_template(digit_index, format)
+			// Leave the caret position at the same digit
+			caret_position = caret_position_for_digit(digit_index, digits.length, format)
 		}
+		// No selection was made, just erase a single digit
 		else
 		{
-			// Find current digit
-			const digit_index = phone_digit_index(value, caret_position)
-			const digits_in_phone_number = digits_in_number(format)
-			if (digit_index < digits_in_phone_number)
+			// If the input is broken, just adjust the caret position
+			if (digit_index >= digits_in_phone_number)
+			{
+				// Position the caret after the last digit in phone number
+				caret_position = caret_position_for_digit(digits.length - 1, digits.length, format) + 1
+			}
+			// Find the current digit, remove it and reposition the caret
+			else
 			{
 				// Remove current digit
 				digits = digits.substring(0, digit_index) + digits.substring(digit_index + 1)
-				// Adjust caret position
-				caret_position = index_in_template(digit_index, format)
-			}
-			else
-			{
-				// Position the caret after the last digit in phone number
-				caret_position = index_in_template(digits_in_phone_number - 1, format) + 1
+
+				// Leave the caret position at the same digit
+				caret_position = caret_position_for_digit(digit_index, digits.length, format)
 			}
 		}
 	}
+	// If a regular keyboard key was pressed
 	else
 	{
-		// Find the digit after the last inserted (keydowned, pasted, etc) digit
-		const next_digit_index = phone_digit_index(value, caret_position)
-
-		// Adjust caret position
-		const digits_in_phone_number = digits_in_number(format)
-		if (next_digit_index < digits_in_phone_number)
-		{
-			// Position the caret at the next digit
-			caret_position = index_in_template(next_digit_index, format)
-		}
-		else
-		{
-			// Position the caret after the last digit in phone number
-			caret_position = index_in_template(digits_in_phone_number - 1, format) + 1
-		}
+		// Position the caret before the next digit
+		caret_position = caret_position_for_digit(digit_index, digits.length, format)
 	}
 
 	return { phone: format_phone(digits, format), caret: caret_position }
+}
+
+// Calculates caret position for digit index
+// (not character index) in a phone number of a given format
+function caret_position_for_digit(digit_index, digit_count, format)
+{
+	// Special case
+	if (digit_count === 0)
+	{
+		return 0
+	}
+
+	// In case of overflow (e.g. on Paste)
+	if (digit_index >= digit_count)
+	{
+		// Position the caret after the last digit
+		return index_in_template(digit_count - 1, format) + 1
+	}
+
+	return index_in_template(digit_index, format)
 }

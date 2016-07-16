@@ -73,11 +73,6 @@ export function count_digits(value)
 //
 export function format(value, format)
 {
-	if (!value)
-	{
-		return ''
-	}
-
 	// Trims the value
 	value = value.trim()
 
@@ -87,6 +82,11 @@ export function format(value, format)
 	if (value[0] === '+')
 	{
 		value = value.substring('+'.length + format.country.length)
+	}
+
+	if (!value)
+	{
+		return ''
 	}
 
 	// If the value has something except digits, then abort
@@ -138,7 +138,15 @@ export function format(value, format)
 //
 export function format_international(cleartext, phone_format)
 {
-	return `+${phone_format.country} ${format(cleartext, phone_format)}`
+	const prefix = `+${phone_format.country}`
+	const number = format(cleartext, phone_format)
+	
+	if (!number)
+	{
+		return prefix
+	}
+
+	return `${prefix} ${number}`
 }
 
 // Transforms raw digits "9991234567"

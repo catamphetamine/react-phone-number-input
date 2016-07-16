@@ -76,6 +76,9 @@ describe(`phone`, function()
 		format('9991234567', formats.RU).should.equal('(999) 123-45-67')
 
 		format('9991234567', formats.US).should.equal('(999) 123-4567')
+
+		format('+7', formats.RU).should.equal('')
+		format('+79', formats.RU).should.equal('(9  ) ')
 	})
 
 	it(`should format digits (internationally)`, function()
@@ -84,6 +87,10 @@ describe(`phone`, function()
 		format_international('9991234567', formats.RU).should.equal('+7 (999) 123-45-67')
 
 		format_international('9991234567', formats.US).should.equal('+1 (999) 123-4567')
+
+		format_international('', formats.RU).should.equal('+7')
+		format_international('+7', formats.RU).should.equal('+7')
+		format_international('+79', formats.RU).should.equal('+7 (9  ) ')
 	})
 
 	it(`should count digits in number`, function()
