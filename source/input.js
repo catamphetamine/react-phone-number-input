@@ -35,7 +35,7 @@ export default class Phone_input extends React.Component
 
 	render()
 	{
-		const { value, className, style } = this.props
+		const { value, placeholder, className, style } = this.props
 
 		return (
 			<input
@@ -46,6 +46,7 @@ export default class Phone_input extends React.Component
 				onChange={event => this.format_input_value()}
 				onPaste={event => this.format_input_value()}
 				onCut={event => this.format_input_value({ delete: true })}
+				placeholder={placeholder}
 				className={className}
 				style={style} />
 		)
