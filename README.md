@@ -135,15 +135,6 @@ After developing, the full test suite can be evaluated by running:
 npm test
 ```
 
-While actively developing, one can use (personally I don't use it)
-
-```sh
-npm run watch
-```
-
-in a terminal. This will watch the file system and run tests automatically 
-whenever you save a js file.
-
 When you're ready to test your new functionality on a real project, you can run
 
 ```sh
