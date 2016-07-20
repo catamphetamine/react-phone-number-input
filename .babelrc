@@ -11,13 +11,5 @@
 		"transform-runtime",
 		"add-module-exports",
 		"transform-react-display-name"
-	],
-
-	"env":
-	{
-		"development":
-		{
-			"plugins": []
-		}
-	}
+	]
 }
