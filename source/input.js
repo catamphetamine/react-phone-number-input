@@ -35,11 +35,12 @@ export default class Phone_input extends React.Component
 
 	render()
 	{
-		const { value, placeholder, className, style } = this.props
+		const { name, value, placeholder, className, style } = this.props
 
 		return (
 			<input
 				type="tel"
+				name={name}
 				ref="input"
 				value={format(value, this.props.format)}
 				onKeyDown={this.onKeyDown}
