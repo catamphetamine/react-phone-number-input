@@ -43,14 +43,12 @@
   },
   "keywords": [
     "javascript",
-    "retina",
-    "detect",
-    "screen",
-    "device",
-    "pixel",
-    "ratio",
-    "density",
-    "ddpx"
+    "react",
+    "phone",
+    "number",
+    "input",
+    "telephone",
+    "international"
   ],
   "author": "Halt Hammerzeit <halt.hammerzeit.at@gmail.com>",
   "license": "MIT",
