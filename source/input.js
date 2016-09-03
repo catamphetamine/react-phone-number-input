@@ -36,7 +36,7 @@ export default class Phone_input extends React.Component
 
 	render()
 	{
-		const { value, format, ...rest } = this.props
+		const { value, format, onChange, ...rest } = this.props
 
 		return (
 			<input
