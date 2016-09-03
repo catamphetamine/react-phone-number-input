@@ -138,11 +138,11 @@ export default class Phone_input extends React.Component
 	// This handler is mainly for `redux-form`
 	on_blur(event)
 	{
-		const { onBlur, value, format } = this.props
+		const { onBlur, format } = this.props
 
 		if (onBlur)
 		{
-			onBlur(plaintext_international(value, format))
+			onBlur(plaintext_international(this.input_element().value, format))
 		}
 	}
 
