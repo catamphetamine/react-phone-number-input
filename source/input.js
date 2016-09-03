@@ -31,6 +31,7 @@ export default class Phone_input extends React.Component
 
 		this.on_key_down = this.on_key_down.bind(this)
 		this.on_cut = this.on_cut.bind(this)
+		this.on_blur = this.on_blur.bind(this)
 		this.format_input_value = this.format_input_value.bind(this)
 	}
 
@@ -49,6 +50,7 @@ export default class Phone_input extends React.Component
 				value={format_phone(value, format)}
 				onKeyDown={this.on_key_down}
 				onChange={this.format_input_value}
+				onBlur={this.on_blur}
 				onPaste={this.format_input_value}
 				onCut={this.on_cut}/>
 		)
@@ -131,6 +133,17 @@ export default class Phone_input extends React.Component
 	on_cut(event)
 	{
 		setTimeout(() => this.format_input_value(event), 0)
+	}
+
+	// This handler is mainly for `redux-form`
+	on_blur(event)
+	{
+		const { onBlur, format } = this.props
+
+		if (onBlur)
+		{
+			onBlur(plaintext_international(value, format))
+		}
 	}
 
 	// Intercepts "Delete" and "Backspace" keys
