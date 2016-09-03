@@ -110,7 +110,7 @@ export default class Phone_input extends React.Component
 	}
 
 	// Formats input value as a phone number
-	format_input_value(options = {})
+	format_input_value(event, options = {})
 	{
 		// Get selection caret positions
 		options.selection = this.get_selection()
@@ -123,9 +123,9 @@ export default class Phone_input extends React.Component
 	}
 
 	// A shortcut for `render()` method
-	format_input_value_delete()
+	format_input_value_delete(event)
 	{
-		return this.format_input_value({ delete: true })
+		return this.format_input_value(event, { delete: true })
 	}
 
 	// Intercepts "Delete" and "Backspace" keys
