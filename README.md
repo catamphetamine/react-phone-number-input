@@ -46,7 +46,7 @@ return (
 
 ### default
 
-A React component with the following props
+A React component with the following `props`
 
 ```js
 {
@@ -68,7 +68,7 @@ A React component with the following props
 }
 ```
 
-All other `props` are passed directly to the underlying `<input/>` component.
+All other `props` are passed directly to the underlying `<input/>` component (and so it can be used with things like [`redux-form`](https://github.com/erikras/redux-form)).
 
 ### phone_number_format
 
