@@ -29,25 +29,28 @@ export default class Phone_input extends React.Component
 	{
 		super(props, context)
 
-		this.onKeyDown = this.onKeyDown.bind(this)
+		this.on_key_down = this.on_key_down.bind(this)
+		this.on_cut = this.on_cut.bind(this)
 		this.format_input_value = this.format_input_value.bind(this)
-		this.format_input_value_delete = this.format_input_value_delete.bind(this)
 	}
 
 	render()
 	{
-		const { value, format, onChange, ...rest } = this.props
+		const { value, format, ...rest } = this.props
+
+		// Currently onCut has a bug: it just deletes, but doesn't copy.
+		// Since no one would really cut a phone number, I guess that's ok.
 
 		return (
 			<input
+				{...rest}
 				type="tel"
 				ref="input"
 				value={format_phone(value, format)}
-				onKeyDown={this.onKeyDown}
+				onKeyDown={this.on_key_down}
 				onChange={this.format_input_value}
 				onPaste={this.format_input_value}
-				onCut={this.format_input_value_delete}
-				{...rest} />
+				onCut={this.on_cut}/>
 		)
 	}
 
@@ -122,17 +125,19 @@ export default class Phone_input extends React.Component
 		this.set_input_value(phone, caret)
 	}
 
-	// A shortcut for `render()` method
-	format_input_value_delete(event)
+	// Intercepts "Cut" event.
+	// Special handling for "Cut" event because
+	// it wouldn't copy to clipboard otherwise.
+	on_cut(event)
 	{
-		return this.format_input_value(event, { delete: true })
+		setTimeout(() => this.format_input_value(event), 0)
 	}
 
 	// Intercepts "Delete" and "Backspace" keys
 	// (hitting "Delete" or "Backspace"
 	//  at any caret position should always result in 
 	//  erasing a digit)
-	onKeyDown(event)
+	on_key_down(event)
 	{
 		const backspace = event.keyCode === Keys.Backspace
 		const Delete    = event.keyCode === Keys.Delete
