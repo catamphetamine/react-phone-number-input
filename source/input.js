@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-import { format, plaintext_international } from './phone'
+import { format as format_phone, plaintext_international } from './phone'
 import edit from './editor'
 
 // Key codes
@@ -42,7 +42,7 @@ export default class Phone_input extends React.Component
 			<input
 				type="tel"
 				ref="input"
-				value={format(value, format)}
+				value={format_phone(value, format)}
 				onKeyDown={this.onKeyDown}
 				onChange={this.format_input_value}
 				onPaste={this.format_input_value}
