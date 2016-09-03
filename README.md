@@ -78,14 +78,14 @@ A map with phone number format examples
 
 ```js
 {
-	// +7 (123) 456-78-90
+	// +7 | (123) 456-78-90
 	RU:
 	{
 		country  : '7',
 		template : '(xxx) xxx-xx-xx'
 	},
 
-	// +1 (123) 456-7890
+	// +1 | (123) 456-7890
 	US:
 	{
 		country  : '1',

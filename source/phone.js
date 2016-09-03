@@ -1,28 +1,28 @@
 // https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers
 export const formats =
 {
-	// +7 (123) 456-78-90
+	// +7 | (123) 456-78-90
 	RU:
 	{
 		country  : '7',
 		template : '(xxx) xxx-xx-xx'
 	},
 
-	// +380 (12) 345-67-89
+	// +380 | (12) 345-67-89
 	UA:
 	{
 		country  : '380',
 		template : '(xx) xxx-xx-xx'
 	},
 
-	// +375 (12) 345-67-89
+	// +375 | (12) 345-67-89
 	BY:
 	{
 		country  : '375',
 		template : '(xx) xxx-xx-xx'
 	},
 
-	// +1 (123) 456-7890
+	// +1 | (123) 456-7890
 	US:
 	{
 		country  : '1',
