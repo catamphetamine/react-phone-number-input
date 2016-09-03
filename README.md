@@ -29,6 +29,7 @@ return (
 	<div>
 		+7
 		<Phone
+			placeholder="Enter phone number"
 			format={ phoneNumberFormat.RU }
 			value={ this.state.phone }
 			onChange={ phone => this.setState({ phone }) }
