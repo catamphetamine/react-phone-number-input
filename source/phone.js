@@ -1,69 +1,95 @@
+// https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers
 export const formats =
 {
+	// +7 (123) 456-78-90
 	RU:
 	{
-		country : '7',
-		city    : 3,
-		number  : [3, 2, 2]
+		country  : '7',
+		template : '(xxx) xxx-xx-xx'
 	},
+
+	// +380 (12) 345-67-89
 	UA:
 	{
-		country : '380',
-		city    : 2,
-		number  : [3, 2, 2]
+		country  : '380',
+		template : '(xx) xxx-xx-xx'
 	},
+
+	// +375 (12) 345-67-89
 	BY:
 	{
-		country : '375',
-		city    : 2,
-		number  : [3, 2, 2]
+		country  : '375',
+		template : '(xx) xxx-xx-xx'
 	},
+
+	// +1 (123) 456-7890
 	US:
 	{
-		country : '1',
-		city    : 3,
-		number  : [3, 4]
+		country  : '1',
+		template : '(xxx) xxx-xxxx'
 	}
 }
 
-// Validates an international cleartext phone number
-export function validate(cleartext_international, format)
+// Validates an international plaintext phone number ("+79991234567")
+export function validate(plaintext_international, format)
 {
+	// Sanity check (for `undefined`)
 	if (!format)
 	{
 		throw new Error(`No "format" specified for phone number validation`)
 	}
 
-	return cleartext_international.length === 
-		'+'.length + format.country.length + digits_in_number(format)
+	// Default phone number validation
+	if (format.country)
+	{
+		return plaintext_international.length === '+'.length + format.country.length + digits_in_number(format, plaintext_international)
+	}
+
+	// In case of custom phone number formatting
+	return plaintext_international.length === '+'.length + digits_in_number(format, plaintext_international)
 }
 
-// Reduces a formatted phone number to a cleartext one (with country code).
+// Reduces a formatted phone number to a plaintext one (with country code).
 // E.g. "(999) 123-45-67" -> "+79991234567"
-export function cleartext_international(formatted, format)
+export function plaintext_international(formatted, format)
 {
+	// The input digits
 	const phone_digits = digits(formatted, format)
 
 	if (!phone_digits)
 	{
 		return ''
 	}
-	
-	return `+${format.country}${phone_digits}`
+
+	// Default: return '+', country code and all input digits
+	if (format.country)
+	{
+		return `+${format.country}${phone_digits}`
+	}
+
+	// In case of custom phone formatting return '+' and all input digits
+	return '+' + phone_digits
 }
 
-// Generates phone number template based on the phone format structure.
-// e.g. { code: '7', city: 3, number: [3, 2, 2] } -> '(xxx) xxx-xx-xx'
-export function template(format)
+// Returns phone number template based on the phone format.
+export function template(format, value)
 {
-	return '(' + repeat('x', format.city) + ') ' + format.number.map(n => repeat('x', n)).join('-')
+	// Default phone number formatting
+	if (format.country)
+	{
+		return format.template
+	}
+
+	// In case of custom phone formatting return that formatting
+	return format.template(value)
 }
 
 // Converts formatted phone number to just digits
 // (e.g. "(999) 123-45-67" -> "9991234567")
 export function digits(value, format)
 {
-	return value.replace(/[^0-9]/g, '').substring(0, digits_in_number(format))
+	const digits = value.replace(/[^0-9]/g, '')
+	return digits.substring(0, digits_in_number(format, digits))
 }
 
 // Counts digits in a string
@@ -72,23 +98,27 @@ export function count_digits(value)
   return value.replace(/[^0-9]/g, '').length
 }
 
-// Formats a cleartext phone number
-// as a local phone number.
+// Formats an editable part of international plaintext phone number.
 //
-// E.g.: "+79991234567" -> "(999) 123-45-67"
-//         "9991234567" -> "(999) 123-45-67"
+// E.g.: "+79991234567" -> "+7 (999) 123-45-67"
+// E.g.:   "9991234567" -> "+7 (999) 123-45-67"
 //
 export function format(value, format)
 {
-	// Trims the value
+	// Trim the value
 	value = value.trim()
 
-	// If the value starts with a plus sign,
-	// then trim it along with the country code.
-	// (because country code is not editable)
+	// Strip '+' and country code
 	if (value[0] === '+')
 	{
-		value = value.substring('+'.length + format.country.length)
+		if (format.country)
+		{
+			value = value.slice('+'.length + format.country.length)
+		}
+		else
+		{
+			value = value.slice('+'.length)
+		}
 	}
 
 	if (!value)
@@ -96,84 +126,62 @@ export function format(value, format)
 		return ''
 	}
 
-	// If the value has something except digits, then abort
-	if (value.match(/[^0-9]/))
+	// Populate phone template with digits
+	return populate_template(template(format, value), value)
+}
+
+// Populates phone template with digits.
+//
+// E.g. "+7 (xxx) xxx-xx-xx" -> "+7 (123) 456-78-90"
+//
+export function populate_template(template, digits)
+{
+	let populated = ''
+	let digit_index = 0
+	let brace_open = false
+	let symbol_index = 0
+	let symbol
+
+	// Replace 'x'-es with digits in a cycle
+	while (symbol_index < template.length)
 	{
-		return value
-	}
+		symbol = template[symbol_index]
 
-	// Transform raw digits "9991234567"
-	// into a structure { city: '999', number: '1234567' }
-	const phone = parse_digits(value, format)
-
-	// Adds hyphens to phone number
-	// (e.g. '1234567' -> '123-45-67')
-
-	const number_parts = []
-
-	let cursor = 0
-	for (let digit_count of format.number)
-	{
-		const number_part = phone.number.slice(cursor, cursor + digit_count)
-		if (number_part)
+		if (symbol === 'x')
 		{
-			number_parts.push(number_part)
+			symbol = digits[digit_index]
+			digit_index++
 		}
-		cursor += digit_count
+		else if (symbol === '(')
+		{
+			brace_open = true
+		}
+
+		populated += symbol
+		symbol_index++
+
+		if (digit_index === digits.length)
+		{
+			break
+		}
 	}
 
-	const number = number_parts.join('-')
-
-	// Adds city code whitespace
-	// (e.g. '9' -> '9  ')
-	let city = phone.city
-	while (city.length < format.city)
+	// If a parenthesis was opened, then close it,
+	// and trim everything else.
+	if (brace_open)
 	{
-		city += ' '
+		return populated + template.slice(symbol_index, template.indexOf(')') + 1).replace(/x/g, ' ')
 	}
 
-	// The resulting formatted phone number
-	// (e.g. '(999) 123-45-67')
-	return `(${city}) ${number}`
-}
-
-// Formats a cleartext phone number
-// as an international phone number.
-//
-// E.g.: "+79991234567" -> "+7 (999) 123-45-67"
-//         "9991234567" -> "+7 (999) 123-45-67"
-//
-export function format_international(cleartext, phone_format)
-{
-	const prefix = `+${phone_format.country}`
-	const number = format(cleartext, phone_format)
-	
-	if (!number)
-	{
-		return ''
-	}
-
-	return `${prefix} ${number}`
-}
-
-// Transforms raw digits "9991234567"
-// into a structure { city: '999', number: '1234567' }
-export function parse_digits(digits, format)
-{
-	const phone =
-	{
-		// country : '7',
-		city    : digits.slice(0, format.city),
-		number  : digits.slice(format.city, format.city + format.number.reduce((a, b) => a + b, 0))
-	}
-
-	return phone
+	// Otherwise just trim everything after the last populated 'x'
+	return populated
 }
 
 // Returns digit count in phone number format
-export function digits_in_number(format)
+export function digits_in_number(format, digits)
 {
-	return format.city + format.number.reduce((a, b) => a + b, 0)
+	const template = format.country ? format.template : format.template(digits)
+	return count_occurences('x', template)
 }
 
 // Finds digit index in value at caret position
@@ -185,9 +193,9 @@ export function digit_index(value, caret_position)
 }
 
 // Finds index of digit symbol in template
-export function index_in_template(digit_index, format)
+export function index_in_template(digit_index, format, digits)
 {
-  const phone_template = template(format)
+  const phone_template = template(format, digits)
 
   let digit_index_so_far = -1
   let i = 0
@@ -228,4 +236,33 @@ export function repeat(pattern, count)
 	}
 
 	return result + pattern
+}
+
+// Replaces a character in a string at index
+function replace_character(string, index, character)
+{
+	// Sanity check
+	if (index > string.length - 1)
+	{
+		return string
+	}
+
+	// Replace character at index
+	return string.slice(0, index) + character + string.slice(index + 1)
+}
+
+// Counts all occurences of a symbol in a string
+function count_occurences(symbol, string)
+{
+	let count = 0
+
+	for (let character of string)
+	{
+		if (character === symbol)
+		{
+			count++
+		}
+	}
+
+	return count
 }

@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-import { format, cleartext_international } from './phone'
+import { format, plaintext_international } from './phone'
 import edit from './editor'
 
 // Key codes
@@ -31,26 +31,23 @@ export default class Phone_input extends React.Component
 
 		this.onKeyDown = this.onKeyDown.bind(this)
 		this.format_input_value = this.format_input_value.bind(this)
+		this.format_input_value_delete = this.format_input_value_delete.bind(this)
 	}
 
 	render()
 	{
-		const { name, value, placeholder, disabled, className, style } = this.props
+		const { value, format, ...rest } = this.props
 
 		return (
 			<input
 				type="tel"
-				name={name}
 				ref="input"
-				value={format(value, this.props.format)}
-				disabled={disabled}
+				value={format(value, format)}
 				onKeyDown={this.onKeyDown}
-				onChange={event => this.format_input_value()}
-				onPaste={event => this.format_input_value()}
-				onCut={event => this.format_input_value({ delete: true })}
-				placeholder={placeholder}
-				className={className}
-				style={style} />
+				onChange={this.format_input_value}
+				onPaste={this.format_input_value}
+				onCut={this.format_input_value_delete}
+				{...rest} />
 		)
 	}
 
@@ -77,9 +74,11 @@ export default class Phone_input extends React.Component
 			input.setSelectionRange(caret_position, caret_position)
 		}
 
-		if (this.props.onChange)
+		const { onChange, format } = this.props
+
+		if (onChange)
 		{
-			this.props.onChange(cleartext_international(value, this.props.format))
+			onChange(plaintext_international(value, format))
 		}
 	}
 
@@ -123,6 +122,12 @@ export default class Phone_input extends React.Component
 		this.set_input_value(phone, caret)
 	}
 
+	// A shortcut for `render()` method
+	format_input_value_delete()
+	{
+		return this.format_input_value({ delete: true })
+	}
+
 	// Intercepts "Delete" and "Backspace" keys
 	// (hitting "Delete" or "Backspace"
 	//  at any caret position should always result in 
@@ -142,16 +147,19 @@ export default class Phone_input extends React.Component
 
 Phone_input.propTypes =
 {
-	format    : PropTypes.shape
-	({
-		country : PropTypes.string.isRequired,
-		city    : PropTypes.number.isRequired,
-		number  : PropTypes.arrayOf(PropTypes.number),
-	})
+	format : PropTypes.oneOfType
+	([
+		PropTypes.shape
+		({
+			country  : PropTypes.string.isRequired,
+			template : PropTypes.string.isRequired
+		}),
+		PropTypes.shape
+		({
+			template : PropTypes.func.isRequired
+		})
+	])
 	.isRequired,
 	value     : PropTypes.string.isRequired,
-	onChange  : PropTypes.func.isRequired,
-	disabled  : PropTypes.bool,
-	className : PropTypes.string,
-	style     : PropTypes.object
+	onChange  : PropTypes.func.isRequired
 }

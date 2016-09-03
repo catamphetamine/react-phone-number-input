@@ -27,9 +27,6 @@ describe(`exports`, function()
 
 		format_phone_number('+79991234567', phone_number_format.RU)
 		formatPhoneNumber('+79991234567', phone_number_format.RU)
-
-		format_phone_number_international('+79991234567', phone_number_format.RU)
-		formatPhoneNumberInternational('+79991234567', phone_number_format.RU)
 	})
 
 	it(`should export CommonJS`, function()
@@ -46,8 +43,5 @@ describe(`exports`, function()
 
 		Phone.format_phone_number('+79991234567', Phone.phone_number_format.RU)
 		Phone.formatPhoneNumber('+79991234567', Phone.phone_number_format.RU)
-
-		Phone.format_phone_number_international('+79991234567', Phone.phone_number_format.RU)
-		Phone.formatPhoneNumberInternational('+79991234567', Phone.phone_number_format.RU)
 	})
 })

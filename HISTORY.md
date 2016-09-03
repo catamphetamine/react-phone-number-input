@@ -1,3 +1,10 @@
+0.2.0 / 03.09.2016
+==================
+
+  * Added custom phone formats
+  * Refactoring
+  * Removed `format_phone_number_international` (aka `formatPhoneNumberInternational`)
+
 0.1.20 / 19.08.2016
 ===================
 

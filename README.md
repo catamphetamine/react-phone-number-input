@@ -39,7 +39,7 @@ return (
 )
 
 // Outputs "(999) 123-45-67" in the <input/> field.
-// `this.state.phone` is cleartext: "+79991234567".
+// `this.state.phone` is plaintext: "+79991234567".
 ```
 
 ## API
@@ -50,20 +50,25 @@ A React component with the following props
 
 ```js
 {
-	format    : PropTypes.shape
-	({
-		country : PropTypes.string.isRequired,
-		city    : PropTypes.number.isRequired,
-		number  : PropTypes.arrayOf(PropTypes.number),
-	})
+	format : PropTypes.oneOfType
+	([
+		PropTypes.shape
+		({
+			country  : PropTypes.string.isRequired,
+			template : PropTypes.string.isRequired
+		}),
+		PropTypes.shape
+		({
+			template : PropTypes.func.isRequired
+		})
+	])
 	.isRequired,
 	value     : PropTypes.string.isRequired,
-	onChange  : PropTypes.func.isRequired,
-	disabled  : PropTypes.bool,
-	className : PropTypes.string,
-	style     : PropTypes.object
+	onChange  : PropTypes.func.isRequired
 }
 ```
+
+All other `props` are passed directly to the underlying `<input/>` component.
 
 ### phone_number_format
 
@@ -73,44 +78,54 @@ A map with phone number format examples
 
 ```js
 {
+	// +7 (123) 456-78-90
 	RU:
 	{
-		country : '7',
-		city    : 3,
-		number  : [3, 2, 2]
+		country  : '7',
+		template : '(xxx) xxx-xx-xx'
 	},
+
+	// +1 (123) 456-7890
 	US:
 	{
-		country : '1',
-		city    : 3,
-		number  : [3, 4]
+		country  : '1',
+		template : '(xxx) xxx-xxxx'
+	},
+
+	// Supports any custom phone number format logic
+	custom:
+	{
+		// Generates a proper phone number template for the given input digits,
+		// where each digit is designated with an "x" symbol.
+		//
+		// E.g.: "71234567890" -> "+x (xxx) xxx-xx-xx"
+		//
+		template(digits)
+		{
+			// Template for "+7 (123) 456-78-90" is:
+			return "+x (xxx) xxx-xx-xx"
+
+			// More complex logic can be implemented here
+			// for countries with non-trivial phone number formatting rules.
+		}
 	}
 }
 ```
 
-### is_valid_phone_number(cleartext, format)
+### is_valid_phone_number(plaintext, format)
 
 (aka `isValidPhoneNumber`)
 
-Returns `true` if `cleartext` phone number is valid given the `format`.
+Returns `true` if `plaintext` phone number is valid given the `format`.
 
-### format_phone_number(cleartext, format)
+### format_phone_number(plaintext, format)
 
 (aka `formatPhoneNumber`)
 
-Formats `cleartext` phone number given the `format`. The output format is local (without country code).
+Formats `plaintext` phone number given the `format`. The output format is local (without country code).
 
  * `+79991234567` → `(999) 123-45-67`
  * `9991234567` → `(999) 123-45-67`
-
-### format_phone_number_international(cleartext, format)
-
-(aka `formatPhoneNumberInternational`)
-
-Formats `cleartext` phone number given the `format`. The output format is international (with `+` sign and country code prepended).
-
- * `+79991234567` → `+7 (999) 123-45-67`
- * `9991234567` → `+7 (999) 123-45-67`
 
 ## Contributing
 

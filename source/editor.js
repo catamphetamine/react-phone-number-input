@@ -1,10 +1,10 @@
-import { template as phone_template, digits as phone_digits, format as format_phone, digit_index as phone_digit_index, index_in_template, digits_in_number } from './phone'
+import { digits as phone_digits, format as format_phone, digit_index as phone_digit_index, index_in_template, digits_in_number } from './phone'
 
 // Edits <input/>ted value according to the input conditions (caret position, key pressed)
 //
 // value          - '  999) 123 45 -67'
 // caret_position - 5 // starting from 0
-// format         - { city: 3, number: [3, 2, 2] }
+// format         - { country: ..., template: ... }
 //
 // options:
 // {
@@ -32,7 +32,7 @@ export default function edit(value, caret_position, format, options = {})
 
 	// How many are there digits in a valid phone number
 	// (excluding coutry code)
-	const digits_in_phone_number = digits_in_number(format)
+	const digits_in_phone_number = digits_in_number(format, value)
 
 	// Trim excessive digits (just in case)
 	if (digits.length > digits_in_phone_number)
@@ -43,10 +43,6 @@ export default function edit(value, caret_position, format, options = {})
 	// Current digit index in the phone number
 	// (not a character index, but a digit index)
 	const digit_index = phone_digit_index(value, caret_position)
-
-	// Generate phone number template based on the phone format structure.
-	// e.g. { code: '7', city: 3, number: [3, 2, 2] } -> '(xxx) xxx-xx-xx'
-	const template = phone_template(format)
 
 	// Adjust caret position
 	if (options.backspace)
@@ -60,7 +56,7 @@ export default function edit(value, caret_position, format, options = {})
 		if (previous_digit_index < 0)
 		{
 			// (if there is the first digit)
-			caret_position = caret_position_for_digit(0, digits.length, format)
+			caret_position = caret_position_for_digit(0, digits.length, format, digits)
 		}
 		// Else, if there is previous digit,
 		// then erase it and reposition the caret.
@@ -71,7 +67,7 @@ export default function edit(value, caret_position, format, options = {})
 			if (previous_digit_index >= digits_in_phone_number)
 			{
 				// Position the caret after the last digit in phone number
-				caret_position = caret_position_for_digit(digits.length - 1, digits.length, format) + 1
+				caret_position = caret_position_for_digit(digits.length - 1, digits.length, format, digits) + 1
 			}
 			else
 			{
@@ -79,7 +75,7 @@ export default function edit(value, caret_position, format, options = {})
 				digits = digits.substring(0, previous_digit_index) + digits.substring(digit_index)
 
 				// Position the caret before the erased digit
-				caret_position = caret_position_for_digit(previous_digit_index, digits.length, format)
+				caret_position = caret_position_for_digit(previous_digit_index, digits.length, format, digits)
 			}
 		}
 	}
@@ -92,7 +88,7 @@ export default function edit(value, caret_position, format, options = {})
 			digits = phone_digits(value, format)
 
 			// Leave the caret position at the same digit
-			caret_position = caret_position_for_digit(digit_index, digits.length, format)
+			caret_position = caret_position_for_digit(digit_index, digits.length, format, digits)
 		}
 		// No selection was made, just erase a single digit
 		else
@@ -101,7 +97,7 @@ export default function edit(value, caret_position, format, options = {})
 			if (digit_index >= digits_in_phone_number)
 			{
 				// Position the caret after the last digit in phone number
-				caret_position = caret_position_for_digit(digits.length - 1, digits.length, format) + 1
+				caret_position = caret_position_for_digit(digits.length - 1, digits.length, format, digits) + 1
 			}
 			// Find the current digit, remove it and reposition the caret
 			else
@@ -110,7 +106,7 @@ export default function edit(value, caret_position, format, options = {})
 				digits = digits.substring(0, digit_index) + digits.substring(digit_index + 1)
 
 				// Leave the caret position at the same digit
-				caret_position = caret_position_for_digit(digit_index, digits.length, format)
+				caret_position = caret_position_for_digit(digit_index, digits.length, format, digits)
 			}
 		}
 	}
@@ -118,7 +114,7 @@ export default function edit(value, caret_position, format, options = {})
 	else
 	{
 		// Position the caret before the next digit
-		caret_position = caret_position_for_digit(digit_index, digits.length, format)
+		caret_position = caret_position_for_digit(digit_index, digits.length, format, digits)
 	}
 
 	return { phone: format_phone(digits, format), caret: caret_position }
@@ -126,7 +122,7 @@ export default function edit(value, caret_position, format, options = {})
 
 // Calculates caret position for digit index
 // (not character index) in a phone number of a given format
-function caret_position_for_digit(digit_index, digit_count, format)
+function caret_position_for_digit(digit_index, digit_count, format, digits)
 {
 	// Special case
 	if (digit_count === 0)
@@ -138,8 +134,8 @@ function caret_position_for_digit(digit_index, digit_count, format)
 	if (digit_index >= digit_count)
 	{
 		// Position the caret after the last digit
-		return index_in_template(digit_count - 1, format) + 1
+		return index_in_template(digit_count - 1, format, digits) + 1
 	}
 
-	return index_in_template(digit_index, format)
+	return index_in_template(digit_index, format, digits)
 }

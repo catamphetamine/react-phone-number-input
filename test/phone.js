@@ -1,4 +1,27 @@
-import { formats, validate, cleartext_international, template, digits, count_digits, format, format_international, parse_digits, digits_in_number, digit_index, index_in_template, repeat } from '../source/phone'
+import
+{
+	formats,
+	validate,
+	plaintext_international,
+	template,
+	populate_template,
+	digits,
+	count_digits,
+	format,
+	digits_in_number,
+	digit_index,
+	index_in_template,
+	repeat
+}
+from '../source/phone'
+
+const custom_format =
+{
+	template(digits)
+	{
+		return '+x (xxx) xxx-xx-xx'
+	}
+}
 
 describe(`phone`, function()
 {
@@ -8,14 +31,21 @@ describe(`phone`, function()
 		validate('+7999123456', formats.RU).should.equal(false)
 	})
 
-	it(`should reduce formatted phone number to cleartext (international)`, function()
+	it(`should reduce formatted phone number to plaintext (international)`, function()
 	{
-		cleartext_international('', formats.RU).should.equal('')
-		cleartext_international('(', formats.RU).should.equal('')
-		cleartext_international('(9  )', formats.RU).should.equal('+79')
-		cleartext_international('(9  )', formats.RU).should.equal('+79')
-		cleartext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
-		cleartext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
+		plaintext_international('', formats.RU).should.equal('')
+		plaintext_international('(', formats.RU).should.equal('')
+		plaintext_international('(9  )', formats.RU).should.equal('+79')
+		plaintext_international('(9  )', formats.RU).should.equal('+79')
+		plaintext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
+		plaintext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
+
+		plaintext_international('', custom_format).should.equal('')
+		plaintext_international('(', custom_format).should.equal('')
+		plaintext_international('+7 (9  )', custom_format).should.equal('+79')
+		plaintext_international('+7 (9  )', custom_format).should.equal('+79')
+		plaintext_international('+7 (999) 123-45-67', custom_format).should.equal('+79991234567')
+		plaintext_international('+7 (999) 123-45-6', custom_format).should.equal('+7999123456')
 	})
 
 	it(`should generate phone template`, function()
@@ -31,6 +61,20 @@ describe(`phone`, function()
 
 		// USA
 		template(formats.US).should.equal('(xxx) xxx-xxxx')
+	})
+
+	it(`should populate phone template`, function()
+	{
+		populate_template('(xxx) xxx-xx-xx', '1').should.equal('(1  )')
+		populate_template('(xxx) xxx-xx-xx', '12').should.equal('(12 )')
+		populate_template('(xxx) xxx-xx-xx', '123').should.equal('(123)')
+		populate_template('(xxx) xxx-xx-xx', '1234').should.equal('(123) 4')
+		populate_template('(xxx) xxx-xx-xx', '12345').should.equal('(123) 45')
+		populate_template('(xxx) xxx-xx-xx', '123456').should.equal('(123) 456')
+		populate_template('(xxx) xxx-xx-xx', '1234567').should.equal('(123) 456-7')
+		populate_template('(xxx) xxx-xx-xx', '12345678').should.equal('(123) 456-78')
+		populate_template('(xxx) xxx-xx-xx', '123456789').should.equal('(123) 456-78-9')
+		populate_template('(xxx) xxx-xx-xx', '1234567890').should.equal('(123) 456-78-90')
 	})
 
 	it(`should parse raw digits`, function()
@@ -50,58 +94,54 @@ describe(`phone`, function()
 		count_digits('( 999  )  1-2-3-4-5-6  7').should.equal(10)
 	})
 
-	it(`should parse phone digits`, function()
-	{
-		parse_digits('', formats.RU).should.deep.equal({ city: '', number: '' })
-		parse_digits('9', formats.RU).should.deep.equal({ city: '9', number: '' })
-		parse_digits('99', formats.RU).should.deep.equal({ city: '99', number: '' })
-		parse_digits('999', formats.RU).should.deep.equal({ city: '999', number: '' })
-		parse_digits('9991', formats.RU).should.deep.equal({ city: '999', number: '1' })
-		parse_digits('99912', formats.RU).should.deep.equal({ city: '999', number: '12' })
-		parse_digits('999123', formats.RU).should.deep.equal({ city: '999', number: '123' })
-		parse_digits('9991234', formats.RU).should.deep.equal({ city: '999', number: '1234' })
-		parse_digits('99912345', formats.RU).should.deep.equal({ city: '999', number: '12345' })
-		parse_digits('999123456', formats.RU).should.deep.equal({ city: '999', number: '123456' })
-		parse_digits('9991234567', formats.RU).should.deep.equal({ city: '999', number: '1234567' })
-	})
-
 	it(`should format digits`, function()
 	{
 		format('', formats.RU).should.equal('')
-		format('9', formats.RU).should.equal('(9  ) ')
-		format('99', formats.RU).should.equal('(99 ) ')
-		format('999', formats.RU).should.equal('(999) ')
-		format('9991', formats.RU).should.equal('(999) 1')
+		format('+79', formats.RU).should.equal('(9  )')
+		format('+799', formats.RU).should.equal('(99 )')
+		format('999', formats.RU).should.equal('(999)')
+		format('+79991', formats.RU).should.equal('(999) 1')
 		format('99912', formats.RU).should.equal('(999) 12')
-		format('999123', formats.RU).should.equal('(999) 123')
-		format('9991234', formats.RU).should.equal('(999) 123-4')
+		format('+7999123', formats.RU).should.equal('(999) 123')
+		format('+79991234', formats.RU).should.equal('(999) 123-4')
 		format('99912345', formats.RU).should.equal('(999) 123-45')
-		format('999123456', formats.RU).should.equal('(999) 123-45-6')
-		format('9991234567', formats.RU).should.equal('(999) 123-45-67')
+		format('+7999123456', formats.RU).should.equal('(999) 123-45-6')
+		format('+79991234567', formats.RU).should.equal('(999) 123-45-67')
 
 		format('9991234567', formats.US).should.equal('(999) 123-4567')
-
-		format('+7', formats.RU).should.equal('')
-		format('+79', formats.RU).should.equal('(9  ) ')
 	})
 
-	it(`should format digits (internationally)`, function()
+	it(`should format without parens and hyphens`, function()
 	{
-		format_international('999123456', formats.RU).should.equal('+7 (999) 123-45-6')
-		format_international('9991234567', formats.RU).should.equal('+7 (999) 123-45-67')
+		const custom_US_format =
+		{
+			country  : '1',
+			template : 'xxx-xxx-xxxx'
+		}
 
-		format_international('9991234567', formats.US).should.equal('+1 (999) 123-4567')
+		format('9991234567', custom_US_format).should.equal('999-123-4567')
+		plaintext_international('999-123-4567', custom_US_format).should.equal('+19991234567')
+	})
 
-		format_international('', formats.RU).should.equal('')
-		format_international('+7', formats.RU).should.equal('')
-		format_international('+79', formats.RU).should.equal('+7 (9  ) ')
+	it(`should custom format digits`, function()
+	{
+		format('', custom_format).should.equal('')
+		format('+79', custom_format).should.equal('+7 (9  )')
+		format('+799', custom_format).should.equal('+7 (99 )')
+		format('7999', custom_format).should.equal('+7 (999)')
+		format('+79991', custom_format).should.equal('+7 (999) 1')
+		format('+799912', custom_format).should.equal('+7 (999) 12')
+		format('7999123', custom_format).should.equal('+7 (999) 123')
+		format('+79991234', custom_format).should.equal('+7 (999) 123-4')
+		format('799912345', custom_format).should.equal('+7 (999) 123-45')
+		format('+7999123456', custom_format).should.equal('+7 (999) 123-45-6')
+		format('+79991234567', custom_format).should.equal('+7 (999) 123-45-67')
 	})
 
 	it(`should count digits in number`, function()
 	{
-		digits_in_number({ city: 3, number: [3, 2, 2] }).should.equal(10)
-		digits_in_number({ city: 2, number: [3, 2, 2] }).should.equal(9)
-		digits_in_number({ city: 1, number: [2, 4] }).should.equal(7)
+		digits_in_number({ country: '7', template: '(xxx) xxx-xx-xx' }).should.equal(10)
+		digits_in_number({ country: '380', template: '(xx) xxx-xx-xx' }).should.equal(9)
 	})
 
 	it(`should calculate digit index`, function()
@@ -147,6 +187,13 @@ describe(`phone`, function()
 
 		index_in_template(8, formats.RU).should.equal(13)
 		index_in_template(9, formats.RU).should.equal(14)
+
+		// Custom format
+		index_in_template(0, custom_format).should.equal(1)
+		index_in_template(1, custom_format).should.equal(4)
+		index_in_template(2, custom_format).should.equal(5)
+		index_in_template(3, custom_format).should.equal(6)
+		index_in_template(4, custom_format).should.equal(9)
 	})
 
 	it(`should repeat string N times`, function()
