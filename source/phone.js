@@ -33,6 +33,11 @@ export const formats =
 // Validates an international plaintext phone number ("+79991234567")
 export function validate(plaintext_international, format)
 {
+	if (!plaintext_international)
+	{
+		return false
+	}
+	
 	// Sanity check (for `undefined`)
 	if (!format)
 	{
