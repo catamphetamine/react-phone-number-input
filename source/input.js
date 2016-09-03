@@ -139,7 +139,7 @@ export default class Phone_input extends React.Component
 
 		if (backspace || Delete)
 		{
-			this.format_input_value({ backspace, delete: Delete })
+			this.format_input_value(event, { backspace, delete: Delete })
 			return event.preventDefault()
 		}
 	}
