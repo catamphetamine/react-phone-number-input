@@ -2,7 +2,7 @@ import
 {
 	formats,
 	validate,
-	plaintext_international,
+	parse_plaintext_international,
 	template,
 	populate_template,
 	digits,
@@ -11,7 +11,10 @@ import
 	digits_in_number,
 	digit_index,
 	index_in_template,
-	repeat
+	plaintext_local,
+	plaintext_international,
+	repeat,
+	count_occurences
 }
 from '../source/phone'
 
@@ -33,19 +36,19 @@ describe(`phone`, function()
 
 	it(`should reduce formatted phone number to plaintext (international)`, function()
 	{
-		plaintext_international('', formats.RU).should.equal('')
-		plaintext_international('(', formats.RU).should.equal('')
-		plaintext_international('(9  )', formats.RU).should.equal('+79')
-		plaintext_international('(9  )', formats.RU).should.equal('+79')
-		plaintext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
-		plaintext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
+		parse_plaintext_international('', formats.RU).should.equal('')
+		parse_plaintext_international('(', formats.RU).should.equal('')
+		parse_plaintext_international('(9  )', formats.RU).should.equal('+79')
+		parse_plaintext_international('(9  )', formats.RU).should.equal('+79')
+		parse_plaintext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
+		parse_plaintext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
 
-		plaintext_international('', custom_format).should.equal('')
-		plaintext_international('(', custom_format).should.equal('')
-		plaintext_international('+7 (9  )', custom_format).should.equal('+79')
-		plaintext_international('+7 (9  )', custom_format).should.equal('+79')
-		plaintext_international('+7 (999) 123-45-67', custom_format).should.equal('+79991234567')
-		plaintext_international('+7 (999) 123-45-6', custom_format).should.equal('+7999123456')
+		parse_plaintext_international('', custom_format).should.equal('')
+		parse_plaintext_international('(', custom_format).should.equal('')
+		parse_plaintext_international('+7 (9  )', custom_format).should.equal('+79')
+		parse_plaintext_international('+7 (9  )', custom_format).should.equal('+79')
+		parse_plaintext_international('+7 (999) 123-45-67', custom_format).should.equal('+79991234567')
+		parse_plaintext_international('+7 (999) 123-45-6', custom_format).should.equal('+7999123456')
 	})
 
 	it(`should generate phone template`, function()
@@ -111,7 +114,7 @@ describe(`phone`, function()
 		format('9991234567', formats.US).should.equal('(999) 123-4567')
 	})
 
-	it(`should format without parens and hyphens`, function()
+	it(`should format without parens`, function()
 	{
 		const custom_US_format =
 		{
@@ -120,7 +123,7 @@ describe(`phone`, function()
 		}
 
 		format('9991234567', custom_US_format).should.equal('999-123-4567')
-		plaintext_international('999-123-4567', custom_US_format).should.equal('+19991234567')
+		parse_plaintext_international('999-123-4567', custom_US_format).should.equal('+19991234567')
 	})
 
 	it(`should custom format digits`, function()
@@ -196,11 +199,33 @@ describe(`phone`, function()
 		index_in_template(4, custom_format).should.equal(9)
 	})
 
+	it(`should convert plaintext phone number to plaintext local`, function()
+	{
+		plaintext_local('', formats.RU).should.equal('')
+		plaintext_local('9991234567', formats.RU).should.equal('9991234567')
+		plaintext_local('+79991234567', formats.RU).should.equal('9991234567')
+	})
+
+	it(`should convert plaintext phone number to plaintext international`, function()
+	{
+		plaintext_international('', formats.RU).should.equal('')
+		plaintext_international('9991234567', formats.RU).should.equal('+79991234567')
+		plaintext_international('+79991234567', formats.RU).should.equal('+79991234567')
+	})
+
 	it(`should repeat string N times`, function()
 	{
 		repeat('x', 0).should.equal('')
 		repeat('x', 1).should.equal('x')
 		repeat('x', 2).should.equal('xx')
 		repeat('x', 11).should.equal('xxxxxxxxxxx')
+	})
+
+	it(`should count occurences of x-es in template`, function()
+	{
+		count_occurences('x', 'abc').should.equal(0)
+		count_occurences('x', 'xabcx').should.equal(2)
+		count_occurences('x', '(xxx) xxx-xx-xx').should.equal(10)
+		count_occurences('x', '+x (xxx) xxx-xx-xx').should.equal(11)
 	})
 })

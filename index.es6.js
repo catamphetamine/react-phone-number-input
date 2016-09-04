@@ -7,6 +7,10 @@ export
 	validate as is_valid_phone_number,
 	validate as isValidPhoneNumber,
 	format as format_phone_number,
-	format as formatPhoneNumber
+	format as formatPhoneNumber,
+	plaintext_local,
+	plaintext_local as plaintextLocal,
+	plaintext_international,
+	plaintext_international as plaintextInternational
 }
 from './source/phone'

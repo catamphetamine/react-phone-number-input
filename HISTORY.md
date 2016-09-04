@@ -1,3 +1,8 @@
+0.2.10 / 04.09.2016
+===================
+
+  * Added `plaintext_local` (aka `plaintextLocal`) and `plaintext_international` (aka `plaintextInternational`) methods
+
 0.2.0 / 03.09.2016
 ==================
 

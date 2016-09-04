@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-import { format as format_phone, plaintext_international } from './phone'
+import { format as format_phone, parse_plaintext_international } from './phone'
 import edit from './editor'
 
 // Key codes
@@ -83,7 +83,7 @@ export default class Phone_input extends React.Component
 
 		if (onChange)
 		{
-			onChange(plaintext_international(value, format))
+			onChange(parse_plaintext_international(value, format))
 		}
 	}
 
@@ -142,7 +142,7 @@ export default class Phone_input extends React.Component
 
 		if (onBlur)
 		{
-			onBlur(plaintext_international(this.input_element().value, format))
+			onBlur(parse_plaintext_international(this.input_element().value, format))
 		}
 	}
 
@@ -179,5 +179,6 @@ Phone_input.propTypes =
 	])
 	.isRequired,
 	value     : PropTypes.string.isRequired,
-	onChange  : PropTypes.func.isRequired
+	onChange  : PropTypes.func.isRequired,
+	onBlur    : PropTypes.func
 }

@@ -56,7 +56,7 @@ export function validate(plaintext_international, format)
 
 // Reduces a formatted phone number to a plaintext one (with country code).
 // E.g. "(999) 123-45-67" -> "+79991234567"
-export function plaintext_international(formatted, format)
+export function parse_plaintext_international(formatted, format)
 {
 	// The input digits
 	const phone_digits = digits(formatted, format)
@@ -66,14 +66,7 @@ export function plaintext_international(formatted, format)
 		return ''
 	}
 
-	// Default: return '+', country code and all input digits
-	if (format.country)
-	{
-		return `+${format.country}${phone_digits}`
-	}
-
-	// In case of custom phone formatting return '+' and all input digits
-	return '+' + phone_digits
+	return plaintext_international(phone_digits, format)
 }
 
 // Returns phone number template based on the phone format.
@@ -220,6 +213,54 @@ export function index_in_template(digit_index, format, digits)
   }
 }
 
+// Converts plaintext (local or international) phone number to an international one
+export function plaintext_international(plaintext, format)
+{
+	if (!plaintext)
+	{
+		return ''
+	}
+
+	// If it's already plaintext international, then don't change it
+	if (plaintext[0] === '+')
+	{
+		return plaintext
+	}
+
+	// Default phone number validation
+	if (format.country)
+	{
+		return `+${format.country}${plaintext}`
+	}
+
+	// In case of custom phone number formatting
+	return `+${plaintext}`
+}
+
+// Converts plaintext (local or international) phone number to a local one
+export function plaintext_local(plaintext, format)
+{
+	if (!plaintext)
+	{
+		return ''
+	}
+
+	// If it's already plaintext local, then don't change it
+	if (plaintext[0] !== '+')
+	{
+		return plaintext
+	}
+
+	// Default phone number validation
+	if (format.country)
+	{
+		return plaintext.slice('+'.length + format.country.length)
+	}
+
+	// In case of custom phone number formatting
+	return plaintext.slice('+'.length)
+}
+
 // Repeats string N times
 export function repeat(pattern, count)
 {
@@ -243,21 +284,21 @@ export function repeat(pattern, count)
 	return result + pattern
 }
 
-// Replaces a character in a string at index
-function replace_character(string, index, character)
-{
-	// Sanity check
-	if (index > string.length - 1)
-	{
-		return string
-	}
-
-	// Replace character at index
-	return string.slice(0, index) + character + string.slice(index + 1)
-}
+// // Replaces a character in a string at index
+// function replace_character(string, index, character)
+// {
+// 	// Sanity check
+// 	if (index > string.length - 1)
+// 	{
+// 		return string
+// 	}
+//
+// 	// Replace character at index
+// 	return string.slice(0, index) + character + string.slice(index + 1)
+// }
 
 // Counts all occurences of a symbol in a string
-function count_occurences(symbol, string)
+export function count_occurences(symbol, string)
 {
 	let count = 0
 

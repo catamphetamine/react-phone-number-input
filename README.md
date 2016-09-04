@@ -108,6 +108,9 @@ A map with phone number format examples
 
 			// More complex logic can be implemented here
 			// for countries with non-trivial phone number formatting rules.
+			// (E.g. German telephone numbers have no fixed length
+			//  for area code and subscriber number.
+			//  https://en.wikipedia.org/wiki/Telephone_numbers_in_Germany)
 		}
 	}
 }
@@ -127,6 +130,24 @@ Formats `plaintext` phone number given the `format`. The output format is local 
 
  * `+79991234567` → `(999) 123-45-67`
  * `9991234567` → `(999) 123-45-67`
+
+### plaintext_local(plaintext, format)
+
+(aka `plaintextLocal`)
+
+Trims a `plaintext` phone number given the `format`. The output format is local (without country code).
+
+ * `+79991234567` → `9991234567`
+ * `9991234567` → `9991234567`
+
+### plaintext_international(plaintext, format)
+
+(aka plaintextInternational`)
+
+Trims a `plaintext` phone number given the `format`. The output format is international (with country code).
+
+ * `+79991234567` → `+79991234567`
+ * `9991234567` → `+79991234567`
 
 ## Contributing
 
