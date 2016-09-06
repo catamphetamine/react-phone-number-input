@@ -1,12 +1,12 @@
 {
   "name": "react-phone-number-input",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Telephone input for React",
   "main": "index.common.js",
   "jsnext:main": "index.es6.js",
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react": ">=0.14.0",
+    "react-dom": ">=0.14.0"
   },
   "dependencies": {
     "babel-runtime": "^6.6.1"

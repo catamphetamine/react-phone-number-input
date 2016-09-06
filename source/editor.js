@@ -1,4 +1,4 @@
-import { digits as phone_digits, format as format_phone, digit_index as phone_digit_index, index_in_template, digits_in_number } from './phone'
+import { phone_digits, format as format_phone, digit_index as phone_digit_index, index_in_template, digits_in_number } from './phone'
 
 // Edits <input/>ted value according to the input conditions (caret position, key pressed)
 //

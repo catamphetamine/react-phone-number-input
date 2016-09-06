@@ -131,6 +131,15 @@ Formats `plaintext` phone number given the `format`. The output format is local 
  * `+79991234567` → `(999) 123-45-67`
  * `9991234567` → `(999) 123-45-67`
 
+### parse_phone_number(whatever, format)
+
+(aka `parsePhoneNumber`)
+
+Formats `whatever` phone number given the `format`. The output format is international (with country code).
+
+ * `(999) 123-45-67` → `+79991234567`
+ * `+7 (999) 123-45-67` → `+79991234567`
+
 ### plaintext_local(plaintext, format)
 
 (aka `plaintextLocal`)

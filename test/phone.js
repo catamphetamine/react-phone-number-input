@@ -5,7 +5,7 @@ import
 	parse_plaintext_international,
 	template,
 	populate_template,
-	digits,
+	phone_digits,
 	count_digits,
 	format,
 	digits_in_number,
@@ -42,9 +42,12 @@ describe(`phone`, function()
 		parse_plaintext_international('(9  )', formats.RU).should.equal('+79')
 		parse_plaintext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
 		parse_plaintext_international('(999) 123-45-6', formats.RU).should.equal('+7999123456')
+		parse_plaintext_international('+7 (9  )', formats.RU).should.equal('+79')
+		parse_plaintext_international('+7 (999) 123-45-67', formats.RU).should.equal('+79991234567')
 
 		parse_plaintext_international('', custom_format).should.equal('')
 		parse_plaintext_international('(', custom_format).should.equal('')
+		parse_plaintext_international('(9  )', custom_format).should.equal('+9')
 		parse_plaintext_international('+7 (9  )', custom_format).should.equal('+79')
 		parse_plaintext_international('+7 (9  )', custom_format).should.equal('+79')
 		parse_plaintext_international('+7 (999) 123-45-67', custom_format).should.equal('+79991234567')
@@ -82,11 +85,11 @@ describe(`phone`, function()
 
 	it(`should parse raw digits`, function()
 	{
-		digits('', formats.RU).should.equal('')
-		digits('(9  ) ', formats.RU).should.equal('9')
-		digits(' ( 9 9  9) 1 23 45  ', formats.RU).should.equal('99912345')
-		digits('( 999  )  1-2-3-4-5-6  7', formats.RU).should.equal('9991234567')
-		digits('( 999  )  1-2-3-4-5-6  7 8 9 - 10 ', formats.RU).should.equal('9991234567')
+		phone_digits('', formats.RU).should.equal('')
+		phone_digits('(9  ) ', formats.RU).should.equal('9')
+		phone_digits(' ( 9 9  9) 1 23 45  ', formats.RU).should.equal('99912345')
+		phone_digits('( 999  )  1-2-3-4-5-6  7', formats.RU).should.equal('9991234567')
+		phone_digits('( 999  )  1-2-3-4-5-6  7 8 9 - 10 ', formats.RU).should.equal('9991234567')
 	})
 
 	it(`should count digits`, function()

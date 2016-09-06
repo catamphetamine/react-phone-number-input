@@ -55,18 +55,30 @@ export function validate(plaintext_international, format)
 }
 
 // Reduces a formatted phone number to a plaintext one (with country code).
-// E.g. "(999) 123-45-67" -> "+79991234567"
+// E.g.    "(999) 123-45-67" -> "+79991234567"
+//      "+7 (999) 123-45-67" -> "+79991234567"
 export function parse_plaintext_international(formatted, format)
 {
 	// The input digits
-	const phone_digits = digits(formatted, format)
+	let digits = parse_digits(formatted)
 
-	if (!phone_digits)
+	if (!digits)
 	{
 		return ''
 	}
 
-	return plaintext_international(phone_digits, format)
+	// If the input wass already international,
+	// just return the digits with the '+' sign.
+	if (formatted[0] === '+')
+	{
+		return '+' + digits
+	}
+
+	// Trim excessive phone number digits
+	digits = phone_digits(digits, format)
+
+	// Convert local plaintext to international plaintext
+	return plaintext_international(digits, format)
 }
 
 // Returns phone number template based on the phone format.
@@ -84,16 +96,22 @@ export function template(format, value)
 
 // Converts formatted phone number to just digits
 // (e.g. "(999) 123-45-67" -> "9991234567")
-export function digits(value, format)
+export function phone_digits(value, format)
 {
-	const digits = value.replace(/[^0-9]/g, '')
-	return digits.substring(0, digits_in_number(format, digits))
+	const phone_digits = parse_digits(value)
+	return phone_digits.substring(0, digits_in_number(format, phone_digits))
+}
+
+// Retains only digits
+export function parse_digits(value)
+{
+	return value.replace(/[^0-9]/g, '')	
 }
 
 // Counts digits in a string
 export function count_digits(value)
 {
-  return value.replace(/[^0-9]/g, '').length
+  return parse_digits(value).length
 }
 
 // Formats an editable part of international plaintext phone number.

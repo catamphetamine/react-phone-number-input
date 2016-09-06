@@ -1,3 +1,8 @@
+0.2.11 / 06.09.2016
+===================
+
+  * Added `parse_phone_number` (aka `parsePhoneNumber`) function
+
 0.2.10 / 04.09.2016
 ===================
 

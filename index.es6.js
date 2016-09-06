@@ -11,6 +11,8 @@ export
 	plaintext_local,
 	plaintext_local as plaintextLocal,
 	plaintext_international,
-	plaintext_international as plaintextInternational
+	plaintext_international as plaintextInternational,
+	parse_plaintext_international as parse_phone_number,
+	parse_plaintext_international as parsePhoneNumber
 }
 from './source/phone'

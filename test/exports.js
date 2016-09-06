@@ -13,7 +13,9 @@ import Phone,
 	plaintext_local,
 	plaintextLocal,
 	plaintext_international,
-	plaintextInternational
+	plaintextInternational,
+	parse_phone_number,
+	parsePhoneNumber
 }
 from '../index.es6'
 
@@ -37,6 +39,9 @@ describe(`exports`, function()
 
 		plaintext_international('+79991234567', phone_number_format.RU)
 		plaintextInternational('+79991234567', phone_number_format.RU)
+
+		parse_phone_number('+79991234567', phone_number_format.RU)
+		parsePhoneNumber('+79991234567', phone_number_format.RU)
 	})
 
 	it(`should export CommonJS`, function()
@@ -59,5 +64,8 @@ describe(`exports`, function()
 
 		Phone.plaintext_international('+79991234567', Phone.phone_number_format.RU)
 		Phone.plaintextInternational('+79991234567', Phone.phone_number_format.RU)
+		
+		Phone.parse_phone_number('+79991234567', Phone.phone_number_format.RU)
+		Phone.parsePhoneNumber('+79991234567', Phone.phone_number_format.RU)
 	})
 })
