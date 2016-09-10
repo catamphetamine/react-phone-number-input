@@ -181,7 +181,7 @@ Phone_input.propTypes =
 		})
 	])
 	.isRequired,
-	value     : PropTypes.string.isRequired,
+	value     : PropTypes.string,
 	onChange  : PropTypes.func.isRequired,
 	onBlur    : PropTypes.func
 }
