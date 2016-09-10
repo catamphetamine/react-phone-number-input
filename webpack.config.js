@@ -43,6 +43,11 @@ var config = {
   resolve: {
     root: path.resolve('./src'),
     extensions: ['', '.js']
+  },
+  externals: {
+      // Use external version of React
+      "react": "React",
+      "react-dom": "ReactDOM"
   }
 };
 
