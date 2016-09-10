@@ -151,6 +151,11 @@ export function count_digits(value)
 //
 export function format(value, format)
 {
+	if (!value)
+	{
+		return ''
+	}
+
 	// If format is specified, then format
 	// the phone number as a local one.
 	if (format)
