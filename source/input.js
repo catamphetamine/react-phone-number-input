@@ -50,7 +50,7 @@ export default class Phone_input extends React.Component
 				{...rest}
 				type="tel"
 				ref="input"
-				value={format_local(value.trim(), format)}
+				value={format_local(value ? value.trim() : '', format)}
 				onKeyDown={this.on_key_down}
 				onChange={this.format_input_value}
 				onBlur={this.on_blur}
