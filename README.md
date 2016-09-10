@@ -6,7 +6,7 @@
 
 International phone number `<input/>` in React
 
-![screenshot of react-phone-number-input](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/screenshot.png)
+[![screenshot of react-phone-number-input](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/screenshot.png)](https://www.youtube.com/watch?v=6e1pMrYH5jI)
 
 ## Installation
 
@@ -79,14 +79,14 @@ A map with phone number format examples
 
 ```js
 {
-	// +7 | (123) 456-78-90
+	// (123) 456-78-90
 	RU:
 	{
 		country  : '7',
 		template : '(xxx) xxx-xx-xx'
 	},
 
-	// +1 | (123) 456-7890
+	// (123) 456-7890
 	US:
 	{
 		country  : '1',
@@ -96,15 +96,21 @@ A map with phone number format examples
 	// Supports any custom phone number format logic
 	custom:
 	{
-		// Generates a proper phone number template for the given input digits,
-		// where each digit is designated with an "x" symbol.
+		// Generates a proper phone number template
+		// for the given plaintext local phone number,
+		// where each digit is designated with a letter
+		// or a number. Numbers are not taken into account
+		// when formatting an international phone number,
+		// but are taken into account when formatting
+		// a local phone number, and therefore can be used
+		// for trunk prefix.
 		//
-		// E.g.: "71234567890" -> "+x (xxx) xxx-xx-xx"
+		// E.g.: "1234567890"  -> "(xxx) xxx-xxxx" // USA, trunk prefix not used
+		//       "07700900756" -> "(0AAAA) BBBBBB" // United Kingdom, trunk prefix "0"
 		//
-		template(digits)
+		template(plaintext_local)
 		{
-			// Template for "+7 (123) 456-78-90" is:
-			return "+x (xxx) xxx-xx-xx"
+			return "(xxx) xxx-xxxx"
 
 			// More complex logic can be implemented here
 			// for countries with non-trivial phone number formatting rules.
@@ -120,16 +126,18 @@ A map with phone number format examples
 
 (aka `isValidPhoneNumber`)
 
-Returns `true` if `plaintext` phone number is valid given the `format`.
+Returns `true` if an international `plaintext` phone number is valid given the `format`. If the `format` is not specified then it tries to autodetect the appropriate one.
 
 ### format_phone_number(plaintext, format)
 
 (aka `formatPhoneNumber`)
 
-Formats `plaintext` phone number given the `format`. The output format is local (without country code).
+Formats a `plaintext` phone number (either local or international). If the `format` argument is passed then the resulting phone number is local. Otherwise it will try to autodetect the appropriate phone number format for this phone number, and if autodetection succeeded it will output a formatted international phone number.
 
- * `+79991234567` → `(999) 123-45-67`
- * `9991234567` → `(999) 123-45-67`
+ * `(+79991234567, format.RU)` → `(999) 123-45-67`
+ * `(+19991234567, format.US)` → `(999) 123-4567`
+ * `(+79991234567)` → `+7 999 123 45 67`
+ * `(+19991234567)` → `+1 999 123 4567`
 
 ### parse_phone_number(whatever, format)
 
@@ -137,8 +145,26 @@ Formats `plaintext` phone number given the `format`. The output format is local 
 
 Formats `whatever` phone number given the `format`. The output format is international (with country code).
 
- * `(999) 123-45-67` → `+79991234567`
+ * `(999) 123-45-67`    → `+79991234567`
  * `+7 (999) 123-45-67` → `+79991234567`
+
+### country_from_locale(locale)
+
+(aka `countryFromLocale`)
+
+Extracts [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country code from a locale.
+
+ * `ru-RU`      → `"RU"` (Russia)
+ * `en`         → `undefined`
+ * `zh-Hans-HK` → `"HK"` (Hong Kong)
+
+### country(plaintext_international)
+
+Extracts [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country code from an international plaintext phone number.
+
+ * `+79991234567`  → `RU` (Russia)
+ * `+19991234567`  → `US` (USA)
+ * `+861069445464` → `CN` (China)
 
 ### plaintext_local(plaintext, format)
 
@@ -147,7 +173,7 @@ Formats `whatever` phone number given the `format`. The output format is interna
 Trims a `plaintext` phone number given the `format`. The output format is local (without country code).
 
  * `+79991234567` → `9991234567`
- * `9991234567` → `9991234567`
+ * `9991234567`   → `9991234567`
 
 ### plaintext_international(plaintext, format)
 
@@ -156,7 +182,7 @@ Trims a `plaintext` phone number given the `format`. The output format is local 
 Trims a `plaintext` phone number given the `format`. The output format is international (with country code).
 
  * `+79991234567` → `+79991234567`
- * `9991234567` → `+79991234567`
+ * `9991234567`   → `+79991234567`
 
 ## Contributing
 

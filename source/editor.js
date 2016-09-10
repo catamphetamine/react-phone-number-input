@@ -1,4 +1,12 @@
-import { phone_digits, format as format_phone, digit_index as phone_digit_index, index_in_template, digits_in_number } from './phone'
+import
+{
+	local_phone_digits as phone_digits,
+	format_local,
+	digit_index as phone_digit_index,
+	index_in_template,
+	digits_in_local_phone_number_template
+}
+from './phone'
 
 // Edits <input/>ted value according to the input conditions (caret position, key pressed)
 //
@@ -30,9 +38,9 @@ export default function edit(value, caret_position, format, options = {})
 	// Phone number digits (may be altered later)
 	let digits = phone_digits(value, format)
 
-	// How many are there digits in a valid phone number
-	// (excluding coutry code)
-	const digits_in_phone_number = digits_in_number(format, value)
+	// How many are there digits in a valid local phone number
+	// (including trunk prefix)
+	const digits_in_phone_number = digits_in_local_phone_number_template(format, value)
 
 	// Trim excessive digits (just in case)
 	if (digits.length > digits_in_phone_number)
@@ -117,7 +125,7 @@ export default function edit(value, caret_position, format, options = {})
 		caret_position = caret_position_for_digit(digit_index, digits.length, format, digits)
 	}
 
-	return { phone: format_phone(digits, format), caret: caret_position }
+	return { phone: format_local(digits, format), caret: caret_position }
 }
 
 // Calculates caret position for digit index

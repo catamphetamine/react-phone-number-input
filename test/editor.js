@@ -1,4 +1,4 @@
-import { formats } from '../source/phone'
+import formats from '../source/formats'
 import edit from '../source/editor'
 
 describe(`editor`, function()

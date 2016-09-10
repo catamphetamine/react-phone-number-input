@@ -1,3 +1,12 @@
+0.3.0 / 07.09.2016
+===================
+
+  * `format_phone_number` (aka `formatPhoneNumber`) function now formats phone number internationally (with country code) if no `format` argument was supplied (it tries to autodetect the correct phone number format from the phone number itself)
+
+  * Added `country(phone)` function
+
+  * Added `country_from_locale(locale)` (aka `countryFromLocale(locale)`) function
+
 0.2.11 / 06.09.2016
 ===================
 

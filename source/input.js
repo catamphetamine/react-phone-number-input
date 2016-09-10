@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-import { format as format_phone, parse_plaintext_international } from './phone'
+import { format_local, parse_plaintext_international } from './phone'
 import edit from './editor'
 
 // Key codes
@@ -42,12 +42,15 @@ export default class Phone_input extends React.Component
 		// Currently onCut has a bug: it just deletes, but doesn't copy.
 		// Since no one would really cut a phone number, I guess that's ok.
 
+		// Maybe React already trims the `value`.
+		// If that's so then don't trim it here.
+
 		return (
 			<input
 				{...rest}
 				type="tel"
 				ref="input"
-				value={format_phone(value, format)}
+				value={format_local(value.trim(), format)}
 				onKeyDown={this.on_key_down}
 				onChange={this.format_input_value}
 				onBlur={this.on_blur}

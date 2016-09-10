@@ -15,7 +15,10 @@ import Phone,
 	plaintext_international,
 	plaintextInternational,
 	parse_phone_number,
-	parsePhoneNumber
+	parsePhoneNumber,
+	country,
+	country_from_locale,
+	countryFromLocale
 }
 from '../index.es6'
 
@@ -42,6 +45,11 @@ describe(`exports`, function()
 
 		parse_phone_number('+79991234567', phone_number_format.RU)
 		parsePhoneNumber('+79991234567', phone_number_format.RU)
+
+		country()
+
+		country_from_locale()
+		countryFromLocale()
 	})
 
 	it(`should export CommonJS`, function()
@@ -67,5 +75,10 @@ describe(`exports`, function()
 		
 		Phone.parse_phone_number('+79991234567', Phone.phone_number_format.RU)
 		Phone.parsePhoneNumber('+79991234567', Phone.phone_number_format.RU)
+
+		Phone.country()
+
+		Phone.country_from_locale()
+		Phone.countryFromLocale()
 	})
 })
