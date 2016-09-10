@@ -14,6 +14,7 @@
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.2",
+    "babel-loader": "^6.2.5",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-react-display-name": "^6.5.0",
     "babel-plugin-transform-runtime": "^6.6.0",
@@ -26,12 +27,15 @@
     "npm-run-all": "^1.4.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "rimraf": "^2.5.0"
+    "rimraf": "^2.5.0",
+    "webpack": "^2.1.0-beta.22"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --colors --bail --reporter spec test/ --recursive",
     "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/ --recursive",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --colors --reporter spec test/ --recursive",
+    "browser-build": "WEBPACK_ENV=build webpack",
+    "browser-build-dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
     "clean-for-build": "rimraf ./build/**/*",
     "build-modules": "babel ./source --optional runtime --out-dir ./build --source-maps",
     "build": "npm-run-all clean-for-build build-modules",
