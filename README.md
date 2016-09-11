@@ -78,7 +78,7 @@ All other `props` are passed directly to the underlying `<input/>` component (an
 
 (aka `phoneNumberFormat`)
 
-A map with phone number format examples
+A map with predefined phone number formats. The keys are [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country codes. Create Pull Requests with phone number formats for your country if it's missing from the list.
 
 ```js
 {
@@ -97,7 +97,7 @@ A map with phone number format examples
 	},
 
 	// Supports any custom phone number format logic
-	custom:
+	[custom phone number format]:
 	{
 		country : '7',
 
@@ -110,12 +110,12 @@ A map with phone number format examples
 		// a local phone number, and therefore can be used
 		// for trunk prefix.
 		//
-		// E.g.: "1234567890"  -> "(xxx) xxx-xxxx" // USA, trunk prefix not used
+		// E.g.: "1234567890"  -> "(AAA) BBB-BBBB" // USA, trunk prefix not used
 		//       "07700900756" -> "(0AAAA) BBBBBB" // United Kingdom, trunk prefix "0"
 		//
 		template(plaintext_local)
 		{
-			return "(xxx) xxx-xxxx"
+			return "(AAA) BBB-BBBB"
 
 			// More complex logic can be implemented here
 			// for countries with non-trivial phone number formatting rules.
@@ -175,7 +175,7 @@ Extracts [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country code f
 
 (aka `plaintextLocal`)
 
-Converts `plaintext` international phone number to a plaintext local one given the `format`.
+Converts `plaintext` (international or local) phone number to a plaintext local one given the `format`.
 
  * `+79991234567`  → `9991234567`  // Russia
  * `9991234567`    → `9991234567`  // Russia
@@ -185,7 +185,7 @@ Converts `plaintext` international phone number to a plaintext local one given t
 
 (aka `plaintextInternational`)
 
-Converts `plaintext` local phone number to a plaintext international one given the `format`.
+Converts `plaintext` (international or local) phone number to a plaintext international one given the `format`.
 
  * `+79991234567` → `+79991234567`  // Russia
  * `9991234567`   → `+79991234567`  // Russia
