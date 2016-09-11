@@ -55,6 +55,9 @@
 				getInitialState: function()
 				{
 					return {
+						value_RU: '+78005553535',
+						value_US: '+12133734253',
+						value_GB: '+447700954321'
 					}
 				},
 
@@ -81,6 +84,10 @@
 							</div>
 
 							<div className="international">
+								Local: {library.formatPhoneNumber(this.state.value_RU, library.phoneNumberFormat.RU)}
+							</div>
+
+							<div className="international">
 								International: {library.formatPhoneNumber(this.state.value_RU)}
 							</div>
 
@@ -101,6 +108,10 @@
 							</div>
 
 							<div className="international">
+								Local: {library.formatPhoneNumber(this.state.value_US, library.phoneNumberFormat.US)}
+							</div>
+
+							<div className="international">
 								International: {library.formatPhoneNumber(this.state.value_US)}
 							</div>
 
@@ -118,6 +129,10 @@
 
 							<div className="value">
 								Value: {this.state.value_GB}
+							</div>
+
+							<div className="international">
+								Local: {library.formatPhoneNumber(this.state.value_GB, library.phoneNumberFormat.GB)}
 							</div>
 
 							<div className="international">
