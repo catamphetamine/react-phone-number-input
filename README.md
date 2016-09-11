@@ -67,7 +67,7 @@ A React component with the following `props`
 		})
 	])
 	.isRequired,
-	value     : PropTypes.string.isRequired,
+	value     : PropTypes.string,
 	onChange  : PropTypes.func.isRequired
 }
 ```
