@@ -62,6 +62,7 @@ A React component with the following `props`
 		}),
 		PropTypes.shape
 		({
+			country  : PropTypes.string.isRequired,
 			template : PropTypes.func.isRequired
 		})
 	])

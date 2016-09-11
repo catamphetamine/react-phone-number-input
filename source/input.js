@@ -180,6 +180,7 @@ Phone_input.propTypes =
 		}),
 		PropTypes.shape
 		({
+			country  : PropTypes.string.isRequired,
 			template : PropTypes.func.isRequired
 		})
 	])
