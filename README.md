@@ -148,7 +148,7 @@ Formats a `plaintext` phone number (either local or international). If the `form
 
 (aka `parsePhoneNumber`)
 
-Formats `whatever` phone number given the `format`. The output format is international (with country code).
+Parses `whatever` phone number given the `format`. The output number is plaintext international.
 
  * `(999) 123-45-67`    → `+79991234567`
  * `+7 (999) 123-45-67` → `+79991234567`
