@@ -99,6 +99,8 @@ A map with phone number format examples
 	// Supports any custom phone number format logic
 	custom:
 	{
+		country : '7',
+
 		// Generates a proper phone number template
 		// for the given plaintext local phone number,
 		// where each digit is designated with a letter
@@ -140,7 +142,7 @@ Formats a `plaintext` phone number (either local or international). If the `form
  * `(+79991234567, format.RU)` → `(999) 123-45-67`
  * `(+19991234567, format.US)` → `(999) 123-4567`
  * `(+79991234567)` → `+7 999 123 45 67`
- * `(+19991234567)` → `+1 999 123 4567`
+ * `(+447700954321)` → `+44 7700 954 321`
 
 ### parse_phone_number(whatever, format)
 
