@@ -41,7 +41,7 @@ export function validate(plaintext_international, format)
 //
 // This function is used in <input/> to parse text into `value`
 //
-export function parse_plaintext_international(formatted, format)
+export function parse_plaintext_international(formatted, format, with_trunk_prefix)
 {
 	// The input digits
 	let digits = parse_digits(formatted)
@@ -62,18 +62,23 @@ export function parse_plaintext_international(formatted, format)
 
 	// Trim excessive phone number digits
 	// (this is used in <input/>)
-	digits = local_phone_digits(digits, format)
+	digits = local_phone_digits(digits, format, with_trunk_prefix)
 
 	// Convert local plaintext to international plaintext
-	return plaintext_international(digits, format)
+	return plaintext_international(digits, format, with_trunk_prefix)
 }
 
 // Returns phone number template based on the phone format.
 //
 // E.g. "RU" -> "8 (AAA) BBB-BB-BB"
 //
-export function template(format, value)
+export function template(format, value, with_trunk_prefix)
 {
+	if (with_trunk_prefix === false)
+	{
+		value = add_trunk_prefix(value, format)
+	}
+
 	// Will hold the return value
 	let template
 
@@ -95,6 +100,38 @@ export function template(format, value)
 		throw new Error(`Phone number template is not defined for phone number "${value}" for country code "${format.country}"`)
 	}
 
+	// Optionally remove trunk prefix part from the template
+	// (and dangling braces too)
+	if (with_trunk_prefix === false)
+	{
+		// Where trunk prefix begins
+		const trunk_prefix_index = template.search(/[0-9]/)
+
+		// Find where trunk prefix ends
+		let trunk_prefix_ends_at = trunk_prefix_index
+		while (/[0-9\-\s]/.test(template[trunk_prefix_ends_at + 1]))
+		{
+			trunk_prefix_ends_at++
+		}
+
+		// Split template into two parts:
+		// one with trunk prefix and the other without trunk prefix.
+		const left_out_template = template.slice(0, trunk_prefix_ends_at)
+		template = template.slice(trunk_prefix_ends_at + 1)
+		
+		// Fix dangling braces (e.g. for UK numbers: "(0AA) BBBB BBBB")
+		
+		const opening_braces = count_occurences('(', left_out_template)
+		const closing_braces = count_occurences(')', left_out_template)
+
+		let dangling_braces = opening_braces - closing_braces
+		while (dangling_braces > 0)
+		{
+			template = template.replace(')', '')
+			dangling_braces--
+		}
+	}
+
 	return template
 }
 
@@ -103,10 +140,10 @@ export function template(format, value)
 //
 // E.g. "8 (999) 123-45-67" -> "89991234567"
 //
-export function local_phone_digits(value, format)
+export function local_phone_digits(value, format, with_trunk_prefix)
 {
 	const plaintext_local = parse_digits(value)
-	return plaintext_local.slice(0, digits_in_local_phone_number_template(format, plaintext_local))
+	return plaintext_local.slice(0, digits_in_local_phone_number_template(format, plaintext_local, with_trunk_prefix))
 }
 
 // Retains only digits in a string
@@ -230,7 +267,7 @@ export function derive_phone_number_format(value)
 //
 // This function is used in <input/> to format `value` into text
 //
-export function format_local(value, format)
+export function format_local(value, format, with_trunk_prefix)
 {
 	// Find a phone number format corresponding
 	// to this ISO 3166-1 country code or locale.
@@ -250,15 +287,17 @@ export function format_local(value, format)
 		return ''
 	}
 
-	value = plaintext_local(value, format)
+	// Convert plaintext international into plaintext local (if needed)
+	// (don't prepend trunk prefix)
+	value = plaintext_local(value, format, with_trunk_prefix)
 
 	if (!value)
 	{
 		return ''
 	}
 
-	// Populate phone template with digits
-	return populate_template(template(format, value), value)
+	// Populate phone template (without trunk prefix) with digits
+	return populate_template(template(format, value, with_trunk_prefix), value)
 }
 
 // Formats an plaintext phone number
@@ -347,10 +386,11 @@ export function populate_template(template, digits)
 //
 // E.g. "8 (AAA) BBB-BB-BB" -> 11
 //
-export function digits_in_local_phone_number_template(format, plaintext_local)
+export function digits_in_local_phone_number_template(format, plaintext_local, with_trunk_prefix)
 {
 	const _template = template(format, plaintext_local)
-	return (_template.match(/[0-9A-z]/g) || []).length
+	const regular_expression = with_trunk_prefix === false ? /[A-z]/g : /[0-9A-z]/g
+	return (_template.match(regular_expression) || []).length
 }
 
 // Returns digit count in an international phone number format template
@@ -397,15 +437,16 @@ export function digit_index(value, caret_position)
 //      (4, "(AAA) BBB-BB-BB") -> 7 (fifth digit is at index 7 in template string)
 //                  ^
 //
-export function index_in_template(digit_index, format, digits)
+export function index_in_template(digit_index, format, digits, with_trunk_prefix)
 {
-	const phone_template = template(format, digits)
+	const phone_template = template(format, digits, with_trunk_prefix)
 
 	let digit_index_so_far = -1
 	let i = 0
 	while (i <= phone_template.length)
 	{
-		if (phone_template[i] >= 'A' && phone_template[i] <= 'z')
+		if ((phone_template[i] >= 'A' && phone_template[i] <= 'z')
+			|| (with_trunk_prefix !== false && (phone_template[i] >= '0' && phone_template[i] <= '9')))
 		{
 			digit_index_so_far++
 		}
@@ -425,7 +466,7 @@ export function index_in_template(digit_index, format, digits)
 // E.g. "+78005553535" -> "+78005553535"
 //        "8005553535" -> "+78005553535"
 //       "07700900756" -> "+447700900756"
-export function plaintext_international(plaintext, format)
+export function plaintext_international(plaintext, format, with_trunk_prefix)
 {
 	if (!plaintext)
 	{
@@ -443,7 +484,10 @@ export function plaintext_international(plaintext, format)
 	// Trim trunk prefix from the phone number,
 	// and add country code with a '+' sign to it.
 
-	plaintext = trim_trunk_prefix(plaintext, format)
+	if (with_trunk_prefix !== false)
+	{
+		plaintext = trim_trunk_prefix(plaintext, format)
+	}
 
 	if (!plaintext)
 	{
@@ -459,7 +503,7 @@ export function plaintext_international(plaintext, format)
 // E.g.  "07700900756" -> "07700900756"
 //     "+447700900756" -> "07700900756"
 //
-export function plaintext_local(plaintext, format)
+export function plaintext_local(plaintext, format, with_trunk_prefix)
 {
 	if (!plaintext)
 	{
@@ -475,7 +519,15 @@ export function plaintext_local(plaintext, format)
 	// Otherwise it's plaintext international
 	// so trim country code along with the '+' sign
 	// and add trunk prefix
-	return add_trunk_prefix(plaintext.slice('+'.length + format.country.length), format)
+
+	plaintext = plaintext.slice('+'.length + format.country.length)
+
+	if (with_trunk_prefix !== false)
+	{
+		plaintext = add_trunk_prefix(plaintext, format)
+	}
+
+	return plaintext
 }
 
 // Trims trunk prefix from the phone number
@@ -520,4 +572,20 @@ export function trunk_prefix(format, digits = '')
 	}
 
 	return trunk_prefix
+}
+
+// Counts all occurences of a symbol in a string
+function count_occurences(symbol, string)
+{
+	let count = 0
+
+	for (let character of string)
+	{
+		if (character === symbol)
+		{
+			count++
+		}
+	}
+
+	return count
 }

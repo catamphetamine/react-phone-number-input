@@ -50,7 +50,7 @@ export default class Phone_input extends React.Component
 				{...rest}
 				type="tel"
 				ref="input"
-				value={format_local(value ? value.trim() : '', format)}
+				value={format_local(value ? value.trim() : '', format, false)}
 				onKeyDown={this.on_key_down}
 				onChange={this.format_input_value}
 				onBlur={this.on_blur}
@@ -86,7 +86,7 @@ export default class Phone_input extends React.Component
 
 		if (onChange)
 		{
-			onChange(parse_plaintext_international(value, format))
+			onChange(parse_plaintext_international(value, format, false))
 		}
 	}
 
@@ -123,6 +123,9 @@ export default class Phone_input extends React.Component
 		// Get selection caret positions
 		options.selection = this.get_selection()
 
+		// Trunk prefix is not part of the input
+		options.with_trunk_prefix = false
+
 		// Edit <input/>ted value according to the input conditions (caret position, key pressed)
 		const { phone, caret } = edit(this.get_input_value(), this.get_caret_position(), this.props.format, options)
 
@@ -145,7 +148,7 @@ export default class Phone_input extends React.Component
 
 		if (onBlur)
 		{
-			onBlur(parse_plaintext_international(this.input_element().value, format))
+			onBlur(parse_plaintext_international(this.input_element().value, format, false))
 		}
 	}
 

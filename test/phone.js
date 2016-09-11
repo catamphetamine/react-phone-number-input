@@ -247,28 +247,36 @@ describe(`phone`, function()
 
 	it(`should calculate index for digit in template`, function()
 	{
-		index_in_template(0, formats.RU).should.equal(1)
-		index_in_template(1, formats.RU).should.equal(2)
-		index_in_template(2, formats.RU).should.equal(3)
+		let digits = '9160151539'
 
-		index_in_template(3, formats.RU).should.equal(6)
-		index_in_template(4, formats.RU).should.equal(7)
-		index_in_template(5, formats.RU).should.equal(8)
+		index_in_template(0, formats.RU, digits, false).should.equal(1)
+		index_in_template(1, formats.RU, digits, false).should.equal(2)
+		index_in_template(2, formats.RU, digits, false).should.equal(3)
 
-		index_in_template(6, formats.RU).should.equal(10)
-		index_in_template(7, formats.RU).should.equal(11)
+		index_in_template(3, formats.RU, digits, false).should.equal(6)
+		index_in_template(4, formats.RU, digits, false).should.equal(7)
+		index_in_template(5, formats.RU, digits, false).should.equal(8)
 
-		index_in_template(8, formats.RU).should.equal(13)
-		index_in_template(9, formats.RU).should.equal(14)
+		index_in_template(6, formats.RU, digits, false).should.equal(10)
+		index_in_template(7, formats.RU, digits, false).should.equal(11)
+
+		index_in_template(8, formats.RU, digits, false).should.equal(13)
+		index_in_template(9, formats.RU, digits, false).should.equal(14)
 
 		// Custom format
 		const custom_format = { country: '7', template: () => '8 (xxx) xxx-xx-xx' }
 
-		index_in_template(0, custom_format).should.equal(3)
-		index_in_template(1, custom_format).should.equal(4)
-		index_in_template(2, custom_format).should.equal(5)
-		index_in_template(3, custom_format).should.equal(8)
-		index_in_template(4, custom_format).should.equal(9)
+		digits = '9160151539'
+
+		index_in_template(0, custom_format, digits, false).should.equal(1)
+		index_in_template(1, custom_format, digits, false).should.equal(2)
+		index_in_template(2, custom_format, digits, false).should.equal(3)
+		index_in_template(3, custom_format, digits, false).should.equal(6)
+		index_in_template(4, custom_format, digits, false).should.equal(7)
+
+		// UK
+		digits = '07000111111'
+		index_in_template(0, formats.GB, digits, false).should.equal(0)
 	})
 
 	it(`should convert plaintext phone number to plaintext local`, function()

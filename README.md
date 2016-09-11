@@ -170,19 +170,21 @@ Extracts [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country code f
 
 (aka `plaintextLocal`)
 
-Trims a `plaintext` phone number given the `format`. The output format is local (without country code).
+Converts `plaintext` international phone number to a plaintext local one given the `format`.
 
- * `+79991234567` → `9991234567`
- * `9991234567`   → `9991234567`
+ * `+79991234567`  → `9991234567`  // Russia
+ * `9991234567`    → `9991234567`  // Russia
+ * `+447700900756` → `07700900756` // UK
 
 ### plaintext_international(plaintext, format)
 
-(aka plaintextInternational`)
+(aka `plaintextInternational`)
 
-Trims a `plaintext` phone number given the `format`. The output format is international (with country code).
+Converts `plaintext` local phone number to a plaintext international one given the `format`.
 
- * `+79991234567` → `+79991234567`
- * `9991234567`   → `+79991234567`
+ * `+79991234567` → `+79991234567`  // Russia
+ * `9991234567`   → `+79991234567`  // Russia
+ * `07700900756`  → `+447700900756` // UK
 
 ## Contributing
 
