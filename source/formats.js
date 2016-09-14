@@ -44,11 +44,6 @@ export default
 		country  : '49',
 		template(digits)
 		{
-			// `digits` is plaintext local
-
-			// Trim trunk prefix
-			digits = digits.slice(1)
-
 			if (digits.length <= 10)
 			{
 				return '(0AA) BBBB-BBBB'
@@ -82,11 +77,6 @@ export default
 		country : '44',
 		template(digits)
 		{
-			// `digits` is plaintext local
-
-			// Trim trunk prefix ("0")
-			digits = digits.slice(1)
-			
 			// Codes with the form 02x are followed
 			// by 8-digit local numbers and should be
 			// written as (02x) AAAA AAAA
@@ -134,6 +124,17 @@ export default
 			}
 
 			return '0AAA BBB BBBB'
+		}
+	},
+
+	// Puerto Rico
+	PR:
+	{
+		country: '1',
+		template: '(AAA) BBB-BBBB',
+		valid(digits)
+		{
+			return digits.length === 10 && (digits.indexOf('787') === 0 || digits.indexOf('939') === 0)
 		}
 	},
 

@@ -26,6 +26,11 @@ export function validate(plaintext_international, format)
 		return false
 	}
 
+	if (typeof format.valid === 'function')
+	{
+		return format.valid(plaintext_international.slice('+'.length + format.country.length))
+	}
+
 	return plaintext_international.length ===
 		'+'.length +
 		format.country.length +
@@ -68,17 +73,18 @@ export function parse_plaintext_international(formatted, format, with_trunk_pref
 	return plaintext_international(digits, format, with_trunk_prefix)
 }
 
-// Returns phone number template based on the phone format.
+// Returns phone number template for `value`
+// for the specified phone number format.
 //
-// E.g. "RU" -> "8 (AAA) BBB-BB-BB"
+// `value` is plaintext local without trunk prefix.
+//
+// E.g.  "1112222222" -> "8 (AAA) BBB-BB-BB"
+//
+// If `with_trunk_prefix` is `false` then
+// the trunk prefix is trimmed from the resulting template.
 //
 export function template(format, value, with_trunk_prefix)
 {
-	if (with_trunk_prefix === false)
-	{
-		value = add_trunk_prefix(value, format)
-	}
-
 	// Will hold the return value
 	let template
 
@@ -267,6 +273,15 @@ export function derive_phone_number_format(value)
 //
 // This function is used in <input/> to format `value` into text
 //
+// If `with_trunk_prefix` is `false` then it denotes
+// that the `value` doesn't contain trunk prefix,
+// and also that it will be formatted using a template
+// with trimmed trunk prefix.
+//
+// Otherwise `value` is assumed to contain trunk prefix
+// (in case it's local) and it's formatted using
+// a template with trunk prefix.
+//
 export function format_local(value, format, with_trunk_prefix)
 {
 	// Find a phone number format corresponding
@@ -287,16 +302,24 @@ export function format_local(value, format, with_trunk_prefix)
 		return ''
 	}
 
-	// Convert plaintext international into plaintext local (if needed)
-	// (don't prepend trunk prefix)
-	value = plaintext_local(value, format, with_trunk_prefix)
+	// Obtain `digits` from `value`
+	if (with_trunk_prefix === false && value[0] !== '+')
+	{
+		// No need to convert anything, `value` is already `digits`
+	}
+	else
+	{
+		// Convert plaintext international into plaintext local
+		// (if needed) and trim trunk prefix
+		value = trim_trunk_prefix(plaintext_local(value, format, with_trunk_prefix), format)
+	}
 
 	if (!value)
 	{
 		return ''
 	}
 
-	// Populate phone template (without trunk prefix) with digits
+	// Populate phone template (optionally without trunk prefix) with digits
 	return populate_template(template(format, value, with_trunk_prefix), value)
 }
 
@@ -322,15 +345,14 @@ export function format_international(value, format)
 }
 
 // Populates local phone template with `digits`
-// (which are plaintext local phone number).
+// (which are plaintext local phone number without trunk code).
 //
 // E.g. ("(AAA) BBB-BB-BB", "1234567890") -> "(123) 456-78-90"
 //              ("8 (xxx) xxx-xx-xx", "") -> ""
-//             ("8 (xxx) xxx-xx-xx", "8") -> "8"
-//            ("8 (xxx) xxx-xx-xx", "81") -> "8 (1  )"
-//           ("8 (xxx) xxx-xx-xx", "812") -> "8 (12 )"
-//          ("8 (xxx) xxx-xx-xx", "8123") -> "8 (123)"
-//   ("8 (xxx) xxx-xx-xx", "81234567890") -> "8 (123) 456-78-90"
+//            ("8 (xxx) xxx-xx-xx", "1") -> "8 (1  )"
+//           ("8 (xxx) xxx-xx-xx", "12") -> "8 (12 )"
+//          ("8 (xxx) xxx-xx-xx", "123") -> "8 (123)"
+//   ("8 (xxx) xxx-xx-xx", "1234567890") -> "8 (123) 456-78-90"
 //
 export function populate_template(template, digits)
 {
@@ -350,8 +372,8 @@ export function populate_template(template, digits)
 	{
 		symbol = template[symbol_index]
 
-		if ((symbol >= 'A' && symbol <= 'z')
-			|| (symbol >= '0' && symbol <= '9'))
+		if (symbol >= 'A' && symbol <= 'z')
+			// || (symbol >= '0' && symbol <= '9'))
 		{
 			symbol = digits[digit_index]
 			digit_index++
@@ -400,7 +422,19 @@ export function digits_in_local_phone_number_template(format, plaintext_local, w
 //
 export function digits_in_international_phone_number_template(format, plaintext_international)
 {
-	const _template = template(format, plaintext_local(plaintext_international, format))
+	let digits
+
+	if (plaintext_international)
+	{
+		digits = plaintext_international.slice('+'.length + format.country.length)
+	}
+	// "A sensible default" for obtaining phone number template
+	else
+	{
+		digits = ''
+	}
+
+	const _template = template(format, digits)
 	return (_template.match(/[A-z]/g) || []).length
 }
 

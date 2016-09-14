@@ -102,18 +102,26 @@ A map with predefined phone number formats. The keys are [ISO 3166-1](https://en
 		country : '7',
 
 		// Generates a proper phone number template
-		// for the given plaintext local phone number,
-		// where each digit is designated with a letter
-		// or a number. Numbers are not taken into account
-		// when formatting an international phone number,
-		// but are taken into account when formatting
-		// a local phone number, and therefore can be used
-		// for trunk prefix.
+		// for the given phone number `digits`.
 		//
-		// E.g.: "1234567890"  -> "(AAA) BBB-BBBB" // USA, trunk prefix not used
-		//       "07700900756" -> "(0AAAA) BBBBBB" // United Kingdom, trunk prefix "0"
+		// `digits` are plaintext local phone number
+		// digits without trunk prefix.
+		// https://en.wikipedia.org/wiki/Trunk_prefix
 		//
-		template(plaintext_local)
+		// E.g. a plaintext international US phone number
+		// '(222) 333-3333' will have `digits = 2223333333`,
+		// and a UK phone number '07700 900756'
+		// will have `digits = 7700900756`.
+		//
+		// Each significant digit in a template
+		// is designated with a letter.
+		// Trunk prefix is designated with a digit
+		// (or several digits).
+		//
+		// E.g.: "1234567890" -> "(AAA) BBB-BBBB" // USA, trunk prefix not used
+		//       "7700900756" -> "(0AAAA) BBBBBB" // United Kingdom, trunk prefix "0"
+		//
+		template(digits)
 		{
 			return "(AAA) BBB-BBBB"
 
@@ -122,6 +130,21 @@ A map with predefined phone number formats. The keys are [ISO 3166-1](https://en
 			// (E.g. German telephone numbers have no fixed length
 			//  for area code and subscriber number.
 			//  https://en.wikipedia.org/wiki/Telephone_numbers_in_Germany)
+		}
+
+		// (optional)
+		//
+		// Custom phone number digits validation.
+		//
+		// `digits` are the same as for the
+		// `template(digits)` function described above.
+		//
+		valid(digits)
+		{
+			// An example for Puerto Rican phone numbers
+			// which must start with either `787` or `939`.
+			return digits.length === 10 && 
+				(digits.indexOf('787' === 0) || digits.indexOf('939' === 0))
 		}
 	}
 }

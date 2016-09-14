@@ -1,3 +1,9 @@
+0.4.0 / 15.09.2016
+===================
+
+  * (breaking change) `digits` passed to the `template()` function don't include trunk prefix anymore
+  * Introduced custom `valid(digits)` phone number validation function for phone number format
+
 0.3.0 / 07.09.2016
 ===================
 

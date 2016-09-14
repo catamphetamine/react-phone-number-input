@@ -17,6 +17,8 @@ import Phone,
 	parse_phone_number,
 	parsePhoneNumber,
 	country,
+	country_codes,
+	countryCodes,
 	country_from_locale,
 	countryFromLocale
 }
@@ -48,6 +50,9 @@ describe(`exports`, function()
 
 		country()
 
+		country_codes.should.be.an('array')
+		countryCodes.should.be.an('array')
+
 		country_from_locale()
 		countryFromLocale()
 	})
@@ -77,6 +82,9 @@ describe(`exports`, function()
 		Phone.parsePhoneNumber('+79991234567', Phone.phone_number_format.RU)
 
 		Phone.country()
+
+		Phone.country_codes.should.be.an('array')
+		Phone.countryCodes.should.be.an('array')
 
 		Phone.country_from_locale()
 		Phone.countryFromLocale()
