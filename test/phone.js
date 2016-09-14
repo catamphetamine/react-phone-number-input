@@ -7,6 +7,7 @@ import
 	local_phone_digits,
 	count_digits,
 	format,
+	format_local,
 	derive_phone_number_format,
 	digits_in_local_phone_number_template,
 	digits_in_international_phone_number_template,
@@ -185,6 +186,13 @@ describe(`phone`, function()
 		// UK
 		format('+447700900756').should.equal('+44 7700 900756')
 	})
+
+	it(`should format local digits given a format`, function()
+	{
+      format_local('7700900756', 'GB', false).should.equal('7700 900756')
+      format_local('+447700900756', 'GB', false).should.equal('7700 900756')
+      format_local('+441', 'GB', false).should.equal('1')
+   })
 
 	it(`should format without parens`, function()
 	{

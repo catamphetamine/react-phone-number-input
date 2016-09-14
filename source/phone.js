@@ -303,9 +303,16 @@ export function format_local(value, format, with_trunk_prefix)
 	}
 
 	// Obtain `digits` from `value`
-	if (with_trunk_prefix === false && value[0] !== '+')
+	if (with_trunk_prefix === false)
 	{
-		// No need to convert anything, `value` is already `digits`
+		if (value[0] === '+')
+		{
+			value = value.slice('+'.length + format.country.length)
+		}
+		else
+		{
+			// No need to convert anything, `value` is already `digits`
+		}
 	}
 	else
 	{
