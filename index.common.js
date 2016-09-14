@@ -24,6 +24,8 @@ exports.parsePhoneNumber   = require('./build/phone').parse_plaintext_internatio
 
 exports.country = require('./build/country')['default']
 
+exports.country_codes = require('./build/country').country_codes
+
 exports.country_from_locale = require('./build/country').country_from_locale
 exports.countryFromLocale   = require('./build/country').country_from_locale
 

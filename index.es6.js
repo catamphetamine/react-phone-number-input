@@ -25,6 +25,7 @@ from './source/phone'
 export
 {
 	default as country,
+	country_codes,
 	country_from_locale,
 	country_from_locale as countryFromLocale
 }
