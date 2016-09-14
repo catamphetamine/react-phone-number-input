@@ -27,6 +27,12 @@ describe(`editor`, function()
 		edit(' (999 ) 123 45 -67 ', 17, formats.RU, { delete: true }).should.deep.equal({ phone: '(999) 123-45-6', caret: 14 })
 		edit(' (999 ) 123 45 -67 ', 18, formats.RU, { delete: true }).should.deep.equal({ phone: '(999) 123-45-67', caret: 15 })
 		edit(' (999 ) 123 45 -67 ', 19, formats.RU, { delete: true }).should.deep.equal({ phone: '(999) 123-45-67', caret: 15 })
+
+		// Trunk-prefixed phone number test
+		edit('1  ', 0, formats.GB, { delete: true, with_trunk_prefix: false }).should.deep.equal({ phone: '', caret: 0 })
+		edit(' 7700 900756  ', 1, formats.GB, { delete: true, with_trunk_prefix: false }).should.deep.equal({ phone: '7009 00756', caret: 0 })
+		edit(' 7700 900756  ', 2, formats.GB, { delete: true, with_trunk_prefix: false }).should.deep.equal({ phone: '7009 00756', caret: 1 })
+		edit(' 7700 900756  ', 3, formats.GB, { delete: true, with_trunk_prefix: false }).should.deep.equal({ phone: '7709 00756', caret: 2 })
 	})
 
 	it(`should edit inputted phone (backspace)`, function()
@@ -78,5 +84,10 @@ describe(`editor`, function()
 		edit(' 999 ) 123 45 -67 ', 17, formats.RU).should.deep.equal({ phone: '(999) 123-45-67', caret: 15 })
 
 		edit(' 999 ) 123 45 -67 890', 20, formats.RU).should.deep.equal({ phone: '(999) 123-45-67', caret: 15 })
+
+		// Trunk-prefixed phone number test
+		edit(' 1 ', 2, formats.GB, { with_trunk_prefix: false }).should.deep.equal({ phone: '1', caret: 1 })
+		edit(' 7700 ', 5, formats.GB, { with_trunk_prefix: false }).should.deep.equal({ phone: '7700', caret: 4 })
+		edit(' 77009 ', 6, formats.GB, { with_trunk_prefix: false }).should.deep.equal({ phone: '7700 9', caret: 6 })
 	})
 })
