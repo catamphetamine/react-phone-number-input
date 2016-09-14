@@ -580,7 +580,7 @@ export const country_codes =
 	['YT', 'MYT', '262'], // Mayotte
 	['ZA', 'ZAF', '27'], // South Africa
 	['ZM', 'ZMB', '260'], // Zambia
-	['ZW', 'ZWE', '263'], // Zimbabwe"
+	['ZW', 'ZWE', '263'] // Zimbabwe"
 ]
 
 // Derives an ISO 3166-1 country code
