@@ -74,9 +74,9 @@ A React component with the following `props`
 
 All other `props` are passed directly to the underlying `<input/>` component (and so it can be used with things like [`redux-form`](https://github.com/erikras/redux-form)).
 
-### phone_number_format
+### phoneNumberFormat
 
-(aka `phoneNumberFormat`)
+(aka `phone_number_format`)
 
 A map with predefined phone number formats. The keys are [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country codes. Create Pull Requests with phone number formats for your country if it's missing from the list.
 
@@ -150,35 +150,37 @@ A map with predefined phone number formats. The keys are [ISO 3166-1](https://en
 }
 ```
 
-### is_valid_phone_number(plaintext, format)
+### isValidPhoneNumber(plaintext, format)
 
-(aka `isValidPhoneNumber`)
+(aka `is_valid_phone_number`)
 
 Returns `true` if an international `plaintext` phone number is valid given the `format`. If the `format` is not specified then it tries to autodetect the appropriate one.
 
-### format_phone_number(plaintext, format)
+### formatPhoneNumber(plaintext, format)
 
-(aka `formatPhoneNumber`)
+(aka `format_phone_number`)
 
 Formats a `plaintext` phone number (either local or international). If the `format` argument is passed then the resulting phone number is local. Otherwise it will try to autodetect the appropriate phone number format for this phone number, and if autodetection succeeded it will output a formatted international phone number.
 
  * `(+79991234567, format.RU)` → `(999) 123-45-67`
+ * `(9991234567, format.RU)` → `(999) 123-45-67`
  * `(+19991234567, format.US)` → `(999) 123-4567`
+ * `(9991234567, format.US)` → `(999) 123-4567`
  * `(+79991234567)` → `+7 999 123 45 67`
  * `(+447700954321)` → `+44 7700 954 321`
 
-### parse_phone_number(whatever, format)
+### parsePhoneNumber(whatever, format)
 
-(aka `parsePhoneNumber`)
+(aka `parse_phone_number`)
 
 Parses `whatever` phone number given the `format`. The output number is plaintext international.
 
  * `(999) 123-45-67`    → `+79991234567`
  * `+7 (999) 123-45-67` → `+79991234567`
 
-### country_from_locale(locale)
+### countryFromLocale(locale)
 
-(aka `countryFromLocale`)
+(aka `country_from_locale`)
 
 Extracts [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country code from a locale.
 
@@ -194,9 +196,9 @@ Extracts [ISO 3166-1](https://en.wikipedia.org/wiki/Country_code) country code f
  * `+19991234567`  → `US` (USA)
  * `+861069445464` → `CN` (China)
 
-### plaintext_local(plaintext, format)
+### plaintextLocal(plaintext, format)
 
-(aka `plaintextLocal`)
+(aka `plaintext_local`)
 
 Converts `plaintext` (international or local) phone number to a plaintext local one given the `format`.
 
@@ -204,9 +206,9 @@ Converts `plaintext` (international or local) phone number to a plaintext local 
  * `9991234567`    → `9991234567`  // Russia
  * `+447700900756` → `07700900756` // UK
 
-### plaintext_international(plaintext, format)
+### plaintextInternational(plaintext, format)
 
-(aka `plaintextInternational`)
+(aka `plaintext_international`)
 
 Converts `plaintext` (international or local) phone number to a plaintext international one given the `format`.
 
