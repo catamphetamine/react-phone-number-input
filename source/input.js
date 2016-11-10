@@ -214,12 +214,8 @@ Phone_input.propTypes =
 	.isRequired,
 
 	// Phone number value.
-	// Either a plaintext international phone number
+	// Is a plaintext international phone number
 	// (e.g. "+12223333333" for USA)
-	// or a plaintext local phone number
-	// (e.g. "2223333333" for USA).
-	// If it's plaintext local then
-	// the `local` prop must be set (see below).
 	value : PropTypes.string,
 
 	// This handler is called each time
