@@ -89,7 +89,7 @@ Basically, plaintext international is a `+` sign, plus a country code, plus a pl
 
 ### default
 
-A React component with the following `props`
+The `default` export is a React component with the following `props`
 
 ```js
 {
@@ -122,25 +122,7 @@ A React component with the following `props`
 
 	// This handler is called each time
 	// the phone number input changes its value.
-	onChange : PropTypes.func.isRequired,
-
-	// (advanced)
-	// (you may skip this)
-	// By default the value is assumed to be a
-	// plaintext international phone number
-	// (e.g. "+12223333333" for USA).
-	// If it's supposed to be plaintext local instead
-	// (e.g. "2223333333" for USA)
-	// then this `local` prop must be set.
-	local : PropTypes.bool,
-
-	// (advanced)
-	// (you may skip this)
-	// If `local` prop is set,
-	// then `value` is plaintext local.
-	// To trim trunk prefix for this plaintext local value
-	// set `prefix` prop to `false`.
-	prefix : PropTypes.bool
+	onChange : PropTypes.func.isRequired
 }
 ```
 
