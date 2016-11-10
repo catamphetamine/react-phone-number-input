@@ -51,7 +51,7 @@ return (
 
 [Telephone numbering plan](https://en.wikipedia.org/wiki/Telephone_numbering_plan) is basically a scheme of assigning telephone numbers to subscribers. For example, a country has a 20 million population, which means to accomodate `20'000'000`+ subscribers the telephone numbers must have at least 8 digits.
 
-Now, imagine that you're living in the XXth century with all those [rotary dial](https://en.wikipedia.org/wiki/Rotary_dial) phones around: dialing eight digits on a rotary dial can quickly get frustrating, for millions of people, every day. Could you perhaps make their lives a little easier by requiring them to disk-dial, say, only 5 digits instead of all 8?
+Now, imagine that you're living in the XXth century with all those [rotary dial](https://en.wikipedia.org/wiki/Rotary_dial) phones around: dialing eight digits on a rotary dial can quickly get frustrating, for millions of people, every day. Could you perhaps make their lives a little easier by requiring them to rotary-dial, say, only 5 digits instead of all 8?
 
 ### Area codes
 
