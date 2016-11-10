@@ -29,9 +29,11 @@ export default class Phone_input extends React.Component
 	{
 		super(props, context)
 
-		this.on_key_down = this.on_key_down.bind(this)
 		this.on_cut = this.on_cut.bind(this)
+		this.on_paste = this.on_paste.bind(this)
 		this.on_blur = this.on_blur.bind(this)
+		this.on_change = this.on_change.bind(this)
+		this.on_key_down = this.on_key_down.bind(this)
 		this.format_input_value = this.format_input_value.bind(this)
 	}
 
@@ -54,9 +56,9 @@ export default class Phone_input extends React.Component
 				ref="input"
 				value={format_local(value ? value.trim() : '', format, has_trunk_prefix)}
 				onKeyDown={this.on_key_down}
-				onChange={this.format_input_value}
+				onChange={this.on_change}
 				onBlur={this.on_blur}
-				onPaste={this.format_input_value}
+				onPaste={this.on_paste}
 				onCut={this.on_cut}/>
 		)
 	}
@@ -127,7 +129,7 @@ export default class Phone_input extends React.Component
 	}
 
 	// Formats input value as a phone number
-	format_input_value(event, options = {})
+	format_input_value(options = {})
 	{
 		// Get selection caret positions
 		options.selection = this.get_selection()
@@ -147,7 +149,7 @@ export default class Phone_input extends React.Component
 	// it wouldn't copy to clipboard otherwise.
 	on_cut(event)
 	{
-		setTimeout(() => this.format_input_value(event), 0)
+		setTimeout(this.format_input_value, 0)
 	}
 
 	// This handler is a workaround for `redux-form`
@@ -164,6 +166,16 @@ export default class Phone_input extends React.Component
 		}
 	}
 
+	on_paste(event)
+	{
+		this.format_input_value()
+	}
+
+	on_change(event)
+	{
+		this.format_input_value()
+	}
+
 	// Intercepts "Delete" and "Backspace" keys
 	// (hitting "Delete" or "Backspace"
 	//  at any caret position should always result in 
@@ -175,7 +187,7 @@ export default class Phone_input extends React.Component
 
 		if (backspace || Delete)
 		{
-			this.format_input_value(event, { backspace, delete: Delete })
+			this.format_input_value({ backspace, delete: Delete })
 			return event.preventDefault()
 		}
 	}
