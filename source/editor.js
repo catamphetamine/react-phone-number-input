@@ -35,15 +35,15 @@ export default function edit(value, caret_position, format, options = {})
 		options.delete = true
 	}
 
-	// `options.with_trunk_prefix`
-	const caret_position_for_digit = (digit_index, digit_count, digits) => _caret_position_for_digit(digit_index, digit_count, format, digits, options.with_trunk_prefix)
+	// `options.has_trunk_prefix`
+	const caret_position_for_digit = (digit_index, digit_count, digits) => _caret_position_for_digit(digit_index, digit_count, format, digits, options.has_trunk_prefix)
 	
 	// Phone number digits (may be altered later)
-	let digits = phone_digits(value, format, options.with_trunk_prefix)
+	let digits = phone_digits(value, format, options.has_trunk_prefix)
 
 	// How many are there digits in a valid local phone number
 	// (including trunk prefix)
-	const digits_in_phone_number = digits_in_local_phone_number_template(format, value, options.with_trunk_prefix)
+	const digits_in_phone_number = digits_in_local_phone_number_template(format, value, options.has_trunk_prefix)
 
 	// Trim excessive digits (just in case)
 	if (digits.length > digits_in_phone_number)
@@ -96,7 +96,7 @@ export default function edit(value, caret_position, format, options = {})
 		if (options.selection)
 		{
 			value = value.substring(0, caret_position) + value.substring(options.selection.end)
-			digits = phone_digits(value, format, options.with_trunk_prefix)
+			digits = phone_digits(value, format, options.has_trunk_prefix)
 
 			// Leave the caret position at the same digit
 			caret_position = caret_position_for_digit(digit_index, digits.length, digits)
@@ -128,12 +128,12 @@ export default function edit(value, caret_position, format, options = {})
 		caret_position = caret_position_for_digit(digit_index, digits.length, digits)
 	}
 
-	return { phone: format_local(digits, format, options.with_trunk_prefix), caret: caret_position }
+	return { phone: format_local(digits, format, options.has_trunk_prefix), caret: caret_position }
 }
 
 // Calculates caret position for digit index
 // (not character index) in a phone number of a given format
-function _caret_position_for_digit(digit_index, digit_count, format, digits, with_trunk_prefix)
+function _caret_position_for_digit(digit_index, digit_count, format, digits, has_trunk_prefix)
 {
 	// Special case
 	if (digit_count === 0)
@@ -145,8 +145,8 @@ function _caret_position_for_digit(digit_index, digit_count, format, digits, wit
 	if (digit_index >= digit_count)
 	{
 		// Position the caret after the last digit
-		return index_in_template(digit_count - 1, format, digits, with_trunk_prefix) + 1
+		return index_in_template(digit_count - 1, format, digits, has_trunk_prefix) + 1
 	}
 
-	return index_in_template(digit_index, format, digits, with_trunk_prefix)
+	return index_in_template(digit_index, format, digits, has_trunk_prefix)
 }

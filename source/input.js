@@ -45,18 +45,27 @@ export default class Phone_input extends React.Component
 		// Maybe React already trims the `value`.
 		// If that's so then don't trim it here.
 
+		const has_trunk_prefix = false
+
 		return (
 			<input
 				{...rest}
 				type="tel"
 				ref="input"
-				value={format_local(value ? value.trim() : '', format, false)}
+				value={format_local(value ? value.trim() : '', format, has_trunk_prefix)}
 				onKeyDown={this.on_key_down}
 				onChange={this.format_input_value}
 				onBlur={this.on_blur}
 				onPaste={this.format_input_value}
 				onCut={this.on_cut}/>
 		)
+	}
+
+	parse(value)
+	{
+		const { format } = this.props
+		const has_trunk_prefix = false
+		return parse_plaintext_international(value, format, has_trunk_prefix)
 	}
 
 	// Returns <input/> DOM Element
@@ -82,11 +91,11 @@ export default class Phone_input extends React.Component
 			input.setSelectionRange(caret_position, caret_position)
 		}
 
-		const { onChange, format } = this.props
+		const { onChange } = this.props
 
 		if (onChange)
 		{
-			onChange(parse_plaintext_international(value, format, false))
+			onChange(this.parse(value))
 		}
 	}
 
@@ -124,7 +133,7 @@ export default class Phone_input extends React.Component
 		options.selection = this.get_selection()
 
 		// Trunk prefix is not part of the input
-		options.with_trunk_prefix = false
+		options.has_trunk_prefix = false
 
 		// Edit <input/>ted value according to the input conditions (caret position, key pressed)
 		const { phone, caret } = edit(this.get_input_value(), this.get_caret_position(), this.props.format, options)
@@ -141,14 +150,17 @@ export default class Phone_input extends React.Component
 		setTimeout(() => this.format_input_value(event), 0)
 	}
 
-	// This handler is mainly for `redux-form`
+	// This handler is a workaround for `redux-form`
 	on_blur(event)
 	{
-		const { onBlur, format } = this.props
+		const { onBlur } = this.props
 
+		// This `onBlur` interceptor is a workaround for `redux-form`,
+		// so that it gets a parsed value in its `onBlur` handler,
+		// not the formatted one.
 		if (onBlur)
 		{
-			onBlur(parse_plaintext_international(this.input_element().value, format, false))
+			onBlur(this.parse(this.input_element().value))
 		}
 	}
 
@@ -171,6 +183,9 @@ export default class Phone_input extends React.Component
 
 Phone_input.propTypes =
 {
+	// Phone number format description.
+	// Either a basic one (with `template` being a string),
+	// or a more complex one (with `template` being a function).
 	format : PropTypes.oneOfType
 	([
 		PropTypes.shape
@@ -185,7 +200,22 @@ Phone_input.propTypes =
 		})
 	])
 	.isRequired,
-	value     : PropTypes.string,
-	onChange  : PropTypes.func.isRequired,
-	onBlur    : PropTypes.func
+
+	// Phone number value.
+	// Either a plaintext international phone number
+	// (e.g. "+12223333333" for USA)
+	// or a plaintext local phone number
+	// (e.g. "2223333333" for USA).
+	// If it's plaintext local then
+	// the `local` prop must be set (see below).
+	value : PropTypes.string,
+
+	// This handler is called each time
+	// the phone number input changes its value.
+	onChange : PropTypes.func.isRequired,
+
+	// This `onBlur` interceptor is a workaround for `redux-form`,
+	// so that it gets a parsed value in its `onBlur` handler,
+	// not the formatted one.
+	onBlur : PropTypes.func
 }

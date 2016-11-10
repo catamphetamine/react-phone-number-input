@@ -45,6 +45,26 @@ return (
 // `this.state.phone` is plaintext: "+79991234567".
 ```
 
+## Definitions
+
+### Plaintext local
+
+Plaintext local phone number is a phone number consisting of a [trunk prefix](https://en.wikipedia.org/wiki/Trunk_prefix) (if specified), an area code, and the rest part of the phone number.
+
+E.g. a USA-based phone number `(999) 123-4567` is written in plaintext local as `9991234567` when formatted using phone number format `{ country: '1', template: '(AAA) BBB-BBBB' }`. The US trunk prefix `1` is not prepended here because [the convention for US phone numbers](https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers#United_States.2C_Canada.2C_and_other_NANP_countries) is to format local phone numbers without prepending trunk prefix. The area code in this case is `999` and the rest part of the phone number is `1234567`.
+
+Another example is UK, where trunk prefix is `0` and the convention says that it's always prepended when formatting local numbers, so plaintext local for `07700 954321` is gonna be `07700954321` where `0` is the trunk prefix, `7700` is the area code (for mobile phones), and `954321` is the rest part of the phone number.
+
+So, basically, plaintext local is a formatted local phone number stripped from everything except digits.
+
+### Plaintext international
+
+Plaintext international phone number is a phone number consisting of a `+` sign, a country code, an area code, and the rest part of the phone number. [Trunk prefix](https://en.wikipedia.org/wiki/Trunk_prefix) is never present in plaintext international because it's for local dialing only.
+
+E.g. a USA-based phone number `(999) 123-4567` is written in plaintext international as `+19991234567`. And a UK-based phone number `07700 954321` is written in plaintext international as `+447700954321` (trunk prefix `0` is dropped).
+
+Basically, plaintext international is a `+` sign, plus a country code, plus a plaintext local phone number with its trunk prefix trimmed.
+
 ## API
 
 ### default
@@ -53,6 +73,9 @@ A React component with the following `props`
 
 ```js
 {
+	// Phone number format description.
+	// Either a basic one (with `template` being a string),
+	// or a more complex one (with `template` being a function).
 	format : PropTypes.oneOfType
 	([
 		PropTypes.shape
@@ -67,12 +90,41 @@ A React component with the following `props`
 		})
 	])
 	.isRequired,
-	value     : PropTypes.string,
-	onChange  : PropTypes.func.isRequired
+
+	// Phone number value.
+	// Either a plaintext international phone number
+	// (e.g. "+12223333333" for USA)
+	// or a plaintext local phone number
+	// (e.g. "2223333333" for USA).
+	// If it's plaintext local then
+	// the `local` prop must be set (see below).
+	value : PropTypes.string,
+
+	// This handler is called each time
+	// the phone number input changes its value.
+	onChange : PropTypes.func.isRequired,
+
+	// (advanced)
+	// (you may skip this)
+	// By default the value is assumed to be a
+	// plaintext international phone number
+	// (e.g. "+12223333333" for USA).
+	// If it's supposed to be plaintext local instead
+	// (e.g. "2223333333" for USA)
+	// then this `local` prop must be set.
+	local : PropTypes.bool,
+
+	// (advanced)
+	// (you may skip this)
+	// If `local` prop is set,
+	// then `value` is plaintext local.
+	// To trim trunk prefix for this plaintext local value
+	// set `prefix` prop to `false`.
+	prefix : PropTypes.bool
 }
 ```
 
-All other `props` are passed directly to the underlying `<input/>` component (and so it can be used with things like [`redux-form`](https://github.com/erikras/redux-form)).
+All other `props` are passed directly to the underlying `<input/>` component (and so it works with things like [`redux-form`](https://github.com/erikras/redux-form)).
 
 ### phoneNumberFormat
 
