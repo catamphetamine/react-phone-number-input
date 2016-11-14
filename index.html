@@ -78,6 +78,7 @@
 				getInitialState: function()
 				{
 					return {
+						value: '',
 						value_RU: '+78005553535',
 						value_US: '+12133734253',
 						value_GB: '+447700954321'
@@ -92,6 +93,29 @@
 
 					return (
 						<div>
+							<h2>Auto (iPhone style)</h2>
+
+							<div>
+								+
+								<Phone
+									style={{ width: '16em' }}
+									placeholder="Start typing a phone number"
+									value={this.state.value}
+									onChange={value => this.setState({ value: value })}/>
+							</div>
+
+							<div className="value">
+								Value: {this.state.value}
+							</div>
+
+							<div className="international">
+								Country: {library.country(this.state.value)}
+							</div>
+
+							<div className="is-valid">
+								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
+							</div>
+
 							<h2>Russia</h2>
 
 							<div>
