@@ -110,15 +110,7 @@ export function parse_value(input_text, format)
 // into an <input/> textual value.
 export function format_value(value, format)
 {
-	// Maybe React already trims the `value`.
-	// If that's so then don't trim it here.
-
 	const with_trunk_prefix = false
-
-	// // Trim the value in case a spacebar was pressed,
-	// // or a paste event occured with a spacer symbol.
-	// // (maybe trimming is not needed)
-	// value = value ? value.trim() : ''
 
 	// If a specific phone number `format` is specified, then use it.
 	if (format)
