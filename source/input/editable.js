@@ -51,7 +51,7 @@ export function edit_and_format(operation, input_text, phone_number_format, care
 		// And adjust `digit_index` accordingly
 		const _digit_index = digit_index - phone_number_format.country.length
 
-		let { phone, caret } = format(_digits, _digit_index, phone_number_format, { international: true })
+		let { phone, caret } = format(_digits, _digit_index, phone_number_format, { has_trunk_prefix: false, international: true })
 
 		// If the `digit_index` was negative
 		// (belonged to the country code)

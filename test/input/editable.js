@@ -50,5 +50,10 @@ describe(`Editable`, function()
 		_edit('1', 1).should.deep.equal({ phone: '1', caret: 1 })
 		_edit('12', 2).should.deep.equal({ phone: '1 2', caret: 3 })
 		_edit('132', 2).should.deep.equal({ phone: '1 32', caret: 3 })
+
+		// France
+		_edit('3', 1).should.deep.equal({ phone: '3', caret: 1 })
+		_edit('33', 2).should.deep.equal({ phone: '33', caret: 2 })
+		_edit('331', 3).should.deep.equal({ phone: '33 1', caret: 4 })
 	})
 })

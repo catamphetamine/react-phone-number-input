@@ -420,10 +420,8 @@ export function format_local(value, format, with_trunk_prefix)
 // E.g.:   "9991234567" -> "+7 999 123 45 67"
 export function format_international(value, format)
 {
-	let number = local_to_international_style(format_local(value, format))
-
-	// Trim trunk prefix
-	number = trim_trunk_prefix(number, format)
+	const with_trunk_prefix = false
+	let number = local_to_international_style(format_local(value, format, with_trunk_prefix))
 
 	return `+${format.country}${number.length > 0 ? ' ' + number : ''}`
 }
