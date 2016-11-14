@@ -12,6 +12,13 @@
 // https://en.wikipedia.org/wiki/Trunk_prefix
 export default
 {
+	// Bahamas
+	BS:
+	{
+		country  : '1242',
+		template : 'BBB BBBB'
+	},
+
 	// Belarus
 	// 8 (12) 345-67-89
 	BY:

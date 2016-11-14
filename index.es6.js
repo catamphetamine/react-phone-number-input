@@ -1,4 +1,4 @@
-export { default as default } from './source/input'
+export { default as default } from './source/input/input'
 
 export
 {
@@ -13,6 +13,8 @@ export
 	validate as isValidPhoneNumber,
 	format as format_phone_number,
 	format as formatPhoneNumber,
+	format_local as format_local,
+	format_local as formatLocal,
 	plaintext_local,
 	plaintext_local as plaintextLocal,
 	plaintext_international,

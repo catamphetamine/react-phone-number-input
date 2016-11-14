@@ -1,6 +1,6 @@
 'use strict'
 
-var Input = require('./build/input') // ['default']
+var Input = require('./build/input/input') // ['default']
 
 exports = module.exports = Input
 
@@ -12,6 +12,9 @@ exports.isValidPhoneNumber    = require('./build/phone').validate
 
 exports.format_phone_number = require('./build/phone').format
 exports.formatPhoneNumber   = require('./build/phone').format
+
+exports.format_local = require('./build/phone').format_local
+exports.formatLocal  = require('./build/phone').format_local
 
 exports.plaintext_local = require('./build/phone').plaintext_local
 exports.plaintextLocal  = require('./build/phone').plaintext_local

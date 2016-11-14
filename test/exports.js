@@ -8,6 +8,8 @@ import Phone,
 	isValidPhoneNumber,
 	format_phone_number,
 	formatPhoneNumber,
+	format_local,
+	formatLocal,
 	format_phone_number_international,
 	formatPhoneNumberInternational,
 	plaintext_local,
@@ -38,6 +40,9 @@ describe(`exports`, function()
 
 		format_phone_number('+79991234567', phone_number_format.RU)
 		formatPhoneNumber('+79991234567', phone_number_format.RU)
+
+		format_local('+79991234567', phone_number_format.RU)
+		formatLocal('+79991234567', phone_number_format.RU)
 
 		plaintext_local('+79991234567', phone_number_format.RU)
 		plaintextLocal('+79991234567', phone_number_format.RU)
@@ -71,6 +76,9 @@ describe(`exports`, function()
 
 		Phone.format_phone_number('+79991234567', Phone.phone_number_format.RU)
 		Phone.formatPhoneNumber('+79991234567', Phone.phone_number_format.RU)
+
+		Phone.format_local('+79991234567', Phone.phone_number_format.RU)
+		Phone.formatLocal('+79991234567', Phone.phone_number_format.RU)
 
 		Phone.plaintext_local('+79991234567', Phone.phone_number_format.RU)
 		Phone.plaintextLocal('+79991234567', Phone.phone_number_format.RU)

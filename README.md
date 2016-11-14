@@ -4,7 +4,7 @@
 [![Build Status][travis-badge]][travis]
 [![Test Coverage][coveralls-badge]][coveralls]
 
-International phone number `<input/>` in React
+International phone number `<input/>` (and output) (in React) (iPhone style)
 
 [See Live Demo](http://halt-hammerzeit.github.io/react-phone-number-input/)
 

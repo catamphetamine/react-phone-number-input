@@ -1,3 +1,9 @@
+0.5.0 / 14.11.2016
+===================
+
+  * `format` prop is now not required for the React component. If `format` is not specified then the input switches itself into "auto" (iPhone style) mode.
+  * input code rewrite
+
 0.4.0 / 15.09.2016
 ===================
 

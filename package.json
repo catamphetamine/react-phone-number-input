@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Telephone input for React",
   "main": "index.common.js",
   "jsnext:main": "index.es6.js",
@@ -52,7 +52,8 @@
     "number",
     "input",
     "telephone",
-    "international"
+    "international",
+    "iphone"
   ],
   "author": "Halt Hammerzeit <halt.hammerzeit.at@gmail.com>",
   "license": "MIT",

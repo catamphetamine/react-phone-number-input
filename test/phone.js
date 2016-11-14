@@ -30,6 +30,9 @@ describe(`phone`, function()
 		validate('+79991234567', formats.RU).should.equal(true)
 		validate('+7999123456', formats.RU).should.equal(false)
 
+		validate('+19991234567', formats.RU).should.equal(false)
+		validate('079991234567', formats.RU).should.equal(false)
+
 		validate('+19991234567', formats.US).should.equal(true)
 		validate('+1999123456', formats.US).should.equal(false)
 
@@ -72,8 +75,8 @@ describe(`phone`, function()
 
 	it(`should reduce formatted phone number to plaintext (international)`, function()
 	{
-		parse_plaintext_international('', formats.RU).should.equal('')
-		parse_plaintext_international('(', formats.RU).should.equal('')
+		(typeof parse_plaintext_international('', formats.RU)).should.equal('undefined');
+		(typeof parse_plaintext_international('(', formats.RU)).should.equal('undefined');
 		parse_plaintext_international('(9  )', formats.RU).should.equal('+79')
 		parse_plaintext_international('(9  )', formats.RU).should.equal('+79')
 		parse_plaintext_international('(999) 123-45-67', formats.RU).should.equal('+79991234567')
@@ -81,11 +84,11 @@ describe(`phone`, function()
 		parse_plaintext_international('+7 (9  )', formats.RU).should.equal('+79')
 		parse_plaintext_international('+7 (999) 123-45-67', formats.RU).should.equal('+79991234567')
 
-		const custom_format = { country: '7', template: () => '8 (xxx) xxx-xx-xx' }
+		const custom_format = { country: '7', template: () => '8 (xxx) xxx-xx-xx' };
 
-		parse_plaintext_international('', custom_format).should.equal('')
-		parse_plaintext_international('(', custom_format).should.equal('')
-		parse_plaintext_international('8 (', custom_format).should.equal('')
+		(typeof parse_plaintext_international('', custom_format)).should.equal('undefined');
+		(typeof parse_plaintext_international('(', custom_format)).should.equal('undefined');
+		(typeof parse_plaintext_international('8 (', custom_format)).should.equal('undefined');
 		parse_plaintext_international('8 (9  )', custom_format).should.equal('+79')
 		parse_plaintext_international('+7 (9  )', custom_format).should.equal('+79')
 		parse_plaintext_international('+7 (9  )', custom_format).should.equal('+79')
@@ -225,11 +228,14 @@ describe(`phone`, function()
 
 	it(`should count digits in number`, function()
 	{
-		digits_in_local_phone_number_template({ template: '8 (AAA) xxx-xx-xx' }).should.equal(11)
-		digits_in_local_phone_number_template({ template: '(0AA) BBB-BB-BB' }).should.equal(10)
+		digits_in_local_phone_number_template({ template: '8 (AAA) xxx-xx-xx' }, '81112223344').should.equal(11)
+		digits_in_local_phone_number_template({ template: '8 (AAA) xxx-xx-xx' }, '1112223344', false).should.equal(10)
 
-		digits_in_international_phone_number_template({ template: '8 (AAA) xxx-xx-xx' }).should.equal(10)
-		digits_in_international_phone_number_template({ template: '(0AA) BBB-BB-BB' }).should.equal(9)
+		digits_in_local_phone_number_template({ template: '(0AA) BBB-BB-BB' }, '0112223344').should.equal(10)
+		digits_in_local_phone_number_template({ template: '(0AA) BBB-BB-BB' }, '112223344', false).should.equal(9)
+
+		digits_in_international_phone_number_template({ country: '7', template: '8 (AAA) xxx-xx-xx' }, '+79991112233').should.equal(10)
+		digits_in_international_phone_number_template({ country: '0', template: '(0AA) BBB-BB-BB' }, '+0112223344').should.equal(9)
 	})
 
 	it(`should calculate digit index`, function()
@@ -313,8 +319,8 @@ describe(`phone`, function()
 
 	it(`should derive phone number format from plaintext international`, function()
 	{
-		derive_phone_number_format('+79991234567').should.equal(formats.RU)
-		derive_phone_number_format('+19991234567').should.equal(formats.US)
+		derive_phone_number_format('+79991112233').should.equal(formats.RU)
+		derive_phone_number_format('+19991112222').should.equal(formats.US)
 		derive_phone_number_format('+447700900756').should.equal(formats.GB)
 	})
 

@@ -1,5 +1,12 @@
 import { starts_with } from './helpers'
 
+// If you notice, country phone codes are inherently unambiguous,
+// i.e. for a given sequence of digits only one country phone code
+// can match. E.g. there is "1" code for USA and Canada, and therefore
+// no other country code starts with "1". Next, there is "7" code for Russia
+// and Kazakhstan, therefore no other country code starts with "7".
+// The same trick applies to two-digit country codes and three-digit country codes.
+
 // https://countrycode.org/
 //
 // data.split('\n').map(row =>
@@ -612,6 +619,12 @@ export default function country(phone)
 	{
 		if (starts_with(phone, country_phone_prefix[0]))
 		{
+			// This country code is most likely (like 99.99999999% likely)
+			// the country code intended for this
+			// currently possibly incomplete phone number,
+			// so don't look for possible future ambiguity,
+			// and just return this country code.
+			// (see the note in the beginning of this file)
 			return country_phone_prefix[1]
 		}
 	}
