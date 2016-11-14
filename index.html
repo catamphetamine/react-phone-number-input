@@ -47,8 +47,6 @@
 
 		a
 		{
-			display: block;
-			font-size: 32px;
 			text-decoration: none;
 			color: #0093C4;
 		}
@@ -58,15 +56,27 @@
 			text-decoration: underline;
 		}
 
+		a.main
+		{
+			display: block;
+			font-size: 32px;
+		}
+
 		p
 		{
 			margin-top: 10px;
 			margin-bottom: 40px;
 		}
+
+		.sidenote
+		{
+			margin-left: 1em;
+			color: #7f7f7f;
+		}
 	</style>
 
 	<body>
-		<a href="https://github.com/halt-hammerzeit/react-phone-number-input"><code>react-phone-number-input</code></a>
+		<a target="_blank" class="main" href="https://github.com/halt-hammerzeit/react-phone-number-input"><code>react-phone-number-input</code></a>
 
 		<p>An international phone number <code>&lt;input/&gt;</code> for React</p>
 
@@ -91,6 +101,8 @@
 
 					const Phone = library.default
 
+					const auto_country = library.country(this.state.value)
+
 					return (
 						<div>
 							<h2>Auto (iPhone style)</h2>
@@ -109,8 +121,14 @@
 							</div>
 
 							<div className="international">
-								Country: {library.country(this.state.value)}
+								Country: <a target="_blank" href="https://countrycode.org/">{auto_country}</a>
 							</div>
+
+							{ auto_country && !library.phone_number_format[auto_country] &&
+								<div className="international sidenote">
+									* No built-in phone number format for <a target="_blank" href="https://countrycode.org/">{auto_country}</a> country. You can <a target="_blank" href="https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/formats.js">add one</a> yourself.
+								</div>
+							}
 
 							<div className="is-valid">
 								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
