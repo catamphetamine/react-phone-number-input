@@ -33,4 +33,13 @@ exports.countryCodes  = require('./build/country').country_codes
 exports.country_from_locale = require('./build/country').country_from_locale
 exports.countryFromLocale   = require('./build/country').country_from_locale
 
+exports.edit_and_format = require('./build/input/editable').edit_and_format
+exports.editAndFormat   = require('./build/input/editable').edit_and_format
+
+exports.parse_value = require('./build/input/editable').parse_value
+exports.parseValue  = require('./build/input/editable').parse_value
+
+exports.format_value = require('./build/input/editable').format_value
+exports.formatValue  = require('./build/input/editable').format_value
+
 exports['default'] = Input

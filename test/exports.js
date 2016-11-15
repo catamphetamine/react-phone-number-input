@@ -22,7 +22,13 @@ import Phone,
 	country_codes,
 	countryCodes,
 	country_from_locale,
-	countryFromLocale
+	countryFromLocale,
+	edit_and_format,
+	editAndFormat,
+	parse_value,
+	parseValue,
+	format_value,
+	formatValue
 }
 from '../index.es6'
 
@@ -60,6 +66,15 @@ describe(`exports`, function()
 
 		country_from_locale()
 		countryFromLocale()
+
+		edit_and_format(undefined, '', 0)
+		editAndFormat(undefined, '', 0)
+
+		parse_value()
+		parseValue()
+
+		format_value()
+		formatValue()
 	})
 
 	it(`should export CommonJS`, function()
@@ -96,5 +111,14 @@ describe(`exports`, function()
 
 		Phone.country_from_locale()
 		Phone.countryFromLocale()
+
+		Phone.edit_and_format(undefined, '', 0)
+		Phone.editAndFormat(undefined, '', 0)
+
+		Phone.parse_value()
+		Phone.parseValue()
+
+		Phone.format_value()
+		Phone.formatValue()
 	})
 })

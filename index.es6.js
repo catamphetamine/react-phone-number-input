@@ -33,3 +33,14 @@ export
 	country_from_locale as countryFromLocale
 }
 from './source/country'
+
+export
+{
+	edit_and_format,
+	edit_and_format as editAndFormat,
+	parse_value,
+	parse_value as parseValue,
+	format_value,
+	format_value as formatValue
+}
+from './source/input/editable'
