@@ -73,6 +73,20 @@
 			margin-left: 1em;
 			color: #7f7f7f;
 		}
+
+		.country_flag
+		{
+			position: relative;
+			top: 0.1em;
+			height: 1em;
+			margin-left: 0.2em;
+			margin-right: 0.3em;
+		}
+
+		.phone-number--valid
+		{
+			border-bottom-color: #18C900 !important;
+		}
 	</style>
 
 	<body>
@@ -110,6 +124,7 @@
 							<div>
 								+
 								<Phone
+									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number--valid' : ''}
 									style={{ width: '16em' }}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
@@ -121,7 +136,18 @@
 							</div>
 
 							<div className="international">
-								Country: <a target="_blank" href="https://countrycode.org/">{auto_country}</a>
+								<span>Country: </span>
+
+								{/* !auto_country && '?' */}
+
+								{ auto_country &&
+									<span>
+										<img className="country_flag" src={`https://lipis.github.io/flag-icon-css/flags/4x3/${auto_country.toLowerCase()}.svg`}/>
+										<a target="_blank" href="https://countrycode.org/">
+											{auto_country}
+										</a>
+									</span>
+								}
 							</div>
 
 							{ auto_country && !library.phone_number_format[auto_country] &&
@@ -141,7 +167,8 @@
 								<Phone
 									format={library.phoneNumberFormat.RU}
 									value={this.state.value_RU}
-									onChange={value => this.setState({ value_RU: value })}/>
+									onChange={value => this.setState({ value_RU: value })}
+									className={library.isValidPhoneNumber(this.state.value_RU, library.phoneNumberFormat.RU) ? 'phone-number--valid' : ''}/>
 							</div>
 
 							<div className="value">
@@ -166,7 +193,8 @@
 							<Phone
 								format={library.phoneNumberFormat.US}
 								value={this.state.value_US}
-								onChange={value => this.setState({ value_US: value })}/>
+								onChange={value => this.setState({ value_US: value })}
+								className={library.isValidPhoneNumber(this.state.value_US, library.phoneNumberFormat.US) ? 'phone-number--valid' : ''}/>
 
 							<div className="value">
 								Value: {this.state.value_US}
@@ -190,7 +218,8 @@
 							<Phone
 								format={library.phoneNumberFormat.GB}
 								value={this.state.value_GB}
-								onChange={value => this.setState({ value_GB: value })}/>
+								onChange={value => this.setState({ value_GB: value })}
+								className={library.isValidPhoneNumber(this.state.value_GB, library.phoneNumberFormat.GB) ? 'phone-number--valid' : ''}/>
 
 							<div className="value">
 								Value: {this.state.value_GB}
