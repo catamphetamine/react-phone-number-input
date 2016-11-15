@@ -28,7 +28,7 @@ describe(`Editable`, function()
 
 		const _edit = (input_text, caret_position) =>
 		{
-			return edit_and_format(undefined, input_text, undefined, caret_position, undefined)
+			return edit_and_format(undefined, input_text, undefined, caret_position, undefined, { has_trunk_prefix: false })
 		}
 
 		// Bahamas
@@ -55,5 +55,8 @@ describe(`Editable`, function()
 		_edit('3', 1).should.deep.equal({ phone: '3', caret: 1 })
 		_edit('33', 2).should.deep.equal({ phone: '33', caret: 2 })
 		_edit('331', 3).should.deep.equal({ phone: '33 1', caret: 4 })
+
+		// United Kingdom phone number backspace
+		edit_and_format('Backspace', '7700 954321', formats.GB, 11, undefined, { has_trunk_prefix: false }).should.deep.equal({ phone: '7700 95432', caret: 10 })
 	})
 })

@@ -1,3 +1,9 @@
+0.5.3 / 15.11.2016
+===================
+
+  * Added some popular country formats (and stubs for other countries)
+  * Small bug fix for trunk prefixed phone numbers
+
 0.5.0 / 14.11.2016
 ===================
 

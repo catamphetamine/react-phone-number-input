@@ -31,7 +31,7 @@ export function edit_and_format(operation, input_text, phone_number_format, care
 	// then format the digits as a local phone number.
 	if (phone_number_format)
 	{
-		return format(digits, digit_index, phone_number_format)
+		return format(digits, digit_index, phone_number_format, { has_trunk_prefix: false })
 	}
 
 	// If no strictly set `format` supplied,

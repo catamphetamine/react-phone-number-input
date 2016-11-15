@@ -44,6 +44,8 @@ describe(`formatter`, function()
 
 		_format('123456', 4).should.deep.equal({ phone: '123456', caret: 4 })
 		_format('123456', 6).should.deep.equal({ phone: '123456', caret: 6 })
+
+		_format('770095432', 9, formats.GB).should.deep.equal({ phone: '7700 95432', caret: 10 })
 	})
 
 	it(`should format the value according to phone number format (and adjust the caret) (international)`, function()
