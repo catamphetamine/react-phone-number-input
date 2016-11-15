@@ -83,7 +83,7 @@
 			margin-right: 0.3em;
 		}
 
-		.phone-number--valid
+		.phone-number--valid:focus
 		{
 			border-bottom-color: #18C900 !important;
 		}
@@ -102,7 +102,7 @@
 				getInitialState: function()
 				{
 					return {
-						value: '',
+						value: undefined,
 						value_RU: '+78005553535',
 						value_US: '+12133734253',
 						value_GB: '+447700954321'
@@ -128,7 +128,8 @@
 									style={{ width: '16em' }}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
-									onChange={value => this.setState({ value: value })}/>
+									onChange={value => this.setState({ value: value })}
+									autoFocus/>
 							</div>
 
 							<div className="value">
