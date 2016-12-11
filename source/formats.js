@@ -852,7 +852,7 @@ export default
 	HK:
 	{
 		country: '852',
-		template: 'A xxx-xxx'
+		template: 'xxxx-xxxx'
 	},
 
 	// Honduras
