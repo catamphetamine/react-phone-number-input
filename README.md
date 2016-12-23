@@ -39,7 +39,7 @@ This component is supposed to be styled using CSS to better fit a project's look
 
 ```html
 <head>
-  <link rel="stylesheet" href="/css/react-responsive-ui.css"/>
+  <link rel="stylesheet" href="/css/react-phone-number-input.css"/>
 </head>
 ```
 
