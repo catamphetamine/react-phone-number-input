@@ -2,7 +2,7 @@
 
 [![NPM Version][npm-badge]][npm]
 [![Build Status][travis-badge]][travis]
-[![Test Coverage][coveralls-badge]][coveralls]
+<!-- [![Test Coverage][coveralls-badge]][coveralls] -->
 
 International phone number `<input/>` (and output) (in React) (iPhone style)
 
