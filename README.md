@@ -33,6 +33,18 @@ The countries dropdown with autocomplete is taken from [`react-responsive-ui`](h
 
 The most convenient way of showing the list of countries would be to show national flags for all of them. This feature is implemented, but the overall size of the complete national flags bundle in SVG format is about 3 MegaBytes which is too much for a public internet website. Therefore the default behaviour is a compromise: instead of showing flags for all countries in the list only the flag for the currently selected country is shown. This way the user only downloads a single SVG image, and is not forced to download the whole international flag bundle.
 
+## CSS
+
+This component is supposed to be styled using CSS to better fit a project's look and feel. Copy [`styles/style.css`](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/styles/style.css) to your project folder and include it on a page:
+
+```html
+<head>
+  <link rel="stylesheet" href="/css/react-responsive-ui.css"/>
+</head>
+```
+
+This CSS file is meant as an example starting point and one should edit the CSS rules in it to better suit the project's needs.
+
 ## API
 
 ### React component
