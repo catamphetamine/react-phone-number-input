@@ -170,11 +170,11 @@
 							</div>
 
 							<div className="international">
-								Local: {library.format(library.parse(this.state.value_RU), 'National')}
+								Local: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'National')}
 							</div>
 
 							<div className="international">
-								International: {library.format(library.parse(this.state.value_RU), 'International')}
+								International: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'International')}
 							</div>
 						</div>
 					)
