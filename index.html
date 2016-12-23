@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title>React phone number input</title>
 
 		<script src="https://unpkg.com/react@15.3.1/dist/react.js"></script>
@@ -7,20 +8,19 @@
 		<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
 
 		<script src="./react-phone-number-input.min.js"></script>
+		<link rel="stylesheet" href="./style.css"/>
 	</head>
 
 	<style>
 		body
 		{
 			padding: 40px;
-			font-family: Arial, Helvetica;
-			font-size: 20px;
 		}
 
 		input[type="tel"]
 		{
-			margin-left: 4px;
-			padding-bottom: 4px;
+			margin-left: 0.3em;
+			padding-bottom: 0.3em;
 			border: none;
 			border-bottom: 1px solid #0093C4;
 			outline: none;
@@ -115,17 +115,13 @@
 
 					const Phone = library.default
 
-					const auto_country = library.country(this.state.value)
-
 					return (
 						<div>
-							<h2>Auto (iPhone style)</h2>
+							<h2>Without default country</h2>
 
 							<div>
-								+
 								<Phone
-									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number--valid' : ''}
-									style={{ width: '16em' }}
+									className={library.isValidNumber(this.state.value) ? 'phone-number--valid' : ''}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}
@@ -136,106 +132,49 @@
 								Value: {this.state.value}
 							</div>
 
+							{/*
 							<div className="international">
 								<span>Country: </span>
 
-								{/* !auto_country && '?' */}
-
-								{ auto_country &&
+								{ library.country(this.state.value) &&
 									<span>
-										<img className="country_flag" src={`https://lipis.github.io/flag-icon-css/flags/4x3/${auto_country.toLowerCase()}.svg`}/>
+										<img className="country_flag" src={`https://lipis.github.io/flag-icon-css/flags/4x3/${library.country(this.state.value).toLowerCase()}.svg`}/>
 										<a target="_blank" href="https://countrycode.org/">
-											{auto_country}
+											{library.country(this.state.value)}
 										</a>
 									</span>
 								}
 							</div>
-
-							{ auto_country && !library.phone_number_format[auto_country] &&
-								<div className="international sidenote">
-									* No built-in phone number format for <a target="_blank" href="https://countrycode.org/">{auto_country}</a> country. You can <a target="_blank" href="https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/formats.js">add one</a> yourself.
-								</div>
-							}
+							*/}
 
 							<div className="is-valid">
-								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
+								Is valid: {library.isValidNumber(this.state.value) ? 'true' : 'false'}
 							</div>
 
-							<h2>Russia</h2>
+							<h2>Default country: Russia</h2>
 
 							<div>
-								+7
 								<Phone
-									format={library.phoneNumberFormat.RU}
+									country={'RU'}
 									value={this.state.value_RU}
 									onChange={value => this.setState({ value_RU: value })}
-									className={library.isValidPhoneNumber(this.state.value_RU, library.phoneNumberFormat.RU) ? 'phone-number--valid' : ''}/>
+									className={library.isValidNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
 							</div>
 
 							<div className="value">
 								Value: {this.state.value_RU}
 							</div>
 
-							<div className="international">
-								Local: {library.formatPhoneNumber(this.state.value_RU, library.phoneNumberFormat.RU)}
-							</div>
-
-							<div className="international">
-								International: {library.formatPhoneNumber(this.state.value_RU)}
-							</div>
-
 							<div className="is-valid">
-								Is valid: {library.isValidPhoneNumber(this.state.value_RU, library.phoneNumberFormat.RU) ? 'true' : 'false'}
-							</div>
-
-							<h2>USA</h2>
-							
-							+1
-							<Phone
-								format={library.phoneNumberFormat.US}
-								value={this.state.value_US}
-								onChange={value => this.setState({ value_US: value })}
-								className={library.isValidPhoneNumber(this.state.value_US, library.phoneNumberFormat.US) ? 'phone-number--valid' : ''}/>
-
-							<div className="value">
-								Value: {this.state.value_US}
+								Is valid: {library.isValidNumber(this.state.value_RU) ? 'true' : 'false'}
 							</div>
 
 							<div className="international">
-								Local: {library.formatPhoneNumber(this.state.value_US, library.phoneNumberFormat.US)}
+								Local: {library.format(library.parse(this.state.value_RU), 'National')}
 							</div>
 
 							<div className="international">
-								International: {library.formatPhoneNumber(this.state.value_US)}
-							</div>
-
-							<div className="is-valid">
-								Is valid: {library.isValidPhoneNumber(this.state.value_US, library.phoneNumberFormat.US) ? 'true' : 'false'}
-							</div>
-
-							<h2>United Kingdom</h2>
-							
-							+44
-							<Phone
-								format={library.phoneNumberFormat.GB}
-								value={this.state.value_GB}
-								onChange={value => this.setState({ value_GB: value })}
-								className={library.isValidPhoneNumber(this.state.value_GB, library.phoneNumberFormat.GB) ? 'phone-number--valid' : ''}/>
-
-							<div className="value">
-								Value: {this.state.value_GB}
-							</div>
-
-							<div className="international">
-								Local: {library.formatPhoneNumber(this.state.value_GB, library.phoneNumberFormat.GB)}
-							</div>
-
-							<div className="international">
-								International: {library.formatPhoneNumber(this.state.value_GB)}
-							</div>
-
-							<div className="is-valid">
-								Is valid: {library.isValidPhoneNumber(this.state.value_GB, library.phoneNumberFormat.GB) ? 'true' : 'false'}
+								International: {library.format(library.parse(this.state.value_RU), 'International')}
 							</div>
 						</div>
 					)
