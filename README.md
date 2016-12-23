@@ -45,7 +45,7 @@ The available props are
 
  * `country` — (optional) the default country (a two-letter country code)
 
-For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/source/input.js).
+For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/input.js).
 
 <!-- ### isValidPhoneNumber
 
