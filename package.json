@@ -9,10 +9,14 @@
     "react-dom": ">=0.14.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.6.1"
+    "babel-runtime": "^6.6.1",
+    "classnames": "^2.2.5",
+    "input-format": "^0.1.1",
+    "libphonenumber-js": "^0.2.18",
+    "react-styling": "^1.6.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.5",
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.7.2",
     "babel-loader": "^6.2.5",
     "babel-plugin-add-module-exports": "^0.1.2",
@@ -22,7 +26,9 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.5.0",
+    "flag-icon-css": "^2.8.0",
     "istanbul": "^1.0.0-alpha.2",
+    "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
     "npm-run-all": "^1.4.0",
     "react": "^15.2.1",
@@ -31,6 +37,7 @@
     "webpack": "^2.1.0-beta.22"
   },
   "scripts": {
+    "generate-countries": "babel-node runnable/generate-countries",
     "test": "mocha --compilers js:babel-core/register --colors --bail --reporter spec test/ --recursive",
     "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/ --recursive",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --colors --reporter spec test/ --recursive",
@@ -38,7 +45,8 @@
     "browser-build-dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
     "clean-for-build": "rimraf ./build/**/*",
     "build-modules": "babel ./source --optional runtime --out-dir ./build --source-maps",
-    "build": "npm-run-all clean-for-build build-modules",
+    "copy-json": "cp ./source/*.json ./build/",
+    "build": "npm-run-all clean-for-build build-modules copy-json",
     "prepublish": "npm-run-all build test"
   },
   "repository": {

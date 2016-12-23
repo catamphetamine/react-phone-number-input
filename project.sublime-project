@@ -7,9 +7,10 @@
 			"folder_exclude_patterns": ["react-phone-number-input/node_modules", "react-phone-number-input/coverage", "react-phone-number-input/build", "react-phone-number-input/lib", "project.sublime-workspace"]
 		}
 	],
-  "settings":
-  {
-    "tab_size": 3,
-    "translate_tabs_to_spaces": false,
-  }
+	"settings":
+	{
+		"tab_size": 3,
+		"translate_tabs_to_spaces": false,
+		"trim_trailing_white_space_on_save": true
+	}
 }

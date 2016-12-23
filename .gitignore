@@ -27,4 +27,3 @@ npm-debug.log
 
 # webpack build target folder
 /build/
-/lib/

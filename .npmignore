@@ -40,3 +40,6 @@ npm-debug.log
 
 # tests aren't needed for npm
 /test/
+
+# bundle for the browser
+/bundle/

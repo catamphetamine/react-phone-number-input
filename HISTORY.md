@@ -1,3 +1,8 @@
+0.6.0/ 23.12.2016
+===================
+
+  * A complete rewrite. Now supports all countries, all formats are hard-coded from Google Android's `libphonenumber` library.
+
 0.5.4 / 11.12.2016
 ===================
 
