@@ -39,6 +39,9 @@ export default class Input extends Component
 		//  to make sure it works correctly with `redux-form`)
 		onBlur : PropTypes.func,
 
+		// Disables both the <input/> and the <select/>
+		disabled : PropTypes.bool.isRequired,
+
 		// Two-letter country code
 		// to be used as the default country
 		// for local (non-international) phone numbers.
@@ -94,6 +97,9 @@ export default class Input extends Component
 
 	static defaultProps =
 	{
+		// Is enabled
+		disabled: false,
+
 		// By default use the ones from `flag-icon-css` github repo.
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
 
@@ -389,6 +395,7 @@ export default class Input extends Component
 			internationalIcon,
 			country,
 			flagsPath,
+			disabled,
 			style,
 			className,
 			...input_props
@@ -408,20 +415,22 @@ export default class Input extends Component
 			<div style={style} className={classNames('react-phone-number-input', className)}>
 				<Select
 					ref={ref => this.select = ref}
+					value={this.state.country_code || '-'}
+					options={items}
+					onChange={this.set_country}
+					disabled={disabled}
 					autocomplete
 					concise
 					focusUponSelection={false}
 					saveOnIcons={saveOnIcons === undefined ? !countries : saveOnIcons}
-					name={input_props.name ? `${input_props.name}__country` : undefined}
-					value={this.state.country_code || '-'}
-					options={items}
-					onChange={this.set_country}/>
+					name={input_props.name ? `${input_props.name}__country` : undefined}/>
 
 				<ReactInput
 					{...input_props}
+					ref={ref => this.input = ref}
 					value={this.state.value}
 					onChange={this.on_change}
-					ref={ref => this.input = ref}
+					disabled={disabled}
 					type="tel"
 					parse={this.parse}
 					format={this.format}
