@@ -121,7 +121,7 @@
 
 							<div>
 								<Phone
-									className={library.isValidNumber(this.state.value) ? 'phone-number--valid' : ''}
+									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number--valid' : ''}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}
@@ -148,7 +148,7 @@
 							*/}
 
 							<div className="is-valid">
-								Is valid: {library.isValidNumber(this.state.value) ? 'true' : 'false'}
+								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
 							</div>
 
 							<h2>Default country: Russia</h2>
@@ -158,7 +158,7 @@
 									country={'RU'}
 									value={this.state.value_RU}
 									onChange={value => this.setState({ value_RU: value })}
-									className={library.isValidNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
+									className={library.isValidPhoneNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
 							</div>
 
 							<div className="value">
@@ -166,7 +166,7 @@
 							</div>
 
 							<div className="is-valid">
-								Is valid: {library.isValidNumber(this.state.value_RU) ? 'true' : 'false'}
+								Is valid: {library.isValidPhoneNumber(this.state.value_RU) ? 'true' : 'false'}
 							</div>
 
 							<div className="international">
