@@ -1,4 +1,9 @@
-0.6.0/ 23.12.2016
+0.6.1 / 24.12.2016
+===================
+
+  * Fixed collapsed select options being interactive in iOS 8 Safari
+
+0.6.0 / 23.12.2016
 ===================
 
   * A complete rewrite. Now supports all countries, all formats are hard-coded from Google Android's `libphonenumber` library.

@@ -61,6 +61,12 @@ The available props are
 
  * `country` — (optional) the default country (a two-letter country code)
 
+ * `flagsPath` — (optional) A base URL path for national flag SVG icons. By default it loads flag icons from [`flag-icon-css` github repo](https://github.com/lipis/flag-icon-css). You might want to download those SVG flag icons and host them yourself.
+
+ * `flags` — (optional) Custom national flag icon React elements
+
+ * `saveOnIcons` — if set to `false` then country flag icons will be shown in the options list
+
 For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/input.js).
 
 <!-- ### isValidPhoneNumber

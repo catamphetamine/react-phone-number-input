@@ -27,3 +27,6 @@ npm-debug.log
 
 # webpack build target folder
 /build/
+
+/bundle/index.html
+/bundle/style.css

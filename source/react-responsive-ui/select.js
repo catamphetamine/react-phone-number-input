@@ -429,7 +429,7 @@ export default class Select extends Component
 
 	render_selected_item()
 	{
-		const { options, children, value, label, disabled, autocomplete, concise } = this.props
+		const { children, value, label, disabled, autocomplete, concise } = this.props
 		const { expanded, autocomplete_width, autocomplete_input_value } = this.state
 
 		const selected_label = this.get_selected_option_label()
@@ -904,10 +904,15 @@ export default class Select extends Component
 		}
 	}
 
+	get_options()
+	{
+		return this.props.autocomplete ? this.state.filtered_options : this.props.options
+	}
+
 	// Get the previous value (relative to the currently focused value)
 	previous_focusable_option_value()
 	{
-		const { options } = this.props
+		const options = this.get_options()
 		const { focused_option_value } = this.state
 
 		let i = 0
@@ -927,7 +932,7 @@ export default class Select extends Component
 	// Get the next value (relative to the currently focused value)
 	next_focusable_option_value()
 	{
-		const { options } = this.props
+		const options = this.get_options()
 		const { focused_option_value } = this.state
 
 		let i = 0

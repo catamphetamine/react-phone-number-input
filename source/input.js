@@ -40,6 +40,7 @@ export default class Input extends Component
 		onBlur : PropTypes.func,
 
 		// Disables both the <input/> and the <select/>
+		// (is `false` by default)
 		disabled : PropTypes.bool.isRequired,
 
 		// Two-letter country code
@@ -75,6 +76,9 @@ export default class Input extends Component
 			icon  : React.PropTypes.element
 		}))
 		.isRequired,
+
+		// Custom national flag icons
+		flags : PropTypes.objectOf(React.PropTypes.element),
 
 		// If set to `false`, then country flags will be shown
 		// for all countries in the options list
@@ -135,11 +139,18 @@ export default class Input extends Component
 		// Set country option icons (national flags)
 		// for those option list items
 		// which don't have an icon set.
+		// (in case of user-supplied `countries` prop)
 		for (const country_option of props.countries)
 		{
-			if (!country_option.icon)
+			const country_code = country_option.value.toLowerCase()
+
+			if (props.flags && props.flags[country_code])
 			{
-				country_option.icon = <img className="react-phone-number-input__icon" src={`${props.flagsPath}${country_option.value.toLowerCase()}.svg`}/>
+				country_option.icon = props.flags[country_code]
+			}
+			else if (!country_option.icon)
+			{
+				country_option.icon = <img className="react-phone-number-input__icon" src={`${props.flagsPath}${country_code}.svg`}/>
 			}
 		}
 
@@ -159,10 +170,10 @@ export default class Input extends Component
 	//   Else
 	//     The value stays as it is
 	// Else
-	//   If the value has a leading plus sign
+	//   If the value has a leading + sign
 	//     The value stays as it is
 	//   Else
-	//     The plus sign is prepended
+	//     The + sign is prepended
 	//
 	correct_initial_value_if_neccessary(value, country_code)
 	{
@@ -171,35 +182,49 @@ export default class Input extends Component
 			return
 		}
 
+		// If the country code is specified
 		if (country_code)
 		{
+			// If the value has a leading plus sign
 			if (value[0] === '+')
 			{
+				// If it's a fully-entered phone number
+				// that converts into a valid national number for this country
+				// then the value is set to be that national number.
+
 				const parsed = parse(value)
 
 				if (parsed.country === country_code)
 				{
 					return this.format(parsed.phone, country_code).text
 				}
-				else
-				{
-					return value.slice(1)
-				}
+
+				// Else the leading + sign is trimmed.
+				return value.slice(1)
 			}
-		}
-		else
-		{
-			if (value[0] !== '+')
-			{
-				return '+' + value
-			}
+
+			// Else the value stays as it is
+			return value
 		}
 
-		return value
+		// The country is not set.
+		// Assuming that's an international phone number.
+
+		// If the value has a leading + sign
+		if (value[0] === '+')
+		{
+			// The value is correct
+			return value
+		}
+
+		// The + sign is prepended
+		return '+' + value
 	}
 
+	// `<select/>` `onChange` handler
 	set_country(country_code)
 	{
+		// Previously selected country
 		const previous_country_code = this.state.country_code
 
 		if (country_code === '-')
@@ -208,6 +233,9 @@ export default class Input extends Component
 		}
 
 		this.setState({ country_code })
+
+		// Adjust the phone number (`value`)
+		// according to the selected `country_code`
 
 		let { value } = this.state
 
@@ -234,6 +262,7 @@ export default class Input extends Component
 
 		if (value)
 		{
+			// If switching to a country from International
 			if (!previous_country_code && country_code)
 			{
 				// The value is international plaintext
@@ -269,14 +298,21 @@ export default class Input extends Component
 				}
 			}
 
+			// If switching to International from a country
 			if (previous_country_code && !country_code)
 			{
+				// If no leading + sign
 				if (value[0] !== '+')
 				{
-					value = format(parse_national_number(value, previous_country_code), previous_country_code, 'International_plaintext')
+					// Take the international plaintext value
+					value = format(parse_partial_number(value, previous_country_code).national_number, previous_country_code, 'International_plaintext')
 				}
 			}
 
+			// Update the adjusted `value`
+			// and update `this.props.value` (in e.164 phone number format)
+			// according to the new `this.state.value`.
+			// (keep them in sync)
 			this.on_change(value, country_code)
 		}
 
@@ -285,11 +321,13 @@ export default class Input extends Component
 		ReactDOM.findDOMNode(this.input).focus()
 	}
 
+	// `input-format` `parse` character function
+	// https://github.com/halt-hammerzeit/input-format
 	parse(character, value)
 	{
+		// Only leading '+' is allowed
 		if (character === '+')
 		{
-			// Only leading '+' is allowed
 			if (!value)
 			{
 				return character
@@ -302,6 +340,8 @@ export default class Input extends Component
 		}
 	}
 
+	// `input-format` `format` function
+	// https://github.com/halt-hammerzeit/input-format
 	format(value, country_code = this.state.country_code)
 	{
 		// `value` is already parsed input, i.e.
@@ -320,19 +360,25 @@ export default class Input extends Component
 		return { text, template: formatter.template }
 	}
 
+	// `<input/>` `onKeyDown` handler
 	on_key_down(event)
 	{
-		// on "Down arrow"
+		// Expand country `<select/>`` on "Down arrow" key press
 		if (event.keyCode === 40)
 		{
 			this.select.toggle()
 		}
 	}
 
+	// `<input/>` `onChange` handler.
+	// Updates `this.props.value` (in e.164 phone number format)
+	// according to the new `this.state.value`.
+	// (keeps them in sync)
 	on_change(value, country_code = this.state.country_code)
 	{
 		const { onChange } = this.props
 
+		// If the `<input/>` is empty then just exit
 		if (!value)
 		{
 			this.setState({ value })
@@ -342,47 +388,48 @@ export default class Input extends Component
 		// If a phone number is being input as an international one
 		// and the country code can already be derived,
 		// then switch the country.
-		if (value && value[0] === '+' && this.formatter.country && this.formatter.country !== '001')
+		// (`001` is a special "non-geograpical entity" code in `libphonenumber` library)
+		if (value[0] === '+' && this.formatter.country && this.formatter.country !== '001')
 		{
-			this.setState({ country_code: this.formatter.country })
+			country_code = this.formatter.country
+			this.setState({ country_code })
 		}
 
-		// If the phone number is being input in a country-specific format
-		//   If the value has a leading + sign
-		//     The value stays as it is
-		//   Else
-		//     The value is converted to international plaintext
-		// Else, the phone number is being input in an international format
-		//   If the value has a leading + sign
-		//     The value stays as it is
-		//   Else
-		//     The value is prepended with a + sign
-
-		if (country_code)
+		// If "International" mode is selected
+		// and the `value` doesn't start with a + sign,
+		// then prepend it to the `value`.
+		if (value[0] !== '+' && !country_code)
 		{
-			if (value[0] === '+')
-			{
-				onChange(value)
-			}
-			else
-			{
-				onChange(format(parse_national_number(value, country_code), country_code, 'International_plaintext'))
-			}
-		}
-		else
-		{
-			if (value[0] === '+')
-			{
-				onChange(value)
-			}
-			else
-			{
-				value = '+' + value
-				onChange(value)
-			}
+			value = '+' + value
 		}
 
+		// Covert `value` to E.164 phone number format
+		// and write it to `this.props.value`.
+		onChange(e164(value, country_code))
+
+		// Update the `value`
 		this.setState({ value })
+	}
+
+	// Listen for default country property:
+	// if it is set after the page loads
+	// and the user hasn't selected a country yet
+	// then select the default country.
+	componentWillReceiveProps(new_props)
+	{
+		const { country } = this.props
+
+		// If the default country changed
+		// (e.g. in case of IP detection)
+		if (new_props.country !== country)
+		{
+			// If the country hasn't been selected by the user yet
+			if (!this.state.country_code)
+			{
+				// Then set it now (e.g. IP detection finished)
+				this.set_country(new_props.country)
+			}
+		}
 	}
 
 	render()
@@ -402,7 +449,8 @@ export default class Input extends Component
 		}
 		= this.props
 
-		const items =
+		// `<select/>` `<option/>`s
+		const select_options =
 		[{
 			value : '-',
 			label : dictionary.International || 'International',
@@ -416,7 +464,7 @@ export default class Input extends Component
 				<Select
 					ref={ref => this.select = ref}
 					value={this.state.country_code || '-'}
-					options={items}
+					options={select_options}
 					onChange={this.set_country}
 					disabled={disabled}
 					autocomplete
@@ -442,13 +490,54 @@ export default class Input extends Component
 	}
 }
 
-function parse_national_number(value, country_code)
+// Parses a partially entered phone number
+// and returns the national number so far.
+// Not using `libphonenumber-js`'s `parse`
+// function here because `parse` only works
+// when the number is fully entered,
+// and this one is for partially entered number.
+function parse_partial_number(value, country_code)
 {
 	// "As you type" formatter
 	const formatter = new as_you_type(country_code)
 
-	// Format phone number
+	// Input partially entered phone number
 	formatter.input(value)
 
-	return formatter.national_number
+	// Return the parsed partial phone number
+	// (has `.national_number`, `.country`, etc)
+	return formatter
+}
+
+// Coverts `value` to E.164 phone number format
+function e164(value, country_code)
+{
+	// If the phone number is being input in a country-specific format
+	//   If the value has a leading + sign
+	//     The value stays as it is
+	//   Else
+	//     The value is converted to international plaintext
+	// Else, the phone number is being input in an international format
+	//   If the value has a leading + sign
+	//     The value stays as it is
+	//   Else
+	//     The value is prepended with a + sign
+
+	if (country_code)
+	{
+		if (value[0] === '+')
+		{
+			return value
+		}
+
+		const partial_national_number = parse_partial_number(value, country_code).national_number
+		return format(partial_national_number, country_code, 'International_plaintext')
+	}
+
+	if (value[0] === '+')
+	{
+		return value
+	}
+
+	return '+' + value
 }
