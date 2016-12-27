@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-import { as_you_type, parse, format, metadata, get_phone_code } from 'libphonenumber-js'
+import { as_you_type, parse, format } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 
