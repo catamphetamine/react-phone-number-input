@@ -159,6 +159,9 @@ export default class Input extends Component
 		this.set_country = this.set_country.bind(this)
 		this.parse       = this.parse.bind(this)
 		this.format      = this.format.bind(this)
+
+		this.country_select_toggled = this.country_select_toggled.bind(this)
+		this.on_country_select_tab_out = this.on_country_select_tab_out.bind(this)
 	}
 
 	// If the country code is specified
@@ -317,8 +320,9 @@ export default class Input extends Component
 		}
 
 		// Focus the phone number input upon country selection
-		// (do it in a timeout because of autocomplete's own focus timeout)
-		ReactDOM.findDOMNode(this.input).focus()
+		// (do it in a timeout because the `<input/>`
+		//  is hidden while selecting a country)
+		setTimeout(() => ReactDOM.findDOMNode(this.input).focus(), 0)
 	}
 
 	// `input-format` `parse` character function
@@ -411,6 +415,24 @@ export default class Input extends Component
 		this.setState({ value })
 	}
 
+	// When country `<select/>` is toggled
+	country_select_toggled(is_shown)
+	{
+		this.setState({ country_select_is_shown: is_shown })
+	}
+
+	// Focuses the `<input/>` field
+	// on tab out of the country `<select/>`
+	on_country_select_tab_out(event)
+	{
+		event.preventDefault()
+
+		// Focus the phone number input upon country selection
+		// (do it in a timeout because the `<input/>`
+		//  is hidden while selecting a country)
+		setTimeout(() => ReactDOM.findDOMNode(this.input).focus(), 0)
+	}
+
 	// Listen for default country property:
 	// if it is set after the page loads
 	// and the user hasn't selected a country yet
@@ -449,6 +471,8 @@ export default class Input extends Component
 		}
 		= this.props
 
+		const { country_select_is_shown } = this.state
+
 		// `<select/>` `<option/>`s
 		const select_options =
 		[{
@@ -467,22 +491,26 @@ export default class Input extends Component
 					options={select_options}
 					onChange={this.set_country}
 					disabled={disabled}
+					onToggle={this.country_select_toggled}
+					onTabOut={this.on_country_select_tab_out}
 					autocomplete
 					concise
 					focusUponSelection={false}
 					saveOnIcons={saveOnIcons === undefined ? !countries : saveOnIcons}
 					name={input_props.name ? `${input_props.name}__country` : undefined}/>
 
-				<ReactInput
-					{...input_props}
-					ref={ref => this.input = ref}
-					value={this.state.value}
-					onChange={this.on_change}
-					disabled={disabled}
-					type="tel"
-					parse={this.parse}
-					format={this.format}
-					onKeyDown={this.on_key_down}/>
+				{ !country_select_is_shown &&
+					<ReactInput
+						{...input_props}
+						ref={ref => this.input = ref}
+						value={this.state.value}
+						onChange={this.on_change}
+						disabled={disabled}
+						type="tel"
+						parse={this.parse}
+						format={this.format}
+						onKeyDown={this.on_key_down}/>
+				}
 			</div>
 		)
 

@@ -92,7 +92,11 @@ export default class Select extends Component
 		// Is `true` by default (only when the list of options is scrollable)
 		scrollbarPadding : PropTypes.bool,
 
-		focusUponSelection : PropTypes.bool.isRequired
+		focusUponSelection : PropTypes.bool.isRequired,
+
+		onTabOut : PropTypes.func,
+
+		onToggle : PropTypes.func
 
 		// transition_item_count_min : PropTypes.number,
 		// transition_duration_min : PropTypes.number,
@@ -624,7 +628,8 @@ export default class Select extends Component
 			autocomplete,
 			options,
 			value,
-			focusUponSelection
+			focusUponSelection,
+			onToggle
 		}
 		= this.props
 
@@ -694,6 +699,16 @@ export default class Select extends Component
 					0)
 				}
 			}
+
+			if (onToggle)
+			{
+				onToggle(!expanded)
+			}
+
+			if (toggle_options.callback)
+			{
+				toggle_options.callback()
+			}
 		},
 		0)
 	}
@@ -732,9 +747,7 @@ export default class Select extends Component
 			}
 		}
 
-		onChange(value)
-
-		this.toggle()
+		this.toggle(undefined, { callback: () => onChange(value) })
 	}
 
 	document_clicked(event)
@@ -754,6 +767,13 @@ export default class Select extends Component
 		}
 
 		this.setState({ expanded: false })
+
+		const { onToggle } = this.props
+
+		if (onToggle)
+		{
+			onToggle(false)
+		}
 	}
 
 	// Would have used `onBlur()` handler here
@@ -781,6 +801,13 @@ export default class Select extends Component
 				if (expanded)
 				{
 					this.toggle(undefined, { dont_focus_after_toggle: true })
+
+					const { onTabOut } = this.props
+
+					if (onTabOut)
+					{
+						onTabOut(event)
+					}
 				}
 				return
 		}

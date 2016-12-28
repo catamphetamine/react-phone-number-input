@@ -1,3 +1,8 @@
+0.6.5 / 28.12.2016
+===================
+
+  * Now hiding the phone input while the country select is open
+
 0.6.1 / 24.12.2016
 ===================
 
