@@ -484,7 +484,10 @@ export default class Input extends Component
 
 		const markup =
 		(
-			<div style={style} className={classNames('react-phone-number-input', className)}>
+			<div style={style} className={classNames('react-phone-number-input', className,
+			{
+				'react-phone-number-input--valid': this.formatter && this.formatter.valid
+			})}>
 				<Select
 					ref={ref => this.select = ref}
 					value={this.state.country_code || '-'}
@@ -497,7 +500,9 @@ export default class Input extends Component
 					concise
 					focusUponSelection={false}
 					saveOnIcons={saveOnIcons === undefined ? !countries : saveOnIcons}
-					name={input_props.name ? `${input_props.name}__country` : undefined}/>
+					name={input_props.name ? `${input_props.name}__country` : undefined}
+					className="react-phone-number-input__country"
+					style={{ display: 'inline-block', verticalAlign: 'bottom' }}/>
 
 				{ !country_select_is_shown &&
 					<ReactInput
@@ -509,7 +514,12 @@ export default class Input extends Component
 						type="tel"
 						parse={this.parse}
 						format={this.format}
-						onKeyDown={this.on_key_down}/>
+						onKeyDown={this.on_key_down}
+						className={classNames('react-phone-number-input__phone',
+						{
+							'react-phone-number-input__phone--valid': this.formatter && this.formatter.valid
+						})}
+						style={{ display: 'inline-block', verticalAlign: 'bottom' }}/>
 				}
 			</div>
 		)

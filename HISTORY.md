@@ -1,3 +1,8 @@
+0.6.6 / 30.12.2016
+===================
+
+  * Added a bunch of CSS classes: `react-phone-number-input`, `react-phone-number-input--valid`, `react-phone-number-input__country`, `react-phone-number-input__phone`, `react-phone-number-input__phone--valid`
+
 0.6.5 / 28.12.2016
 ===================
 

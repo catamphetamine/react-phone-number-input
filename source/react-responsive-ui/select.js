@@ -53,6 +53,12 @@ export default class Select extends Component
 		// Is called when an option is selected
 		onChange   : PropTypes.func,
 
+		// CSS class
+		className  : PropTypes.string,
+
+		// CSS style object
+		style      : PropTypes.object,
+
 		// If this flag is set to `true`,
 		// and `icon` is specified for a selected option,
 		// then the selected option will be displayed
@@ -212,7 +218,8 @@ export default class Select extends Component
 			toggler,
 			alignment,
 			autocomplete,
-			saveOnIcons
+			saveOnIcons,
+			className
 		}
 		= this.props
 
@@ -273,6 +280,7 @@ export default class Select extends Component
 				style={ this.props.style ? { ...wrapper_style, ...this.props.style } : wrapper_style }
 				className={classNames
 				(
+					className,
 					'rrui__rich',
 					'rrui__select',
 					{
@@ -280,7 +288,8 @@ export default class Select extends Component
 						'rrui__select--expanded'  : this.state.expanded,
 						'rrui__select--collapsed' : !this.state.expanded
 					}
-				)}>
+				)}
+				style={this.props.style}>
 
 				{/* List container */}
 				<div style={style.container}>
@@ -501,7 +510,19 @@ export default class Select extends Component
 	// supports disabled javascript
 	render_static()
 	{
-		const { name, value, label, disabled, options, menu, toggler, children } = this.props
+		const
+		{
+			name,
+			value,
+			label,
+			disabled,
+			options,
+			menu,
+			toggler,
+			className,
+			children
+		}
+		= this.props
 
 		if (menu)
 		{
@@ -516,7 +537,8 @@ export default class Select extends Component
 					value={value === null ? undefined : value}
 					disabled={disabled}
 					onChange={event => {}}
-					style={{ width: 'auto' }}>
+					style={ this.props.style ? { ...this.props.style, width: 'auto' } : { width: 'auto' } }
+					className={className}>
 					{
 						options
 						?

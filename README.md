@@ -69,7 +69,7 @@ The available props are
 
 For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/input.js).
 
-<!-- ### isValidPhoneNumber
+### isValidPhoneNumber
 
 [`libphonenumber.isValidNumber`](https://github.com/halt-hammerzeit/libphonenumber-js#isvalidnumbernumber-country_code)
 
@@ -85,7 +85,7 @@ For the full list of all possible `props` see the [source code](https://github.c
 
 [`libphonenumber.parse`](https://github.com/halt-hammerzeit/libphonenumber-js#parsetext-options)
 
-(is exported just for convenience, if anyone needs that for whatever purpose) -->
+(is exported just for convenience, if anyone needs that for whatever purpose)
 
 ## Contributing
 
