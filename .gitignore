@@ -2,3 +2,4 @@
 /lib
 /build
 /bundle/
+*.sublime-workspace
