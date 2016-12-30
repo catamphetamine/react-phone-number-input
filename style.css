@@ -252,6 +252,37 @@ html, body, button, input, textarea, select
 = React-phone-number-input                                  =
 ===========================================================*/
 
+/* Material design style input text fields */
+.react-phone-number-input__country input,
+.react-phone-number-input__phone
+{
+	outline    : none;
+	appearance : none;
+}
+
+/* Styling the phone input field */
+.react-phone-number-input__phone
+{
+	margin-left    : 0.3em;
+	padding-bottom : 0.3em;
+
+	width : calc(0.3rem * 60);
+
+	border        : none;
+	border-bottom : 1px solid #C5D2E0;
+	transition    : border 0.1s;
+}
+
+.react-phone-number-input__phone:focus
+{
+	border-bottom-color: #0093C4;
+}
+
+.react-phone-number-input__phone--valid:focus
+{
+	border-bottom-color: #18C900;
+}
+
 /* Custom style for flag icons */
 .react-phone-number-input .rrui__select__arrow
 {
