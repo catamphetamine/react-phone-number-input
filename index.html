@@ -17,17 +17,6 @@
 			padding: 40px;
 		}
 
-		input[type="tel"]
-		{
-			margin-left: 0.3em;
-			padding-bottom: 0.3em;
-			border: none;
-			border-bottom: 1px solid #0093C4;
-			outline: none;
-			font-size: inherit;
-			font-family: inherit;
-		}
-
 		h2
 		{
 			margin-top: 60px;
@@ -40,7 +29,7 @@
 			margin-top: 0;
 		}
 
-		.is-valid, .value, .international
+		.section
 		{
 			margin-top: 20px;
 		}
@@ -68,22 +57,33 @@
 			margin-bottom: 40px;
 		}
 
-		.sidenote
+		.react-phone-number-input__country input
 		{
-			margin-left: 1em;
-			color: #7f7f7f;
+			outline: none;
 		}
 
-		.country_flag
+		.react-phone-number-input__phone
 		{
-			position: relative;
-			top: 0.1em;
-			height: 1em;
-			margin-left: 0.2em;
-			margin-right: 0.3em;
+			margin-left    : 0.3em;
+			padding-bottom : 0.3em;
+
+			width   : calc(0.3rem * 60);
+
+			outline    : none;
+			appearance : none;
+			box-sizing : border-box;
+
+			border        : none;
+			border-bottom : 1px solid #C5D2E0;
+			transition    : border 0.1s;
 		}
 
-		.phone-number-input--valid input[type="tel"]:focus
+		.react-phone-number-input__phone:focus
+		{
+			border-bottom-color: #0093C4;
+		}
+
+		.react-phone-number-input__phone--valid:focus
 		{
 			border-bottom-color: #18C900 !important;
 		}
@@ -121,18 +121,18 @@
 
 							<div>
 								<Phone
-									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number-input--valid' : ''}
+									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number--valid' : ''}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}
 									autoFocus/>
 							</div>
 
-							<div className="value">
+							<div className="section">
 								Value: {this.state.value}
 							</div>
 
-							<div className="is-valid">
+							<div className="section">
 								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
 							</div>
 
@@ -143,14 +143,14 @@
 									country={'RU'}
 									value={this.state.value_RU}
 									onChange={value => this.setState({ value_RU: value })}
-									className={library.isValidPhoneNumber(this.state.value_RU) ? 'phone-number-input--valid' : ''}/>
+									className={library.isValidPhoneNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
 							</div>
 
-							<div className="value">
+							<div className="section">
 								Value: {this.state.value_RU}
 							</div>
 
-							<div className="is-valid">
+							<div className="section">
 								Is valid: {library.isValidPhoneNumber(this.state.value_RU) ? 'true' : 'false'}
 							</div>
 
@@ -158,7 +158,7 @@
 								Local: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'National')}
 							</div>
 
-							<div className="international">
+							<div className="section">
 								International: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'International')}
 							</div>
 						</div>

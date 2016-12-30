@@ -8,28 +8,6 @@ html, body, button, input, textarea, select
 	font-size   : 20px;
 }
 
-input[type="text"],
-input[type="tel"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-textarea
-{
-	width   : calc(0.3rem * 60);
-	margin  : 0;
-
-	padding-top    : 0.15rem;
-	padding-bottom : 0.15rem;
-
-	outline    : none;
-	appearance : none;
-	box-sizing : border-box;
-
-	border        : none;
-	border-bottom : 2pt solid #C5D2E0;
-	transition    : border 0.1s;
-}
-
 /*===========================================================
 = Buttons                                                   =
 ===========================================================*/
