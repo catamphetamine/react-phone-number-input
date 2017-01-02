@@ -83,7 +83,7 @@ export default class Input extends Component
 		// If set to `false`, then country flags will be shown
 		// for all countries in the options list
 		// (not just for selected country).
-		saveOnIcons : PropTypes.bool,
+		saveOnIcons : PropTypes.bool.isRequired,
 
 		// Custom "International" phone number type icon.
 		internationalIcon : PropTypes.element.isRequired,
@@ -153,6 +153,15 @@ export default class Input extends Component
 				country_option.icon = <img className="react-phone-number-input__icon" src={`${props.flagsPath}${country_code}.svg`}/>
 			}
 		}
+
+		// `<select/>` `<option/>`s
+		this.select_options =
+		[{
+			value : '-',
+			label : props.dictionary.International || 'International',
+			icon  : props.internationalIcon
+		}]
+		.concat(props.countries)
 
 		this.on_key_down = this.on_key_down.bind(this)
 		this.on_change   = this.on_change.bind(this)
@@ -459,8 +468,8 @@ export default class Input extends Component
 		const
 		{
 			dictionary,
-			saveOnIcons,
 			countries,
+			saveOnIcons,
 			internationalIcon,
 			country,
 			flagsPath,
@@ -473,15 +482,6 @@ export default class Input extends Component
 
 		const { country_select_is_shown } = this.state
 
-		// `<select/>` `<option/>`s
-		const select_options =
-		[{
-			value : '-',
-			label : dictionary.International || 'International',
-			icon  : internationalIcon
-		}]
-		.concat(countries || country_options)
-
 		const markup =
 		(
 			<div style={style} className={classNames('react-phone-number-input', className,
@@ -491,7 +491,7 @@ export default class Input extends Component
 				<Select
 					ref={ref => this.select = ref}
 					value={this.state.country_code || '-'}
-					options={select_options}
+					options={this.select_options}
 					onChange={this.set_country}
 					disabled={disabled}
 					onToggle={this.country_select_toggled}
@@ -499,10 +499,10 @@ export default class Input extends Component
 					autocomplete
 					concise
 					focusUponSelection={false}
-					saveOnIcons={saveOnIcons === undefined ? !countries : saveOnIcons}
+					saveOnIcons={saveOnIcons}
 					name={input_props.name ? `${input_props.name}__country` : undefined}
 					className="react-phone-number-input__country"
-					style={{ display: 'inline-block', verticalAlign: 'bottom' }}/>
+					style={select_style}/>
 
 				{ !country_select_is_shown &&
 					<ReactInput
@@ -519,7 +519,7 @@ export default class Input extends Component
 						{
 							'react-phone-number-input__phone--valid': this.formatter && this.formatter.valid
 						})}
-						style={{ display: 'inline-block', verticalAlign: 'bottom' }}/>
+						style={input_style}/>
 				}
 			</div>
 		)
@@ -579,3 +579,11 @@ function e164(value, country_code)
 
 	return '+' + value
 }
+
+const select_style =
+{
+	display       : 'inline-block',
+	verticalAlign : 'bottom'
+}
+
+const input_style = select_style
