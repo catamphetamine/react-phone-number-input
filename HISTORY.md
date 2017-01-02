@@ -1,4 +1,4 @@
-0.6.7 / 03.01.2017
+0.6.8 / 03.01.2017
 ===================
 
   * Optimized performance on mobile devices
