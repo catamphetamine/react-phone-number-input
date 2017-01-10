@@ -87,6 +87,16 @@ For the full list of all possible `props` see the [source code](https://github.c
 
 (is exported just for convenience, if anyone needs that for whatever purpose)
 
+## Webpack
+
+If you're using Webpack 1 (which you most likely are) then make sure that
+
+ * You have `json-loader` set up for `*.json` files in Webpack configuration
+ * `json-loader` doesn't `exclude` `/node_modules/`
+ * If you override `resolve.extensions` in Webpack configuration then make sure `.json` extension is present in the list
+
+Webpack 2 sets up `json-loader` by default so there's no need for any special configuration.
+
 ## Contributing
 
 After cloning this repo, ensure dependencies are installed by running:
