@@ -1,4 +1,4 @@
-export { default as default } from './source/input'
+export { default as default } from './es6/input'
 
 export { is_valid_number as is_valid_phone_number } from 'libphonenumber-js'
 export { is_valid_number as isValidPhoneNumber }   from 'libphonenumber-js'

@@ -1,6 +1,6 @@
 'use strict'
 
-var Input = require('./build/input') // ['default']
+var Input = require('./build/input').default
 
 exports = module.exports = Input
 
@@ -13,4 +13,4 @@ exports.parse_phone_number = require('libphonenumber-js').parse
 exports.formatPhoneNumber   = require('libphonenumber-js').format
 exports.format_phone_number = require('libphonenumber-js').format
 
-exports['default'] = Input
+module.exports['default'] = Input
