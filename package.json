@@ -12,7 +12,7 @@
     "babel-runtime": "^6.6.1",
     "classnames": "^2.2.5",
     "input-format": "^0.1.1",
-    "libphonenumber-js": "^0.2.27",
+    "libphonenumber-js": "^0.2.30",
     "react-styling": "^1.6.0"
   },
   "devDependencies": {
@@ -41,8 +41,8 @@
     "test": "mocha --compilers js:babel-core/register --colors --bail --reporter spec test/ --recursive",
     "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/ --recursive",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --colors --reporter spec test/ --recursive",
-    "browser-build": "WEBPACK_ENV=build webpack",
-    "browser-build-dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
+    "browser-build": "npm run build-es6-modules && WEBPACK_ENV=build webpack",
+    "browser-build-dev": "npm run build-es6-modules && WEBPACK_ENV=dev webpack --progress --colors --watch",
     "copy-json": "cp ./source/*.json ./build/ && cp ./source/*.json ./es6/",
     "clean-for-build": "rimraf ./build/**/* ./es6/**/*",
     "build-commonjs-modules": "better-npm-run build-commonjs-modules",
