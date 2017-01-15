@@ -7,6 +7,10 @@
 		<script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.js"></script>
 		<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+
 		<script src="./react-phone-number-input.min.js"></script>
 		<link rel="stylesheet" href="./style.css"/>
 	</head>
@@ -105,11 +109,19 @@
 								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
 							</div>
 
+							<pre className="hljs"><code>
+								{`<Phone
+	placeholder="Start typing a phone number"
+	value={ this.state.value }
+	onChange={ value => this.setState({ value }) }/>`}
+							</code></pre>
+
 							<h2>Default country: Russia</h2>
 
 							<div>
 								<Phone
 									country={'RU'}
+									placeholder="Ваш телефон"
 									value={this.state.value_RU}
 									onChange={value => this.setState({ value_RU: value })}
 									className={library.isValidPhoneNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
@@ -130,6 +142,29 @@
 							<div className="section">
 								International: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'International')}
 							</div>
+
+							<pre className="hljs"><code>
+								{`
+import Phone, {
+	formatPhoneNumber,
+	parsePhoneNumber,
+	isValidPhoneNumber
+}
+from 'react-phone-number-input'
+
+const { value } = this.state
+
+<Phone
+	country="RU"
+	placeholder="Введите ваш номер телефона"
+	value={ value }
+	onChange={ value => this.setState({ value }) }/>
+
+Is valid: { String( isValidPhoneNumber( value ) ) }
+Local: { formatPhoneNumber( parsePhoneNumber( value ), 'National' ) }
+International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' ) }
+	`}
+							</code></pre>
 						</div>
 					)
 				}
