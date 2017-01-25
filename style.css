@@ -1,14 +1,4 @@
 /*===========================================================
-= Base styles (may be removed, it's just an example)        =
-===========================================================*/
-
-html, body, button, input, textarea, select
-{
-	font-family : Arial, Helvetica;
-	font-size   : 20px;
-}
-
-/*===========================================================
 = Buttons                                                   =
 ===========================================================*/
 
@@ -260,10 +250,14 @@ html, body, button, input, textarea, select
 	appearance : none;
 }
 
+.react-phone-number-input__country
+{
+	margin-right : 0.3em;
+}
+
 /* Styling the phone input field */
 .react-phone-number-input__phone
 {
-	margin-left    : 0.3em;
 	padding-bottom : 0.3em;
 
 	width : calc(0.3rem * 60);
