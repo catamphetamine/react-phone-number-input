@@ -43,6 +43,3 @@ npm-debug.log
 
 # bundle for the browser
 /bundle/
-
-# styles should be downloaded from GiHub and customized a bit
-/styles/style.css

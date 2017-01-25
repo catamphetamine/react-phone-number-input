@@ -48,6 +48,21 @@ export default class Input extends Component
 		// for local (non-international) phone numbers.
 		country : PropTypes.string,
 
+		// If the country is locked then
+		// the country `<Select/>` won't be rendered
+		// and the phone country will always stay the same.
+		// This will also prohibit inputting phone numbers
+		// in international format ("+...").
+		// (is `false` by default)
+		lockCountry : PropTypes.bool.isRequired,
+
+		// Is called when the selected country changes
+		// (either by a user manually, or by autoparsing
+		//  an international phone number being input).
+		// This handler does not need to update the `country` property.
+		// It's simply a listener for those who might need that for whatever purpose.
+		onCountryChange : PropTypes.func,
+
 		// Localization dictionary:
 		// `{ International: 'Международный', RU: 'Россия', US: 'США', ... }`
 		dictionary : PropTypes.objectOf(PropTypes.string),
@@ -119,7 +134,9 @@ export default class Input extends Component
 		// Don't show flags for all countries in the options list
 		// (show it just for selected country).
 		// (to save user's traffic because all flags are about 3 MegaBytes)
-		saveOnIcons: true
+		saveOnIcons: true,
+
+		lockCountry: false
 	}
 
 	state = {}
@@ -128,29 +145,48 @@ export default class Input extends Component
 	{
 		super(props)
 
-		// If the default country is set, then populate it
-		this.state.country_code = props.country
-
-		if (props.value)
+		const
 		{
-			this.state.value = this.correct_initial_value_if_neccessary(props.value, props.country)
+			value,
+			country,
+			lockCountry,
+			countries,
+			flags,
+			flagsPath,
+			dictionary,
+			internationalIcon
+		}
+		= props
+
+		// If the default country is set, then populate it
+		this.state.country_code = country
+
+		if (value)
+		{
+			this.state.value = this.correct_initial_value_if_neccessary(value, country)
+		}
+
+		// Sanity check
+		if (lockCountry && !country)
+		{
+			throw new Error('You must specify a `country` when using `lockCountry` mode')
 		}
 
 		// Set country option icons (national flags)
 		// for those option list items
 		// which don't have an icon set.
 		// (in case of user-supplied `countries` prop)
-		for (const country_option of props.countries)
+		for (const country_option of countries)
 		{
 			const country_code = country_option.value.toLowerCase()
 
-			if (props.flags && props.flags[country_code])
+			if (flags && flags[country_code])
 			{
-				country_option.icon = props.flags[country_code]
+				country_option.icon = flags[country_code]
 			}
 			else if (!country_option.icon)
 			{
-				country_option.icon = <img className="react-phone-number-input__icon" src={`${props.flagsPath}${country_code}.svg`}/>
+				country_option.icon = <img className="react-phone-number-input__icon" src={`${flagsPath}${country_code}.svg`}/>
 			}
 		}
 
@@ -158,10 +194,10 @@ export default class Input extends Component
 		this.select_options =
 		[{
 			value : '-',
-			label : props.dictionary.International || 'International',
-			icon  : props.internationalIcon
+			label : dictionary.International || 'International',
+			icon  : internationalIcon
 		}]
-		.concat(props.countries)
+		.concat(countries)
 
 		this.on_key_down = this.on_key_down.bind(this)
 		this.on_change   = this.on_change.bind(this)
@@ -233,6 +269,18 @@ export default class Input extends Component
 		return '+' + value
 	}
 
+	set_country_code_value(country_code)
+	{
+		const { onCountryChange } = this.props
+
+		if (onCountryChange)
+		{
+			onCountryChange(country_code)
+		}
+
+		this.setState({ country_code })
+	}
+
 	// `<select/>` `onChange` handler
 	set_country(country_code)
 	{
@@ -244,7 +292,7 @@ export default class Input extends Component
 			country_code = undefined
 		}
 
-		this.setState({ country_code })
+		this.set_country_code_value(country_code)
 
 		// Adjust the phone number (`value`)
 		// according to the selected `country_code`
@@ -338,10 +386,12 @@ export default class Input extends Component
 	// https://github.com/halt-hammerzeit/input-format
 	parse(character, value)
 	{
+		const { lockCountry } = this.props
+
 		// Only leading '+' is allowed
 		if (character === '+')
 		{
-			if (!value)
+			if (!lockCountry && !value)
 			{
 				return character
 			}
@@ -405,7 +455,7 @@ export default class Input extends Component
 		if (value[0] === '+' && this.formatter.country && this.formatter.country !== '001')
 		{
 			country_code = this.formatter.country
-			this.setState({ country_code })
+			this.set_country_code_value(country_code)
 		}
 
 		// If "International" mode is selected
@@ -416,7 +466,7 @@ export default class Input extends Component
 			value = '+' + value
 		}
 
-		// Covert `value` to E.164 phone number format
+		// Convert `value` to E.164 phone number format
 		// and write it to `this.props.value`.
 		onChange(e164(value, country_code))
 
@@ -455,6 +505,7 @@ export default class Input extends Component
 		if (new_props.country !== country)
 		{
 			// If the country hasn't been selected by the user yet
+			// (or autoselected based on the international phone number being input)
 			if (!this.state.country_code)
 			{
 				// Then set it now (e.g. IP detection finished)
@@ -472,6 +523,8 @@ export default class Input extends Component
 			saveOnIcons,
 			internationalIcon,
 			country,
+			lockCountry,
+			onCountryChange,
 			flagsPath,
 			disabled,
 			style,
@@ -484,42 +537,44 @@ export default class Input extends Component
 
 		const markup =
 		(
-			<div style={style} className={classNames('react-phone-number-input', className,
+			<div style={ style } className={ classNames('react-phone-number-input', className,
 			{
 				'react-phone-number-input--valid': this.formatter && this.formatter.valid
-			})}>
-				<Select
-					ref={ref => this.select = ref}
-					value={this.state.country_code || '-'}
-					options={this.select_options}
-					onChange={this.set_country}
-					disabled={disabled}
-					onToggle={this.country_select_toggled}
-					onTabOut={this.on_country_select_tab_out}
-					autocomplete
-					concise
-					focusUponSelection={false}
-					saveOnIcons={saveOnIcons}
-					name={input_props.name ? `${input_props.name}__country` : undefined}
-					className="react-phone-number-input__country"
-					style={select_style}/>
+			}) }>
+				{ !lockCountry &&
+					<Select
+						ref={ ref => this.select = ref }
+						value={ this.state.country_code || '-' }
+						options={ this.select_options }
+						onChange={ this.set_country }
+						disabled={ disabled }
+						onToggle={ this.country_select_toggled }
+						onTabOut={ this.on_country_select_tab_out }
+						autocomplete
+						concise
+						focusUponSelection={ false }
+						saveOnIcons={ saveOnIcons }
+						name={ input_props.name ? `${input_props.name}__country` : undefined }
+						className="react-phone-number-input__country"
+						style={ select_style }/>
+				}
 
 				{ !country_select_is_shown &&
 					<ReactInput
-						{...input_props}
-						ref={ref => this.input = ref}
-						value={this.state.value}
-						onChange={this.on_change}
-						disabled={disabled}
+						{ ...input_props }
+						ref={ ref => this.input = ref }
+						value={ this.state.value }
+						onChange={ this.on_change }
+						disabled={ disabled }
 						type="tel"
-						parse={this.parse}
-						format={this.format}
-						onKeyDown={this.on_key_down}
-						className={classNames('react-phone-number-input__phone',
+						parse={ this.parse }
+						format={ this.format }
+						onKeyDown={ this.on_key_down }
+						className={ classNames('react-phone-number-input__phone',
 						{
 							'react-phone-number-input__phone--valid': this.formatter && this.formatter.valid
-						})}
-						style={input_style}/>
+						}) }
+						style={ input_style }/>
 				}
 			</div>
 		)
