@@ -103,6 +103,10 @@ export default class Input extends Component
 		// Custom "International" phone number type icon.
 		internationalIcon : PropTypes.element.isRequired,
 
+		// Enables or disables the international option from the list
+		// By default it's enable
+		internationalOptionDisable: PropTypes.bool.isRequired,
+
 		// A base URL path for national flag SVG icons.
 		// By default it uses the ones from `flag-icon-css` github repo.
 		flagsPath : PropTypes.string.isRequired,
@@ -118,6 +122,9 @@ export default class Input extends Component
 	{
 		// Is enabled
 		disabled: false,
+
+		// Is enabled
+		internationalOptionDisable: false,
 
 		// By default use the ones from `flag-icon-css` github repo.
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
@@ -154,7 +161,8 @@ export default class Input extends Component
 			flags,
 			flagsPath,
 			dictionary,
-			internationalIcon
+			internationalIcon,
+			internationalOptionDisable
 		}
 		= props
 
@@ -192,12 +200,13 @@ export default class Input extends Component
 
 		// `<select/>` `<option/>`s
 		this.select_options =
-		[{
-			value : '-',
-			label : dictionary.International || 'International',
-			icon  : internationalIcon
-		}]
-		.concat(countries)
+			!internationalOptionDisable ?
+			[{
+				value : '-',
+				label : dictionary.International || 'International',
+				icon  : internationalIcon
+			}]
+			.concat(countries) : countries
 
 		this.on_key_down = this.on_key_down.bind(this)
 		this.on_change   = this.on_change.bind(this)
