@@ -81,15 +81,21 @@ export default class Input extends Component
 		//
 		// (and that should be working)
 		//
-		countries : PropTypes.arrayOf(PropTypes.shape
-		({
-			// Option value
-			value : React.PropTypes.string.isRequired,
-			// Option label
-			label : React.PropTypes.string.isRequired,
-			// Option icon
-			icon  : React.PropTypes.element
-		}))
+		countries : PropTypes.oneOfType
+		([
+			// Either a list of customized `<Select/>` options
+			PropTypes.arrayOf(PropTypes.shape
+			({
+				// Option value
+				value : React.PropTypes.string.isRequired,
+				// Option label
+				label : React.PropTypes.string.isRequired,
+				// Option icon
+				icon  : React.PropTypes.element
+			})),
+			// Or just a list of possible countries
+			PropTypes.arrayOf(PropTypes.string)
+		])
 		.isRequired,
 
 		// Custom national flag icons
@@ -145,21 +151,53 @@ export default class Input extends Component
 	{
 		super(props)
 
+		let { countries, country } = props
+
+		// Clone the array to avoid mutating properties being passed in
+		countries = countries.slice()
+
+		// Add the "International" option to the list of countries
+		let add_international_option = true
+
+		// If an array of country codes is passed
+		// then limit the available countries to only those ones specified
+		// (also excluding the "International" option from the list)
+		if (typeof countries[0] === 'string')
+		{
+			// If the passed `country` is not in the `countries` list,
+			// then just select the first one.
+			if (countries.indexOf(country) === -1)
+			{
+				country = countries[0]
+			}
+
+			// Generate country options
+			countries = country_names.filter(([value, label]) =>
+			{
+				return countries.indexOf(value.toUpperCase()) !== -1
+			})
+			.map(([value, label]) =>
+			({
+				value : value.toUpperCase(),
+				label,
+				icon  : get_country_option_icon(value.toUpperCase(), props)
+			}))
+
+			// No "International" option is needed here
+			add_international_option = false
+		}
+
+		// If the default country is set, then populate it
+		this.state.country_code = country
+
 		const
 		{
 			value,
-			country,
 			lockCountry,
-			countries,
-			flags,
-			flagsPath,
 			dictionary,
 			internationalIcon
 		}
 		= props
-
-		// If the default country is set, then populate it
-		this.state.country_code = country
 
 		if (value)
 		{
@@ -176,28 +214,42 @@ export default class Input extends Component
 		// for those option list items
 		// which don't have an icon set.
 		// (in case of user-supplied `countries` prop)
-		for (const country_option of countries)
+		let i = 0
+		while (i < countries.length)
 		{
-			const country_code = country_option.value.toLowerCase()
+			let country_option = countries[i]
 
-			if (flags && flags[country_code])
+			// Makes sure an `icon` is set for each country option
+			if (!country_option.icon)
 			{
-				country_option.icon = flags[country_code]
+				// Avoid mutating the original property
+				country_option = { ...country_option }
+				// Set the icon
+				const country_code = country_option.value.toLowerCase()
+				country_option.icon = get_country_option_icon(country_code, props)
+				// Update the country option in the list of options
+				countries[i] = country_option
 			}
-			else if (!country_option.icon)
-			{
-				country_option.icon = <img className="react-phone-number-input__icon" src={`${flagsPath}${country_code}.svg`}/>
-			}
+
+			i++
 		}
 
 		// `<select/>` `<option/>`s
-		this.select_options =
-		[{
-			value : '-',
-			label : dictionary.International || 'International',
-			icon  : internationalIcon
-		}]
-		.concat(countries)
+		this.select_options = []
+
+		// The default behaviour is to add the
+		// "International" option to the country list
+		if (add_international_option)
+		{
+			this.select_options.push
+			({
+				value : '-',
+				label : dictionary.International || 'International',
+				icon  : internationalIcon
+			})
+		}
+
+		this.select_options = this.select_options.concat(countries)
 
 		this.on_key_down = this.on_key_down.bind(this)
 		this.on_change   = this.on_change.bind(this)
@@ -386,12 +438,14 @@ export default class Input extends Component
 	// https://github.com/halt-hammerzeit/input-format
 	parse(character, value)
 	{
-		const { lockCountry } = this.props
+		const { lockCountry, countries } = this.props
 
-		// Only leading '+' is allowed
 		if (character === '+')
 		{
-			if (!lockCountry && !value)
+			// Only leading '+' is allowed
+			// (if `country` is not locked, or if `countries`
+			//  are not limited to a specific set of country codes)
+			if (!lockCountry && (typeof countries[0] !== 'string') && !value)
 			{
 				return character
 			}
@@ -498,18 +552,28 @@ export default class Input extends Component
 	// then select the default country.
 	componentWillReceiveProps(new_props)
 	{
-		const { country } = this.props
+		const { countries, country, value } = this.props
 
 		// If the default country changed
 		// (e.g. in case of IP detection)
 		if (new_props.country !== country)
 		{
-			// If the country hasn't been selected by the user yet
-			// (or autoselected based on the international phone number being input)
-			if (!this.state.country_code)
+			// If the phone number input field is currently empty
+			// (e.g. not touched yet) then change the selected `country`
+			// to the newly passed one (e.g. as a result of a GeoIP query)
+			if (!value)
 			{
-				// Then set it now (e.g. IP detection finished)
-				this.set_country(new_props.country)
+				// If the passed `country` is not in the `countries` list,
+				// then don't update the `country`.
+				if (typeof countries[0] === 'string' && countries.indexOf(new_props.country) === -1)
+				{
+					// Don't update the `country`
+				}
+				else
+				{
+					// Set the new `country`
+					this.set_country(new_props.country)
+				}
 			}
 		}
 	}
@@ -642,3 +706,13 @@ const select_style =
 }
 
 const input_style = select_style
+
+function get_country_option_icon(country_code, { flags, flagsPath })
+{
+	if (flags && flags[country_code])
+	{
+		return flags[country_code]
+	}
+
+	return <img className="react-phone-number-input__icon" src={`${flagsPath}${country_code.toLowerCase()}.svg`}/>
+}

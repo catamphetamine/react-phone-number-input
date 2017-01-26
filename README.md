@@ -65,7 +65,11 @@ The available props are
 
  * `onChange` — the function writing the phone number to the `value` variable
 
- * `country` — (optional) the default country (a two-letter country code)
+ * `country` — (optional) the default country; if this property changes and the user hasn't entered a phone number yet then this new `country` is selected
+
+ * `lockCountry` — (optional) if `true` then the specified `country` cannot be changed
+
+ * `countries` — (optional) only these country codes will be selectable (e.g. `['RU', 'KZ', 'UA']`)
 
  * `flagsPath` — (optional) A base URL path for national flag SVG icons. By default it loads flag icons from [`flag-icon-css` github repo](https://github.com/lipis/flag-icon-css). You might want to download those SVG flag icons and host them yourself.
 

@@ -1,3 +1,10 @@
+0.6.11 / 26.01.2017
+===================
+
+  * Added `lockCountry` option
+  * Added a possibility to specify `countries` as an array of country codes
+  * Fixed country selection on `country` property update
+
 0.6.8 / 03.01.2017
 ===================
 
