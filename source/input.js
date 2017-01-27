@@ -99,7 +99,11 @@ export default class Input extends Component
 		.isRequired,
 
 		// Custom national flag icons
-		flags : PropTypes.objectOf(React.PropTypes.element),
+		flags : PropTypes.oneOfType
+		([
+			PropTypes.objectOf(React.PropTypes.element),
+			PropTypes.bool
+		]),
 
 		// If set to `false`, then country flags will be shown
 		// for all countries in the options list
@@ -153,6 +157,16 @@ export default class Input extends Component
 
 		let { countries, country } = props
 
+		const
+		{
+			value,
+			lockCountry,
+			dictionary,
+			internationalIcon,
+			flags
+		}
+		= props
+
 		// Clone the array to avoid mutating properties being passed in
 		countries = countries.slice()
 
@@ -190,15 +204,6 @@ export default class Input extends Component
 		// If the default country is set, then populate it
 		this.state.country_code = country
 
-		const
-		{
-			value,
-			lockCountry,
-			dictionary,
-			internationalIcon
-		}
-		= props
-
 		if (value)
 		{
 			this.state.value = this.correct_initial_value_if_neccessary(value, country)
@@ -214,24 +219,27 @@ export default class Input extends Component
 		// for those option list items
 		// which don't have an icon set.
 		// (in case of user-supplied `countries` prop)
-		let i = 0
-		while (i < countries.length)
+		if (typeof flags === 'object')
 		{
-			let country_option = countries[i]
-
-			// Makes sure an `icon` is set for each country option
-			if (!country_option.icon)
+			let i = 0
+			while (i < countries.length)
 			{
-				// Avoid mutating the original property
-				country_option = { ...country_option }
-				// Set the icon
-				const country_code = country_option.value.toLowerCase()
-				country_option.icon = get_country_option_icon(country_code, props)
-				// Update the country option in the list of options
-				countries[i] = country_option
-			}
+				let country_option = countries[i]
 
-			i++
+				// Makes sure an `icon` is set for each country option
+				if (!country_option.icon)
+				{
+					// Avoid mutating the original property
+					country_option = { ...country_option }
+					// Set the icon
+					const country_code = country_option.value.toLowerCase()
+					country_option.icon = get_country_option_icon(country_code, props)
+					// Update the country option in the list of options
+					countries[i] = country_option
+				}
+
+				i++
+			}
 		}
 
 		// `<select/>` `<option/>`s
@@ -245,7 +253,7 @@ export default class Input extends Component
 			({
 				value : '-',
 				label : dictionary.International || 'International',
-				icon  : internationalIcon
+				icon  : flags === false ? undefined : internationalIcon
 			})
 		}
 
@@ -589,6 +597,7 @@ export default class Input extends Component
 			country,
 			lockCountry,
 			onCountryChange,
+			flags,
 			flagsPath,
 			disabled,
 			style,
@@ -709,6 +718,11 @@ const input_style = select_style
 
 function get_country_option_icon(country_code, { flags, flagsPath })
 {
+	if (flags === false)
+	{
+		return undefined
+	}
+
 	if (flags && flags[country_code])
 	{
 		return flags[country_code]
