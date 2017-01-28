@@ -1,3 +1,12 @@
+0.7.0 / 28.01.2017
+==================
+
+  * Added custom metadata feature (now developers have a way to reduce the resulting bundle size in case they decide they need that)
+  * `lockCountry` property removed (use `countries={[country]}` instead)
+  * Added `international` boolean property to explicitly indicate whether to show the "International" option in the list of countries
+  * Not showing country `<Select/>` when `countries.length === 1` or `countries.length === 0`
+  * `countries` property can now only be an array of country codes
+
 0.6.13 / 28.01.2017
 ===================
 

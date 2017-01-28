@@ -35,7 +35,7 @@ The international phone number input utilizes [`libphonenumber-js`](https://gith
 
 The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://halt-hammerzeit.github.io/react-responsive-ui/) library.
 
-The most convenient way of showing the list of countries would be to show national flags for all of them. This feature is implemented, but the overall size of the complete national flags bundle in SVG format is about 3 MegaBytes which is too much for a public internet website. Therefore the default behaviour is a compromise: instead of showing flags for all countries in the list only the flag for the currently selected country is shown. This way the user only downloads a single SVG image, and is not forced to download the whole international flag bundle.
+I could easily include all country flags in a form of `<svg/>` React elements as part of this library but the overall size of the bundle would then be about 3 MegaBytes (yeah, those SVGs turned out to be really huge) which is too much for a public internet website. Therefore the default behaviour is a compromise: instead of pleloading the flags for all countries in the list only the flag for the currently selected country is shown. This way the user only downloads a single SVG image, and is not forced to download the whole international flag bundle.
 
 ## CSS
 
@@ -67,15 +67,11 @@ The available props are
 
  * `country` — (optional) the default country; if this property changes and the user hasn't entered a phone number yet then this new `country` is selected
 
- * `lockCountry` — (optional) if `true` then the specified `country` cannot be changed
-
- * `countries` — (optional) only these country codes will be selectable (e.g. `['RU', 'KZ', 'UA']`)
+ * `countries` — (optional) only these countries will be allowed (e.g. `['RU', 'KZ', 'UA']`)
 
  * `flagsPath` — (optional) A base URL path for national flag SVG icons. By default it loads flag icons from [`flag-icon-css` github repo](https://github.com/lipis/flag-icon-css). You might want to download those SVG flag icons and host them yourself.
 
- * `flags` — (optional) Custom national flag icon React elements
-
- * `saveOnIcons` — if set to `false` then country flag icons will be shown in the options list
+ * `flags` — (optional) Custom national flag icon React elements (a map of country codes, or just `false` for no flags at all)
 
 For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/input.js).
 
@@ -99,13 +95,28 @@ For the full list of all possible `props` see the [source code](https://github.c
 
 ## Webpack
 
-If you're using Webpack 1 (which you most likely are) then make sure that
+If you're using Webpack 1 then make sure that
 
  * You have `json-loader` set up for `*.json` files in Webpack configuration
  * `json-loader` doesn't `exclude` `/node_modules/`
  * If you override `resolve.extensions` in Webpack configuration then make sure `.json` extension is present in the list
 
 Webpack 2 sets up `json-loader` by default so there's no need for any special configuration.
+
+## Reducing bundle size
+
+By default all countries are included which means that [`libphonenumber-js`](https://github.com/halt-hammerzeit/libphonenumber-js) loads the complete metadata set having the size of 75 KiloBytes. This really isn't much but for those who still want to reduce that to a lesser size there is a special exported `<Input/>` creator which takes custom `metadata` as an argument:
+
+```js
+import createInput from 'react-phone-number-input/custom'
+import metadata from './metadata.min.json'
+
+export default createInput(metadata)
+```
+
+For utilizing "tree-shaking" in ES6-capable bundlers (e.g. Webpack 2) `react-phone-number-input/custom.es6` may be used instead.
+
+For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/halt-hammerzeit/libphonenumber-js#customizing-metadata).
 
 ## Contributing
 
