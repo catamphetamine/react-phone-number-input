@@ -38,9 +38,9 @@
   },
   "scripts": {
     "generate-countries": "babel-node runnable/generate-countries",
-    "test": "mocha --compilers js:babel-core/register --colors --bail --reporter spec test/ --recursive",
-    "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/ --recursive",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --colors --reporter spec test/ --recursive",
+    "test": "mocha --require test/setup --colors --bail --reporter spec test/ --recursive",
+    "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/setup --colors --reporter dot test/ --recursive",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/setup --colors --reporter spec test/ --recursive",
     "browser-build": "npm run build-es6-modules && WEBPACK_ENV=build webpack",
     "browser-build-dev": "npm run build-es6-modules && WEBPACK_ENV=dev webpack --progress --colors --watch",
     "copy-json": "cp ./source/*.json ./build/ && cp ./source/*.json ./es6/",
