@@ -105,6 +105,10 @@ export default class Input extends Component
 			PropTypes.bool
 		]),
 
+		// A base URL path for national flag SVG icons.
+		// By default it uses the ones from `flag-icon-css` github repo.
+		flagsPath : PropTypes.string.isRequired,
+
 		// If set to `false`, then country flags will be shown
 		// for all countries in the options list
 		// (not just for selected country).
@@ -112,10 +116,6 @@ export default class Input extends Component
 
 		// Custom "International" phone number type icon.
 		internationalIcon : PropTypes.element.isRequired,
-
-		// A base URL path for national flag SVG icons.
-		// By default it uses the ones from `flag-icon-css` github repo.
-		flagsPath : PropTypes.string.isRequired,
 
 		// CSS style object
 		style : PropTypes.object,
@@ -219,7 +219,7 @@ export default class Input extends Component
 		// for those option list items
 		// which don't have an icon set.
 		// (in case of user-supplied `countries` prop)
-		if (typeof flags === 'object')
+		if (flags !== false)
 		{
 			let i = 0
 			while (i < countries.length)

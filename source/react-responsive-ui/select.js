@@ -2,7 +2,7 @@
 
 import React, { PureComponent, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-import styler from 'react-styling/flat'
+import { flat as styler } from 'react-styling'
 import classNames from 'classnames'
 
 import { is_reachable, submit_parent_form, get_scrollbar_width } from './misc/dom'
@@ -16,6 +16,11 @@ import { is_reachable, submit_parent_form, get_scrollbar_width } from './misc/do
 //
 // https://material.google.com/components/menus.html
 
+// This is to stretch the selected option `icon`
+// to the appropriate `line-height` when `concise` mode is set.
+// (And also to stretch the selected option with no `label`)
+const Zero_width_space = '\u200b'
+
 export default class Select extends PureComponent
 {
 	static propTypes =
@@ -26,9 +31,9 @@ export default class Select extends PureComponent
 			PropTypes.shape
 			({
 				// Option value
-				value : React.PropTypes.string.isRequired,
+				value : React.PropTypes.string,
 				// Option label
-				label : React.PropTypes.string.isRequired,
+				label : React.PropTypes.string,
 				// Option icon
 				icon  : React.PropTypes.node
 			})
@@ -52,6 +57,11 @@ export default class Select extends PureComponent
 
 		// Is called when an option is selected
 		onChange   : PropTypes.func,
+
+		// (exotic use case)
+		// Falls back to a plain HTML input
+		// when javascript is disabled (e.g. Tor)
+		fallback  : PropTypes.bool.isRequired,
 
 		// CSS class
 		className  : PropTypes.string,
@@ -119,7 +129,9 @@ export default class Select extends PureComponent
 
 		scrollbarPadding : true,
 
-		focusUponSelection : true
+		focusUponSelection : true,
+
+		fallback : false,
 
 		// transition_item_count_min : 1,
 		// transition_duration_min : 60, // milliseconds
@@ -128,9 +140,9 @@ export default class Select extends PureComponent
 
 	state = {}
 
-	constructor(props, context)
+	constructor(props)
 	{
-		super(props, context)
+		super(props)
 
 		// Shouldn't memory leak because
 		// the set of options is assumed to be constant.
@@ -143,19 +155,30 @@ export default class Select extends PureComponent
 		this.on_autocomplete_input_change = this.on_autocomplete_input_change.bind(this)
 		this.on_key_down_in_container = this.on_key_down_in_container.bind(this)
 
-		if (props.autocomplete)
+		const
 		{
-			if (!props.options)
+			autocomplete,
+			options,
+			children,
+			menu,
+			toggler,
+			onChange
+		}
+		= props
+
+		if (autocomplete)
+		{
+			if (!options)
 			{
 				throw new Error(`"options" property is required for an "autocomplete" select`)
 			}
 
-			this.state.filtered_options = props.options
+			this.state.filtered_options = options
 		}
 
-		if (props.children && !props.menu)
+		if (children && !menu)
 		{
-			React.Children.forEach(props.children, function(element)
+			React.Children.forEach(children, function(element)
 			{
 				if (!element.props.value)
 				{
@@ -169,12 +192,12 @@ export default class Select extends PureComponent
 			})
 		}
 
-		if (props.menu && !props.toggler)
+		if (menu && !toggler)
 		{
 			throw new Error(`Supply a "toggler" component when enabling "menu" in <Select/>`)
 		}
 
-		if (!props.menu && !props.onChange)
+		if (!menu && !onChange)
 		{
 			throw new Error(`"onChange" property must be specified for <Select/>`)
 		}
@@ -185,16 +208,23 @@ export default class Select extends PureComponent
 	{
 		document.addEventListener('click', this.document_clicked)
 
-		this.setState({ javascript: true })
+		const { fallback } = this.props
+
+		if (fallback)
+		{
+			this.setState({ javascript: true })
+		}
 	}
 
 	componentDidUpdate(previous_props, previous_state)
 	{
-		if (this.state.expanded !== previous_state.expanded)
+		const { expanded, height } = this.state
+
+		if (expanded !== previous_state.expanded)
 		{
-			if (this.state.expanded && this.should_animate())
+			if (expanded && this.should_animate())
 			{
-				if (this.state.height === undefined)
+				if (height === undefined)
 				{
 					this.calculate_height()
 				}
@@ -219,14 +249,17 @@ export default class Select extends PureComponent
 			alignment,
 			autocomplete,
 			saveOnIcons,
+			fallback,
+			disabled,
+			style,
 			className
 		}
 		= this.props
 
-		const { filtered_options } = this.state
+		const { filtered_options, expanded } = this.state
 		const options = autocomplete ? filtered_options : this.props.options
 
-		let list_style = upward ? style.list_upward : style.list_downward
+		let list_style = upward ? styles.list_upward : styles.list_downward
 
 		// Will be altered
 		list_style = { ...list_style }
@@ -260,77 +293,78 @@ export default class Select extends PureComponent
 		{
 			list_items = options.map(({ value, label, icon }, index) =>
 			{
-				return this.render_list_item({ value, label, icon: !saveOnIcons && icon, overflow })
+				return this.render_list_item({ index, value, label, icon: !saveOnIcons && icon, overflow })
 			})
 		}
 		// Else, if a list of options is supplied as a set of child React elements,
 		// then render those elements.
 		else
 		{
-			list_items = React.Children.map(children, element => this.render_list_item({ element }))
+			list_items = React.Children.map(children, (element, index) =>
+			{
+				return this.render_list_item({ index, element })
+			})
 		}
 
-		const wrapper_style = { ...style.wrapper, textAlign: alignment }
+		const wrapper_style = { ...styles.wrapper, textAlign: alignment }
 
 		const markup =
 		(
 			<div
-				ref={ref => this.select = ref}
-				onKeyDown={this.on_key_down_in_container}
-				style={ this.props.style ? { ...wrapper_style, ...this.props.style } : wrapper_style }
-				className={classNames
+				ref={ ref => this.select = ref }
+				onKeyDown={ this.on_key_down_in_container }
+				style={ style ? { ...wrapper_style, ...style } : wrapper_style }
+				className={ classNames
 				(
 					className,
-					'rrui__rich',
 					'rrui__select',
 					{
+						'rrui__rich'              : fallback,
 						'rrui__select--upward'    : upward,
-						'rrui__select--expanded'  : this.state.expanded,
-						'rrui__select--collapsed' : !this.state.expanded
+						'rrui__select--expanded'  : expanded,
+						'rrui__select--collapsed' : !expanded,
+						'rrui__select--disabled'  : disabled
 					}
-				)}
-				style={this.props.style}>
+				) }>
 
-				{/* List container */}
-				<div style={style.container}>
+				{/* Currently selected item */}
+				{ !menu && this.render_selected_item() }
 
-					{/* Currently selected item */}
-					{!menu && this.render_selected_item()}
+				{/* Menu toggler */}
+				{ menu &&
+					<div
+						ref={ ref => this.menu_toggler }
+						style={ styles.menu_toggler }>
+						{ React.cloneElement(toggler, { onClick : this.toggle }) }
+					</div>
+				}
 
-					{/* Menu toggler */}
-					{menu &&
-						<div ref={ref => this.menu_toggler} style={style.menu_toggler}>
-							{React.cloneElement(toggler, { onClick : this.toggle })}
-						</div>
-					}
-
-					{/* The list of selectable options */}
-					{/* Math.max(this.state.height, this.props.max_height) */}
-					<ul
-						ref={ref => this.list = ref}
-						style={list_style}
-						className={classNames
-						(
-							'rrui__select__options',
-							{
-								'rrui__select__options--expanded'             : this.state.expanded,
-								'rrui__select__options--simple-left-aligned'  : !children && alignment === 'left',
-								'rrui__select__options--simple-right-aligned' : !children && alignment === 'right'
-							}
-						)}>
-						{list_items}
-					</ul>
-				</div>
+				{/* The list of selectable options */}
+				{/* Math.max(this.state.height, this.props.max_height) */}
+				<ul
+					ref={ ref => this.list = ref }
+					style={ list_style }
+					className={ classNames
+					(
+						'rrui__select__options',
+						{
+							'rrui__select__options--expanded'             : expanded,
+							'rrui__select__options--simple-left-aligned'  : !children && alignment === 'left',
+							'rrui__select__options--simple-right-aligned' : !children && alignment === 'right'
+						}
+					) }>
+					{ list_items }
+				</ul>
 
 				{/* Fallback in case javascript is disabled */}
-				{!this.state.javascript && this.render_static()}
+				{ fallback && !this.state.javascript && this.render_static() }
 			</div>
 		)
 
 		return markup
 	}
 
-	render_list_item({ element, value, label, icon, overflow }) // , first, last
+	render_list_item({ index, element, value, label, icon, overflow }) // , first, last
 	{
 		const { disabled, menu, scrollbarPadding } = this.props
 		const { focused_option_value } = this.state
@@ -342,11 +376,11 @@ export default class Select extends PureComponent
 			value = element.props.value
 		}
 
-		const is_focused = value !== undefined && value === focused_option_value
+		const is_focused = !menu && value === focused_option_value
 
 		let list_item_style = { textAlign: 'left' }
 
-		let item_style = style.list_item
+		let item_style = styles.list_item
 
 		// on overflow the vertical scrollbar will take up space
 		// reducing padding-right and the only way to fix that
@@ -355,7 +389,7 @@ export default class Select extends PureComponent
 		// a hack to restore padding-right taken up by a vertical scrollbar
 		if (overflow && scrollbarPadding)
 		{
-			item_style = { ...style.list.item }
+			item_style = { ...styles.list.item }
 
 			item_style.marginRight = get_scrollbar_width() + 'px'
 		}
@@ -423,17 +457,26 @@ export default class Select extends PureComponent
 			</button>
 		}
 
+		// There can be an `undefined` value,
+		// so just `{ value }` won't do here,
+		// and `{ `${value}` }` is not ideal too,
+		// because there theoretically can be a value `"undefined"`.
+		const key = `${index} ${value}`
+
+		// Using just `index` for `ref`s is safe
+		// because when `key` changes then the `ref` is updated
+		// so there won't be inconsistencies.
 		const markup =
 		(
 			<li
-				key={value}
-				ref={ref => this.options[value] = ref}
-				className={classNames
+				key={ key }
+				ref={ ref => this.options[index] = ref }
+				className={ classNames
 				({
 					'rrui__select__separator-option' : element && element.type === Select.Separator
-				})}
-				style={list_item_style}>
-				{button}
+				}) }
+				style={ list_item_style }>
+				{ button }
 			</li>
 		)
 
@@ -453,20 +496,20 @@ export default class Select extends PureComponent
 			(
 				<input
 					type="text"
-					ref={ref => this.autocomplete = ref}
-					placeholder={selected_label || label}
-					value={autocomplete_input_value}
-					onChange={this.on_autocomplete_input_change}
-					onKeyDown={this.on_key_down}
-					style={{ width: autocomplete_width + 'px' }}
-					className={classNames
+					ref={ ref => this.autocomplete = ref }
+					placeholder={ selected_label || label }
+					value={ autocomplete_input_value }
+					onChange={ this.on_autocomplete_input_change }
+					onKeyDown={ this.on_key_down }
+					style={ { width: autocomplete_width + 'px' } }
+					className={ classNames
 					(
 						'rrui__select__selected',
 						'rrui__select__selected--autocomplete',
 						{
 							'rrui__select__selected--nothing' : !selected_label
 						}
-					)}/>
+					) }/>
 			)
 
 			return markup
@@ -491,6 +534,13 @@ export default class Select extends PureComponent
 					}
 				)}>
 
+				{/*
+				This is to stretch the selected option `icon`
+				to the appropriate `line-height` when `concise` mode is set.
+				(And also to stretch the selected option with no `label`)
+				*/}
+				{ Zero_width_space }
+
 				{/* the label (or icon) */}
 				{ (concise && selected && selected.icon) ? React.cloneElement(selected.icon, { title: selected_label }) : (selected_label || label) }
 
@@ -500,7 +550,7 @@ export default class Select extends PureComponent
 					{
 						'rrui__select__arrow--expanded': expanded
 					})}
-					style={style.arrow}/>
+					style={styles.arrow}/>
 			</button>
 		)
 
@@ -519,6 +569,7 @@ export default class Select extends PureComponent
 			options,
 			menu,
 			toggler,
+			style,
 			className,
 			children
 		}
@@ -537,18 +588,18 @@ export default class Select extends PureComponent
 					value={value === null ? undefined : value}
 					disabled={disabled}
 					onChange={event => {}}
-					style={ this.props.style ? { ...this.props.style, width: 'auto' } : { width: 'auto' } }
+					style={ style ? { ...style, width: 'auto' } : { width: 'auto' } }
 					className={className}>
 					{
 						options
 						?
-						options.map(item =>
+						options.map((item, i) =>
 						{
 							return <option
 								className="rrui__select__option"
-								key={item.value}
-								value={item.value}>
-								{item.label}
+								key={ `${i} ${item.value}` }
+								value={ item.value }>
+								{ item.label }
 							</option>
 						})
 						:
@@ -556,9 +607,9 @@ export default class Select extends PureComponent
 						{
 							return <option
 								className="rrui__select__option"
-								key={child.props.value}
-								value={child.props.value}>
-								{child.props.label}
+								key={ child.props.value }
+								value={ child.props.value }>
+								{ child.props.label }
 							</option>
 						})
 					}
@@ -571,7 +622,9 @@ export default class Select extends PureComponent
 
 	get_selected_option()
 	{
-		return this.get_option(this.props.value)
+		const { value } = this.props
+
+		return this.get_option(value)
 	}
 
 	get_option(value)
@@ -583,17 +636,39 @@ export default class Select extends PureComponent
 			return options.filter(x => x.value === value)[0]
 		}
 
-		let selected
+		let option
 
 		React.Children.forEach(children, function(child)
 		{
 			if (child.props.value === value)
 			{
-				selected = child
+				option = child
 			}
 		})
 
-		return selected
+		return option
+	}
+
+	get_option_index(option)
+	{
+		const { options, children } = this.props
+
+		if (options)
+		{
+			return options.indexOf(option)
+		}
+
+		let option_index
+
+		React.Children.forEach(children, function(child, index)
+		{
+			if (child.props.value === option.value)
+			{
+				option_index = index
+			}
+		})
+
+		return option_index
 	}
 
 	get_selected_option_label()
@@ -602,15 +677,17 @@ export default class Select extends PureComponent
 
 		const selected = this.get_selected_option()
 
-		if (selected)
+		if (!selected)
 		{
-			if (options)
-			{
-				return selected.label
-			}
-
-			return selected.props.label
+			return
 		}
+
+		if (options)
+		{
+			return selected.label
+		}
+
+		return selected.props.label
 	}
 
 	overflown()
@@ -697,7 +774,7 @@ export default class Select extends PureComponent
 				this.setState({ focused_option_value })
 
 				// Scroll down to the focused option
-				this.scroll_to(focused_option_value)
+				this.scroll_to(this.get_option(focused_option_value))
 			}
 
 			// If it's autocomplete, then focus <input/> field
@@ -854,12 +931,12 @@ export default class Select extends PureComponent
 				case 38:
 					event.preventDefault()
 
-					const previous = this.previous_focusable_option_value()
+					const previous = this.previous_focusable_option()
 
-					if (previous !== undefined)
+					if (previous)
 					{
 						this.show_option(previous, 'top')
-						return this.setState({ focused_option_value: previous })
+						return this.setState({ focused_option_value: previous.value })
 					}
 
 					return
@@ -868,12 +945,12 @@ export default class Select extends PureComponent
 				case 40:
 					event.preventDefault()
 
-					const next = this.next_focusable_option_value()
+					const next = this.next_focusable_option()
 
-					if (next !== undefined)
+					if (next)
 					{
 						this.show_option(next, 'bottom')
-						return this.setState({ focused_option_value: next })
+						return this.setState({ focused_option_value: next.value })
 					}
 
 					return
@@ -911,7 +988,9 @@ export default class Select extends PureComponent
 						// If an item is focused
 						// (which may not be a case
 						//  when autocomplete is matching no items)
-						if (focused_option_value)
+						// (still for non-autocomplete select
+						//  it is valid to have a default option)
+						if (this.get_options() && this.get_options().length > 0)
 						{
 							// Choose the focused item
 							this.item_clicked(focused_option_value)
@@ -933,21 +1012,23 @@ export default class Select extends PureComponent
 
 					return
 
-				// Open on Spacebar
+				// on Spacebar
 				case 32:
 					// Choose the focused item on Enter
 					if (expanded)
 					{
-						// ... only if it's not an autocomplete
-						if (!autocomplete)
+						// only if it it's an `options` select
+						// and also if it's not an autocomplete
+						if (this.get_options() && !autocomplete)
 						{
 							event.preventDefault()
 
-							if (focused_option_value)
-							{
-								this.item_clicked(focused_option_value)
-								this.toggle()
-							}
+							// `focused_option_value` could be non-existent
+							// in case of `autocomplete`, but since
+							// we're explicitly not handling autocomplete here
+							// it is valid to select any options including the default ones.
+							this.item_clicked(focused_option_value)
+							this.toggle()
 						}
 					}
 					// Expand the select otherwise
@@ -964,11 +1045,14 @@ export default class Select extends PureComponent
 
 	get_options()
 	{
-		return this.props.autocomplete ? this.state.filtered_options : this.props.options
+		const { autocomplete, options } = this.props
+		const { filtered_options } = this.state
+
+		return autocomplete ? filtered_options : options
 	}
 
 	// Get the previous value (relative to the currently focused value)
-	previous_focusable_option_value()
+	previous_focusable_option()
 	{
 		const options = this.get_options()
 		const { focused_option_value } = this.state
@@ -980,7 +1064,7 @@ export default class Select extends PureComponent
 			{
 				if (i - 1 >= 0)
 				{
-					return options[i - 1].value
+					return options[i - 1]
 				}
 			}
 			i++
@@ -988,7 +1072,7 @@ export default class Select extends PureComponent
 	}
 
 	// Get the next value (relative to the currently focused value)
-	next_focusable_option_value()
+	next_focusable_option()
 	{
 		const options = this.get_options()
 		const { focused_option_value } = this.state
@@ -1000,7 +1084,7 @@ export default class Select extends PureComponent
 			{
 				if (i + 1 < options.length)
 				{
-					return options[i + 1].value
+					return options[i + 1]
 				}
 			}
 			i++
@@ -1008,16 +1092,18 @@ export default class Select extends PureComponent
 	}
 
 	// Scrolls to an option having the value
-	scroll_to(value)
+	scroll_to(option)
 	{
-		const option_element = ReactDOM.findDOMNode(this.options[value])
+		const index = this.get_option_index(option)
+		const option_element = ReactDOM.findDOMNode(this.options[index])
 		ReactDOM.findDOMNode(this.list).scrollTop = option_element.offsetTop
 	}
 
 	// Fully shows an option (scrolls to it if neccessary)
-	show_option(value, gravity)
+	show_option(option, gravity)
 	{
-		const option_element = ReactDOM.findDOMNode(this.options[value])
+		const index = this.get_option_index(option)
+		const option_element = ReactDOM.findDOMNode(this.options[index])
 		const list = ReactDOM.findDOMNode(this.list)
 
 		switch (gravity)
@@ -1126,18 +1212,15 @@ export default class Select extends PureComponent
 
 Select.Separator = function(props)
 {
-	return <div className="rrui__select__separator" style={style.separator}/>
+	return <div className="rrui__select__separator" style={styles.separator}/>
 }
 
-const style = styler
+const styles = styler
 `
 	wrapper
-		display        : inline-block
-		vertical-align : bottom
-
-	container
 		position   : relative
-		text-align : inherit
+		display    : inline-block
+		// text-align : inherit
 
 		-webkit-user-select : none
 		-moz-user-select    : none
@@ -1150,7 +1233,8 @@ const style = styler
 	list
 		position        : absolute
 		z-index         : 1
-		margin          : 0
+		margin-top      : 0
+		margin-bottom   : 0
 		padding         : 0
 		list-style-type : none
 		overflow-x      : hidden

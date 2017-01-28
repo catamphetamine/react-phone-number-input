@@ -1,3 +1,8 @@
+0.6.13 / 28.01.2017
+===================
+
+  * Fixed the flags bug introduced by adding `flags={ false }` option
+
 0.6.12 / 27.01.2017
 ===================
 
