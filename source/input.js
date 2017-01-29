@@ -91,6 +91,10 @@ export default class Input extends Component
 		// (not just for selected country).
 		saveOnIcons : PropTypes.bool.isRequired,
 
+		// Whether to show country `<Select/>`
+		// (is `true` by default)
+		showCountrySelect : PropTypes.bool.isRequired,
+
 		// Whether to add the "International" option
 		// to the list of countries.
 		international : PropTypes.bool,
@@ -132,7 +136,10 @@ export default class Input extends Component
 		// Don't show flags for all countries in the options list
 		// (show it just for selected country).
 		// (to save user's traffic because all flags are about 3 MegaBytes)
-		saveOnIcons: true
+		saveOnIcons: true,
+
+		// Show country `<Select/>` by default
+		showCountrySelect: true
 	}
 
 	state = {}
@@ -539,6 +546,7 @@ export default class Input extends Component
 		{
 			dictionary,
 			saveOnIcons,
+			showCountrySelect,
 			international,
 			internationalIcon,
 			country,
@@ -562,7 +570,7 @@ export default class Input extends Component
 			{
 				'react-phone-number-input--valid': this.formatter && this.formatter.valid
 			}) }>
-				{ this.can_change_country() &&
+				{ showCountrySelect && this.can_change_country() &&
 					<Select
 						ref={ ref => this.select = ref }
 						value={ this.state.country_code }
