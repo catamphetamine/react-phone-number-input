@@ -1,4 +1,4 @@
-0.7.0 / 28.01.2017
+0.7.1 / 28.01.2017
 ==================
 
   * Added custom metadata feature (now developers have a way to reduce the resulting bundle size in case they decide they need that)

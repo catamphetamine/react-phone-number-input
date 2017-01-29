@@ -105,16 +105,29 @@ Webpack 2 sets up `json-loader` by default so there's no need for any special co
 
 ## Reducing bundle size
 
-By default all countries are included which means that [`libphonenumber-js`](https://github.com/halt-hammerzeit/libphonenumber-js) loads the complete metadata set having the size of 75 KiloBytes. This really isn't much but for those who still want to reduce that to a lesser size there is a special exported `<Input/>` creator which takes custom `metadata` as an argument:
+By default all countries are included which means that [`libphonenumber-js`](https://github.com/halt-hammerzeit/libphonenumber-js) loads the complete metadata set having the size of 75 KiloBytes. This really isn't much but for those who still want to reduce that to a lesser size there is a special exported `<Input/>` creator which takes custom `metadata` as an argument.
+
+For a "tree-shaking" ES6-capable bundler (e.g. Webpack 2) that would be
 
 ```js
-import createInput from 'react-phone-number-input/custom'
+import { Input } from 'react-phone-number-input'
 import metadata from './metadata.min.json'
 
-export default createInput(metadata)
+export default function Phone(props) {
+	return <Input { ...props } metadata={ metadata }/>
+}
 ```
 
-For utilizing "tree-shaking" in ES6-capable bundlers (e.g. Webpack 2) `react-phone-number-input/custom.es6` may be used instead.
+And for [Common.js](https://auth0.com/blog/javascript-module-systems-showdown/) environment that would be
+
+```js
+var Input = require('react-phone-number-input/custom')
+var metadata = require('./metadata.min.json')
+
+module.exports = function Phone(props) {
+	return <Input { ...props } metadata={ metadata }/>
+}
+```
 
 For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/halt-hammerzeit/libphonenumber-js#customizing-metadata).
 
