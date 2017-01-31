@@ -393,16 +393,45 @@ export default class Input extends Component
 
 		if (character === '+')
 		{
-			// If the "International" option is available
-			// then allow the leading `+`.
-			if (should_add_international_option(this.props) && !value)
+			// Only allow a leading `+`
+			if (!value)
 			{
+				// If the "International" option is available
+				// then allow the leading `+` because it's meant to be this way.
+				//
+				// Otherwise, the leading `+` will either erase all subsequent digits
+				// (if they're not appropriate for the selected country)
+				// or the subsequent digits (if any) will join the `+`
+				// forming an international phone number. Because a user
+				// might be comfortable with entering an international phone number
+				// (i.e. with country code) rather than the local one.
+				// Therefore such possibility is given.
+				//
 				return character
 			}
 		}
-		// Allow digits
+		// For digits
 		else if (character >= '0' && character <= '9')
 		{
+			const { metadata } = this.props
+			const { country_code } = this.state
+
+			// If the "International" option is not available
+			// and if the value has a leading `+`
+			// then it means that the phone number being entered
+			// is an international one, so only allow the country phone code
+			// for the selected country to be entered.
+
+			if (!should_add_international_option(this.props) && value && value[0] === '+')
+			{
+				if (!could_phone_number_belong_to_country(value + character, country_code, metadata))
+				{
+					return
+				}
+
+				return character
+			}
+
 			return character
 		}
 	}
@@ -726,4 +755,25 @@ function from_dictionary(key, properties)
 	const { dictionary } = properties
 
 	return dictionary[key] || default_dictionary[key]
+}
+
+// Is it possible that the partially entered  phone number belongs to the given country
+function could_phone_number_belong_to_country(phone_number, country_code, metadata)
+{
+	// Strip the leading `+`
+	const phone_number_digits = phone_number.slice(1)
+
+	for (const country_phone_code of Object.keys(metadata.country_phone_code_to_countries))
+	{
+		const possible_country_phone_code = phone_number_digits.substring(0, country_phone_code.length)
+		if (country_phone_code.indexOf(possible_country_phone_code) === 0)
+		{
+			// This country phone code is possible.
+			// Does the given country correspond to this country phone code.
+			if (metadata.country_phone_code_to_countries[country_phone_code].indexOf(country_code) >= 0)
+			{
+				return true
+			}
+		}
+	}
 }
