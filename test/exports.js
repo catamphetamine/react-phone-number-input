@@ -17,14 +17,14 @@ describe(`exports`, function()
 	{
 		const render = (<Phone value="" onChange={() => {}}/>)
 
-		is_valid_phone_number('+79991234567', 'RU')
-		isValidPhoneNumber('+79991234567', 'RU')
+		is_valid_phone_number('+79991234567')
+		isValidPhoneNumber('+79991234567')
 
-		parse_phone_number('+79991234567', 'RU')
-		parsePhoneNumber('+79991234567', 'RU')
+		parse_phone_number('+79991234567')
+		parsePhoneNumber('+79991234567')
 
-		format_phone_number('9991234567', 'RU')
-		formatPhoneNumber('9991234567', 'RU')
+		format_phone_number('9991234567', 'RU', 'National')
+		formatPhoneNumber('9991234567', 'RU', 'National')
 	})
 
 	it(`should export CommonJS`, function()
@@ -33,13 +33,13 @@ describe(`exports`, function()
 
 		const render = (<Phone value="" onChange={() => {}}/>)
 
-		Phone.is_valid_phone_number('+79991234567', 'RU')
-		Phone.isValidPhoneNumber('+79991234567', 'RU')
+		Phone.is_valid_phone_number('+79991234567')
+		Phone.isValidPhoneNumber('+79991234567')
 
-		Phone.parse_phone_number('+79991234567', 'RU')
-		Phone.parsePhoneNumber('+79991234567', 'RU')
+		Phone.parse_phone_number('+79991234567')
+		Phone.parsePhoneNumber('+79991234567')
 
-		Phone.format_phone_number('9991234567', 'RU')
-		Phone.formatPhoneNumber('9991234567', 'RU')
+		Phone.format_phone_number('9991234567', 'RU', 'National')
+		Phone.formatPhoneNumber('9991234567', 'RU', 'National')
 	})
 })
