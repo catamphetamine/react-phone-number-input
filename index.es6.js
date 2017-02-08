@@ -1,5 +1,5 @@
 import { createElement } from 'react'
-import metadata from 'libphonenumber-js/metadata.min'
+import metadata from 'libphonenumber-js/metadata.min.json'
 
 import CustomInput from './es6/input'
 

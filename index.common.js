@@ -1,7 +1,7 @@
 'use strict'
 
 var React = require('react')
-var metadata = require('libphonenumber-js/metadata.min')
+var metadata = require('libphonenumber-js/metadata.min.json')
 
 var Input = require('./custom').default
 

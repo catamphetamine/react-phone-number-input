@@ -1,4 +1,4 @@
-import country_names from '../source/international/country names'
+import country_names from '../source/international/country names.json'
 
 import path from 'path'
 import fs from 'fs'

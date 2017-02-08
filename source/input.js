@@ -8,7 +8,7 @@ import classNames from 'classnames'
 // just to reduce the overall bundle size.
 import { Select } from './react-responsive-ui'
 
-import country_names from './country names'
+import country_names from './country names.json'
 import International_icon from './international icon'
 
 // A list of all country codes
