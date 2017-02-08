@@ -202,6 +202,7 @@ export default class Input extends Component
 			})
 		}
 
+		this.focus       = this.focus.bind(this)
 		this.on_key_down = this.on_key_down.bind(this)
 		this.on_change   = this.on_change.bind(this)
 		this.set_country = this.set_country.bind(this)
@@ -382,7 +383,7 @@ export default class Input extends Component
 		// Focus the phone number input upon country selection
 		// (do it in a timeout because the `<input/>`
 		//  is hidden while selecting a country)
-		setTimeout(() => ReactDOM.findDOMNode(this.input).focus(), 0)
+		setTimeout(this.focus, 0)
 	}
 
 	// `input-format` `parse` character function
@@ -458,6 +459,12 @@ export default class Input extends Component
 		return { text, template: formatter.template }
 	}
 
+	// Can be called externally
+	focus()
+	{
+		ReactDOM.findDOMNode(this.input).focus()
+	}
+
 	// `<input/>` `onKeyDown` handler
 	on_key_down(event)
 	{
@@ -524,7 +531,7 @@ export default class Input extends Component
 		// Focus the phone number input upon country selection
 		// (do it in a timeout because the `<input/>`
 		//  is hidden while selecting a country)
-		setTimeout(() => ReactDOM.findDOMNode(this.input).focus(), 0)
+		setTimeout(this.focus, 0)
 	}
 
 	// Can a user change the default country or not.
