@@ -3,7 +3,7 @@ import metadata from 'libphonenumber-js/metadata.min.json'
 
 import CustomInput from './es6/input'
 
-export const Input = CustomInput
+export var Input = CustomInput
 
 export default function Phone(props)
 {
