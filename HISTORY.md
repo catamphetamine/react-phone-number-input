@@ -1,3 +1,8 @@
+0.7.5 / 22.02.2017
+==================
+
+  * `@JeandeCampredon` fixed `Const declarations are not supported in strict mode` in module exports
+
 0.7.1 / 28.01.2017
 ==================
 
