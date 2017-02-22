@@ -616,6 +616,7 @@ export default class Input extends Component
 						onToggle={ this.country_select_toggled }
 						onTabOut={ this.on_country_select_tab_out }
 						autocomplete
+						autocompleteShowAll
 						concise
 						focusUponSelection={ false }
 						saveOnIcons={ saveOnIcons }
