@@ -54,7 +54,7 @@ export default class Input extends Component
 
 		// Set 'onKeyDown' handler
 		// Can be used in special cases to handle e.g. enter pressed
-        onKeyDown: PropTypes.func,
+		onKeyDown: PropTypes.func,
 
 		// Disables both the <input/> and the <select/>
 		// (is `false` by default)
@@ -480,7 +480,7 @@ export default class Input extends Component
 			this.select.toggle()
 		}
 
-        onKeyDown(event)
+		onKeyDown(event)
 	}
 
 	// `<input/>` `onChange` handler.
