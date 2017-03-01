@@ -52,6 +52,10 @@ export default class Input extends Component
 		//  to make sure it works correctly with `redux-form`)
 		onBlur : PropTypes.func,
 
+		// Set `onKeyDown` handler.
+		// Can be used in special cases to handle e.g. enter pressed
+		onKeyDown : PropTypes.func,
+
 		// Disables both the <input/> and the <select/>
 		// (is `false` by default)
 		disabled : PropTypes.bool.isRequired,
@@ -468,10 +472,17 @@ export default class Input extends Component
 	// `<input/>` `onKeyDown` handler
 	on_key_down(event)
 	{
+		const { onKeyDown } = this.props
+
 		// Expand country `<select/>`` on "Down arrow" key press
 		if (event.keyCode === 40)
 		{
 			this.select.toggle()
+		}
+
+		if (onKeyDown)
+		{
+			onKeyDown(event)
 		}
 	}
 
