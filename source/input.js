@@ -54,7 +54,7 @@ export default class Input extends Component
 
 		// Set 'onKeyDown' handler
 		// Can be used in special cases to handle e.g. enter pressed
-		onKeyDown: PropTypes.func,
+		onKeyDown : PropTypes.func,
 
 		// Disables both the <input/> and the <select/>
 		// (is `false` by default)
@@ -472,7 +472,7 @@ export default class Input extends Component
 	// `<input/>` `onKeyDown` handler
 	on_key_down(event)
 	{
-		const {onKeyDown} = this.props
+		const { onKeyDown } = this.props
 
 		// Expand country `<select/>`` on "Down arrow" key press
 		if (event.keyCode === 40)
@@ -480,7 +480,10 @@ export default class Input extends Component
 			this.select.toggle()
 		}
 
-		onKeyDown(event)
+		if(onKeyDown)
+		{
+			onKeyDown(event)
+		}
 	}
 
 	// `<input/>` `onChange` handler.
