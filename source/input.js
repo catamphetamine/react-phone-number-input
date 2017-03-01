@@ -52,7 +52,7 @@ export default class Input extends Component
 		//  to make sure it works correctly with `redux-form`)
 		onBlur : PropTypes.func,
 
-		// Set 'onKeyDown' handler
+		// Set `onKeyDown` handler.
 		// Can be used in special cases to handle e.g. enter pressed
 		onKeyDown : PropTypes.func,
 
