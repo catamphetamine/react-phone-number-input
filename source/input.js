@@ -480,7 +480,7 @@ export default class Input extends Component
 			this.select.toggle()
 		}
 
-		if(onKeyDown)
+		if (onKeyDown)
 		{
 			onKeyDown(event)
 		}
