@@ -1,3 +1,28 @@
+
+
+
+
+
+
+
+
+// WHEN THIS SELECT COMPONENT IS GONNA BE RE-COPY-PASTED FROM REACT-RESPONSIVE-UI
+// THIS COULD BE POTENTIALLY A BREAKING CHANGE DUE TO STYLES BEING MOVED FROM INLINE TO CSS.
+
+// 0.8.0 / 25.02.2017
+// ==================
+//
+//   * (could be a breaking change) Moving CSS positioning properties from inline styles to the CSS file therefore if using an edited CSS file from older versions update styles for `.rrui__select` and `.rrui__select__options`
+
+
+
+
+
+
+
+
+
+
 // https://github.com/halt-hammerzeit/react-responsive-ui/blob/master/source/select.js
 
 import React, { PureComponent, PropTypes } from 'react'

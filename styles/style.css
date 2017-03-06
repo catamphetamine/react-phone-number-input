@@ -31,11 +31,22 @@
 
 .rrui__select
 {
-	color: black;
+	/*
+	Sometimes (e.g. when using mobile dropdown menus)
+	`position: relative` could be overridden to `static`
+	to allow for the menu stretching to full screen width.
+	*/
+	position : relative;
+	color    : black;
 }
 
 .rrui__select__options
 {
+	position : absolute;
+	z-index  : 1;
+	margin   : 0;
+	padding  : 0;
+
 	transition-property        : max-height, border-color, box-shadow, opacity;
 	transition-duration        : 0ms; /* don't animate short lists */
 	transition-timing-function : ease-out;
@@ -66,6 +77,24 @@
 .rrui__select__options--simple-right-aligned
 {
 	right : calc(0.3rem * 4 * -1) !important;
+}
+
+.rrui__select__options--downward
+{
+	/* When an html page is overflown by a long list
+	   then this bottom margin helps to see that
+	   there's no more options left out being clipped or something */
+	margin-bottom : 1em;
+}
+
+.rrui__select__options--upward
+{
+	bottom : 100%;
+
+	/* When an html page is overflown by a long list
+	   then this bottom margin helps to see that
+	   there's no more options left out being clipped or something */
+	margin-top : 1em;
 }
 
 .rrui__select__options li
@@ -244,7 +273,6 @@
 {
 	opacity: 0.3;
 }
-
 
 /*===========================================================
 = React-phone-number-input                                  =
