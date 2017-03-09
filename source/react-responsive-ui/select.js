@@ -12,7 +12,7 @@
 // 0.8.0 / 25.02.2017
 // ==================
 //
-//   * (could be a breaking change) Moving CSS positioning properties from inline styles to the CSS file therefore if using an edited CSS file from older versions update styles for `.rrui__select` and `.rrui__select__options`
+//   * (could be a breaking change) Moving CSS positioning properties from inline styles to the CSS file therefore if using an edited CSS file from older versions update styles for `.rrui__select` and `.rrui__select__options`. As well as `.rrui__expandable` and `.rrui__shadow` have been added. Maybe something else, so better diff the entire CSS file.
 
 
 
