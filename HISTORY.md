@@ -1,3 +1,8 @@
+0.7.9 / 12.03.2017
+==================
+
+  * Fixed a small bug when the `country` property was set after page load programmatically and that caused the input taking focus (which displayed a keyboard on mobile devices)
+
 0.7.5 / 22.02.2017
 ==================
 

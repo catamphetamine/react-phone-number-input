@@ -292,7 +292,7 @@ export default class Input extends Component
 	}
 
 	// `<select/>` `onChange` handler
-	set_country(country_code)
+	set_country(country_code, focus)
 	{
 		const { metadata } = this.props
 
@@ -387,7 +387,10 @@ export default class Input extends Component
 		// Focus the phone number input upon country selection
 		// (do it in a timeout because the `<input/>`
 		//  is hidden while selecting a country)
-		setTimeout(this.focus, 0)
+		if (focus !== false)
+		{
+			setTimeout(this.focus, 0)
+		}
 	}
 
 	// `input-format` `parse` character function
@@ -581,7 +584,7 @@ export default class Input extends Component
 				if (countries.indexOf(new_props.country) !== -1)
 				{
 					// Set the new `country`
-					this.set_country(new_props.country)
+					this.set_country(new_props.country, false)
 				}
 			}
 		}
