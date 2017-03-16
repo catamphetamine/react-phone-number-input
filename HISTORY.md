@@ -1,3 +1,9 @@
+0.7.11 / 16.03.2017
+===================
+
+  * Fixed a small bug when an initially passed phone number `value` wasn't checked for country autodetection
+  * A small enhancement: when an international phone number is erased to a single `+` then the currently selected country is reset. And, analogous, when a country is selected, and the input is empty, and then the user enters a single `+` sign — the country is reset too.
+
 0.7.9 / 12.03.2017
 ==================
 

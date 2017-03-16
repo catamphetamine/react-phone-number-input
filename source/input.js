@@ -106,6 +106,11 @@ export default class Input extends Component
 		// Custom "International" phone number type icon.
 		internationalIcon : PropTypes.element.isRequired,
 
+		// Should the initially passed phone number `value`
+		// be converted to a national phone number for its country.
+		// (is `true` by default)
+		convertToNational : PropTypes.bool.isRequired,
+
 		// CSS style object
 		style : PropTypes.object,
 
@@ -143,7 +148,11 @@ export default class Input extends Component
 		saveOnIcons: true,
 
 		// Show country `<Select/>` by default
-		showCountrySelect: true
+		showCountrySelect: true,
+
+		// Convert the initially passed phone number `value`
+		// to a national phone number for its country.
+		convertToNational: true
 	}
 
 	state = {}
@@ -164,6 +173,14 @@ export default class Input extends Component
 		= props
 
 		let { country } = props
+
+		// Autodetect country if value is set
+		// and is international (which it should be)
+		if (!country && value && value[0] === '+')
+		{
+			// Will be left `undefined` in case of non-detection
+			country = parse(value).country
+		}
 
 		// If there will be no "International" option
 		// then a `country` must be selected.
@@ -233,7 +250,7 @@ export default class Input extends Component
 	//
 	correct_initial_value_if_neccessary(value, country_code)
 	{
-		const { metadata } = this.props
+		const { metadata, convertToNational } = this.props
 
 		if (!value)
 		{
@@ -244,7 +261,7 @@ export default class Input extends Component
 		if (country_code)
 		{
 			// If the value has a leading plus sign
-			if (value[0] === '+')
+			if (value[0] === '+' && convertToNational)
 			{
 				// If it's a fully-entered phone number
 				// that converts into a valid national number for this country
@@ -504,20 +521,31 @@ export default class Input extends Component
 			return onChange(value)
 		}
 
-		// If a phone number is being input as an international one
-		// and the country code can already be derived,
-		// then switch the country.
-		// (`001` is a special "non-geograpical entity" code in `libphonenumber` library)
-		if (value[0] === '+' && this.formatter.country && this.formatter.country !== '001')
+		// For international phone number
+		if (value[0] === '+')
 		{
-			country_code = this.formatter.country
-			this.set_country_code_value(country_code)
+			// If an international phone number is being erased up to the first `+` sign
+			// or if an international phone number is just starting (with a `+` sign)
+			// then unset the current country because it's clear that a user intends to change it.
+			if (value.length === 1)
+			{
+				country_code = undefined
+				this.set_country_code_value(country_code)
+			}
+			// If a phone number is being input as an international one
+			// and the country code can already be derived,
+			// then switch the country.
+			// (`001` is a special "non-geograpical entity" code in `libphonenumber` library)
+			else if (this.formatter.country && this.formatter.country !== '001')
+			{
+				country_code = this.formatter.country
+				this.set_country_code_value(country_code)
+			}
 		}
-
 		// If "International" mode is selected
 		// and the `value` doesn't start with a + sign,
 		// then prepend it to the `value`.
-		if (value[0] !== '+' && !country_code)
+		else if (!country_code)
 		{
 			value = '+' + value
 		}
