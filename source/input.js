@@ -679,7 +679,7 @@ export default class Input extends Component
 						parse={ this.parse }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
-						className={ classNames('react-phone-number-input__phone',
+						className={ classNames('rrui__input', 'react-phone-number-input__phone',
 						{
 							'react-phone-number-input__phone--valid': this.formatter && this.formatter.valid
 						}) }

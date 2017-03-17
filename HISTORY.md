@@ -1,3 +1,8 @@
+0.8.0 / 17.03.2017
+==================
+
+  * (could be a breaking change) Moving CSS positioning properties from inline styles to the CSS file therefore if using an edited CSS file from older versions (when not doing it via Webpack `require(...)`) update styles for `.rrui__select` and `.rrui__select__options`. As well as `.rrui__expandable` and `.rrui__shadow` have been added. Maybe (and most likely) something else, so better re-copy the entire CSS file.
+
 0.7.11 / 16.03.2017
 ===================
 

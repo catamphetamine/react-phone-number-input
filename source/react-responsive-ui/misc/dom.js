@@ -29,36 +29,3 @@ export function get_scrollbar_width()
 
 	return 17
 }
-
-export function is_reachable(element, ancestor)
-{
-	if (element === ancestor)
-	{
-		return true
-	}
-
-	while (element = element.parentElement)
-	{
-		if (element === ancestor)
-		{
-			return true
-		}
-	}
-}
-
-// function find_ancestor_by_class(element, class_name)
-// {
-// 	while ((element = element.parentElement) && !element.classList.contains(class_name)) {}
-// 	return element
-// }
-
-// function is_descendant(element, ancestor)
-// {
-// 	while (element = element.parentElement)
-// 	{
-// 		if (element === ancestor)
-// 		{
-// 			return true
-// 		}
-// 	}
-// }
