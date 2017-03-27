@@ -602,9 +602,14 @@ export default class Select extends PureComponent
 				) }>
 
 				{/* http://stackoverflow.com/questions/35464067/flexbox-not-working-on-button-element-in-some-browsers */}
-				<div style={ styles.selected_flex_wrapper }>
+				<div
+					style={ styles.selected_flex_wrapper }
+					className="rrui__select__selected-content">
+
 					{/* Selected option label (or icon) */}
-					<div style={ styles.selected_label }>
+					<div
+						style={ styles.selected_label }
+						className="rrui__select__selected-label">
 						{ (concise && selected && selected.icon) ? React.cloneElement(selected.icon, { title: selected_label }) : selected_text }
 					</div>
 
@@ -819,8 +824,7 @@ export default class Select extends PureComponent
 
 		if (!expanded && autocomplete)
 		{
-			const selected = this.get_selected_option()
-			const autocomplete_value = (selected && selected.value && this.get_selected_option_label()) || ''
+			const autocomplete_value = this.get_selected_option_label() || ''
 
 			this.setState
 			({
@@ -1259,19 +1263,20 @@ export default class Select extends PureComponent
 		return !menu && (autocomplete && autocompleteShowAll || !autocomplete) && scroll
 	}
 
-	// This only works when `autocompleteShowAll` is set
-	get_widest_label_width()
-	{
-		// <ul/> -> <li/> -> <button/>
-		const label = ReactDOM.findDOMNode(this.list).firstChild.firstChild
-
-		const style = getComputedStyle(label)
-
-		const width = parseFloat(style.width)
-		const side_padding = parseFloat(style.paddingLeft)
-
-		return width - 2 * side_padding
-	}
+	// This turned out not to work for `autocomplete`
+	// because not all options are ever shown.
+	// get_widest_label_width()
+	// {
+	// 	// <ul/> -> <li/> -> <button/>
+	// 	const label = ReactDOM.findDOMNode(this.list).firstChild.firstChild
+	//
+	// 	const style = getComputedStyle(label)
+	//
+	// 	const width = parseFloat(style.width)
+	// 	const side_padding = parseFloat(style.paddingLeft)
+	//
+	// 	return width - 2 * side_padding
+	// }
 
 	get_matching_options(options, value)
 	{
@@ -1343,32 +1348,44 @@ const styles = styler
 		// "position: relative" could be overridden to "static"
 		// to allow for the menu stretching to full screen width.
 		// Therefore it was moved to CSS from inline styles.
+
 		-webkit-user-select : none
 		-moz-user-select    : none
 		-ms-user-select     : none
 		user-select         : none
+
 	list
 		list-style-type : none
 		overflow-x      : hidden
+
 	selected
 		box-sizing : border-box
+
 	selected_flex_wrapper
 		display     : flex
 		align-items : center
+
 	selected_label
-		flex : 1
+		flex          : 1
+		overflow      : hidden
+		text-overflow : ellipsis
+
 	arrow
+
 	separator
 		padding     : 0
 		line-height : 0
 		font-size   : 0
+
 	label
 		position    : absolute
 		white-space : nowrap
+
 		-webkit-user-select : none
 		-moz-user-select    : none
 		-ms-user-select     : none
 		user-select         : none
+
 		// Vertically align
 		display     : flex
 		align-items : center
