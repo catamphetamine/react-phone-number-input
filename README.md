@@ -1,7 +1,7 @@
 # react-phone-number-input
 
-[![NPM Version][npm-badge]][npm]
-[![Build Status][travis-badge]][travis]
+[![npm version](https://img.shields.io/npm/v/react-phone-number-input.svg?style=flat-square)](https://www.npmjs.com/package/react-phone-number-input)
+[![npm downloads](https://img.shields.io/npm/dm/react-phone-number-input.svg?style=flat-square)](https://www.npmjs.com/package/react-phone-number-input)
 
 International phone number `<input/>` (and output) (in React) (iPhone style)
 
