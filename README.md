@@ -169,9 +169,3 @@ npm install [module name with version].tar.gz
 ## License
 
 [MIT](LICENSE)
-[npm]: https://www.npmjs.org/package/react-phone-number-input
-[npm-badge]: https://img.shields.io/npm/v/react-phone-number-input.svg?style=flat-square
-[travis]: https://travis-ci.org/halt-hammerzeit/react-phone-number-input
-[travis-badge]: https://img.shields.io/travis/halt-hammerzeit/react-phone-number-input/master.svg?style=flat-square
-[coveralls]: https://coveralls.io/r/halt-hammerzeit/react-phone-number-input?branch=master
-[coveralls-badge]: https://img.shields.io/coveralls/halt-hammerzeit/react-phone-number-input/master.svg?style=flat-square
