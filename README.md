@@ -7,6 +7,8 @@ International phone number `<input/>` (and output) (in React) (iPhone style)
 
 [See Demo](http://halt-hammerzeit.github.io/react-phone-number-input/)
 
+![Screenshot #1](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/Screen Shot 2016-12-24 at 12.37.51.png)
+
 [![Screenshot #1](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/Screen Shot 2016-12-24 at 12.37.51.png)](https://www.youtube.com/watch?v=6e1pMrYH5jI)
 
 [![Screenshot #2](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/Screen Shot 2016-12-24 at 12.35.26.png)](https://www.youtube.com/watch?v=vsE5nHBxt2w)
