@@ -340,11 +340,6 @@
 	border-bottom-color: #0093C4;
 }
 
-.react-phone-number-input__phone--valid:focus
-{
-	border-bottom-color: #18C900;
-}
-
 /* Custom style for flag icons */
 .react-phone-number-input .rrui__select__arrow
 {

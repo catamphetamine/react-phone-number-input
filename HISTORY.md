@@ -1,3 +1,8 @@
+0.8.1 / 27.03.2017
+==================
+
+  * The `.valid` property has been removed from "as you type" formatter, therefore dropping the `.react-phone-number-input__phone--valid` CSS class. This doesn't affect functionality in any way nor does it break existing code therefore it's a "patch" version upgrade.
+
 0.8.0 / 17.03.2017
 ==================
 

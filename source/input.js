@@ -645,10 +645,7 @@ export default class Input extends Component
 
 		const markup =
 		(
-			<div style={ style } className={ classNames('react-phone-number-input', className,
-			{
-				'react-phone-number-input--valid': this.formatter && this.formatter.valid
-			}) }>
+			<div style={ style } className={ classNames('react-phone-number-input', className) }>
 				{ showCountrySelect && this.can_change_country() &&
 					<Select
 						ref={ ref => this.select = ref }
@@ -679,10 +676,7 @@ export default class Input extends Component
 						parse={ this.parse }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
-						className={ classNames('rrui__input', 'react-phone-number-input__phone',
-						{
-							'react-phone-number-input__phone--valid': this.formatter && this.formatter.valid
-						}) }
+						className={ classNames('rrui__input', 'react-phone-number-input__phone') }
 						style={ input_style }/>
 				}
 			</div>
