@@ -385,8 +385,14 @@ export default class Select extends PureComponent
 						{
 							'rrui__expandable--expanded'                  : expanded,
 							'rrui__select__options--expanded'             : expanded,
+
+							'rrui__expandable--left-aligned'              : alignment === 'left',
+							'rrui__expandable--right-aligned'             : alignment === 'right',
+
+							// Legacy CSS classes, can be removed after some minor version bump
 							'rrui__select__options--left-aligned'         : alignment === 'left',
 							'rrui__select__options--right-aligned'        : alignment === 'right',
+
 							'rrui__select__options--simple-left-aligned'  : !children && alignment === 'left',
 							'rrui__select__options--simple-right-aligned' : !children && alignment === 'right',
 							// CSS selector performance optimization
@@ -824,12 +830,13 @@ export default class Select extends PureComponent
 
 		if (!expanded && autocomplete)
 		{
-			const autocomplete_value = this.get_selected_option_label() || ''
-
 			this.setState
 			({
-				autocomplete_input_value : autocomplete_value,
-				matching_options         : this.get_matching_options(options, autocomplete_value)
+				// The input value can't be `undefined`
+				// because in that case React would complain
+				// about it being an "uncontrolled input"
+				autocomplete_input_value : '',
+				matching_options         : options
 			})
 
 			// if (!this.state.autocomplete_width)
