@@ -11,6 +11,8 @@ International phone number `<input/>` (and output) (in React) (iPhone style)
 
 [![Screenshot #2](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.35.26.png)](https://www.youtube.com/watch?v=vsE5nHBxt2w)
 
+[![Native `<select/>`](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/native-select.png)]
+
 ## Installation
 
 ```
