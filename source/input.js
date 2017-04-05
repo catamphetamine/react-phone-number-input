@@ -90,6 +90,9 @@ export default class Input extends Component
 		// By default it uses the ones from `flag-icon-css` github repo.
 		flagsPath : PropTypes.string.isRequired,
 
+		// Whether to use native `<select/>` when expanded
+		nativeExpanded : PropTypes.bool.isRequired,
+
 		// If set to `false`, then country flags will be shown
 		// for all countries in the options list
 		// (not just for selected country).
@@ -141,6 +144,9 @@ export default class Input extends Component
 
 		// Custom country names
 		dictionary: {},
+
+		// Whether to use native `<select/>` when expanded
+		nativeExpanded: false,
 
 		// Don't show flags for all countries in the options list
 		// (show it just for selected country).
@@ -222,16 +228,6 @@ export default class Input extends Component
 				icon  : get_country_option_icon(country_code, props)
 			})
 		}
-
-		this.focus       = this.focus.bind(this)
-		this.on_key_down = this.on_key_down.bind(this)
-		this.on_change   = this.on_change.bind(this)
-		this.set_country = this.set_country.bind(this)
-		this.parse       = this.parse.bind(this)
-		this.format      = this.format.bind(this)
-
-		this.country_select_toggled    = this.country_select_toggled.bind(this)
-		this.on_country_select_tab_out = this.on_country_select_tab_out.bind(this)
 	}
 
 	// If the country code is specified
@@ -309,7 +305,7 @@ export default class Input extends Component
 	}
 
 	// `<select/>` `onChange` handler
-	set_country(country_code, focus)
+	set_country = (country_code, focus) =>
 	{
 		const { metadata } = this.props
 
@@ -398,7 +394,7 @@ export default class Input extends Component
 			// and update `this.props.value` (in e.164 phone number format)
 			// according to the new `this.state.value`.
 			// (keep them in sync)
-			this.on_change(value, country_code)
+			this.on_change(value, country_code, true)
 		}
 
 		// Focus the phone number input upon country selection
@@ -412,7 +408,7 @@ export default class Input extends Component
 
 	// `input-format` `parse` character function
 	// https://github.com/halt-hammerzeit/input-format
-	parse(character, value)
+	parse = (character, value) =>
 	{
 		const { countries } = this.props
 
@@ -463,7 +459,7 @@ export default class Input extends Component
 
 	// `input-format` `format` function
 	// https://github.com/halt-hammerzeit/input-format
-	format(value, country_code = this.state.country_code)
+	format = (value, country_code = this.state.country_code) =>
 	{
 		const { metadata } = this.props
 
@@ -484,13 +480,13 @@ export default class Input extends Component
 	}
 
 	// Can be called externally
-	focus()
+	focus = () =>
 	{
 		ReactDOM.findDOMNode(this.input).focus()
 	}
 
 	// `<input/>` `onKeyDown` handler
-	on_key_down(event)
+	on_key_down = (event) =>
 	{
 		const { onKeyDown } = this.props
 
@@ -510,7 +506,7 @@ export default class Input extends Component
 	// Updates `this.props.value` (in e.164 phone number format)
 	// according to the new `this.state.value`.
 	// (keeps them in sync)
-	on_change(value, country_code = this.state.country_code)
+	on_change = (value, country_code = this.state.country_code, changed_country = false) =>
 	{
 		const { metadata, onChange } = this.props
 
@@ -536,7 +532,7 @@ export default class Input extends Component
 			// and the country code can already be derived,
 			// then switch the country.
 			// (`001` is a special "non-geograpical entity" code in `libphonenumber` library)
-			else if (this.formatter.country && this.formatter.country !== '001')
+			else if (!changed_country && this.formatter.country && this.formatter.country !== '001')
 			{
 				country_code = this.formatter.country
 				this.set_country_code_value(country_code)
@@ -559,14 +555,14 @@ export default class Input extends Component
 	}
 
 	// When country `<select/>` is toggled
-	country_select_toggled(is_shown)
+	country_select_toggled = (is_shown) =>
 	{
 		this.setState({ country_select_is_shown: is_shown })
 	}
 
 	// Focuses the `<input/>` field
 	// on tab out of the country `<select/>`
-	on_country_select_tab_out(event)
+	on_country_select_tab_out = (event) =>
 	{
 		event.preventDefault()
 
@@ -633,6 +629,7 @@ export default class Input extends Component
 			flags,
 			flagsPath,
 			convertToNational,
+			nativeExpanded,
 			disabled,
 			style,
 			className,
@@ -655,6 +652,7 @@ export default class Input extends Component
 						disabled={ disabled }
 						onToggle={ this.country_select_toggled }
 						onTabOut={ this.on_country_select_tab_out }
+						nativeExpanded={ nativeExpanded }
 						autocomplete
 						autocompleteShowAll
 						concise

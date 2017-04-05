@@ -1,3 +1,8 @@
+0.8.5 / 05.04.2017
+==================
+
+  * Added `nativeExpanded` setting for native country `<select/>`
+
 0.8.1 / 27.03.2017
 ==================
 

@@ -72,6 +72,8 @@ The available props are
 
  * `flags` — (optional) Custom national flag icon React elements (a map of country codes, or just `false` for no flags at all)
 
+ * `nativeExpanded` — if set to `true` will render native `<select/>` when country selector is expanded instead of the custom one with autocomplete
+
 For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/input.js).
 
 ### isValidPhoneNumber
