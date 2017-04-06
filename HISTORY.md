@@ -1,3 +1,8 @@
+0.8.5 / 06.04.2017
+==================
+
+  * Added `inputTabIndex` and `selectTabIndex` settings
+
 0.8.5 / 05.04.2017
 ==================
 

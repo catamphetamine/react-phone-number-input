@@ -114,6 +114,12 @@ export default class Input extends Component
 		// (is `true` by default)
 		convertToNational : PropTypes.bool.isRequired,
 
+		// HTML `tabindex` attribute for the country select
+		selectTabIndex    : PropTypes.number,
+
+		// HTML `tabindex` attribute for the phone number input
+		inputTabIndex     : PropTypes.number,
+
 		// CSS style object
 		style : PropTypes.object,
 
@@ -631,6 +637,8 @@ export default class Input extends Component
 			convertToNational,
 			nativeExpanded,
 			disabled,
+			selectTabIndex,
+			inputTabIndex,
 			style,
 			className,
 			metadata,
@@ -656,6 +664,7 @@ export default class Input extends Component
 						autocomplete
 						autocompleteShowAll
 						concise
+						tabIndex={ selectTabIndex }
 						focusUponSelection={ false }
 						saveOnIcons={ saveOnIcons }
 						name={ input_props.name ? `${input_props.name}__country` : undefined }
@@ -671,6 +680,7 @@ export default class Input extends Component
 						onChange={ this.on_change }
 						disabled={ disabled }
 						type="tel"
+						tabIndex={ inputTabIndex }
 						parse={ this.parse }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
