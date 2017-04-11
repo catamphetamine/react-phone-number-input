@@ -1,6 +1,7 @@
 // https://github.com/halt-hammerzeit/react-responsive-ui/blob/master/source/select.js
 
-import React, { PureComponent, PropTypes } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { flat as styler } from 'react-styling'
 import classNames from 'classnames'
@@ -18,11 +19,11 @@ import { submit_parent_form, get_scrollbar_width } from './misc/dom'
 
 const Empty_value_option_value = ''
 
-const value_prop_type = React.PropTypes.oneOfType
+const value_prop_type = PropTypes.oneOfType
 ([
-	React.PropTypes.string,
-	React.PropTypes.number,
-	React.PropTypes.bool
+	PropTypes.string,
+	PropTypes.number,
+	PropTypes.bool
 ])
 
 export default class Select extends PureComponent
@@ -37,9 +38,9 @@ export default class Select extends PureComponent
 				// Option value (may be `undefined`)
 				value : value_prop_type,
 				// Option label (may be `undefined`)
-				label : React.PropTypes.string,
+				label : PropTypes.string,
 				// Option icon
-				icon  : React.PropTypes.node
+				icon  : PropTypes.node
 			})
 		),
 

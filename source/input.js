@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { as_you_type, parse, format } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
@@ -82,7 +83,7 @@ export default class Input extends Component
 		// Custom national flag icons
 		flags : PropTypes.oneOfType
 		([
-			PropTypes.objectOf(React.PropTypes.element),
+			PropTypes.objectOf(PropTypes.element),
 			PropTypes.bool
 		]),
 
