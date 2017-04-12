@@ -968,7 +968,7 @@ export default class Select extends PureComponent
 				// The input value can't be `undefined`
 				// because in that case React would complain
 				// about it being an "uncontrolled input"
-				autocomplete_input_value : undefined,
+				autocomplete_input_value : '',
 				matching_options         : options
 			})
 
