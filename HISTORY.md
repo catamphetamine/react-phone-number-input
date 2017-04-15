@@ -1,3 +1,8 @@
+0.8.10 / 15.04.2017
+===================
+
+  * Added support for externally changing `value` property
+
 0.8.5 / 06.04.2017
 ==================
 

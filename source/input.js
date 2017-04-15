@@ -183,9 +183,9 @@ export default class Input extends Component
 			internationalIcon,
 			flags
 		}
-		= props
+		= this.props
 
-		let { country } = props
+		let { country } = this.props
 
 		// Autodetect country if value is set
 		// and is international (which it should be)
@@ -197,7 +197,7 @@ export default class Input extends Component
 
 		// If there will be no "International" option
 		// then a `country` must be selected.
-		if (!should_add_international_option(props) && !country)
+		if (!should_add_international_option(this.props) && !country)
 		{
 			country = countries[0]
 		}
@@ -208,19 +208,23 @@ export default class Input extends Component
 		// If a phone number `value` is passed then format it
 		if (value)
 		{
-			// Set the currently entered `value`
-			this.state.value = this.correct_initial_value_if_neccessary(value, country)
+			// Take note of the current `value` property
+			this.state.value_property = value
+			// Set the currently entered `value`.
+			// State `value` is either in international plaintext or just plaintext format.
+			// (e.g. `+78005553535`, `1234567`)
+			this.state.value = this.correct_value_depending_on_the_country_selected(value, country)
 		}
 
 		// `<Select/>` options
 		this.select_options = []
 
 		// Add the "International" option to the country list (if suitable)
-		if (should_add_international_option(props))
+		if (should_add_international_option(this.props))
 		{
 			this.select_options.push
 			({
-				label : from_dictionary('International', props),
+				label : from_dictionary('International', this.props),
 				icon  : flags === false ? undefined : internationalIcon
 			})
 		}
@@ -231,8 +235,8 @@ export default class Input extends Component
 			this.select_options.push
 			({
 				value : country_code,
-				label : from_dictionary(country_code, props),
-				icon  : get_country_option_icon(country_code, props)
+				label : from_dictionary(country_code, this.props),
+				icon  : get_country_option_icon(country_code, this.props)
 			})
 		}
 	}
@@ -251,7 +255,7 @@ export default class Input extends Component
 	//   Else
 	//     The + sign is prepended
 	//
-	correct_initial_value_if_neccessary(value, country_code)
+	correct_value_depending_on_the_country_selected(value, country_code)
 	{
 		const { metadata, convertToNational } = this.props
 
@@ -520,8 +524,17 @@ export default class Input extends Component
 		// If the `<input/>` is empty then just exit
 		if (!value)
 		{
-			this.setState({ value })
-			return onChange(value)
+			this.setState
+			({
+				// State `value` is the parsed input value
+				// (e.g. `+78005553535`, `1234567`).
+				value,
+				// `value_property` holds the `value` property value
+				// which is being set by this library.
+				value_property: value
+			},
+			// Write the new `this.props.value`.
+			() => onChange(value))
 		}
 
 		// For international phone number
@@ -554,11 +567,19 @@ export default class Input extends Component
 		}
 
 		// Convert `value` to E.164 phone number format
-		// and write it to `this.props.value`.
-		onChange(e164(value, country_code, metadata))
+		const value_property = e164(value, country_code, metadata)
 
-		// Update the `value`
-		this.setState({ value })
+		this.setState
+		({
+			// State `value` is the parsed input value
+			// (e.g. `+78005553535`, `1234567`).
+			value,
+			// `value_property` holds the `value` property value
+			// which is being set by this library.
+			value_property
+		},
+		// Write the new `this.props.value`.
+		() => onChange(value_property))
 	}
 
 	// When country `<select/>` is toggled
@@ -619,6 +640,38 @@ export default class Input extends Component
 				}
 			}
 		}
+
+		// This code is executed:
+		// * after `onChange` is called
+		// * if the `value` was eternally set
+		if (new_props.value !== value)
+		{
+			// Ignore self `onChange` calls
+			// (because the library called `onChange` by itself).
+			// Because if the current `value` property representation
+			// corresponds to `new_props.value`, then there's no need to update anything.
+			if (new_props.value !== this.state.value_property)
+			{
+				// Update the `value` because it was externally set
+
+				// Country code gets updated too
+				let country_code = this.state.country_code
+
+				// Autodetect country if value is set
+				// and is international (which it should be)
+				if (new_props.value && new_props.value[0] === '+')
+				{
+					// `parse().country` will be `undefined` in case of non-detection
+					country_code = parse(new_props.value).country || country_code
+				}
+
+				this.setState
+				({
+					country_code,
+					value: this.correct_value_depending_on_the_country_selected(new_props.value, country_code)
+				})
+			}
+		}
 	}
 
 	render()
@@ -647,7 +700,13 @@ export default class Input extends Component
 		}
 		= this.props
 
-		const { country_select_is_shown } = this.state
+		const
+		{
+			value,
+			country_code,
+			country_select_is_shown
+		}
+		= this.state
 
 		const markup =
 		(
@@ -655,7 +714,7 @@ export default class Input extends Component
 				{ showCountrySelect && this.can_change_country() &&
 					<Select
 						ref={ ref => this.select = ref }
-						value={ this.state.country_code }
+						value={ country_code }
 						options={ this.select_options }
 						onChange={ this.set_country }
 						disabled={ disabled }
@@ -677,7 +736,7 @@ export default class Input extends Component
 					<ReactInput
 						{ ...input_props }
 						ref={ ref => this.input = ref }
-						value={ this.state.value }
+						value={ value }
 						onChange={ this.on_change }
 						disabled={ disabled }
 						type="tel"
