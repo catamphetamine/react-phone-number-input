@@ -135,14 +135,19 @@
 	right : 0;
 }
 
-.rrui__select__options--simple-left-aligned
+.rrui__select__options--left-aligned
 {
 	left : calc(0.3rem * 4 * -1);
 }
 
-.rrui__select__options--simple-right-aligned
+.rrui__select__options--right-aligned
 {
 	right : calc(0.3rem * 4 * -1);
+}
+
+.rrui__select__options:not(.rrui__select__options--menu)
+{
+	width : calc(100% + 0.3rem * 4 * 2);
 }
 
 .rrui__select__options--downward

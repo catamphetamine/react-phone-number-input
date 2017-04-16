@@ -30,4 +30,5 @@ npm-debug.log
 /es6/
 
 /bundle/index.html
+/bundle/rrui.css
 /bundle/style.css

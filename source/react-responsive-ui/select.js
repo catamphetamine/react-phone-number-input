@@ -424,16 +424,16 @@ export default class Select extends PureComponent
 								'rrui__select__options',
 								'rrui__shadow',
 								{
-									'rrui__select__options--menu'                 : menu,
-									'rrui__expandable--expanded'                  : expanded,
-									'rrui__select__options--expanded'             : expanded,
-									'rrui__expandable--left-aligned'              : alignment === 'left',
-									'rrui__expandable--right-aligned'             : alignment === 'right',
-									'rrui__select__options--simple-left-aligned'  : !children && alignment === 'left',
-									'rrui__select__options--simple-right-aligned' : !children && alignment === 'right',
+									'rrui__select__options--menu'          : menu,
+									'rrui__expandable--expanded'           : expanded,
+									'rrui__select__options--expanded'      : expanded,
+									'rrui__expandable--left-aligned'       : alignment === 'left',
+									'rrui__expandable--right-aligned'      : alignment === 'right',
+									'rrui__select__options--left-aligned'  : !children && alignment === 'left',
+									'rrui__select__options--right-aligned' : !children && alignment === 'right',
 									// CSS selector performance optimization
-									'rrui__select__options--upward'               : upward,
-									'rrui__select__options--downward'             : !upward
+									'rrui__select__options--upward'        : upward,
+									'rrui__select__options--downward'      : !upward
 								}
 							) }>
 							{ list_items }
