@@ -44,19 +44,25 @@ I could easily include all country flags in a form of `<svg/>` React elements as
 
 ## CSS
 
-The CSS for this React component must be included on a page too.
+The CSS files for this React component must be included on a page too.
 
-When using Webpack:
+#### When using Webpack
 
 ```js
-import reactPhoneNumberInput from 'react-phone-number-input/style.css'
+import rrui from 'react-phone-number-input/rrui.css'
+import rpni from 'react-phone-number-input/style.css'
 ```
 
-When not using Webpack, just include the stylesheet for the installed version of the package directly on a page:
+And set up an [autoprefixer](https://github.com/postcss/postcss-loader) for supporting old web browsers.
+
+#### When not using Webpack
+
+Get the `rrui.css` and `style.css` files from this package, process these files with a CSS autoprefixer for supporting old web browsers, and then include them on a page.
 
 ```html
 <head>
-  <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@x.y.z/style.css"/>
+  <link rel="stylesheet" href="/css/react-phone-number-input/rrui.css"/>
+  <link rel="stylesheet" href="/css/react-phone-number-input/style.css"/>
 </head>
 ```
 

@@ -1,7 +1,8 @@
-0.9.0 / 16.04.2017
+0.9.1 / 16.04.2017
 ==================
 
-  * Moved the `.css` file to the root folder of the package. `import`ing the CSS file via Webpack is the recommended way to go now.
+  * (breaking change) Moved the `.css` file to the root folder of the package and **split it into two files** (the `rrui` one is not required when already using `react-responsive-ui`). `import`ing the CSS file via Webpack is the recommended way to go now.
+  * (breaking change) Vendor prefixes dropped in favour of manually using autoprefixers.
 
 0.8.10 / 15.04.2017
 ===================

@@ -3,7 +3,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import { flat as styler } from 'react-styling'
 import classNames from 'classnames'
 
 import { submit_parent_form, get_scrollbar_width } from './misc/dom'
@@ -66,11 +65,17 @@ export default class Select extends PureComponent
 		// Disables this control
 		disabled   : PropTypes.bool,
 
+		// Set to `true` to mark the field as required
+		required   : PropTypes.bool.isRequired,
+
 		// Selected option value
 		value      : value_prop_type,
 
 		// Is called when an option is selected
 		onChange   : PropTypes.func,
+
+		// Is called when the selected is blurred
+		onBlur     : PropTypes.func,
 
 		// (exotic use case)
 		// Falls back to a plain HTML input
@@ -151,6 +156,9 @@ export default class Select extends PureComponent
 		fallback           : false,
 		native             : false,
 		nativeExpanded     : false,
+
+		// Set to `true` to mark the field as required
+		required : false,
 
 		// transition_item_count_min : 1,
 		// transition_duration_min : 60, // milliseconds
@@ -287,10 +295,11 @@ export default class Select extends PureComponent
 			native,
 			nativeExpanded,
 			disabled,
+			required,
 			placeholder,
 			label,
+			value,
 			error,
-			indicateInvalid,
 			style,
 			className
 		}
@@ -305,12 +314,12 @@ export default class Select extends PureComponent
 
 		const options = this.get_options()
 
-		let list_style = styles.list
+		let list_style
 
 		// Makes the options list scrollable (only when not in `autocomplete` mode).
 		if (this.is_scrollable() && this.state.list_height !== undefined)
 		{
-			list_style = { ...list_style, maxHeight: `${list_height}px` }
+			list_style = { maxHeight: `${list_height}px` }
 		}
 
 		const overflow = scroll && options && this.overflown()
@@ -341,7 +350,7 @@ export default class Select extends PureComponent
 			})
 		}
 
-		const wrapper_style = { ...styles.wrapper, textAlign: alignment }
+		const wrapper_style = { textAlign: alignment }
 
 		const selected = this.get_selected_option()
 
@@ -356,6 +365,7 @@ export default class Select extends PureComponent
 					'rrui__select',
 					{
 						'rrui__rich'              : fallback,
+						'rrui__select--menu'      : menu,
 						'rrui__select--upward'    : upward,
 						'rrui__select--expanded'  : expanded,
 						'rrui__select--collapsed' : !expanded,
@@ -364,70 +374,78 @@ export default class Select extends PureComponent
 					className
 				) }>
 
-				{/* Currently selected item */}
-				{ !menu && !native && this.render_selected_item() }
+				<div
+					className={ classNames
+					({
+						'rrui__input': !menu
+					}) }>
 
-				{/* Label */}
-				{/* (this label is placed after the "selected" button
-				     to utilize the CSS `+` selector) */}
-				{/* If the `placeholder` wasn't specified
-				    but `label` was and no option is currently selected
-				    then the `label` becomes the `placeholder`
-				    until something is selected */}
-				{ label && (this.get_selected_option() || placeholder) &&
-					<label
-						htmlFor={ id }
-						className={ classNames('rrui__input-label',
-						{
-							'rrui__input-label--invalid' : error && indicateInvalid
-						}) }
-						style={ styles.label }>
-						{ label }
-					</label>
-				}
+					{/* Currently selected item */}
+					{ !menu && !native && this.render_selected_item() }
 
-				{/* Menu toggler */}
-				{ menu &&
-					<div
-						ref={ ref => this.menu_toggler }
-						className="rrui__select__toggler">
-						{ React.cloneElement(toggler, { onClick : this.toggle }) }
-					</div>
-				}
-
-				{/* The list of selectable options */}
-				{/* Math.max(this.state.height, this.props.max_height) */}
-				{ !native && !nativeExpanded &&
-					<ul
-						ref={ ref => this.list = ref }
-						style={ list_style }
-						className={ classNames
-						(
-							'rrui__expandable',
-							'rrui__expandable--overlay',
-							'rrui__select__options',
-							'rrui__shadow',
+					{/* Label */}
+					{/* (this label is placed after the "selected" button
+					     to utilize the CSS `+` selector) */}
+					{/* If the `placeholder` wasn't specified
+					    but `label` was and no option is currently selected
+					    then the `label` becomes the `placeholder`
+					    until something is selected */}
+					{ label && (this.get_selected_option() || placeholder) &&
+						<label
+							htmlFor={ id }
+							className={ classNames('rrui__input-label',
 							{
-								'rrui__expandable--expanded'                  : expanded,
-								'rrui__select__options--expanded'             : expanded,
-								'rrui__expandable--left-aligned'              : alignment === 'left',
-								'rrui__expandable--right-aligned'             : alignment === 'right',
-								'rrui__select__options--simple-left-aligned'  : !children && alignment === 'left',
-								'rrui__select__options--simple-right-aligned' : !children && alignment === 'right',
-								// CSS selector performance optimization
-								'rrui__select__options--upward'               : upward,
-								'rrui__select__options--downward'             : !upward
-							}
-						) }>
-						{ list_items }
-					</ul>
-				}
+								'rrui__input-label--required' : required && value_is_empty(value),
+								'rrui__input-label--invalid'  : this.should_indicate_invalid()
+							}) }>
+							{ label }
+						</label>
+					}
 
-				{/* Fallback in case javascript is disabled */}
-				{ (native || (fallback && !this.state.javascript)) && this.render_static() }
+					{/* Menu toggler */}
+					{ menu &&
+						<div
+							ref={ ref => this.menu_toggler }
+							className="rrui__select__toggler">
+							{ React.cloneElement(toggler, { onClick : this.toggle }) }
+						</div>
+					}
+
+					{/* The list of selectable options */}
+					{/* Math.max(this.state.height, this.props.max_height) */}
+					{ !native && !nativeExpanded &&
+						<ul
+							ref={ ref => this.list = ref }
+							style={ list_style }
+							className={ classNames
+							(
+								'rrui__expandable',
+								'rrui__expandable--overlay',
+								'rrui__select__options',
+								'rrui__shadow',
+								{
+									'rrui__select__options--menu'                 : menu,
+									'rrui__expandable--expanded'                  : expanded,
+									'rrui__select__options--expanded'             : expanded,
+									'rrui__expandable--left-aligned'              : alignment === 'left',
+									'rrui__expandable--right-aligned'             : alignment === 'right',
+									'rrui__select__options--simple-left-aligned'  : !children && alignment === 'left',
+									'rrui__select__options--simple-right-aligned' : !children && alignment === 'right',
+									// CSS selector performance optimization
+									'rrui__select__options--upward'               : upward,
+									'rrui__select__options--downward'             : !upward
+								}
+							) }>
+							{ list_items }
+						</ul>
+					}
+
+					{/* Fallback in case javascript is disabled */}
+					{ (native || (fallback && !this.state.javascript)) && this.render_static() }
+				</div>
 
 				{/* Error message */}
-				{ error && indicateInvalid &&
+				{ this.should_indicate_invalid() &&
 					<div className="rrui__input-error">{ error }</div>
 				}
 			</div>
@@ -567,7 +585,7 @@ export default class Select extends PureComponent
 
 		const markup =
 		(
-			<div style={ styles.native_expanded_select_container }>
+			<div style={ native_expanded_select_container_style }>
 				{ this.render_static() }
 				{ selected }
 			</div>
@@ -587,7 +605,8 @@ export default class Select extends PureComponent
 			disabled,
 			autocomplete,
 			concise,
-			tabIndex
+			tabIndex,
+			onBlur
 		}
 		= this.props
 
@@ -604,8 +623,6 @@ export default class Select extends PureComponent
 
 		const selected_text = selected ? selected_label : (placeholder || label)
 
-		let style = styles.selected
-
 		if (autocomplete && expanded)
 		{
 			// style = { ...style, width: autocomplete_width + 'px' }
@@ -619,10 +636,11 @@ export default class Select extends PureComponent
 					value={ autocomplete_input_value }
 					onChange={ this.on_autocomplete_input_change }
 					onKeyDown={ this.on_key_down }
-					style={ style }
+					onBlur={ onBlur }
+					tabIndex={ tabIndex }
 					className={ classNames
 					(
-						'rrui__input',
+						'rrui__input-field',
 						'rrui__select__selected',
 						'rrui__select__selected--autocomplete',
 						{
@@ -645,26 +663,23 @@ export default class Select extends PureComponent
 				disabled={ disabled }
 				onClick={ this.toggle }
 				onKeyDown={ this.on_key_down }
+				onBlur={ onBlur }
 				tabIndex={ tabIndex }
-				style={ style }
 				className={ classNames
 				(
-					'rrui__input',
+					'rrui__input-field',
 					'rrui__select__selected',
 					{
+						'rrui__input-field--invalid'      : this.should_indicate_invalid(),
 						'rrui__select__selected--nothing' : !selected_label
 					}
 				) }>
 
 				{/* http://stackoverflow.com/questions/35464067/flexbox-not-working-on-button-element-in-some-browsers */}
-				<div
-					style={ styles.selected_flex_wrapper }
-					className="rrui__select__selected-content">
+				<div className="rrui__select__selected-content">
 
 					{/* Selected option label (or icon) */}
-					<div
-						style={ styles.selected_label }
-						className="rrui__select__selected-label">
+					<div className="rrui__select__selected-label">
 						{ (concise && selected && selected.icon) ? React.cloneElement(selected.icon, { title: selected_label }) : selected_text }
 					</div>
 
@@ -674,8 +689,7 @@ export default class Select extends PureComponent
 						{
 							// CSS selector performance optimization
 							'rrui__select__arrow--expanded': expanded
-						}) }
-						style={ styles.arrow }/>
+						}) }/>
 				</div>
 			</button>
 		)
@@ -806,6 +820,14 @@ export default class Select extends PureComponent
 		}
 
 		return rendered_options
+	}
+
+	// Whether should indicate that the input value is invalid
+	should_indicate_invalid()
+	{
+		const { indicateInvalid, error } = this.props
+
+		return indicateInvalid && error
 	}
 
 	native_select_on_change = (event) =>
@@ -1004,23 +1026,33 @@ export default class Select extends PureComponent
 
 			// If it's autocomplete, then focus <input/> field
 			// upon toggling the select component.
-			if (autocomplete && !toggle_options.dont_focus_after_toggle)
+			if (!toggle_options.dont_focus_after_toggle)
 			{
-				if (!expanded || (expanded && focusUponSelection))
+				if (autocomplete)
 				{
-					setTimeout(() =>
+					if (!expanded || (expanded && focusUponSelection))
 					{
-						// Focus the toggler
-						if (expanded)
+						setTimeout(() =>
 						{
-							this.selected.focus()
-						}
-						else
-						{
-							this.autocomplete.focus()
-						}
-					},
-					0)
+							// Focus the toggler
+							if (expanded)
+							{
+								this.selected.focus()
+							}
+							else
+							{
+								this.autocomplete.focus()
+							}
+						},
+						0)
+					}
+				}
+				else
+				{
+					// For some reason Firefox loses focus
+					// upon select expansion via a click,
+					// so this extra `.focus()` works around that issue.
+					this.selected.focus()
 				}
 			}
 
@@ -1256,12 +1288,8 @@ export default class Select extends PureComponent
 							this.toggle()
 						}
 					}
-					// Expand the select otherwise
-					else
-					{
-						event.preventDefault()
-						this.toggle()
-					}
+					// Otherwise, the spacebar keydown event on a `<button/>`
+					// will trigger `onClick` and `.toggle()` will be called.
 
 					return
 			}
@@ -1478,62 +1506,13 @@ export default class Select extends PureComponent
 
 Select.Separator = function(props)
 {
-	return <div className="rrui__select__separator" style={styles.separator}/>
+	return <div className="rrui__select__separator"/>
 }
 
-const styles = styler
-`
-	wrapper
-		// Sometimes (e.g. when using mobile dropdown menus)
-		// "position: relative" could be overridden to "static"
-		// to allow for the menu stretching to full screen width.
-		// Therefore it was moved to CSS from inline styles.
-
-		-webkit-user-select : none
-		-moz-user-select    : none
-		-ms-user-select     : none
-		user-select         : none
-
-	list
-		list-style-type : none
-		overflow-x      : hidden
-
-	selected
-		box-sizing : border-box
-
-	selected_flex_wrapper
-		display     : flex
-		align-items : center
-
-	selected_label
-		flex          : 1
-		overflow      : hidden
-		text-overflow : ellipsis
-
-	arrow
-
-	separator
-		padding     : 0
-		line-height : 0
-		font-size   : 0
-
-	label
-		position    : absolute
-		white-space : nowrap
-
-		-webkit-user-select : none
-		-moz-user-select    : none
-		-ms-user-select     : none
-		user-select         : none
-
-		// Vertically align
-		display     : flex
-		align-items : center
-		height      : 100%
-
-	native_expanded_select_container
-		display : inline-block
-`
+const native_expanded_select_container_style =
+{
+	display : 'inline-block'
+}
 
 // There can be an `undefined` value,
 // so just `{ value }` won't do here.
