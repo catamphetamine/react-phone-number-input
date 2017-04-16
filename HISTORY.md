@@ -1,3 +1,8 @@
+0.9.0 / 16.04.2017
+==================
+
+  * Moved the `.css` file to the root folder of the package. `import`ing the CSS file via Webpack is the recommended way to go now.
+
 0.8.10 / 15.04.2017
 ===================
 
