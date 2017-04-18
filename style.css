@@ -1,3 +1,5 @@
+/* Autoprefixed for demo purpose using https://autoprefixer.github.io/ */
+
 .react-phone-number-input
 {
 	/* This is done to stretch `.rrui__select__options` */
@@ -5,8 +7,10 @@
 	position    : relative;
 
 	/* This is done to stretch the contents of this component */
+	display     : -ms-flexbox;
 	display     : flex;
-	align-items : center;
+	-ms-flex-align : center;
+	    align-items : center;
 }
 
 /* The phone number input stretches to fill all empty space */
@@ -14,7 +18,8 @@
 /* The country select, when expanded, stretches to fill all empty space */
 .react-phone-number-input__country.rrui__select--expanded
 {
-	flex : 1;
+	-ms-flex : 1;
+	    flex : 1;
 }
 
 .react-phone-number-input__phone
@@ -50,7 +55,9 @@
 	padding : 0;
 
 	outline    : none;
-	appearance : none;
+	-webkit-appearance : none;
+	   -moz-appearance : none;
+	        appearance : none;
 
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
