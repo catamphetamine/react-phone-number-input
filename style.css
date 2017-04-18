@@ -1,13 +1,52 @@
-.react-phone-number-input__country
+.react-phone-number-input
 {
-	margin-right : calc(0.3rem * 1.5);
+	/* This is done to stretch `.rrui__select__options` */
+	/* to the full width of `.react-phone-number-input__phone` */
+	position    : relative;
+
+	/* This is done to stretch the contents of this component */
+	display     : flex;
+	align-items : center;
 }
 
-/* Styling the phone input field */
+/* The phone number input stretches to fill all empty space */
+.react-phone-number-input__phone,
+/* The country select, when expanded, stretches to fill all empty space */
+.react-phone-number-input__country.rrui__select--expanded
+{
+	flex : 1;
+}
+
+.react-phone-number-input__phone
+{
+	font-size : inherit;
+}
+
+.react-phone-number-input__country:not(.rrui__select--expanded)
+{
+	margin-right : 0.5em;
+}
+
+.react-phone-number-input__country .rrui__select__selected--autocomplete
+{
+	width : 100%;
+}
+
+.react-phone-number-input__country .rrui__input
+{
+	/* This is done to stretch `.rrui__select__options` */
+	/* to the full width of `.react-phone-number-input__phone` */
+	/* rather than to the full width of `.rrui__select` */
+	/* because the `.rrui__select` is contracted */
+	/* as soon as a user selects a country which caused */
+	/* the `.rrui__select__options` to contract too. */
+	position: static;
+}
+
 .react-phone-number-input__phone,
 .react-phone-number-input__country .rrui__select__selected--autocomplete
 {
-	width   : calc(0.3rem * 60);
+	/* Some web browsers add <input/> padding by default */
 	padding : 0;
 
 	outline    : none;
@@ -15,9 +54,7 @@
 
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
-
-	transition         : border 0.1s;
-	-webkit-transition : border 0.1s;
+	transition    : border 0.1s;
 }
 
 .react-phone-number-input__phone:focus
@@ -25,27 +62,34 @@
 	border-bottom-color: #0093C4;
 }
 
-/* Custom style for flag icons */
 .react-phone-number-input .rrui__select__arrow
 {
-	margin-top  : 0.3rem;
-	margin-left : 0.3rem;
+	margin-top  : 0.3em;
+	margin-left : 0.3em;
 }
 
 .react-phone-number-input__icon
 {
-	display        : inline-block;
-	vertical-align : top;
-	width          : 1.24em;
-	height         : 0.93em;
-	border         : 1px solid #bfbfbf;
+	/* The flag icon size is 4x3 hence the exact `width` and `height` values */
+	width      : 1.24em;
+	height     : 0.93em;
+
+	border     : 1px solid #bfbfbf;
+	/* Makes sure `width`x`height` is exactly `4x3` and `border` width is not included in it */
+	box-sizing : content-box;
 }
 
 .react-phone-number-input__icon--international
 {
+	/* The international icon size is square */
+	/* and also has no border hence the `2 * 1px` `width` and `height` compensation */
 	width         : calc(0.93em + 2px);
 	height        : calc(0.93em + 2px);
+
+	/* The international icon size is square hence the exact `padding` value */
+	/* for precise alignment with `4x3` sized country flags. */
 	padding-left  : 0.155em;
 	padding-right : 0.155em;
-	border        : none;
+
+	border : none;
 }

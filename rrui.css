@@ -264,11 +264,6 @@
 	color: #888C91;
 }
 
-.rrui__select--expanded .rrui__select__selected--autocomplete
-{
-	color: black;
-}
-
 .rrui__select__selected,
 .rrui__select__option
 {
