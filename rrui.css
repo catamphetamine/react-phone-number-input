@@ -264,11 +264,6 @@
 	color: #888C91;
 }
 
-.rrui__select--expanded .rrui__select__selected--autocomplete
-{
-	color: black;
-}
-
 .rrui__select__selected,
 .rrui__select__option
 {
@@ -292,7 +287,7 @@
 
 .rrui__select__selected-label
 {
-	flex          : 1;
+	flex          : 1 0 auto;
 	overflow      : hidden;
 	text-overflow : ellipsis;
 }

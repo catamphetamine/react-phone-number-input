@@ -1,3 +1,9 @@
+0.10.0 / 18.04.2017
+===================
+
+  * (might be a breaking change) Slightly refactored the component CSS improving it in a couple of places along with adding comments to it (see `style.css`).
+  * Added country code validation.
+
 0.9.1 / 16.04.2017
 ==================
 

@@ -202,6 +202,9 @@ export default class Input extends Component
 			country = countries[0]
 		}
 
+		// Validate `country`
+		validate_country_code(country)
+
 		// Set the currently selected country
 		this.state.country_code = country
 
@@ -635,6 +638,9 @@ export default class Input extends Component
 				// If the passed `country` allowed then update it
 				if (countries.indexOf(new_props.country) !== -1)
 				{
+					// Validate `country`
+					validate_country_code(country)
+
 					// Set the new `country`
 					this.set_country(new_props.country, false)
 				}
@@ -888,5 +894,21 @@ function could_phone_number_belong_to_country(phone_number, country_code, metada
 				return true
 			}
 		}
+	}
+}
+
+// Validates country code
+function validate_country_code(country)
+{
+	// No country is selected ("International")
+	if (country === undefined || country === null)
+	{
+		return
+	}
+
+	// Empty strings won't do, so do non-existing country codes.
+	if (!default_dictionary[country])
+	{
+		throw new Error(`Unknown country: "${country}"`)
 	}
 }
