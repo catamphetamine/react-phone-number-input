@@ -187,6 +187,9 @@ export default class Input extends Component
 
 		let { country } = this.props
 
+		// Normalize `country` code
+		country = normalize_country_code(country)
+
 		// Autodetect country if value is set
 		// and is international (which it should be)
 		if (!country && value && value[0] === '+')
@@ -201,9 +204,6 @@ export default class Input extends Component
 		{
 			country = countries[0]
 		}
-
-		// Validate `country`
-		validate_country_code(country)
 
 		// Set the currently selected country
 		this.state.country_code = country
@@ -624,11 +624,15 @@ export default class Input extends Component
 	// then select the default country.
 	componentWillReceiveProps(new_props)
 	{
-		const { countries, country, value } = this.props
+		const { countries, value } = this.props
+
+		// Normalize `country` codes
+		let country     = normalize_country_code(this.props.country)
+		let new_country = normalize_country_code(new_props.country)
 
 		// If the default country changed
 		// (e.g. in case of IP detection)
-		if (new_props.country !== country)
+		if (new_country !== country)
 		{
 			// If the phone number input field is currently empty
 			// (e.g. not touched yet) then change the selected `country`
@@ -636,13 +640,10 @@ export default class Input extends Component
 			if (!value)
 			{
 				// If the passed `country` allowed then update it
-				if (countries.indexOf(new_props.country) !== -1)
+				if (countries.indexOf(new_country) !== -1)
 				{
-					// Validate `country`
-					validate_country_code(country)
-
 					// Set the new `country`
-					this.set_country(new_props.country, false)
+					this.set_country(new_country, false)
 				}
 			}
 		}
@@ -684,23 +685,25 @@ export default class Input extends Component
 	{
 		const
 		{
-			dictionary,
 			saveOnIcons,
 			showCountrySelect,
-			international,
-			internationalIcon,
-			country,
-			countries,
-			onCountryChange,
-			flags,
-			flagsPath,
-			convertToNational,
 			nativeExpanded,
 			disabled,
 			selectTabIndex,
 			inputTabIndex,
 			style,
 			className,
+
+			// Extract `input_props` via "object rest spread":
+			dictionary,
+			countries,
+			country,
+			onCountryChange,
+			flags,
+			flagsPath,
+			international,
+			internationalIcon,
+			convertToNational,
 			metadata,
 			...input_props
 		}
@@ -898,17 +901,25 @@ function could_phone_number_belong_to_country(phone_number, country_code, metada
 }
 
 // Validates country code
-function validate_country_code(country)
+function normalize_country_code(country)
 {
+	// Normalize `country` if it's an empty string
+	if (country === '')
+	{
+		country = undefined
+	}
+
 	// No country is selected ("International")
 	if (country === undefined || country === null)
 	{
-		return
+		return country
 	}
 
-	// Empty strings won't do, so do non-existing country codes.
-	if (!default_dictionary[country])
+	// Check that `country` code exists
+	if (default_dictionary[country])
 	{
-		throw new Error(`Unknown country: "${country}"`)
+		return country
 	}
+
+	throw new Error(`Unknown country: "${country}"`)
 }
