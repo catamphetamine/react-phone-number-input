@@ -742,6 +742,7 @@ export default class Input extends Component
 						saveOnIcons={ saveOnIcons }
 						name={ input_props.name ? `${input_props.name}__country` : undefined }
 						className="react-phone-number-input__country"
+						inputClassName={ inputClassName }
 						style={ select_style }/>
 				}
 
