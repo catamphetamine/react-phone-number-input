@@ -124,8 +124,11 @@ export default class Input extends Component
 		// CSS style object
 		style : PropTypes.object,
 
-		// CSS class
+		// Component CSS class
 		className : PropTypes.string,
+
+		// `<input/>` CSS class
+		inputClassName : PropTypes.string,
 
 		// `libphonenumber-js` metadata
 		metadata : PropTypes.shape
@@ -693,6 +696,7 @@ export default class Input extends Component
 			inputTabIndex,
 			style,
 			className,
+			inputClassName,
 
 			// Extract `input_props` via "object rest spread":
 			dictionary,
@@ -753,7 +757,7 @@ export default class Input extends Component
 						parse={ this.parse }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
-						className={ classNames('rrui__input', 'react-phone-number-input__phone') }
+						className={ classNames('rrui__input', 'react-phone-number-input__phone', inputClassName) }
 						style={ input_style }/>
 				}
 			</div>
