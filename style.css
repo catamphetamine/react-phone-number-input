@@ -26,7 +26,6 @@
 .react-phone-number-input__phone
 {
 	font-size : inherit;
-	border-radius : 0;
 }
 
 .react-phone-number-input__country:not(.rrui__select--expanded)
@@ -53,14 +52,6 @@
 .react-phone-number-input__phone,
 .react-phone-number-input__country .rrui__select__selected--autocomplete
 {
-	/* Some web browsers add <input/> padding by default */
-	padding : 0;
-
-	outline    : none;
-	-webkit-appearance : none;
-	   -moz-appearance : none;
-	        appearance : none;
-
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
 	transition    : border 0.1s;

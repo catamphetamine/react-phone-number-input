@@ -22,6 +22,21 @@
 }
 
 /*===========================================================
+= Input field                                               =
+===========================================================*/
+
+.rrui__input-field
+{
+	outline       : none;
+	border-radius : none;
+	/* Some web browsers add <input/> padding by default */
+	padding       : 0;
+	-webkit-appearance    : none;
+	   -moz-appearance    : none;
+	        appearance    : none;
+}
+
+/*===========================================================
 = Buttons                                                   =
 ===========================================================*/
 
