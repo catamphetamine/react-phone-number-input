@@ -28,7 +28,7 @@
 .rrui__input-field
 {
 	outline       : none;
-	border-radius : none;
+	border-radius : 0;
 	/* Some web browsers add <input/> padding by default */
 	padding       : 0;
 	appearance    : none;
