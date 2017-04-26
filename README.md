@@ -53,11 +53,11 @@ import rrui from 'react-phone-number-input/rrui.css'
 import rpni from 'react-phone-number-input/style.css'
 ```
 
-And set up an [autoprefixer](https://github.com/postcss/postcss-loader) for supporting old web browsers.
+And set up a [`postcss-loader`](https://github.com/postcss/postcss-loader) with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 8`, `Android >= 4`).
 
 #### When not using Webpack
 
-Get the `rrui.css` and `style.css` files from this package, process these files with a CSS autoprefixer for supporting old web browsers, and then include them on a page.
+Get the `rrui.css` and `style.css` files from this package, process these files with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 8`, `Android >= 4`), and then include them on a page.
 
 ```html
 <head>

@@ -758,7 +758,7 @@ export default class Input extends Component
 						parse={ this.parse }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
-						className={ classNames('rrui__input', 'react-phone-number-input__phone', inputClassName) }
+						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }
 						style={ input_style }/>
 				}
 			</div>
