@@ -130,12 +130,15 @@
 
 .rrui__select__options
 {
-	margin   : 0;
-	padding  : 0;
+	margin           : 0;
+	padding-left     : 0;
+	padding-top      : calc(2 * 0.3rem);
+	padding-bottom   : calc(2 * 0.3rem);
 	overflow-y       : auto;
 	background-color : white;
-	list-style-type : none;
-	overflow-x      : hidden;
+	list-style-type  : none;
+	overflow-x       : hidden;
+	box-sizing       : border-box;
 }
 
 .rrui__expandable--left-aligned
@@ -181,16 +184,6 @@
 	margin-top : 1em;
 }
 
-.rrui__select__options-list-item:first-child
-{
-	padding-top    : calc(2 * 0.3rem);
-}
-
-.rrui__select__options-list-item:last-child
-{
-	padding-bottom : calc(2 * 0.3rem);
-}
-
 .rrui__select__option
 {
 	display : block;
@@ -202,21 +195,20 @@
 	padding-top    : calc(0.3rem * 1);
 	padding-bottom : calc(0.3rem * 1);
 
-	box-sizing: border-box;
-	text-align: left;
-	white-space: nowrap;
+	box-sizing  : border-box;
+	text-align  : left;
+	white-space : nowrap;
+}
+
+.rrui__select__option:hover
+{
+	background-color : #FBFDFD;
 }
 
 .rrui__select__selected--disabled,
 .rrui__select__option--disabled
 {
 	cursor : default;
-}
-
-.rrui__select__option:active
-{
-	background-color : #3678D1;
-	color            : white;
 }
 
 .rrui__select__option-icon
@@ -232,6 +224,17 @@
 .rrui__select__option--focused
 {
 	background-color: #ECF1F6;
+}
+
+.rrui__select__option--focused:hover
+{
+	background-color: #EFF3F8;
+}
+
+.rrui__select__option:active
+{
+	background-color : #3678D1;
+	color            : white;
 }
 
 .rrui__select__option-icon
