@@ -71,14 +71,12 @@
 
 	-webkit-transform        : scaleY(0);
 
-	    -ms-transform        : scaleY(0);
-
 	        transform        : scaleY(0);
 	-webkit-transform-origin : 50% top 0px;
-	    -ms-transform-origin : 50% top 0px;
 	        transform-origin : 50% top 0px;
 
 	/* 250ms - too slow for short lists */
+	-webkit-transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
 	transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
 
 	/* prevent white background showing through the transparent border */
@@ -94,12 +92,11 @@
 
 	-webkit-transform        : scaleY(1);
 
-	    -ms-transform        : scaleY(1);
-
 	        transform        : scaleY(1);
 	-webkit-transform-origin : 50% top 0px;
-	    -ms-transform-origin : 50% top 0px;
 	        transform-origin : 50% top 0px;
+
+	-webkit-transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 
 	transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
@@ -121,6 +118,7 @@
 	opacity: 0;
 
 	/* Mitigates inner content overlapping with itself creating a feeling of a mess */
+	-webkit-transition: opacity 150ms ease-out;
 	transition: opacity 150ms ease-out;
 }
 
@@ -131,7 +129,8 @@
 
 .rrui__shadow
 {
-	box-shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	-webkit-box-shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	        box-shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .rrui__select
@@ -157,7 +156,8 @@
 	background-color : white;
 	list-style-type  : none;
 	overflow-x       : hidden;
-	box-sizing       : border-box;
+	-webkit-box-sizing       : border-box;
+	        box-sizing       : border-box;
 }
 
 .rrui__expandable--left-aligned
@@ -214,7 +214,9 @@
 	padding-top    : calc(0.3rem * 1);
 	padding-bottom : calc(0.3rem * 1);
 
-	box-sizing  : border-box;
+	-webkit-box-sizing  : border-box;
+
+	        box-sizing  : border-box;
 	text-align  : left;
 	white-space : nowrap;
 }
@@ -238,7 +240,6 @@
 .rrui__select__options--upward
 {
 	-webkit-transform-origin: 50% bottom 0px;
-	    -ms-transform-origin: 50% bottom 0px;
 	        transform-origin: 50% bottom 0px;
 }
 
@@ -267,12 +268,14 @@
 .rrui__select__selected
 {
 	height     : 100%;
-	box-sizing : border-box;
+	-webkit-box-sizing : border-box;
+	        box-sizing : border-box;
 }
 
 .rrui__select__selected
 {
 	border-bottom : 1px solid #C5D2E0;
+	-webkit-transition    : border 0.1s;
 	transition    : border 0.1s;
 
 	/* Because Chrome adds `text-align: center` for all buttons */
@@ -294,17 +297,15 @@
 	color: #3678D1;
 }
 
-.rrui__select__selected--nothing,
-/* For CSS rule specificity */
-.rrui__select--expanded .rrui__select__selected--nothing
-{
-	color: #888C91;
-}
-
 .rrui__select__selected,
 .rrui__select__option
 {
 	color : inherit;
+}
+
+.rrui__select__selected--nothing:not(.rrui__select__selected--autocomplete)
+{
+	color: #888C91;
 }
 
 /* Not introducing an animation on `.rrui__select__option`
@@ -318,17 +319,17 @@
 
 .rrui__select__selected-content
 {
-	display     : -webkit-flex;
+	display     : -webkit-box;
 	display     : -ms-flexbox;
 	display     : flex;
-	-webkit-align-items : center;
+	-webkit-box-align : center;
 	    -ms-flex-align : center;
 	        align-items : center;
 }
 
 .rrui__select__selected-label
 {
-	-webkit-flex          : 1 0 auto;
+	-webkit-box-flex          : 1;
 	    -ms-flex          : 1 0 auto;
 	        flex          : 1 0 auto;
 	overflow      : hidden;
@@ -345,6 +346,8 @@
 	margin-bottom : 0.1em;
 
 	opacity: 0.7;
+
+	-webkit-transition: opacity 100ms ease-out;
 
 	transition: opacity 100ms ease-out;
 
