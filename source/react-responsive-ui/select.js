@@ -423,7 +423,7 @@ export default class Select extends PureComponent
 
 					{/* The list of selectable options */}
 					{/* Math.max(this.state.height, this.props.max_height) */}
-					{ !native && !nativeExpanded &&
+					{ !native && !nativeExpanded && list_items.length > 0 &&
 						<ul
 							ref={ ref => this.list = ref }
 							style={ list_style }
