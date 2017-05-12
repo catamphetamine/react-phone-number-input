@@ -1,3 +1,9 @@
+0.11.2 / 12.05.2017
+===================
+
+  * Fixed a bug when `value` was not set to `undefined` when the `<input/>` value was empty
+  * Added `selectMaxItems` property for customizing the country select height
+
 0.11.0 / 03.05.2017
 ===================
 

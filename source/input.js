@@ -118,6 +118,9 @@ export default class Input extends Component
 		// HTML `tabindex` attribute for the country select
 		selectTabIndex    : PropTypes.number,
 
+		// Defines the height of the dropdown country select list
+		selectMaxItems    : PropTypes.number,
+
 		// HTML `tabindex` attribute for the phone number input
 		inputTabIndex     : PropTypes.number,
 
@@ -530,7 +533,7 @@ export default class Input extends Component
 		// If the `<input/>` is empty then just exit
 		if (!value)
 		{
-			this.setState
+			return this.setState
 			({
 				// State `value` is the parsed input value
 				// (e.g. `+78005553535`, `1234567`).
@@ -693,6 +696,7 @@ export default class Input extends Component
 			nativeExpanded,
 			disabled,
 			selectTabIndex,
+			selectMaxItems,
 			inputTabIndex,
 			style,
 			className,
@@ -736,6 +740,7 @@ export default class Input extends Component
 						nativeExpanded={ nativeExpanded }
 						autocomplete
 						autocompleteShowAll
+						maxItems={ selectMaxItems }
 						concise
 						tabIndex={ selectTabIndex }
 						focusUponSelection={ false }
