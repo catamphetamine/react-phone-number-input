@@ -228,24 +228,42 @@ export default class Input extends Component
 		// `<Select/>` options
 		this.select_options = []
 
-		// Add the "International" option to the country list (if suitable)
-		if (should_add_international_option(this.props))
-		{
-			this.select_options.push
-			({
-				label : from_dictionary('International', this.props),
-				icon  : flags === false ? undefined : internationalIcon
-			})
-		}
+		// Whether custom country names are supplied
+		let using_custom_country_names = false
 
 		// Add a `<Select/>` option for each country
 		for (const country_code of countries)
 		{
+			if (dictionary[country_code])
+			{
+				using_custom_country_names = true
+			}
+
 			this.select_options.push
 			({
 				value : country_code,
-				label : from_dictionary(country_code, this.props),
+				label : dictionary[country_code] || default_dictionary[country_code],
 				icon  : get_country_option_icon(country_code, this.props)
+			})
+		}
+
+		// Sort the list of countries alphabetically
+		// (if `Intl` is available).
+		// This is only done when custom country names
+		// are supplied via `dictionary` property
+		// because by default all country names are already sorted.
+		if (using_custom_country_names && String.prototype.localeCompare)
+		{
+			this.select_options.sort((a, b) => a.localeCompare(b))
+		}
+
+		// Add the "International" option to the country list (if suitable)
+		if (should_add_international_option(this.props))
+		{
+			this.select_options.unshift
+			({
+				label : dictionary['International'] || default_dictionary['International'],
+				icon  : flags === false ? undefined : internationalIcon
 			})
 		}
 	}
@@ -879,14 +897,6 @@ function should_add_international_option(properties)
 
 	// Show the "International" option by default
 	return true
-}
-
-// Gets a text from dictionary
-function from_dictionary(key, properties)
-{
-	const { dictionary } = properties
-
-	return dictionary[key] || default_dictionary[key]
 }
 
 // Is it possible that the partially entered  phone number belongs to the given country

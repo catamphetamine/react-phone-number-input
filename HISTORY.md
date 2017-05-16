@@ -1,3 +1,8 @@
+0.11.3 / 16.05.2017
+===================
+
+  * Now alphabetically sorting the supplied custom country names
+
 0.11.2 / 12.05.2017
 ===================
 
