@@ -248,10 +248,14 @@ export default class Input extends Component
 		}
 
 		// Sort the list of countries alphabetically
-		// (if `Intl` is available).
+		// (if `String.localeCompare` is available).
+		// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+		// (Which means: not in IE10, not in Safari as of May 2017)
+		//
 		// This is only done when custom country names
 		// are supplied via `dictionary` property
 		// because by default all country names are already sorted.
+		//
 		if (using_custom_country_names && String.prototype.localeCompare)
 		{
 			this.select_options.sort((a, b) => a.localeCompare(b))
