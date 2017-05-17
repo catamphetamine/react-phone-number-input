@@ -258,7 +258,7 @@ export default class Input extends Component
 		//
 		if (using_custom_country_names && String.prototype.localeCompare)
 		{
-			this.select_options.sort((a, b) => a.localeCompare(b))
+			this.select_options.sort((a, b) => a['label'].localeCompare(b['label']))
 		}
 
 		// Add the "International" option to the country list (if suitable)
