@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import { as_you_type, parse, format } from 'libphonenumber-js'
+import { as_you_type, parse, format, getPhoneCode } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 
@@ -574,7 +574,8 @@ export default class Input extends Component
 			// then unset the current country because it's clear that a user intends to change it.
 			if (value.length === 1)
 			{
-				// Only if "International" country option has not been disabled
+				// If "International" country option has not been disabled
+				// then reset the currently selected country.
 				if (should_add_international_option(this.props))
 				{
 					country_code = undefined
@@ -599,8 +600,26 @@ export default class Input extends Component
 			value = '+' + value
 		}
 
-		// Convert `value` to E.164 phone number format
-		const value_property = e164(value, country_code, metadata)
+		// `value` in E.164 phone number format
+		let value_property
+
+		// `value` equal to `+` makes no sense
+		if (value === '+')
+		{
+			value_property = undefined
+		}
+		// If a phone number is in international format then check
+		// that the phone number entered belongs to the selected country.
+		else if (country_code && value[0] === '+' && !(value.indexOf(`+${getPhoneCode(country_code)}`) === 0 && value.length > `+${getPhoneCode(country_code)}`.length))
+		{
+			value_property = undefined
+		}
+		// Should be a most-probably-valid phone number
+		else
+		{
+			// Convert `value` to E.164 phone number format
+			value_property = e164(value, country_code, metadata)
+		}
 
 		this.setState
 		({
