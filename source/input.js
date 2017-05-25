@@ -491,8 +491,6 @@ export default class Input extends Component
 				{
 					return
 				}
-
-				return character
 			}
 
 			return character
@@ -568,7 +566,7 @@ export default class Input extends Component
 			() => onChange(value))
 		}
 
-		// For international phone number
+		// For international phone numbers
 		if (value[0] === '+')
 		{
 			// If an international phone number is being erased up to the first `+` sign
@@ -576,8 +574,12 @@ export default class Input extends Component
 			// then unset the current country because it's clear that a user intends to change it.
 			if (value.length === 1)
 			{
-				country_code = undefined
-				this.set_country_code_value(country_code)
+				// Only if "International" country option has not been disabled
+				if (should_add_international_option(this.props))
+				{
+					country_code = undefined
+					this.set_country_code_value(country_code)
+				}
 			}
 			// If a phone number is being input as an international one
 			// and the country code can already be derived,
