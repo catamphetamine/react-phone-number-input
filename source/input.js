@@ -61,6 +61,21 @@ export default class Input extends Component
 		// (is `false` by default)
 		disabled : PropTypes.bool.isRequired,
 
+		// Remembers the input and also autofills it
+		// with a previously remembered phone number.
+		// Default value: "tel".
+		//
+		// https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill
+		//
+		// "So when should you use autocomplete="off"?
+		//  One example is when you've implemented your own version
+		//  of autocomplete for search. Another example is any form field
+		//  where users will input and submit different kinds of information
+		//  where it would not be useful to have the browser remember
+		//  what was submitted previously".
+		//
+		autoComplete : PropTypes.string.isRequired,
+
 		// Two-letter country code
 		// to be used as the default country
 		// for local (non-international) phone numbers.
@@ -145,6 +160,9 @@ export default class Input extends Component
 	{
 		// Is enabled
 		disabled: false,
+
+		// Remember (and autofill) as a phone number
+		autoComplete: 'tel',
 
 		// Include all countries by default
 		countries: all_countries,
@@ -738,6 +756,7 @@ export default class Input extends Component
 			showCountrySelect,
 			nativeExpanded,
 			disabled,
+			autoComplete,
 			selectTabIndex,
 			selectMaxItems,
 			inputTabIndex,
@@ -802,6 +821,7 @@ export default class Input extends Component
 						onChange={ this.on_change }
 						disabled={ disabled }
 						type="tel"
+						autoComplete={ autoComplete }
 						tabIndex={ inputTabIndex }
 						parse={ this.parse }
 						format={ this.format }
