@@ -72,6 +72,14 @@
 		{
 			width : 20rem;
 		}
+
+		/* Overrides Chrome autofill yellow background color */
+		.rrui__input-field:-webkit-autofill,
+		.rrui__input-field:-webkit-autofill:hover,
+		.rrui__input-field:-webkit-autofill:focus
+		{
+			box-shadow: 0 0 0 1000px white inset;
+		}
 	</style>
 
 	<body>
