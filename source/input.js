@@ -578,6 +578,7 @@ export default class Input extends Component
 				value,
 				// `value_property` holds the `value` property value
 				// which is being set by this library.
+				// The reason for this variable is `componentWillReceiveProps()`.
 				value_property: value
 			},
 			// Write the new `this.props.value`.
@@ -618,7 +619,9 @@ export default class Input extends Component
 			value = '+' + value
 		}
 
-		// `value` in E.164 phone number format
+		// `value_property` holds the `value` property value
+		// which is being set by this library.
+		// The reason for this variable is `componentWillReceiveProps()`.
 		let value_property
 
 		// `value` equal to `+` makes no sense
@@ -646,6 +649,7 @@ export default class Input extends Component
 			value,
 			// `value_property` holds the `value` property value
 			// which is being set by this library.
+			// The reason for this variable is `componentWillReceiveProps()`.
 			value_property
 		},
 		// Write the new `this.props.value`.
@@ -724,6 +728,7 @@ export default class Input extends Component
 			// (because the library called `onChange` by itself).
 			// Because if the current `value` property representation
 			// corresponds to `new_props.value`, then there's no need to update anything.
+			// This `if` condition is the only reason `value_property` variable exists.
 			if (new_props.value !== this.state.value_property)
 			{
 				// Update the `value` because it was externally set
@@ -739,10 +744,13 @@ export default class Input extends Component
 					country_code = parse(new_props.value).country || country_code
 				}
 
+				const value_property = this.correct_value_depending_on_the_country_selected(new_props.value, country_code)
+
 				this.setState
 				({
 					country_code,
-					value: this.correct_value_depending_on_the_country_selected(new_props.value, country_code)
+					value: value_property,
+					value_property
 				})
 			}
 		}
