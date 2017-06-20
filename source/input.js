@@ -235,7 +235,11 @@ export default class Input extends Component
 		// If a phone number `value` is passed then format it
 		if (value)
 		{
-			// Take note of the current `value` property
+			// `this.state.value_property` is the `this.props.value`
+			// which corresponding to `this.state.value`.
+			// It is being compared in `componentWillReceiveProps()`
+			// against `newProps.value` to find out if the new `value` property
+			// needs `this.state.value` recalculation.
 			this.state.value_property = value
 			// Set the currently entered `value`.
 			// State `value` is either in international plaintext or just plaintext format.
@@ -576,9 +580,11 @@ export default class Input extends Component
 				// State `value` is the parsed input value
 				// (e.g. `+78005553535`, `1234567`).
 				value,
-				// `value_property` holds the `value` property value
-				// which is being set by this library.
-				// The reason for this variable is `componentWillReceiveProps()`.
+				// `this.state.value_property` is the `this.props.value`
+				// which corresponding to `this.state.value`.
+				// It is being compared in `componentWillReceiveProps()`
+				// against `newProps.value` to find out if the new `value` property
+				// needs `this.state.value` recalculation.
 				value_property: value
 			},
 			// Write the new `this.props.value`.
@@ -619,9 +625,11 @@ export default class Input extends Component
 			value = '+' + value
 		}
 
-		// `value_property` holds the `value` property value
-		// which is being set by this library.
-		// The reason for this variable is `componentWillReceiveProps()`.
+		// `this.state.value_property` is the `this.props.value`
+		// which corresponding to `this.state.value`.
+		// It is being compared in `componentWillReceiveProps()`
+		// against `newProps.value` to find out if the new `value` property
+		// needs `this.state.value` recalculation.
 		let value_property
 
 		// `value` equal to `+` makes no sense
@@ -647,9 +655,11 @@ export default class Input extends Component
 			// State `value` is the parsed input value
 			// (e.g. `+78005553535`, `1234567`).
 			value,
-			// `value_property` holds the `value` property value
-			// which is being set by this library.
-			// The reason for this variable is `componentWillReceiveProps()`.
+			// `this.state.value_property` is the `this.props.value`
+			// which corresponding to `this.state.value`.
+			// It is being compared in `componentWillReceiveProps()`
+			// against `newProps.value` to find out if the new `value` property
+			// needs `this.state.value` recalculation.
 			value_property
 		},
 		// Write the new `this.props.value`.
@@ -720,15 +730,18 @@ export default class Input extends Component
 		}
 
 		// This code is executed:
-		// * after `onChange` is called
-		// * if the `value` was eternally set
+		// * after `this.props.onChange(value)` is called
+		// * if the `value` was externally set (e.g. cleared)
 		if (new_props.value !== value)
 		{
-			// Ignore self `onChange` calls
-			// (because the library called `onChange` by itself).
-			// Because if the current `value` property representation
-			// corresponds to `new_props.value`, then there's no need to update anything.
-			// This `if` condition is the only reason `value_property` variable exists.
+			// `this.state.value_property` is the `this.props.value`
+			// which corresponding to `this.state.value`.
+			// It is being compared in `componentWillReceiveProps()`
+			// against `newProps.value` to find out if the new `value` property
+			// needs `this.state.value` recalculation.
+			// This is an optimization, it's like `shouldComponentUpdate()`.
+			// This is supposed to save some CPU cycles, maybe not much, I didn't check.
+			// Or maybe there was some other reason for this I don't remember now.
 			if (new_props.value !== this.state.value_property)
 			{
 				// Update the `value` because it was externally set
@@ -736,7 +749,7 @@ export default class Input extends Component
 				// Country code gets updated too
 				let country_code = this.state.country_code
 
-				// Autodetect country if value is set
+				// Autodetect country if `value` is set
 				// and is international (which it should be)
 				if (new_props.value && new_props.value[0] === '+')
 				{
@@ -744,13 +757,16 @@ export default class Input extends Component
 					country_code = parse(new_props.value).country || country_code
 				}
 
-				const value_property = this.correct_value_depending_on_the_country_selected(new_props.value, country_code)
-
 				this.setState
 				({
 					country_code,
-					value: value_property,
-					value_property
+					value: this.correct_value_depending_on_the_country_selected(new_props.value, country_code),
+					// `this.state.value_property` is the `this.props.value`
+					// which corresponding to `this.state.value`.
+					// It is being compared in `componentWillReceiveProps()`
+					// against `newProps.value` to find out if the new `value` property
+					// needs `this.state.value` recalculation.
+					value_property: new_props.value
 				})
 			}
 		}
