@@ -244,7 +244,7 @@ export default class Input extends Component
 			// Set the currently entered `value`.
 			// State `value` is either in international plaintext or just plaintext format.
 			// (e.g. `+78005553535`, `1234567`)
-			this.state.value = this.correct_value_depending_on_the_country_selected(value, country)
+			this.state.value = this.get_input_value_depending_on_the_country_selected(value, country)
 		}
 
 		// `<Select/>` options
@@ -294,6 +294,13 @@ export default class Input extends Component
 		}
 	}
 
+	// Determines the text `<input/>` `value`
+	// depending on `this.props.value` and the country selected.
+	//
+	// E.g. when a country is selected and `this.props.value`
+	// is in international format for this country
+	// then it can be converted to national format.
+	//
 	// If the country code is specified
 	//   If the value has a leading plus sign
 	//     If it converts into a valid national number for this country
@@ -308,7 +315,7 @@ export default class Input extends Component
 	//   Else
 	//     The + sign is prepended
 	//
-	correct_value_depending_on_the_country_selected(value, country_code)
+	get_input_value_depending_on_the_country_selected(value, country_code)
 	{
 		const { metadata, convertToNational } = this.props
 
@@ -760,7 +767,7 @@ export default class Input extends Component
 				this.setState
 				({
 					country_code,
-					value: this.correct_value_depending_on_the_country_selected(new_props.value, country_code),
+					value: this.get_input_value_depending_on_the_country_selected(new_props.value, country_code),
 					// `this.state.value_property` is the `this.props.value`
 					// which corresponding to `this.state.value`.
 					// It is being compared in `componentWillReceiveProps()`
@@ -833,8 +840,7 @@ export default class Input extends Component
 						saveOnIcons={ saveOnIcons }
 						name={ input_props.name ? `${input_props.name}__country` : undefined }
 						className="react-phone-number-input__country"
-						inputClassName={ inputClassName }
-						style={ select_style }/>
+						inputClassName={ inputClassName }/>
 				}
 
 				{ !country_select_is_shown &&
@@ -850,8 +856,7 @@ export default class Input extends Component
 						parse={ this.parse }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
-						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }
-						style={ input_style }/>
+						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }/>
 				}
 			</div>
 		)
@@ -911,14 +916,6 @@ function e164(value, country_code, metadata)
 
 	return '+' + value
 }
-
-const select_style =
-{
-	display       : 'inline-block',
-	verticalAlign : 'bottom'
-}
-
-const input_style = select_style
 
 // Gets country flag element by country code
 function get_country_option_icon(country_code, { flags, flagsPath })
