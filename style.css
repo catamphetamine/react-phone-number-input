@@ -75,8 +75,6 @@
 
 .react-phone-number-input__icon
 {
-	display : inline-block;
-
 	/* The flag icon size is 4x3 hence the exact `width` and `height` values */
 	width      : 1.24em;
 	height     : 0.93em;
