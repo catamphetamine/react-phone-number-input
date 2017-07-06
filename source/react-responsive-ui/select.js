@@ -1154,7 +1154,7 @@ export default class Select extends PureComponent
 						}
 					}
 				},
-				expandAnimationDuration)
+				expandAnimationDuration * 1.1)
 			})
 
 			if (!expanded && options)
