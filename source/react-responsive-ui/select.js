@@ -1,9 +1,8 @@
-// https://github.com/halt-hammerzeit/react-responsive-ui/blob/master/source/select.js
-
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 
 import { submit_parent_form, get_scrollbar_width } from './misc/dom'
 
@@ -119,7 +118,9 @@ export default class Select extends PureComponent
 
 		// If `menu` flag is set to `true`
 		// then it's gonna be a dropdown menu
-		// with `children` elements inside.
+		// with `children` elements inside
+		// and therefore `onChange` won't be called
+		// on menu item click.
 		menu       : PropTypes.bool,
 
 		// If `menu` flag is set to `true`
@@ -146,6 +147,17 @@ export default class Select extends PureComponent
 
 		focusUponSelection : PropTypes.bool.isRequired,
 
+		// When the `<Select/>` is expanded
+		// the options list may not fit on the screen.
+		// If `scrollIntoView` is `true` (which is the default)
+		// then the browser will automatically scroll
+		// so that the expanded options list fits on the screen.
+		scrollIntoView : PropTypes.bool.isRequired,
+
+		// If `scrollIntoView` is `true` (which is the default)
+		// then this is gonna be the delay after which it scrolls into view.
+		expandAnimationDuration : PropTypes.number.isRequired,
+
 		onTabOut : PropTypes.func,
 
 		onToggle : PropTypes.func
@@ -165,6 +177,8 @@ export default class Select extends PureComponent
 		fallback           : false,
 		native             : false,
 		nativeExpanded     : false,
+		scrollIntoView     : true,
+		expandAnimationDuration : 150,
 
 		// Set to `true` to mark the field as required
 		required : false,
@@ -198,7 +212,7 @@ export default class Select extends PureComponent
 			toggler,
 			onChange
 		}
-		= props
+		= this.props
 
 		if (autocomplete)
 		{
@@ -233,7 +247,7 @@ export default class Select extends PureComponent
 
 		if (!menu && !onChange)
 		{
-			throw new Error(`"onChange" property must be specified for <Select/>`)
+			throw new Error(`"onChange" property must be specified for a non-menu <Select/>`)
 		}
 	}
 
@@ -288,6 +302,24 @@ export default class Select extends PureComponent
 		if (nativeExpanded)
 		{
 			window.removeEventListener('resize', this.resize_native_expanded_select)
+		}
+
+		if (this.toggle_timeout)
+		{
+			clearTimeout(this.toggle_timeout)
+			this.toggle_timeout = undefined
+		}
+
+		if (this.scroll_into_view_timeout)
+		{
+			clearTimeout(this.scroll_into_view_timeout)
+			this.scroll_into_view_timeout = undefined
+		}
+
+		if (this.restore_focus_on_collapse_timeout)
+		{
+			clearTimeout(this.restore_focus_on_collapse_timeout)
+			this.restore_focus_on_collapse_timeout = undefined
 		}
 	}
 
@@ -372,13 +404,13 @@ export default class Select extends PureComponent
 			<div
 				ref={ ref => this.select = ref }
 				onKeyDown={ this.on_key_down_in_container }
+				onBlur={ this.on_blur }
 				style={ style ? { ...wrapper_style, ...style } : wrapper_style }
 				className={ classNames
 				(
 					'rrui__select',
 					{
 						'rrui__rich'              : fallback,
-						'rrui__select--menu'      : menu,
 						'rrui__select--upward'    : upward,
 						'rrui__select--expanded'  : expanded,
 						'rrui__select--collapsed' : !expanded,
@@ -390,7 +422,7 @@ export default class Select extends PureComponent
 				<div
 					className={ classNames
 					({
-						'rrui__input': !menu
+						'rrui__input': !toggler
 					}) }>
 
 					{/* Currently selected item */}
@@ -416,13 +448,7 @@ export default class Select extends PureComponent
 					}
 
 					{/* Menu toggler */}
-					{ menu &&
-						<div
-							ref={ ref => this.menu_toggler }
-							className="rrui__select__toggler">
-							{ React.cloneElement(toggler, { onClick : this.toggle }) }
-						</div>
-					}
+					{ menu && this.render_toggler() }
 
 					{/* The list of selectable options */}
 					{/* Math.max(this.state.height, this.props.max_height) */}
@@ -587,24 +613,26 @@ export default class Select extends PureComponent
 	// (in case of `nativeExpanded` setting).
 	render_selected_item()
 	{
-		const { nativeExpanded } = this.props
+		const { nativeExpanded, toggler } = this.props
+
+		if (toggler)
+		{
+			return this.render_toggler()
+		}
 
 		const selected = this.render_selected_item_only()
 
-		if (!nativeExpanded)
+		if (nativeExpanded)
 		{
-			return selected
+			return (
+				<div style={ native_expanded_select_container_style }>
+					{ this.render_static() }
+					{ selected }
+				</div>
+			)
 		}
 
-		const markup =
-		(
-			<div style={ native_expanded_select_container_style }>
-				{ this.render_static() }
-				{ selected }
-			</div>
-		)
-
-		return markup
+		return selected
 	}
 
 	render_selected_item_only()
@@ -620,6 +648,7 @@ export default class Select extends PureComponent
 			concise,
 			tabIndex,
 			onFocus,
+			title,
 			inputClassName
 		}
 		= this.props
@@ -651,8 +680,8 @@ export default class Select extends PureComponent
 					onChange={ this.on_autocomplete_input_change }
 					onKeyDown={ this.on_key_down }
 					onFocus={ onFocus }
-					onBlur={ this.on_blur }
 					tabIndex={ tabIndex }
+					title={ title }
 					className={ classNames
 					(
 						'rrui__input-field',
@@ -680,8 +709,8 @@ export default class Select extends PureComponent
 				onClick={ this.toggle }
 				onKeyDown={ this.on_key_down }
 				onFocus={ onFocus }
-				onBlur={ this.on_blur }
 				tabIndex={ tabIndex }
+				title={ title }
 				className={ classNames
 				(
 					'rrui__input-field',
@@ -712,6 +741,22 @@ export default class Select extends PureComponent
 		)
 
 		return markup
+	}
+
+	render_toggler()
+	{
+		const { toggler } = this.props
+
+		return (
+			<div className="rrui__select__toggler">
+				{ React.cloneElement(toggler,
+				{
+					ref       : ref => this.selected = ref,
+					onClick   : this.toggle,
+					onKeyDown : this.on_key_down
+				}) }
+			</div>
+		)
 	}
 
 	// supports disabled javascript
@@ -990,14 +1035,16 @@ export default class Select extends PureComponent
 
 		const
 		{
-			menu,
+			toggler,
 			disabled,
 			autocomplete,
 			options,
 			value,
 			focusUponSelection,
 			onToggle,
-			nativeExpanded
+			nativeExpanded,
+			scrollIntoView,
+			expandAnimationDuration
 		}
 		= this.props
 
@@ -1009,6 +1056,18 @@ export default class Select extends PureComponent
 		if (disabled)
 		{
 			return
+		}
+
+		if (this.toggle_timeout)
+		{
+			clearTimeout(this.toggle_timeout)
+			this.toggle_timeout = undefined
+		}
+
+		if (this.scroll_into_view_timeout)
+		{
+			clearTimeout(this.scroll_into_view_timeout)
+			this.scroll_into_view_timeout = undefined
 		}
 
 		const { expanded } = this.state
@@ -1031,14 +1090,71 @@ export default class Select extends PureComponent
 		}
 
 		// Deferring expanding the select upon click
-		// because document.onClick should finish first,
-		// otherwise `event.target` may be detached from the DOM
-		// and it would immediately toggle back to collapsed state.
-		setTimeout(() =>
+		// because `document.onClick(event)` should fire first,
+		// otherwise `event.target` in that handler will be detached
+		// from the document and so `this.document_clicked()` handler will
+		// immediately toggle the select back to collapsed state.
+		this.toggle_timeout = setTimeout(() =>
 		{
+			this.toggle_timeout = undefined
+
 			this.setState
 			({
 				expanded: !expanded
+			},
+			() =>
+			{
+				const is_now_expanded = this.state.expanded
+
+				if (!toggle_options.dont_focus_after_toggle)
+				{
+					// If it's autocomplete, then focus <input/> field
+					// upon toggling the select component.
+					if (autocomplete)
+					{
+						if (is_now_expanded)
+						{
+							// Focus the input after the select is expanded
+							this.autocomplete.focus()
+						}
+						else if (focusUponSelection)
+						{
+							// Focus the toggler after the select is collapsed
+							this.selected.focus()
+						}
+					}
+					else
+					{
+						// For some reason Firefox loses focus
+						// upon select expansion via a click,
+						// so this extra `.focus()` works around that issue.
+						this.selected.focus()
+					}
+				}
+
+				this.scroll_into_view_timeout = setTimeout(() =>
+				{
+					this.scroll_into_view_timeout = undefined
+
+					const is_still_expanded = this.state.expanded
+
+					if (is_still_expanded && this.list && scrollIntoView)
+					{
+						const element = ReactDOM.findDOMNode(this.list)
+
+						// https://developer.mozilla.org/ru/docs/Web/API/Element/scrollIntoViewIfNeeded
+						if (element.scrollIntoViewIfNeeded)
+						{
+							element.scrollIntoViewIfNeeded(false)
+						}
+						else
+						{
+							// https://github.com/stipsan/scroll-into-view-if-needed
+							scrollIntoViewIfNeeded(element, false, { duration: 800 })
+						}
+					}
+				},
+				expandAnimationDuration)
 			})
 
 			if (!expanded && options)
@@ -1054,41 +1170,6 @@ export default class Select extends PureComponent
 				this.scroll_to(focused_option_value)
 			}
 
-			// If it's autocomplete, then focus <input/> field
-			// upon toggling the select component.
-			if (!toggle_options.dont_focus_after_toggle)
-			{
-				if (autocomplete)
-				{
-					if (!expanded || (expanded && focusUponSelection))
-					{
-						setTimeout(() =>
-						{
-							// Focus the toggler
-							if (expanded)
-							{
-								this.selected.focus()
-							}
-							else
-							{
-								this.autocomplete.focus()
-							}
-						},
-						0)
-					}
-				}
-				else
-				{
-					// For some reason Firefox loses focus
-					// upon select expansion via a click,
-					// so this extra `.focus()` works around that issue.
-					if (!menu)
-					{
-						this.selected.focus()
-					}
-				}
-			}
-
 			if (onToggle)
 			{
 				onToggle(!expanded)
@@ -1102,7 +1183,7 @@ export default class Select extends PureComponent
 		0)
 	}
 
-	item_clicked(value, event)
+	item_clicked = (value, event) =>
 	{
 		if (event)
 		{
@@ -1233,9 +1314,10 @@ export default class Select extends PureComponent
 						this.toggle()
 
 						// Restore focus when the list is collapsed
-						setTimeout
-						(() =>
+						this.restore_focus_on_collapse_timeout = setTimeout(() =>
 						{
+							this.restore_focus_on_collapse_timeout = undefined
+
 							this.selected.focus()
 						},
 						0)
@@ -1259,8 +1341,6 @@ export default class Select extends PureComponent
 						{
 							// Choose the focused item
 							this.item_clicked(focused_option_value)
-							// And collapse the select
-							this.toggle()
 						}
 					}
 					// Else it should have just submitted the form on Enter,
@@ -1293,7 +1373,6 @@ export default class Select extends PureComponent
 							// we're explicitly not handling autocomplete here
 							// it is valid to select any options including the default ones.
 							this.item_clicked(focused_option_value)
-							this.toggle()
 						}
 					}
 					// Otherwise, the spacebar keydown event on a `<button/>`
@@ -1308,6 +1387,12 @@ export default class Select extends PureComponent
 	on_blur = (event) =>
 	{
 		const { onBlur, value } = this.props
+
+		// If clicked on a select option then don't trigger "blur" event
+		if (event.relatedTarget && event.currentTarget.contains(event.relatedTarget))
+		{
+			return
+		}
 
 		// This `onBlur` interceptor is a workaround for `redux-form`,
 		// so that it gets the right (parsed, not the formatted one)
