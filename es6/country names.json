@@ -1,0 +1,970 @@
+[
+	[
+		"af",
+		"Afghanistan (‫افغانستان‬‎)"
+	],
+	[
+		"ax",
+		"Åland Islands"
+	],
+	[
+		"al",
+		"Albania (Shqipëri)"
+	],
+	[
+		"dz",
+		"Algeria (‫الجزائر‬‎)"
+	],
+	[
+		"as",
+		"American Samoa (Amerika Sāmoa)"
+	],
+	[
+		"ad",
+		"Andorra"
+	],
+	[
+		"ao",
+		"Angola"
+	],
+	[
+		"ai",
+		"Anguilla"
+	],
+	[
+		"ag",
+		"Antigua and Barbuda"
+	],
+	[
+		"ar",
+		"Argentina"
+	],
+	[
+		"am",
+		"Armenia (Հայաստան)"
+	],
+	[
+		"aw",
+		"Aruba"
+	],
+	[
+		"au",
+		"Australia"
+	],
+	[
+		"at",
+		"Austria (Österreich)"
+	],
+	[
+		"az",
+		"Azerbaijan (Azərbaycan)"
+	],
+	[
+		"bs",
+		"Bahamas"
+	],
+	[
+		"bh",
+		"Bahrain (‫البحرين‬‎)"
+	],
+	[
+		"bd",
+		"Bangladesh (বাংলাদেশ)"
+	],
+	[
+		"bb",
+		"Barbados"
+	],
+	[
+		"by",
+		"Belarus (Беларусь)"
+	],
+	[
+		"be",
+		"Belgium (België)"
+	],
+	[
+		"bz",
+		"Belize"
+	],
+	[
+		"bj",
+		"Benin (Bénin)"
+	],
+	[
+		"bm",
+		"Bermuda"
+	],
+	[
+		"bt",
+		"Bhutan (འབྲུག)"
+	],
+	[
+		"bo",
+		"Bolivia"
+	],
+	[
+		"ba",
+		"Bosnia and Herzegovina"
+	],
+	[
+		"bw",
+		"Botswana"
+	],
+	[
+		"br",
+		"Brazil (Brasil)"
+	],
+	[
+		"io",
+		"British Indian Ocean Territory"
+	],
+	[
+		"vg",
+		"British Virgin Islands"
+	],
+	[
+		"bn",
+		"Brunei (Negara Brunei Darussalam)"
+	],
+	[
+		"bg",
+		"Bulgaria (България)"
+	],
+	[
+		"bf",
+		"Burkina Faso"
+	],
+	[
+		"bi",
+		"Burundi (Uburundi)"
+	],
+	[
+		"kh",
+		"Cambodia (កម្ពុជា)"
+	],
+	[
+		"cm",
+		"Cameroon (Cameroun)"
+	],
+	[
+		"ca",
+		"Canada"
+	],
+	[
+		"cv",
+		"Cape Verde (Kabu Verdi)"
+	],
+	[
+		"bq",
+		"Caribbean Netherlands"
+	],
+	[
+		"ky",
+		"Cayman Islands"
+	],
+	[
+		"cf",
+		"Central African Republic"
+	],
+	[
+		"td",
+		"Chad (Tchad)"
+	],
+	[
+		"cl",
+		"Chile"
+	],
+	[
+		"cn",
+		"China (中国)"
+	],
+	[
+		"cx",
+		"Christmas Island"
+	],
+	[
+		"cc",
+		"Cocos (Keeling) Islands"
+	],
+	[
+		"co",
+		"Colombia"
+	],
+	[
+		"km",
+		"Comoros (‫جزر القمر‬‎)"
+	],
+	[
+		"cd",
+		"Congo (DRC) (Kongo)"
+	],
+	[
+		"cg",
+		"Congo (Republic) (Congo-Brazzaville)"
+	],
+	[
+		"ck",
+		"Cook Islands"
+	],
+	[
+		"cr",
+		"Costa Rica"
+	],
+	[
+		"ci",
+		"Côte d’Ivoire"
+	],
+	[
+		"hr",
+		"Croatia (Hrvatska)"
+	],
+	[
+		"cu",
+		"Cuba"
+	],
+	[
+		"cw",
+		"Curaçao"
+	],
+	[
+		"cy",
+		"Cyprus (Κύπρος)"
+	],
+	[
+		"cz",
+		"Czech Republic (Česká republika)"
+	],
+	[
+		"dk",
+		"Denmark (Danmark)"
+	],
+	[
+		"dj",
+		"Djibouti"
+	],
+	[
+		"dm",
+		"Dominica"
+	],
+	[
+		"do",
+		"Dominican Republic"
+	],
+	[
+		"ec",
+		"Ecuador"
+	],
+	[
+		"eg",
+		"Egypt (‫مصر‬‎)"
+	],
+	[
+		"sv",
+		"El Salvador"
+	],
+	[
+		"gq",
+		"Equatorial Guinea (Guinea Ecuatorial)"
+	],
+	[
+		"er",
+		"Eritrea"
+	],
+	[
+		"ee",
+		"Estonia (Eesti)"
+	],
+	[
+		"et",
+		"Ethiopia"
+	],
+	[
+		"fk",
+		"Falkland Islands (Islas Malvinas)"
+	],
+	[
+		"fo",
+		"Faroe Islands (Føroyar)"
+	],
+	[
+		"fj",
+		"Fiji (Matanitu Tugalala o Viti)"
+	],
+	[
+		"fi",
+		"Finland (Suomi)"
+	],
+	[
+		"fr",
+		"France (République française)"
+	],
+	[
+		"gf",
+		"French Guiana (Guyane française)"
+	],
+	[
+		"pf",
+		"French Polynesia (Polynésie française)"
+	],
+	[
+		"ga",
+		"Gabon (République gabonaise)"
+	],
+	[
+		"gm",
+		"Gambia"
+	],
+	[
+		"ge",
+		"Georgia (საქართველო)"
+	],
+	[
+		"de",
+		"Germany (Deutschland)"
+	],
+	[
+		"gh",
+		"Ghana (Gaana)"
+	],
+	[
+		"gi",
+		"Gibraltar"
+	],
+	[
+		"gr",
+		"Greece (Ελλάδα)"
+	],
+	[
+		"gl",
+		"Greenland (Kalaallit Nunaat)"
+	],
+	[
+		"gd",
+		"Grenada"
+	],
+	[
+		"gp",
+		"Guadeloupe"
+	],
+	[
+		"gu",
+		"Guam (Guåhån)"
+	],
+	[
+		"gt",
+		"Guatemala"
+	],
+	[
+		"gg",
+		"Guernsey"
+	],
+	[
+		"gn",
+		"Guinea (Guinée)"
+	],
+	[
+		"gw",
+		"Guinea-Bissau (Guiné Bissau)"
+	],
+	[
+		"gy",
+		"Guyana"
+	],
+	[
+		"ht",
+		"Haiti (République d'Haïti)"
+	],
+	[
+		"hn",
+		"Honduras"
+	],
+	[
+		"hk",
+		"Hong Kong (香港)"
+	],
+	[
+		"hu",
+		"Hungary (Magyarország)"
+	],
+	[
+		"is",
+		"Iceland (Ísland)"
+	],
+	[
+		"in",
+		"India (भारत)"
+	],
+	[
+		"id",
+		"Indonesia"
+	],
+	[
+		"ir",
+		"Iran (‫ایران‬‎)"
+	],
+	[
+		"iq",
+		"Iraq (‫العراق‬‎)"
+	],
+	[
+		"ie",
+		"Ireland"
+	],
+	[
+		"im",
+		"Isle of Man"
+	],
+	[
+		"il",
+		"Israel (‫ישראל‬‎)"
+	],
+	[
+		"it",
+		"Italy (Italia)"
+	],
+	[
+		"jm",
+		"Jamaica"
+	],
+	[
+		"jp",
+		"Japan (日本)"
+	],
+	[
+		"je",
+		"Jersey"
+	],
+	[
+		"jo",
+		"Jordan (‫الأردن‬‎)"
+	],
+	[
+		"kz",
+		"Kazakhstan (Казахстан)"
+	],
+	[
+		"ke",
+		"Kenya"
+	],
+	[
+		"ki",
+		"Kiribati"
+	],
+	[
+		"kw",
+		"Kuwait (‫الكويت‬‎)"
+	],
+	[
+		"kg",
+		"Kyrgyzstan (Кыргызстан)"
+	],
+	[
+		"la",
+		"Laos (ລາວ)"
+	],
+	[
+		"lv",
+		"Latvia (Latvija)"
+	],
+	[
+		"lb",
+		"Lebanon (‫لبنان‬‎)"
+	],
+	[
+		"ls",
+		"Lesotho"
+	],
+	[
+		"lr",
+		"Liberia"
+	],
+	[
+		"ly",
+		"Libya (‫ليبيا‬‎)"
+	],
+	[
+		"li",
+		"Liechtenstein"
+	],
+	[
+		"lt",
+		"Lithuania (Lietuva)"
+	],
+	[
+		"lu",
+		"Luxembourg (Lëtzebuerg)"
+	],
+	[
+		"mo",
+		"Macau (澳門)"
+	],
+	[
+		"mk",
+		"Macedonia (FYROM) (Македонија)"
+	],
+	[
+		"mg",
+		"Madagascar (Madagasikara)"
+	],
+	[
+		"mw",
+		"Malawi (Malaŵi)"
+	],
+	[
+		"my",
+		"Malaysia"
+	],
+	[
+		"mv",
+		"Maldives"
+	],
+	[
+		"ml",
+		"Mali"
+	],
+	[
+		"mt",
+		"Malta"
+	],
+	[
+		"mh",
+		"Marshall Islands"
+	],
+	[
+		"mq",
+		"Martinique"
+	],
+	[
+		"mr",
+		"Mauritania (‫موريتانيا‬‎)"
+	],
+	[
+		"mu",
+		"Mauritius (Moris)"
+	],
+	[
+		"yt",
+		"Mayotte"
+	],
+	[
+		"mx",
+		"Mexico (México)"
+	],
+	[
+		"fm",
+		"Micronesia"
+	],
+	[
+		"md",
+		"Moldova (Republica Moldova)"
+	],
+	[
+		"mc",
+		"Monaco"
+	],
+	[
+		"mn",
+		"Mongolia (Монгол)"
+	],
+	[
+		"me",
+		"Montenegro (Crna Gora)"
+	],
+	[
+		"ms",
+		"Montserrat"
+	],
+	[
+		"ma",
+		"Morocco (‫المغرب‬‎)"
+	],
+	[
+		"mz",
+		"Mozambique (Moçambique)"
+	],
+	[
+		"mm",
+		"Myanmar (Burma) (မြန်မာ)"
+	],
+	[
+		"na",
+		"Namibia (Namibië)"
+	],
+	[
+		"nr",
+		"Nauru (Repubrikin Naoero)"
+	],
+	[
+		"np",
+		"Nepal (नेपाल)"
+	],
+	[
+		"nl",
+		"Netherlands (Nederland)"
+	],
+	[
+		"nc",
+		"New Caledonia (Nouvelle-Calédonie)"
+	],
+	[
+		"nz",
+		"New Zealand"
+	],
+	[
+		"ni",
+		"Nicaragua"
+	],
+	[
+		"ne",
+		"Niger (Nijar)"
+	],
+	[
+		"ng",
+		"Nigeria"
+	],
+	[
+		"nu",
+		"Niue (Niuē)"
+	],
+	[
+		"nf",
+		"Norfolk Island"
+	],
+	[
+		"kp",
+		"North Korea (조선 민주주의 인민 공화국)"
+	],
+	[
+		"mp",
+		"Northern Mariana Islands"
+	],
+	[
+		"no",
+		"Norway (Norge)"
+	],
+	[
+		"om",
+		"Oman (‫عُمان‬‎)"
+	],
+	[
+		"pk",
+		"Pakistan (‫پاکستان‬‎)"
+	],
+	[
+		"pw",
+		"Palau (Beluu er a Belau)"
+	],
+	[
+		"ps",
+		"Palestine (‫فلسطين‬‎)"
+	],
+	[
+		"pa",
+		"Panama (Panamá)"
+	],
+	[
+		"pg",
+		"Papua New Guinea"
+	],
+	[
+		"py",
+		"Paraguay (Tetã Paraguái)"
+	],
+	[
+		"pe",
+		"Peru (Perú)"
+	],
+	[
+		"ph",
+		"Philippines (Republika ng Pilipinas)"
+	],
+	[
+		"pl",
+		"Poland (Polska)"
+	],
+	[
+		"pt",
+		"Portugal (República Portuguesa)"
+	],
+	[
+		"pr",
+		"Puerto Rico"
+	],
+	[
+		"qa",
+		"Qatar (‫قطر‬‎)"
+	],
+	[
+		"re",
+		"Réunion (La Réunion)"
+	],
+	[
+		"ro",
+		"Romania (România)"
+	],
+	[
+		"ru",
+		"Russia (Россия)"
+	],
+	[
+		"rw",
+		"Rwanda"
+	],
+	[
+		"bl",
+		"Saint Barthélemy (Saint-Barthélemy)"
+	],
+	[
+		"sh",
+		"Saint Helena"
+	],
+	[
+		"kn",
+		"Saint Kitts and Nevis"
+	],
+	[
+		"lc",
+		"Saint Lucia"
+	],
+	[
+		"mf",
+		"Saint Martin (Saint-Martin)"
+	],
+	[
+		"pm",
+		"Saint Pierre and Miquelon"
+	],
+	[
+		"vc",
+		"Saint Vincent and the Grenadines"
+	],
+	[
+		"ws",
+		"Samoa (Sāmoa)"
+	],
+	[
+		"sm",
+		"San Marino"
+	],
+	[
+		"st",
+		"São Tomé and Príncipe"
+	],
+	[
+		"sa",
+		"Saudi Arabia (‫المملكة العربية السعودية‬‎)"
+	],
+	[
+		"sn",
+		"Senegal (Sénégal)"
+	],
+	[
+		"rs",
+		"Serbia (Србија)"
+	],
+	[
+		"sc",
+		"Seychelles (Repiblik Sesel)"
+	],
+	[
+		"sl",
+		"Sierra Leone"
+	],
+	[
+		"sg",
+		"Singapore (Singapura) (新加坡共和国)"
+	],
+	[
+		"sx",
+		"Sint Maarten"
+	],
+	[
+		"sk",
+		"Slovakia (Slovensko)"
+	],
+	[
+		"si",
+		"Slovenia (Slovenija)"
+	],
+	[
+		"sb",
+		"Solomon Islands"
+	],
+	[
+		"so",
+		"Somalia (Soomaaliya)"
+	],
+	[
+		"za",
+		"South Africa"
+	],
+	[
+		"kr",
+		"South Korea (대한민국)"
+	],
+	[
+		"ss",
+		"South Sudan (‫جنوب السودان‬‎)"
+	],
+	[
+		"es",
+		"Spain (España)"
+	],
+	[
+		"lk",
+		"Sri Lanka (ශ්‍රී ලංකාව)"
+	],
+	[
+		"sd",
+		"Sudan (‫السودان‬‎)"
+	],
+	[
+		"sr",
+		"Suriname"
+	],
+	[
+		"sj",
+		"Svalbard and Jan Mayen"
+	],
+	[
+		"sz",
+		"Swaziland (Umbuso weSwatini)"
+	],
+	[
+		"se",
+		"Sweden (Sverige)"
+	],
+	[
+		"ch",
+		"Switzerland (Schweiz)"
+	],
+	[
+		"sy",
+		"Syria (‫سوريا‬‎)"
+	],
+	[
+		"tw",
+		"Taiwan (台灣)"
+	],
+	[
+		"tj",
+		"Tajikistan (Ҷумҳурии Тоҷикистон)"
+	],
+	[
+		"tz",
+		"Tanzania"
+	],
+	[
+		"th",
+		"Thailand (ไทย)"
+	],
+	[
+		"tl",
+		"Timor-Leste (Timór-Leste)"
+	],
+	[
+		"tg",
+		"Togo (République togolaise)"
+	],
+	[
+		"tk",
+		"Tokelau"
+	],
+	[
+		"to",
+		"Tonga"
+	],
+	[
+		"tt",
+		"Trinidad and Tobago"
+	],
+	[
+		"tn",
+		"Tunisia (‫تونس‬‎)"
+	],
+	[
+		"tr",
+		"Turkey (Türkiye)"
+	],
+	[
+		"tm",
+		"Turkmenistan (Türkmenistan)"
+	],
+	[
+		"tc",
+		"Turks and Caicos Islands"
+	],
+	[
+		"tv",
+		"Tuvalu"
+	],
+	[
+		"vi",
+		"U.S. Virgin Islands"
+	],
+	[
+		"ug",
+		"Uganda"
+	],
+	[
+		"ua",
+		"Ukraine (Україна)"
+	],
+	[
+		"ae",
+		"United Arab Emirates (‫الإمارات العربية المتحدة‬‎)"
+	],
+	[
+		"gb",
+		"United Kingdom"
+	],
+	[
+		"us",
+		"United States"
+	],
+	[
+		"uy",
+		"Uruguay"
+	],
+	[
+		"uz",
+		"Uzbekistan (Oʻzbekiston)"
+	],
+	[
+		"vu",
+		"Vanuatu"
+	],
+	[
+		"va",
+		"Vatican City (Città del Vaticano)"
+	],
+	[
+		"ve",
+		"Venezuela"
+	],
+	[
+		"vn",
+		"Vietnam (Việt Nam)"
+	],
+	[
+		"wf",
+		"Wallis and Futuna (Wallis-et-Futuna)"
+	],
+	[
+		"eh",
+		"Western Sahara (‫الصحراء الغربية‬‎)"
+	],
+	[
+		"ye",
+		"Yemen (‫اليمن‬‎)"
+	],
+	[
+		"zm",
+		"Zambia"
+	],
+	[
+		"zw",
+		"Zimbabwe"
+	]
+]
