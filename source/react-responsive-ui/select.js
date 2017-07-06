@@ -145,6 +145,8 @@ export default class Select extends PureComponent {
 
     onToggle: PropTypes.func,
 
+    automaticallyScrollIntoView: PropTypes.bool,
+
     // transition_item_count_min : PropTypes.number,
     // transition_duration_min : PropTypes.number,
     // transition_duration_max : PropTypes.number
@@ -163,6 +165,8 @@ export default class Select extends PureComponent {
     // Set to `true` to mark the field as required
     required: false,
 
+    automaticallyScrollIntoView: false,
+
     // transition_item_count_min : 1,
     // transition_duration_min : 60, // milliseconds
     // transition_duration_max : 100 // milliseconds
@@ -179,7 +183,8 @@ export default class Select extends PureComponent {
     // Shouldn't memory leak because
     // the set of options is assumed to be constant.
     this.options = {};
-
+    // any timeouts will be cleared when unmounted
+    this.timeouts = {};
     const {
       value,
       autocomplete,
@@ -268,6 +273,9 @@ export default class Select extends PureComponent {
 
     if (nativeExpanded) {
       window.removeEventListener('resize', this.resize_native_expanded_select);
+    }
+    for (const timeoutID of Object.keys(this.timeouts)) {
+      clearTimeout(this.timeouts[timeoutID]);
     }
   }
 
@@ -946,7 +954,11 @@ export default class Select extends PureComponent {
     // because document.onClick should finish first,
     // otherwise `event.target` may be detached from the DOM
     // and it would immediately toggle back to collapsed state.
-    setTimeout(() => {
+    clearTimeout(this.timeouts.expander);
+    clearTimeout(this.timeouts.focusOnSelect);
+    clearTimeout(this.timeouts.scrollIntoView);
+    this.timeouts.expander = setTimeout(() => {
+      delete this.timeouts.expander;
       this.setState({
         expanded: !expanded,
       });
@@ -965,10 +977,12 @@ export default class Select extends PureComponent {
 
       // If it's autocomplete, then focus <input/> field
       // upon toggling the select component.
+
       if (!toggle_options.dont_focus_after_toggle) {
         if (autocomplete) {
           if (!expanded || (expanded && focusUponSelection)) {
-            setTimeout(() => {
+            this.timeouts.focusOnSelect = setTimeout(() => {
+              delete this.timeouts.focusOnSelect;
               // Focus the toggler
               if (expanded) {
                 this.selected.focus();
@@ -987,12 +1001,15 @@ export default class Select extends PureComponent {
         }
       }
 
-      if (expanded && automaticallyScrollIntoView && this.list) {
-        if (this.list.scrollIntoViewIfNeeded) {
-          this.list.scrollIntoViewIfNeeded();
-        } else if (this.list.scrollIntoView) {
-          this.list.scrollIntoView();
-        }
+      if (!expanded && automaticallyScrollIntoView && this.list) {
+        this.timeouts.scrollIntoView = setTimeout(() => {
+          if (this.list.scrollIntoViewIfNeeded) {
+            this.list.scrollIntoViewIfNeeded();
+          } else if (this.list.scrollIntoView) {
+            this.list.scrollIntoView();
+          }
+          delete this.timeouts.scrollIntoView;
+        }, 100);
       }
 
       if (onToggle) {
@@ -1121,8 +1138,9 @@ export default class Select extends PureComponent {
             this.toggle();
 
             // Restore focus when the list is collapsed
-            setTimeout(() => {
+            this.timeouts.focusOnCollapse = setTimeout(() => {
               this.selected.focus();
+              delete this.timeouts.focusOnCollapse;
             }, 0);
           }
 

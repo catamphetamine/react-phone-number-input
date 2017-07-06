@@ -789,6 +789,7 @@ export default class Input extends Component {
       convertToNational,
       metadata,
       automaticallyScrollIntoView,
+      onDropdown,
       ...input_props
     } = this.props;
 
