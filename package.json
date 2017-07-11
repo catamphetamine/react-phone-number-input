@@ -12,7 +12,7 @@
     "babel-runtime": "^6.6.1",
     "classnames": "^2.2.5",
     "input-format": "^0.1.7",
-    "libphonenumber-js": "^0.4.15",
+    "libphonenumber-js": "^0.4.22",
     "prop-types": "^15.5.6",
     "react-styling": "^1.6.1",
     "scroll-into-view-if-needed": "^1.1.0"
