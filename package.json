@@ -69,7 +69,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/halt-hammerzeit/react-phone-number-input.git"
+    "url": "git+https://github.com/catamphetamine/react-phone-number-input.git"
   },
   "keywords": [
     "javascript",
@@ -84,7 +84,7 @@
   "author": "Halt Hammerzeit <halt.hammerzeit.at@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/halt-hammerzeit/react-phone-number-input/issues"
+    "url": "https://github.com/catamphetamine/react-phone-number-input/issues"
   },
-  "homepage": "https://github.com/halt-hammerzeit/react-phone-number-input#readme"
+  "homepage": "https://github.com/catamphetamine/react-phone-number-input#readme"
 }

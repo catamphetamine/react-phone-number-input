@@ -478,7 +478,7 @@ export default class Input extends Component
 	}
 
 	// `input-format` `parse` character function
-	// https://github.com/halt-hammerzeit/input-format
+	// https://github.com/catamphetamine/input-format
 	parse = (character, value) =>
 	{
 		const { countries } = this.props
@@ -527,7 +527,7 @@ export default class Input extends Component
 	}
 
 	// `input-format` `format` function
-	// https://github.com/halt-hammerzeit/input-format
+	// https://github.com/catamphetamine/input-format
 	format = (value, country_code = this.state.country_code) =>
 	{
 		const { metadata } = this.props

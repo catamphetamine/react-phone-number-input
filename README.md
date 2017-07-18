@@ -5,17 +5,17 @@
 
 International phone number `<input/>` (and output) (in React) (iPhone style)
 
-[See Demo](http://halt-hammerzeit.github.io/react-phone-number-input/)
+[See Demo](http://catamphetamine.github.io/react-phone-number-input/)
 
-[![Screenshot #1](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.37.51.png)](https://www.youtube.com/watch?v=6e1pMrYH5jI)
+[![Screenshot #1](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.37.51.png)](https://www.youtube.com/watch?v=6e1pMrYH5jI)
 
 With custom autocomplete/select:
 
-[![Screenshot #2](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.35.26.png)](https://www.youtube.com/watch?v=vsE5nHBxt2w)
+[![Screenshot #2](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.35.26.png)](https://www.youtube.com/watch?v=vsE5nHBxt2w)
 
 With native `<select/>`:
 
-![Native `<select/>`](https://raw.githubusercontent.com/halt-hammerzeit/react-phone-number-input/master/docs/images/native-select.png)
+![Native `<select/>`](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/native-select.png)
 
 ## Installation
 
@@ -36,9 +36,9 @@ return (
 )
 ```
 
-The international phone number input utilizes [`libphonenumber-js`](https://github.com/halt-hammerzeit/libphonenumber-js) international phone number parsing and formatting library (used in Google Android phones). The size of the library is about 70 KiloBytes, so it's suitable for public internet usage (for example, the size of `react` package is about 50 KiloBytes).
+The international phone number input utilizes [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library (used in Google Android phones). The size of the library is about 70 KiloBytes, so it's suitable for public internet usage (for example, the size of `react` package is about 50 KiloBytes).
 
-The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://halt-hammerzeit.github.io/react-responsive-ui/) library.
+The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/) library.
 
 I could easily include all country flags in a form of `<svg/>` React elements as part of this library but the overall size of the bundle would then be about 3 MegaBytes (yeah, those SVGs turned out to be really huge) which is too much for a public internet website. Therefore the default behaviour is a compromise: instead of pleloading the flags for all countries in the list only the flag for the currently selected country is shown. This way the user only downloads a single SVG image, and is not forced to download the whole international flag bundle.
 
@@ -86,23 +86,23 @@ The available props are
 
  * `nativeExpanded` — if set to `true` will render native `<select/>` when country selector is expanded instead of the custom one with autocomplete
 
-For the full list of all possible `props` see the [source code](https://github.com/halt-hammerzeit/react-phone-number-input/blob/master/source/input.js).
+For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/input.js).
 
 ### isValidPhoneNumber
 
-[`libphonenumber.isValidNumber`](https://github.com/halt-hammerzeit/libphonenumber-js#isvalidnumbernumber-country_code)
+[`libphonenumber.isValidNumber`](https://github.com/catamphetamine/libphonenumber-js#isvalidnumbernumber-country_code)
 
 (is exported just for convenience, if anyone needs that for whatever purpose)
 
 ### formatPhoneNumber
 
-[`libphonenumber.format`](https://github.com/halt-hammerzeit/libphonenumber-js#formatparsed_number-format)
+[`libphonenumber.format`](https://github.com/catamphetamine/libphonenumber-js#formatparsed_number-format)
 
 (is exported just for convenience, if anyone needs that for whatever purpose)
 
 ### parsePhoneNumber
 
-[`libphonenumber.parse`](https://github.com/halt-hammerzeit/libphonenumber-js#parsetext-options)
+[`libphonenumber.parse`](https://github.com/catamphetamine/libphonenumber-js#parsetext-options)
 
 (is exported just for convenience, if anyone needs that for whatever purpose)
 
@@ -118,7 +118,7 @@ Webpack 2 sets up `json-loader` by default so there's no need for any special co
 
 ## Reducing bundle size
 
-By default all countries are included which means that [`libphonenumber-js`](https://github.com/halt-hammerzeit/libphonenumber-js) loads the complete metadata set having the size of 75 KiloBytes. This really isn't much but for those who still want to reduce that to a lesser size there is a special exported `<Input/>` creator which takes custom `metadata` as an argument.
+By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the complete metadata set having the size of 75 KiloBytes. This really isn't much but for those who still want to reduce that to a lesser size there is a special exported `<Input/>` creator which takes custom `metadata` as an argument.
 
 For a "tree-shaking" ES6-capable bundler (e.g. Webpack 2) that would be
 
@@ -142,7 +142,7 @@ module.exports = function Phone(props) {
 }
 ```
 
-For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/halt-hammerzeit/libphonenumber-js#customizing-metadata).
+For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata).
 
 ## Contributing
 

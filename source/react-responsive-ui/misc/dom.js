@@ -1,4 +1,4 @@
-// https://github.com/halt-hammerzeit/react-responsive-ui/blob/master/source/misc/dom.js
+// https://github.com/catamphetamine/react-responsive-ui/blob/master/source/misc/dom.js
 
 export function submit_parent_form(node)
 {
