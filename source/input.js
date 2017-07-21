@@ -216,9 +216,9 @@ export default class Input extends Component
 
 		// Autodetect country if value is set
 		// and is international (which it should be)
-		if (!country && value && value[0] === '+')
+		if (value && value[0] === '+')
 		{
-			// Will be left `undefined` in case of non-detection
+			// `country` will be left `undefined` in case of non-detection
 			country = parse(value).country
 		}
 
