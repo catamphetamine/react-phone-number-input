@@ -46,11 +46,13 @@ export default class Input extends Component
 		onChange : PropTypes.func.isRequired,
 
 		// This `onBlur` interceptor is a workaround for `redux-form`,
-		// so that it gets a parsed `value` in its `onBlur` handler,
+		// so that it gets the parsed `value` in its `onBlur` handler,
 		// not the formatted one.
-		// (`redux-form` passed `onBlur` to this component
-		//  and this component intercepts that `onBlur`
-		//  to make sure it works correctly with `redux-form`)
+		// A developer is not supposed to pass this `onBlur` property manually.
+		// Instead, `redux-form` passes `onBlur` to this component automatically
+		// and this component passes this `onBlur` property further to
+		// `input-format`'s `<ReactInput/>` which then modifies this `onBlur` handler
+		// to return the correct parsed `value` so that it all works with `redux-form`.
 		onBlur : PropTypes.func,
 
 		// Set `onKeyDown` handler.
@@ -673,6 +675,49 @@ export default class Input extends Component
 		() => onChange(value_property))
 	}
 
+	// This `onBlur` interceptor is a workaround for `redux-form`,
+	// so that it gets the parsed `value` in its `onBlur` handler,
+	// not the formatted one.
+	// A developer is not supposed to pass this `onBlur` property manually.
+	// Instead, `redux-form` passes `onBlur` to this component automatically
+	// and this component passes this `onBlur` property further to
+	// `input-format`'s `<ReactInput/>` which then modifies this `onBlur` handler
+	// to return the correct parsed `value` so that it all works with `redux-form`.
+	on_blur = (event) =>
+	{
+		const { onBlur } = this.props
+		const { country_code } = this.state
+
+		if (!onBlur)
+		{
+			return
+		}
+
+		// If the `value` came from `input-format`'s `<ReactInput/>`
+		// in a non-international format then make it international.
+		if (event.target.value && event.target.value[0] !== '+')
+		{
+			const _event =
+			{
+				...event,
+				target:
+				{
+					...event.target,
+					value: `+${getPhoneCode(country_code)}${event.target.value}`
+				}
+			}
+
+			// For `redux-form` event detection.
+			// https://github.com/erikras/redux-form/blob/v5/src/events/isEvent.js
+			_event.stopPropagation = event.stopPropagation
+			_event.preventDefault  = event.preventDefault
+
+			return onBlur(_event)
+		}
+
+		return onBlur(event)
+	}
+
 	// When country `<select/>` is toggled
 	country_select_toggled = (is_shown) =>
 	{
@@ -849,6 +894,7 @@ export default class Input extends Component
 						ref={ ref => this.input = ref }
 						value={ value }
 						onChange={ this.on_change }
+						onBlur={ this.on_blur }
 						disabled={ disabled }
 						type="tel"
 						autoComplete={ autoComplete }
