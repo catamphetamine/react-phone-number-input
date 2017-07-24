@@ -666,6 +666,16 @@ export default class Select extends PureComponent
 
 		const selected_text = selected ? selected_label : (placeholder || label)
 
+		const selected_style_classes =
+		{
+			'rrui__input-field'                : true,
+			'rrui__select__selected'           : true,
+			'rrui__select__selected--nothing'  : !selected_label,
+			// CSS selector performance optimization
+			'rrui__select__selected--expanded' : expanded,
+			'rrui__select__selected--disabled' : disabled
+		}
+
 		if (autocomplete && expanded)
 		{
 			// style = { ...style, width: autocomplete_width + 'px' }
@@ -684,15 +694,8 @@ export default class Select extends PureComponent
 					title={ title }
 					className={ classNames
 					(
-						'rrui__input-field',
-						'rrui__select__selected',
+						selected_style_classes,
 						'rrui__select__selected--autocomplete',
-						{
-							'rrui__select__selected--nothing'  : !selected_label,
-							// CSS selector performance optimization
-							'rrui__select__selected--expanded' : expanded,
-							'rrui__select__selected--disabled' : disabled
-						},
 						inputClassName
 					) }/>
 			)
@@ -713,11 +716,9 @@ export default class Select extends PureComponent
 				title={ title }
 				className={ classNames
 				(
-					'rrui__input-field',
-					'rrui__select__selected',
+					selected_style_classes,
 					{
-						'rrui__input-field--invalid'      : this.should_indicate_invalid(),
-						'rrui__select__selected--nothing' : !selected_label
+						'rrui__input-field--invalid' : this.should_indicate_invalid()
 					}
 				) }>
 
@@ -734,7 +735,8 @@ export default class Select extends PureComponent
 						className={ classNames('rrui__select__arrow',
 						{
 							// CSS selector performance optimization
-							'rrui__select__arrow--expanded': expanded
+							'rrui__select__arrow--expanded' : expanded,
+							'rrui__select__arrow--disabled' : disabled
 						}) }/>
 				</div>
 			</button>
