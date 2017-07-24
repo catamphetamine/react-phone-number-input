@@ -332,19 +332,30 @@ export default class Input extends Component
 			// If the value has a leading plus sign
 			if (value[0] === '+' && convertToNational)
 			{
-				// If it's a fully-entered phone number
-				// that converts into a valid national number for this country
-				// then the value is set to be that national number.
-
-				const parsed = parse(value, metadata)
-
-				if (parsed.country === country_code)
+				// If this (possibly partially entered) phone number
+				// starts with the correct country code
+				// then convert it to national phone number format.
+				if (value.indexOf(`+${getPhoneCode(country_code)}`) === 0)
 				{
-					return this.format(parsed.phone, country_code).text
+					return this.format_as_local(value, country_code).text
 				}
 
-				// Else the leading + sign is trimmed.
-				return value.slice(1)
+				// The following happened to be too strict
+				// not accounting for partially entered phone numbers.
+				//
+				// // If it's a fully-entered phone number
+				// // that converts into a valid national number for this country
+				// // then the value is set to be that national number.
+				//
+				// const parsed = parse(value, metadata)
+				//
+				// if (parsed.country === country_code)
+				// {
+				// 	return this.format_as_local(parsed.phone, country_code).text
+				// }
+
+				// Else just clear the input value
+				return undefined
 			}
 
 			// Else the value stays as it is
@@ -425,7 +436,7 @@ export default class Input extends Component
 				// then convert it to a national number
 				if (parsed.country === country_code)
 				{
-					value = this.format(parsed.phone, country_code).text
+					value = this.format_as_local(parsed.phone, country_code).text
 				}
 				// Else just trim the + sign
 				else
@@ -434,6 +445,7 @@ export default class Input extends Component
 				}
 			}
 
+			// If switching to another country
 			if (previous_country_code && country_code)
 			{
 				if (value[0] === '+')
@@ -442,7 +454,7 @@ export default class Input extends Component
 
 					if (parsed.country === country_code)
 					{
-						value = this.format(parsed.phone, country_code).text
+						value = this.format_as_local(parsed.phone, country_code).text
 					}
 					else
 					{
@@ -481,7 +493,7 @@ export default class Input extends Component
 
 	// `input-format` `parse` character function
 	// https://github.com/catamphetamine/input-format
-	parse = (character, value) =>
+	parse_character = (character, value) =>
 	{
 		const { countries } = this.props
 
@@ -530,7 +542,7 @@ export default class Input extends Component
 
 	// `input-format` `format` function
 	// https://github.com/catamphetamine/input-format
-	format = (value, country_code = this.state.country_code) =>
+	format_as_local = (value, country_code = this.state.country_code) =>
 	{
 		const { metadata } = this.props
 
@@ -588,6 +600,9 @@ export default class Input extends Component
 			({
 				// State `value` is the parsed input value
 				// (e.g. `+78005553535`, `1234567`).
+				// This is not `this.props.value`
+				// i.e. it's not neccessarily an international plaintext phone number,
+				// it's just the `value` parsed by `input-format`.
 				value,
 				// `this.state.value_property` is the `this.props.value`
 				// which corresponding to `this.state.value`.
@@ -663,6 +678,9 @@ export default class Input extends Component
 		({
 			// State `value` is the parsed input value
 			// (e.g. `+78005553535`, `1234567`).
+			// This is not `this.props.value`
+			// i.e. it's not neccessarily an international plaintext phone number,
+			// it's just the `value` parsed by `input-format`.
 			value,
 			// `this.state.value_property` is the `this.props.value`
 			// which corresponding to `this.state.value`.
@@ -686,36 +704,29 @@ export default class Input extends Component
 	on_blur = (event) =>
 	{
 		const { onBlur } = this.props
-		const { country_code } = this.state
+		const { value_property } = this.state
 
 		if (!onBlur)
 		{
 			return
 		}
 
-		// If the `value` came from `input-format`'s `<ReactInput/>`
-		// in a non-international format then make it international.
-		if (event.target.value && event.target.value[0] !== '+')
+		const _event =
 		{
-			const _event =
+			...event,
+			target:
 			{
-				...event,
-				target:
-				{
-					...event.target,
-					value: `+${getPhoneCode(country_code)}${event.target.value}`
-				}
+				...event.target,
+				value: value_property
 			}
-
-			// For `redux-form` event detection.
-			// https://github.com/erikras/redux-form/blob/v5/src/events/isEvent.js
-			_event.stopPropagation = event.stopPropagation
-			_event.preventDefault  = event.preventDefault
-
-			return onBlur(_event)
 		}
 
-		return onBlur(event)
+		// For `redux-form` event detection.
+		// https://github.com/erikras/redux-form/blob/v5/src/events/isEvent.js
+		_event.stopPropagation = event.stopPropagation
+		_event.preventDefault  = event.preventDefault
+
+		return onBlur(_event)
 	}
 
 	// When country `<select/>` is toggled
@@ -824,6 +835,16 @@ export default class Input extends Component
 		}
 	}
 
+	store_select_instance = (instance) =>
+	{
+		this.select = instance
+	}
+
+	store_input_instance = (instance) =>
+	{
+		this.input = instance
+	}
+
 	render()
 	{
 		const
@@ -868,7 +889,7 @@ export default class Input extends Component
 			<div style={ style } className={ classNames('react-phone-number-input', className) }>
 				{ showCountrySelect && this.can_change_country() &&
 					<Select
-						ref={ ref => this.select = ref }
+						ref={ this.store_select_instance }
 						value={ country_code }
 						options={ this.select_options }
 						onChange={ this.set_country }
@@ -891,7 +912,7 @@ export default class Input extends Component
 				{ !country_select_is_shown &&
 					<ReactInput
 						{ ...input_props }
-						ref={ ref => this.input = ref }
+						ref={ this.store_input_instance }
 						value={ value }
 						onChange={ this.on_change }
 						onBlur={ this.on_blur }
@@ -899,8 +920,8 @@ export default class Input extends Component
 						type="tel"
 						autoComplete={ autoComplete }
 						tabIndex={ inputTabIndex }
-						parse={ this.parse }
-						format={ this.format }
+						parse={ this.parse_character }
+						format={ this.format_as_local }
 						onKeyDown={ this.on_key_down }
 						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }/>
 				}
@@ -933,34 +954,41 @@ function parse_partial_number(value, country_code, metadata)
 // Converts `value` to E.164 phone number format
 function e164(value, country_code, metadata)
 {
-	// If the phone number is being input in a country-specific format
-	//   If the value has a leading + sign
-	//     The value stays as it is
-	//   Else
-	//     The value is converted to international plaintext
-	// Else, the phone number is being input in an international format
-	//   If the value has a leading + sign
-	//     The value stays as it is
-	//   Else
-	//     The value is prepended with a + sign
-
-	if (country_code)
+	if (!value)
 	{
-		if (value[0] === '+')
-		{
-			return value
-		}
-
-		const partial_national_number = parse_partial_number(value, country_code).national_number
-		return format(partial_national_number, country_code, 'International_plaintext', metadata)
+		return undefined
 	}
 
+	// If the phone number is being input in an international format
 	if (value[0] === '+')
 	{
+		// If it's just the `+` sign
+		if (value.length === 1)
+		{
+			return undefined
+		}
+
+		// If there are some digits, the `value` is returned as is
 		return value
 	}
 
-	return '+' + value
+	// For non-international phone number a country code is required
+	if (!country_code)
+	{
+		return undefined
+	}
+
+	// The phone number is being input in a country-specific format
+
+	const partial_national_number = parse_partial_number(value, country_code).national_number
+
+	if (!partial_national_number)
+	{
+		return undefined
+	}
+
+	// The value is converted to international plaintext
+	return format(partial_national_number, country_code, 'International_plaintext', metadata)
 }
 
 // Gets country flag element by country code
