@@ -144,6 +144,12 @@ export default class Input extends Component
 		// CSS style object
 		style : PropTypes.object,
 
+		// Inline CSS styles for country `<select/>`
+		selectStyle : PropTypes.object,
+
+		// Inline CSS styles for phone number `<input/>`
+		inputStyle : PropTypes.object,
+
 		// Component CSS class
 		className : PropTypes.string,
 
@@ -858,6 +864,8 @@ export default class Input extends Component
 			selectMaxItems,
 			inputTabIndex,
 			style,
+			selectStyle,
+			inputStyle,
 			className,
 			inputClassName,
 
@@ -905,6 +913,7 @@ export default class Input extends Component
 						focusUponSelection={ false }
 						saveOnIcons={ saveOnIcons }
 						name={ input_props.name ? `${input_props.name}__country` : undefined }
+						style={ selectStyle }
 						className="react-phone-number-input__country"
 						inputClassName={ inputClassName }/>
 				}
@@ -923,6 +932,7 @@ export default class Input extends Component
 						parse={ this.parse_character }
 						format={ this.format_as_local }
 						onKeyDown={ this.on_key_down }
+						style={ inputStyle }
 						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }/>
 				}
 			</div>
