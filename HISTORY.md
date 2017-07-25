@@ -1,3 +1,8 @@
+0.12.0 / 25.07.2017
+===================
+
+  * (breaking change) The default value of `convertToNational` property changed from `true` to `false`. The reason is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers with a `+` in their smartphones so local phone numbers should now be considered obsolete.
+
 0.11.3 / 16.05.2017
 ===================
 

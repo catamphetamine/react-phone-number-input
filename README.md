@@ -82,9 +82,11 @@ The available props are
 
  * `flagsPath` — (optional) A base URL path for national flag SVG icons. By default it loads flag icons from [`flag-icon-css` github repo](https://github.com/lipis/flag-icon-css). You might want to download those SVG flag icons and host them yourself.
 
- * `flags` — (optional) Custom national flag icon React elements (a map of country codes, or just `false` for no flags at all)
+ * `flags` — (optional) Custom national flag icon React elements (a `Map <countryCode : String> -> <React.Element>` or just `false` for no flags at all)
 
  * `nativeExpanded` — if set to `true` will render native `<select/>` when country selector is expanded instead of the custom one with autocomplete
+
+ * `convertToNational` — if set to `true` will convert international phone number `value` into a local phone number when the component mounts (see the demo)
 
 For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/input.js).
 

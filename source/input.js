@@ -129,7 +129,7 @@ export default class Input extends Component
 
 		// Should the initially passed phone number `value`
 		// be converted to a national phone number for its country.
-		// (is `true` by default)
+		// (is `false` by default)
 		convertToNational : PropTypes.bool.isRequired,
 
 		// HTML `tabindex` attribute for the country select
@@ -196,9 +196,13 @@ export default class Input extends Component
 		// Show country `<Select/>` by default
 		showCountrySelect: true,
 
-		// Convert the initially passed phone number `value`
+		// Don't convert the initially passed phone number `value`
 		// to a national phone number for its country.
-		convertToNational: true
+		// The reason is that the newer generation grows up when
+		// there are no stationary phones and therefore everyone inputs
+		// phone numbers with a `+` in their smartphones so local phone numbers
+		// should now be considered obsolete.
+		convertToNational: false
 	}
 
 	state = {}
