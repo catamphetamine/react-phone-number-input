@@ -96,9 +96,7 @@
 				{
 					return {
 						value: undefined,
-						value_RU: '+78005553535',
-						value_US: '+12133734253',
-						value_GB: '+447700954321'
+						value_RU: '+78005553535'
 					}
 				},
 
@@ -183,6 +181,27 @@ const { value } = this.state
 Is valid: { String( isValidPhoneNumber( value ) ) }
 Local: { formatPhoneNumber( parsePhoneNumber( value ), 'National' ) }
 International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' ) }
+	`}
+							</code></pre>
+
+							<h2>Native &lt;select/&gt;</h2>
+
+							<div>
+								<Phone
+									placeholder="Enter phone number"
+									value={this.state.value_native}
+									onChange={value => this.setState({ value_native: value })}
+									className={library.isValidPhoneNumber(this.state.value_native) ? 'phone-number--valid' : ''}
+									nativeExpanded/>
+							</div>
+
+							<pre className="hljs"><code>
+								{`
+<Phone
+	placeholder="Enter phone number"
+	value={ value }
+	onChange={ value => this.setState({ value }) }
+	nativeExpanded/>
 	`}
 							</code></pre>
 						</div>
