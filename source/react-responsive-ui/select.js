@@ -646,6 +646,7 @@ export default class Select extends PureComponent
 			disabled,
 			autocomplete,
 			concise,
+			nativeExpanded,
 			tabIndex,
 			onFocus,
 			title,
@@ -712,7 +713,7 @@ export default class Select extends PureComponent
 				onClick={ this.toggle }
 				onKeyDown={ this.on_key_down }
 				onFocus={ onFocus }
-				tabIndex={ tabIndex }
+				tabIndex={ nativeExpanded ? -1 : tabIndex }
 				title={ title }
 				className={ classNames
 				(
@@ -775,7 +776,9 @@ export default class Select extends PureComponent
 			menu,
 			toggler,
 			fallback,
+			native,
 			nativeExpanded,
+			tabIndex,
 			children
 		}
 		= this.props
@@ -805,6 +808,7 @@ export default class Select extends PureComponent
 				value={ value_is_empty(value) ? Empty_value_option_value : value }
 				disabled={ disabled }
 				onChange={ this.native_select_on_change }
+				tabIndex={ (native || nativeExpanded) ? tabIndex : undefined }
 				className={ classNames('rrui__input', 'rrui__select__native',
 				{
 					'rrui__select__native-expanded' : nativeExpanded,

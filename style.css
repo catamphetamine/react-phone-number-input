@@ -32,14 +32,16 @@
 	width : 100%;
 }
 
-.react-phone-number-input__country .rrui__input
+.react-phone-number-input__country:not(.react-phone-number-input__country--native-expanded) .rrui__input
 {
 	/* This is done to stretch `.rrui__select__options` */
 	/* to the full width of `.react-phone-number-input__phone` */
 	/* rather than to the full width of `.rrui__select` */
 	/* because the `.rrui__select` is contracted */
 	/* as soon as a user selects a country which caused */
-	/* the `.rrui__select__options` to contract too. */
+	/* the `.rrui__select__options` to contract too */
+	/* while the list collapse animation is still in progress. */
+	/* The `position: relative` container is now `.react-phone-number-input`. */
 	position: static;
 }
 

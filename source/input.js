@@ -894,7 +894,10 @@ export default class Input extends Component
 
 		const markup =
 		(
-			<div style={ style } className={ classNames('react-phone-number-input', className) }>
+			<div
+				style={ style }
+				className={ classNames('react-phone-number-input', className) }>
+
 				{ showCountrySelect && this.can_change_country() &&
 					<Select
 						ref={ this.store_select_instance }
@@ -914,7 +917,10 @@ export default class Input extends Component
 						saveOnIcons={ saveOnIcons }
 						name={ input_props.name ? `${input_props.name}__country` : undefined }
 						style={ selectStyle }
-						className="react-phone-number-input__country"
+						className={ classNames('react-phone-number-input__country',
+						{
+							'react-phone-number-input__country--native-expanded' : nativeExpanded
+						}) }
 						inputClassName={ inputClassName }/>
 				}
 
