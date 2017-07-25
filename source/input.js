@@ -159,6 +159,7 @@ export default class Input extends Component
 		// `libphonenumber-js` metadata
 		metadata : PropTypes.shape
 		({
+			country_phone_code_to_countries : PropTypes.object.isRequired,
 			countries : PropTypes.object.isRequired
 		})
 		.isRequired
@@ -409,43 +410,19 @@ export default class Input extends Component
 
 		let { value } = this.state
 
-		// If switching to a country from International
-		//   If the international number belongs to this country
-		//     Convert it to a national number
-		//   Else
-		//     Trim the leading + sign
-		//
-		// If switching to a country from a country
-		//   If the value has a leading + sign
-		//     If the international number belongs to this country
-		//       Convert it to a national number
-		//     Else
-		//       Trim the leading + sign
-		//   Else
-		//     The value stays as it is
-		//
-		// If switching to International from a country
-		//   If the value has a leading + sign
-		//     The value stays as it is
-		//   Else
-		//     Take the international plaintext value
-
 		if (value)
 		{
 			// If switching to a country from International
 			if (!previous_country_code && country_code)
 			{
-				// The value is international plaintext
-				const parsed = parse(value, metadata)
+				// The value is international plaintext.
 
-				// If it's for this country,
-				// then convert it to a national number
-				if (parsed.country === country_code)
-				{
-					value = this.format_as_local(parsed.phone, country_code).text
-				}
+				// If the international phone number already contains
+				// any country phone code then trim the country phone code part.
+				value = strip_country_phone_code(value, metadata)
+
 				// Else just trim the + sign
-				else
+				if (value[0] === '+')
 				{
 					value = value.slice(1)
 				}
@@ -454,15 +431,18 @@ export default class Input extends Component
 			// If switching to another country
 			if (previous_country_code && country_code)
 			{
+				// If the phone number was entered in international format.
+				// The phone number entered not necessarily even starts with
+				// the previously selected country phone prefix.
 				if (value[0] === '+')
 				{
-					const parsed = parse(value, metadata)
+					// If the international phone number already contains
+					// any country phone code then trim the country phone code part.
+					// (that also could be the newly selected country phone code prefix)
+					value = strip_country_phone_code(value, metadata)
 
-					if (parsed.country === country_code)
-					{
-						value = this.format_as_local(parsed.phone, country_code).text
-					}
-					else
+					// Else just trim the + sign
+					if (value[0] === '+')
 					{
 						value = value.slice(1)
 					}
@@ -472,10 +452,14 @@ export default class Input extends Component
 			// If switching to International from a country
 			if (previous_country_code && !country_code)
 			{
-				// If no leading + sign
+				// If no leading `+` sign
 				if (value[0] !== '+')
 				{
-					// Take the international plaintext value
+					// Format the local phone number as an international one.
+					// The phone number entered not necessarily even starts with
+					// the previously selected country phone prefix.
+					// Even if the phone number belongs to whole another country
+					// it will still be parsed into some national phone number.
 					const national_number = parse_partial_number(value, previous_country_code, metadata).national_number
 					value = format(national_number, previous_country_code, 'International_plaintext', metadata)
 				}
@@ -568,6 +552,20 @@ export default class Input extends Component
 		return { text, template: formatter.template }
 	}
 
+	// Returns `true` if the country is available in the list
+	is_selectable_country = (country_code) =>
+	{
+		const { countries } = this.props
+
+		for (const available_country_code of countries)
+		{
+			if (available_country_code === country_code)
+			{
+				return true
+			}
+		}
+	}
+
 	// Can be called externally
 	focus = () =>
 	{
@@ -637,14 +635,30 @@ export default class Input extends Component
 					this.set_country_code_value(country_code)
 				}
 			}
-			// If a phone number is being input as an international one
-			// and the country code can already be derived,
-			// then switch the country.
-			// (`001` is a special "non-geograpical entity" code in `libphonenumber` library)
-			else if (!changed_country && this.formatter.country && this.formatter.country !== '001')
+			else
 			{
-				country_code = this.formatter.country
-				this.set_country_code_value(country_code)
+				// If a phone number is being input as an international one
+				// and the country code can already be derived,
+				// then switch the country.
+				// (`001` is a special "non-geograpical entity" code in `libphonenumber` library)
+				if (!changed_country &&
+					this.formatter.country &&
+					this.formatter.country !== '001' &&
+					this.is_selectable_country(this.formatter.country))
+				{
+					country_code = this.formatter.country
+					this.set_country_code_value(country_code)
+				}
+				// If "International" country option has not been disabled
+				// and the international phone number entered doesn't correspond
+				// to the currently selected country then reset the currently selected country.
+				else if (should_add_international_option(this.props) &&
+					country_code &&
+					value.indexOf(getPhoneCode(country_code) !== '+'.length))
+				{
+					country_code = undefined
+					this.set_country_code_value(country_code)
+				}
 			}
 		}
 		// If "International" mode is selected
@@ -1074,6 +1088,26 @@ function could_phone_number_belong_to_country(phone_number, country_code, metada
 			}
 		}
 	}
+}
+
+// If a formatted phone number is an international one
+// then it strips the `+${country_phone_code}` prefix from the formatted number.
+function strip_country_phone_code(formatted_number, metadata)
+{
+	if (!formatted_number || formatted_number[0] !== '+' || formatted_number === '+')
+	{
+		return formatted_number
+	}
+
+	for (const country_phone_code of Object.keys(metadata.country_phone_code_to_countries))
+	{
+		if (formatted_number.indexOf(country_phone_code) === '+'.length)
+		{
+			return formatted_number.slice('+'.length + country_phone_code.length).trim()
+		}
+	}
+
+	return formatted_number
 }
 
 // Validates country code
