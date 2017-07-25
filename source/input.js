@@ -308,21 +308,8 @@ export default class Input extends Component
 	//
 	// E.g. when a country is selected and `this.props.value`
 	// is in international format for this country
-	// then it can be converted to national format.
-	//
-	// If the country code is specified
-	//   If the value has a leading plus sign
-	//     If it converts into a valid national number for this country
-	//       Then the value is set to be that national number
-	//     Else
-	//       The leading + sign is trimmed
-	//   Else
-	//     The value stays as it is
-	// Else
-	//   If the value has a leading + sign
-	//     The value stays as it is
-	//   Else
-	//     The + sign is prepended
+	// then it can be converted to national format
+	// (if `convertToNational` is `true`).
 	//
 	get_input_value_depending_on_the_country_selected(value, country_code)
 	{
@@ -336,51 +323,33 @@ export default class Input extends Component
 		// If the country code is specified
 		if (country_code)
 		{
-			// If the value has a leading plus sign
+			// and the phone is in international format
+			// and should convert to national phone number
 			if (value[0] === '+' && convertToNational)
 			{
-				// If this (possibly partially entered) phone number
-				// starts with the correct country code
-				// then convert it to national phone number format.
-				if (value.indexOf(`+${getPhoneCode(country_code)}`) === 0)
+				// If it's a fully-entered phone number
+				// that converts into a valid national number for this country
+				// then the value is set to be that national number.
+
+				const parsed = parse(value, metadata)
+
+				if (parsed.country === country_code)
 				{
-					return this.format_as_local(value, country_code).text
+					return this.format(parsed.phone, country_code).text
 				}
-
-				// The following happened to be too strict
-				// not accounting for partially entered phone numbers.
-				//
-				// // If it's a fully-entered phone number
-				// // that converts into a valid national number for this country
-				// // then the value is set to be that national number.
-				//
-				// const parsed = parse(value, metadata)
-				//
-				// if (parsed.country === country_code)
-				// {
-				// 	return this.format_as_local(parsed.phone, country_code).text
-				// }
-
-				// Else just clear the input value
-				return undefined
 			}
-
-			// Else the value stays as it is
-			return value
 		}
-
 		// The country is not set.
-		// Assuming that's an international phone number.
-
-		// If the value has a leading + sign
-		if (value[0] === '+')
+		// Must be an international phone number then.
+		else if (value[0] !== '+')
 		{
-			// The value is correct
-			return value
+			// The following causes the caret to move the end of the input field
+			// but it's unlikely any sane person would like to erase the `+` sign
+			// while inputting an international phone number without any country selected.
+			return '+' + value
 		}
 
-		// The + sign is prepended
-		return '+' + value
+		return value
 	}
 
 	set_country_code_value(country_code)
@@ -532,7 +501,7 @@ export default class Input extends Component
 
 	// `input-format` `format` function
 	// https://github.com/catamphetamine/input-format
-	format_as_local = (value, country_code = this.state.country_code) =>
+	format = (value, country_code = this.state.country_code) =>
 	{
 		const { metadata } = this.props
 
@@ -950,7 +919,7 @@ export default class Input extends Component
 						autoComplete={ autoComplete }
 						tabIndex={ inputTabIndex }
 						parse={ this.parse_character }
-						format={ this.format_as_local }
+						format={ this.format }
 						onKeyDown={ this.on_key_down }
 						style={ inputStyle }
 						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }/>
