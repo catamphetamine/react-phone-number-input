@@ -95,8 +95,7 @@
 				getInitialState: function()
 				{
 					return {
-						value: undefined,
-						value_RU: '+78005553535'
+						value_convert_to_national: '+78005553535'
 					}
 				},
 
@@ -149,16 +148,90 @@
 								Value: {this.state.value_RU}
 							</div>
 
-							<div className="section">
-								Is valid: {library.isValidPhoneNumber(this.state.value_RU) ? 'true' : 'false'}
+							<pre className="hljs"><code>
+								{`
+import Phone from 'react-phone-number-input'
+
+<Phone
+	country="RU"
+	placeholder="Ваш телефон"
+	value={ this.state.value }
+	onChange={ value => this.setState({ value }) }/>
+	`}
+							</code></pre>
+
+							<h2>convertToNational = false (default)</h2>
+
+							<div>
+								<Phone
+									placeholder="Enter phone number"
+									value={this.state.value_convert_to_national}
+									onChange={value => this.setState({ value_convert_to_national: value })}
+									className={library.isValidPhoneNumber(this.state.value_convert_to_national) ? 'phone-number--valid' : ''}/>
 							</div>
 
 							<div className="section">
-								Local: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'National')}
+								Value: {this.state.value_convert_to_national}
+							</div>
+
+							<pre className="hljs"><code>
+								{`
+<Phone
+	placeholder="Enter phone number"
+	value={ this.state.value }
+	onChange={ value => this.setState({ value }) }/>
+	`}
+							</code></pre>
+
+							<h2>convertToNational = true</h2>
+
+							<div>
+								<Phone
+									placeholder="Enter phone number"
+									value={this.state.value_convert_to_national}
+									onChange={value => this.setState({ value_convert_to_national: value })}
+									className={library.isValidPhoneNumber(this.state.value_convert_to_national) ? 'phone-number--valid' : ''}
+									convertToNational/>
 							</div>
 
 							<div className="section">
-								International: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_RU), 'International')}
+								Value: {this.state.value_convert_to_national}
+							</div>
+
+							<pre className="hljs"><code>
+								{`
+<Phone
+	placeholder="Enter phone number"
+	value={ this.state.value }
+	onChange={ value => this.setState({ value }) }
+	convertToNational/>
+	`}
+							</code></pre>
+
+							<h2>Validation</h2>
+
+							<div>
+								<Phone
+									placeholder="Enter phone number"
+									value={this.state.value_validation}
+									onChange={value => this.setState({ value_validation: value })}
+									className={library.isValidPhoneNumber(this.state.value_validation) ? 'phone-number--valid' : ''}/>
+							</div>
+
+							<div className="section">
+								Value: {this.state.value_validation}
+							</div>
+
+							<div className="section">
+								Is valid: {library.isValidPhoneNumber(this.state.value_validation) ? 'true' : 'false'}
+							</div>
+
+							<div className="section">
+								Local: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_validation), 'National')}
+							</div>
+
+							<div className="section">
+								International: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_validation), 'International')}
 							</div>
 
 							<pre className="hljs"><code>
@@ -173,8 +246,7 @@ from 'react-phone-number-input'
 const { value } = this.state
 
 <Phone
-	country="RU"
-	placeholder="Введите ваш номер телефона"
+	placeholder="Enter phone number"
 	value={ value }
 	onChange={ value => this.setState({ value }) }/>
 
@@ -199,7 +271,7 @@ International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' )
 								{`
 <Phone
 	placeholder="Enter phone number"
-	value={ value }
+	value={ this.state.value }
 	onChange={ value => this.setState({ value }) }
 	nativeExpanded/>
 	`}
