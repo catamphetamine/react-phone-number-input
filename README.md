@@ -17,6 +17,8 @@ With native `<select/>`:
 
 ![Native `<select/>`](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/native-select.png)
 
+Based on [`input-format`](https://catamphetamine.github.io/input-format/).
+
 ## Installation
 
 ```
