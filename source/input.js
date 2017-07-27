@@ -879,6 +879,12 @@ export default class Input extends Component
 		}
 		= this.state
 
+		// `type="tel"` was reported to have issues with
+		// Samsung keyboards caret position on Android OS.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/59
+		// Therefore it's `type="text"` now which discards the
+		// built-in phone number autocomplete feature in web-browsers.
+
 		const markup =
 		(
 			<div
@@ -919,7 +925,6 @@ export default class Input extends Component
 						onChange={ this.on_change }
 						onBlur={ this.on_blur }
 						disabled={ disabled }
-						type="tel"
 						autoComplete={ autoComplete }
 						tabIndex={ inputTabIndex }
 						parse={ this.parse_character }

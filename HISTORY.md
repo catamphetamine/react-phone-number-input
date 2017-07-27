@@ -1,3 +1,8 @@
+0.12.1 / 27.07.2017
+===================
+
+  * Due to the [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) stating that `type="tel"` caret positioning doesn't work on Samsung devices the component had to revert back to `type="text"` by default (one can pass `type="tel"` property directly though).
+
 0.12.0 / 25.07.2017
 ===================
 
