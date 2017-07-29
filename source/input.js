@@ -339,7 +339,8 @@ export default class Input extends Component
 
 				if (parsed.country === country_code)
 				{
-					return this.format(parsed.phone, country_code).text
+					const input_value = format(parsed.phone, country_code, 'National', metadata)
+					return this.format(input_value, country_code).text
 				}
 			}
 		}
@@ -505,13 +506,9 @@ export default class Input extends Component
 
 	// `input-format` `format` function
 	// https://github.com/catamphetamine/input-format
-	format = (value, country_code = this.state.country_code) =>
+	format = (input_text, country_code = this.state.country_code) =>
 	{
 		const { metadata } = this.props
-
-		// `value` is already parsed input, i.e.
-		// either International plaintext phone number
-		// or just local phone number digits.
 
 		// "As you type" formatter
 		const formatter = new as_you_type(country_code, metadata)
@@ -520,7 +517,7 @@ export default class Input extends Component
 		this.formatter = formatter
 
 		// Format phone number
-		const text = formatter.input(value)
+		const text = formatter.input(input_text)
 
 		return { text, template: formatter.template }
 	}
