@@ -372,7 +372,7 @@ export default class Input extends Component
 	// `<select/>` `onChange` handler
 	set_country = (country_code, focus) =>
 	{
-		const { metadata } = this.props
+		const { metadata, convertToNational } = this.props
 
 		// Previously selected country
 		const previous_country_code = this.state.country_code
@@ -386,27 +386,12 @@ export default class Input extends Component
 
 		if (value)
 		{
-			// If switching to a country from International
-			if (!previous_country_code && country_code)
-			{
-				// The value is international plaintext.
-
-				// If the international phone number already contains
-				// any country phone code then trim the country phone code part.
-				value = strip_country_phone_code(value, metadata)
-
-				// Else just trim the + sign
-				if (value[0] === '+')
-				{
-					value = value.slice(1)
-				}
-			}
-
-			// If switching to another country
-			if (previous_country_code && country_code)
+			// If switching to a country from International or another country
+			if (country_code)
 			{
 				// If the phone number was entered in international format.
-				// The phone number entered not necessarily even starts with
+				// The phone number may be incomplete.
+				// The phone number entered not necessarily starts with
 				// the previously selected country phone prefix.
 				if (value[0] === '+')
 				{
@@ -418,7 +403,13 @@ export default class Input extends Component
 					// Else just trim the + sign
 					if (value[0] === '+')
 					{
-						value = value.slice(1)
+						value = value.slice('+'.length)
+					}
+
+					// Prepend country phone code part if `convertToNational` is not set
+					if (!convertToNational)
+					{
+						value = `+${getPhoneCode(country_code)}${value}`
 					}
 				}
 			}
@@ -599,7 +590,7 @@ export default class Input extends Component
 			{
 				// If "International" country option has not been disabled
 				// then reset the currently selected country.
-				if (should_add_international_option(this.props))
+				if (!changed_country && should_add_international_option(this.props))
 				{
 					country_code = undefined
 					this.set_country_code_value(country_code)
@@ -622,7 +613,8 @@ export default class Input extends Component
 				// If "International" country option has not been disabled
 				// and the international phone number entered doesn't correspond
 				// to the currently selected country then reset the currently selected country.
-				else if (should_add_international_option(this.props) &&
+				else if (!changed_country &&
+					should_add_international_option(this.props) &&
 					country_code &&
 					value.indexOf(getPhoneCode(country_code) !== '+'.length))
 				{
@@ -1048,7 +1040,7 @@ function should_add_international_option(properties)
 function could_phone_number_belong_to_country(phone_number, country_code, metadata)
 {
 	// Strip the leading `+`
-	const phone_number_digits = phone_number.slice(1)
+	const phone_number_digits = phone_number.slice('+'.length)
 
 	for (const country_phone_code of Object.keys(metadata.country_phone_code_to_countries))
 	{
