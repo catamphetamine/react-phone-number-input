@@ -95,7 +95,8 @@
 				getInitialState: function()
 				{
 					return {
-						value_convert_to_national: '+78005553535'
+						value_convert_to_national_false: '+78005553535',
+						value_convert_to_national_true: '+78005553535'
 					}
 				},
 
@@ -165,13 +166,13 @@ import Phone from 'react-phone-number-input'
 							<div>
 								<Phone
 									placeholder="Enter phone number"
-									value={this.state.value_convert_to_national}
-									onChange={value => this.setState({ value_convert_to_national: value })}
-									className={library.isValidPhoneNumber(this.state.value_convert_to_national) ? 'phone-number--valid' : ''}/>
+									value={this.state.value_convert_to_national_false}
+									onChange={value => this.setState({ value_convert_to_national_false: value })}
+									className={library.isValidPhoneNumber(this.state.value_convert_to_national_false) ? 'phone-number--valid' : ''}/>
 							</div>
 
 							<div className="section">
-								Value: {this.state.value_convert_to_national}
+								Value: {this.state.value_convert_to_national_false}
 							</div>
 
 							<pre className="hljs"><code>
@@ -188,14 +189,14 @@ import Phone from 'react-phone-number-input'
 							<div>
 								<Phone
 									placeholder="Enter phone number"
-									value={this.state.value_convert_to_national}
-									onChange={value => this.setState({ value_convert_to_national: value })}
-									className={library.isValidPhoneNumber(this.state.value_convert_to_national) ? 'phone-number--valid' : ''}
+									value={this.state.value_convert_to_national_true}
+									onChange={value => this.setState({ value_convert_to_national_true: value })}
+									className={library.isValidPhoneNumber(this.state.value_convert_to_national_true) ? 'phone-number--valid' : ''}
 									convertToNational/>
 							</div>
 
 							<div className="section">
-								Value: {this.state.value_convert_to_national}
+								Value: {this.state.value_convert_to_national_true}
 							</div>
 
 							<pre className="hljs"><code>
