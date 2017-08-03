@@ -30,6 +30,13 @@ for (const item of country_names)
 	default_dictionary[code.toUpperCase()] = name
 }
 
+// Default country flag icon
+const FlagComponent = ({ countryCode, flagsPath }) => (
+	<img
+		className="react-phone-number-input__icon"
+		src={`${flagsPath}${countryCode.toLowerCase()}.svg`}/>
+)
+
 // Allows passing custom `libphonenumber-js` metadata
 // to reduce the overall bundle size.
 export default class Input extends Component
@@ -100,9 +107,14 @@ export default class Input extends Component
 		// Custom national flag icons
 		flags : PropTypes.oneOfType
 		([
-			PropTypes.objectOf(PropTypes.element),
-			PropTypes.bool
+			PropTypes.bool,
+			// Legacy behaviour, will be removed
+			// in some future major version upgrade.
+			PropTypes.objectOf(PropTypes.element)
 		]),
+
+		// Flag icon component
+		flagComponent : PropTypes.func.isRequired,
 
 		// A base URL path for national flag SVG icons.
 		// By default it uses the ones from `flag-icon-css` github repo.
@@ -175,6 +187,9 @@ export default class Input extends Component
 
 		// Include all countries by default
 		countries: all_countries,
+
+		// Flag icon component
+		flagComponent: FlagComponent,
 
 		// By default use the ones from `flag-icon-css` github repo.
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
@@ -851,6 +866,7 @@ export default class Input extends Component
 			country,
 			onCountryChange,
 			flags,
+			flagComponent,
 			flagsPath,
 			international,
 			internationalIcon,
@@ -989,21 +1005,19 @@ function e164(value, country_code, metadata)
 }
 
 // Gets country flag element by country code
-function get_country_option_icon(country_code, { flags, flagsPath })
+function get_country_option_icon(countryCode, { flags, flagsPath, flagComponent })
 {
 	if (flags === false)
 	{
 		return undefined
 	}
 
-	if (flags && flags[country_code])
+	if (flags && flags[countryCode])
 	{
-		return flags[country_code]
+		return flags[countryCode]
 	}
 
-	return <img
-		className="react-phone-number-input__icon"
-		src={`${flagsPath}${country_code.toLowerCase()}.svg`}/>
+	return React.createElement(flagComponent, { countryCode, flagsPath })
 }
 
 // Whether to add the "International" option to the list of countries

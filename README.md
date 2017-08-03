@@ -84,7 +84,7 @@ The available props are
 
  * `flagsPath` — (optional) A base URL path for national flag SVG icons. By default it loads flag icons from [`flag-icon-css` github repo](https://github.com/lipis/flag-icon-css). You might want to download those SVG flag icons and host them yourself.
 
- * `flags` — (optional) Custom national flag icon React elements (a `Map <countryCode : String> -> <React.Element>` or just `false` for no flags at all)
+ * `flagComponent` — (optional) A React component receiving `countryCode` property and rendering a country flag (replaces the default flag icons)
 
  * `nativeExpanded` — if set to `true` will render native `<select/>` when country selector is expanded instead of the custom one with autocomplete
 
