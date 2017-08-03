@@ -100,6 +100,7 @@ export default class Input extends Component
 		// Custom national flag icons
 		flags : PropTypes.oneOfType
 		([
+			PropTypes.func,
 			PropTypes.objectOf(PropTypes.element),
 			PropTypes.bool
 		]),
@@ -994,6 +995,10 @@ function get_country_option_icon(country_code, { flags, flagsPath })
 	if (flags === false)
 	{
 		return undefined
+	}
+
+	if (flags && typeof flags === 'function') {
+		return flags(country_code)
 	}
 
 	if (flags && flags[country_code])
