@@ -460,15 +460,13 @@ export default class Input extends Component
 			// and `convertToNational` wasn't set to `true`
 			// then populate `<input/>` with the selected country
 			// phone code prefix.
-			if (!convertToNational)
+			if (!convertToNational && country_code)
 			{
-				value = `+${getPhoneCode(country_code)}`
-
 				// Update the adjusted `<input/>` `value`
 				// and update `this.props.value` (in e.164 phone number format)
 				// according to the new `this.state.value`.
 				// (keep them in sync)
-				this.on_change(value, country_code, true)
+				this.on_change(`+${getPhoneCode(country_code)}`, country_code, true)
 			}
 		}
 
