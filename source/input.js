@@ -452,23 +452,28 @@ export default class Input extends Component
 			// (keep them in sync)
 			this.on_change(value, country_code, true)
 		}
-		else
-		{
-			// If the `value` property is `undefined`
-			// (which means the `<input/>` is either empty
-			//  or just the country phone code part is entered)
-			// and `convertToNational` wasn't set to `true`
-			// then populate `<input/>` with the selected country
-			// phone code prefix.
-			if (!convertToNational && country_code)
-			{
-				// Update the adjusted `<input/>` `value`
-				// and update `this.props.value` (in e.164 phone number format)
-				// according to the new `this.state.value`.
-				// (keep them in sync)
-				this.on_change(`+${getPhoneCode(country_code)}`, country_code, true)
-			}
-		}
+		// Disabling this feature because if a user selects a country
+		// then it means he doesn't know how to input his phone number
+		// in international format therefore not forcing it
+		// by prepending `+${getPhoneCode(country_code)}`.
+		//
+		// else
+		// {
+		// 	// If the `value` property is `undefined`
+		// 	// (which means the `<input/>` is either empty
+		// 	//  or just the country phone code part is entered)
+		// 	// and `convertToNational` wasn't set to `true`
+		// 	// then populate `<input/>` with the selected country
+		// 	// phone code prefix.
+		// 	if (!convertToNational && country_code)
+		// 	{
+		// 		// Update the adjusted `<input/>` `value`
+		// 		// and update `this.props.value` (in e.164 phone number format)
+		// 		// according to the new `this.state.value`.
+		// 		// (keep them in sync)
+		// 		this.on_change(`+${getPhoneCode(country_code)}`, country_code, true)
+		// 	}
+		// }
 
 		// Focus the phone number input upon country selection
 		// (do it in a timeout because the `<input/>`
