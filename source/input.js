@@ -166,6 +166,7 @@ export default class Input extends Component
 		className : PropTypes.string,
 
 		// `<input/>` CSS class
+		// (both for the phone number `<input/>` and the autocomplete `<input/>`)
 		inputClassName : PropTypes.string,
 
 		// `libphonenumber-js` metadata
