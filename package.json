@@ -1,59 +1,62 @@
 {
-  "name": "react-phone-number-input",
-  "version": "0.12.7",
-  "description": "Telephone input for React",
+  "name": "libphonenumber-js",
+  "version": "0.4.27",
+  "description": "A simpler (and smaller) rewrite of Google Android's popular libphonenumber library",
   "main": "index.common.js",
   "module": "index.es6.js",
-  "peerDependencies": {
-    "react": ">=0.14.0",
-    "react-dom": ">=0.14.0"
-  },
   "dependencies": {
     "babel-runtime": "^6.6.1",
-    "classnames": "^2.2.5",
-    "input-format": "^0.1.7",
-    "libphonenumber-js": "^0.4.22",
-    "prop-types": "^15.5.6",
-    "react-styling": "^1.6.1",
-    "scroll-into-view-if-needed": "^1.1.0"
+    "bluebird": "^3.4.6",
+    "minimist": "^1.2.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
-    "babel-core": "^6.7.2",
-    "babel-loader": "^6.2.5",
-    "babel-plugin-transform-react-display-name": "^6.5.0",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-runtime": "^6.6.0",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-react": "^6.5.0",
+    "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-2": "^6.18.0",
-    "babel-register": "^6.22.0",
     "better-npm-run": "0.0.14",
     "chai": "^3.5.0",
-    "flag-icon-css": "^2.8.0",
-    "istanbul": "^1.0.0-alpha.2",
+    "istanbul": "^1.1.0-alpha.1",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
     "npm-run-all": "^1.4.0",
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1",
     "rimraf": "^2.5.0",
-    "webpack": "^2.1.0-beta.22"
+    "webpack": "^2.2.0-rc.3"
   },
   "scripts": {
-    "generate-countries": "babel-node runnable/generate-countries",
-    "test": "mocha --require test/setup --colors --bail --reporter spec test/ --recursive",
-    "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/setup --colors --reporter dot test/ --recursive",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/setup --colors --reporter spec test/ --recursive",
-    "browser-build": "npm run build-es6-modules && WEBPACK_ENV=build webpack",
+    "metadata:pull-request": "babel-node runnable/metadata-pull-request",
+    "metadata:branch": "babel-node runnable/metadata-branch",
+    "metadata:unbranch": "babel-node runnable/metadata-unbranch",
+    "metadata:publish": "npm version patch && npm publish && git push",
+    "metadata:update": "npm run metadata:branch && npm run metadata:download && babel-node runnable/update && npm run metadata:unbranch",
+    "metadata:generate": "npm-run-all metadata:generate:min metadata:generate:full metadata:generate:mobile metadata:generate:us",
+    "metadata:generate:min": "babel-node -- runnable/generate ../PhoneNumberMetadata.xml ../metadata.min.json",
+    "metadata:generate:full": "babel-node -- runnable/generate ../PhoneNumberMetadata.xml ../metadata.full.json --extended",
+    "metadata:generate:mobile": "babel-node -- runnable/generate ../PhoneNumberMetadata.xml ../metadata.mobile.json --types mobile --debug",
+    "metadata:generate:us": "babel-node -- runnable/generate ../PhoneNumberMetadata.xml ../metadata.us.json --countries='US,CA' --debug",
+    "metadata:download": "babel-node runnable/download https://raw.githubusercontent.com/googlei18n/libphonenumber/master/resources/PhoneNumberMetadata.xml PhoneNumberMetadata.xml",
+    "test": "mocha --compilers js:babel-core/register --colors --bail --reporter spec test/ --recursive",
+    "test-coverage": "istanbul cover -x \"build/**\" -x \"es6/**\" node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/ --recursive",
+    "test-travis": "istanbul cover -x \"build/**\" -x \"es6/**\" node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --colors --reporter spec test/ --recursive",
+    "browser-build": "better-npm-run browser-build",
     "browser-build-dev": "npm run build-es6-modules && WEBPACK_ENV=dev webpack --progress --colors --watch",
-    "copy-json": "cp ./source/*.json ./build/ && cp ./source/*.json ./es6/",
     "clean-for-build": "rimraf ./build/**/* ./es6/**/*",
     "build-commonjs-modules": "better-npm-run build-commonjs-modules",
     "build-es6-modules": "better-npm-run build-es6-modules",
-    "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules copy-json",
-    "prepublish": "npm-run-all build browser-build test"
+    "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules",
+    "prepublish": "npm-run-all build test browser-build"
   },
   "betterScripts": {
+    "browser-build": {
+      "command": "npm run build-es6-modules && webpack --progress --colors",
+      "env": {
+        "WEBPACK_ENV": "build"
+      }
+    },
     "build-commonjs-modules": {
       "command": "babel ./source --out-dir ./build --source-maps",
       "env": {
@@ -69,22 +72,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/catamphetamine/react-phone-number-input.git"
+    "url": "git+https://github.com/catamphetamine/libphonenumber-js.git"
   },
   "keywords": [
     "javascript",
-    "react",
+    "telephone",
     "phone",
     "number",
     "input",
-    "telephone",
+    "mobile",
+    "android",
+    "iphone",
     "international",
-    "iphone"
+    "libphonenumber"
   ],
   "author": "Halt Hammerzeit <halt.hammerzeit.at@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/catamphetamine/react-phone-number-input/issues"
+    "url": "https://github.com/catamphetamine/libphonenumber-js/issues"
   },
-  "homepage": "https://github.com/catamphetamine/react-phone-number-input#readme"
+  "homepage": "https://github.com/catamphetamine/libphonenumber-js#readme",
+  "bin": {
+    "libphonenumber-generate-metadata": "./bin/update-metadata.js"
+  }
 }
