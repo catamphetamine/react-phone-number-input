@@ -144,14 +144,6 @@ export default class Input extends Component
 		// (is `false` by default)
 		convertToNational : PropTypes.bool.isRequired,
 
-		// Custom `<input/>` may be supplied.
-		// Must be a React stateless functional component
-		// (i.e. must be a function of `props` returning a React element).
-		// Such custom component must also make sure that
-		// the `ref` property passed as part of `props`
-		// is landed on the actual `<input/>` component.
-		inputComponent    : PropTypes.func,
-
 		// HTML `tabindex` attribute for the country select
 		selectTabIndex    : PropTypes.number,
 
@@ -886,7 +878,6 @@ export default class Input extends Component
 			selectTabIndex,
 			selectMaxItems,
 			inputTabIndex,
-			inputComponent,
 			style,
 			selectStyle,
 			inputStyle,
@@ -941,7 +932,6 @@ export default class Input extends Component
 						nativeExpanded={ nativeExpanded }
 						autocomplete
 						autocompleteShowAll
-						autocompleteInputComponent={ inputComponent }
 						maxItems={ selectMaxItems }
 						concise
 						tabIndex={ selectTabIndex }
@@ -966,7 +956,6 @@ export default class Input extends Component
 						disabled={ disabled }
 						autoComplete={ autoComplete }
 						tabIndex={ inputTabIndex }
-						inputComponent={ inputComponent }
 						parse={ this.parse_character }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
