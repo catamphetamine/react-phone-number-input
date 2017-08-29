@@ -144,11 +144,12 @@ export default class Input extends Component
 		// (is `false` by default)
 		convertToNational : PropTypes.bool.isRequired,
 
-		// (doesn't work, don't use this property)
-		// Custom `<input/>` may be supplied.
-		// Can be either a string or a React component class.
-		// Cannot be a React "stateless" (function) component.
-		inputComponent    : PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+		/**
+		 * Render custom input
+		 * @param {object} props
+		 * @return {JSX.Element} input
+		 */
+		renderInput		    : PropTypes.func,
 
 		// HTML `tabindex` attribute for the country select
 		selectTabIndex    : PropTypes.number,
@@ -575,7 +576,9 @@ export default class Input extends Component
 	// Can be called externally
 	focus = () =>
 	{
-		ReactDOM.findDOMNode(this.input).focus()
+		const input = ReactDOM.findDOMNode(this.input).querySelector('input') || ReactDOM.findDOMNode(this.input)
+		
+		input.focus()
 	}
 
 	// `<input/>` `onKeyDown` handler
@@ -884,7 +887,7 @@ export default class Input extends Component
 			selectTabIndex,
 			selectMaxItems,
 			inputTabIndex,
-			inputComponent,
+			renderInput,
 			style,
 			selectStyle,
 			inputStyle,
@@ -939,7 +942,6 @@ export default class Input extends Component
 						nativeExpanded={ nativeExpanded }
 						autocomplete
 						autocompleteShowAll
-						autocompleteInputComponent={ inputComponent }
 						maxItems={ selectMaxItems }
 						concise
 						tabIndex={ selectTabIndex }
@@ -964,12 +966,12 @@ export default class Input extends Component
 						disabled={ disabled }
 						autoComplete={ autoComplete }
 						tabIndex={ inputTabIndex }
-						inputComponent={ inputComponent }
+						renderInput={ renderInput }
 						parse={ this.parse_character }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
 						style={ inputStyle }
-						className={ classNames('rrui__input', 'rrui__input-field', 'react-phone-number-input__phone', inputClassName) }/>
+					/>
 				}
 			</div>
 		)

@@ -116,7 +116,7 @@ export default class Select extends PureComponent
 		// Custom `<input/>` component may be supplied for autocomplete mode.
 		// Can be either a string or a React component class.
 		// Cannot be a React "stateless" (function) component.
-		autocompleteInputComponent : PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+		autocompleteInputComponent : PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
 		// Options list alignment ("left", "right")
 		alignment  : PropTypes.oneOf(['left', 'right']),
