@@ -144,11 +144,13 @@ export default class Input extends Component
 		// (is `false` by default)
 		convertToNational : PropTypes.bool.isRequired,
 
-		// (doesn't work, don't use this property)
 		// Custom `<input/>` may be supplied.
-		// Can be either a string or a React component class.
-		// Cannot be a React "stateless" (function) component.
-		inputComponent    : PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+		// Must be a React stateless functional component
+		// (i.e. must be a function of `props` returning a React element).
+		// Such custom component must also make sure that
+		// the `ref` property passed as part of `props`
+		// is landed on the actual `<input/>` component.
+		inputComponent    : PropTypes.func,
 
 		// HTML `tabindex` attribute for the country select
 		selectTabIndex    : PropTypes.number,

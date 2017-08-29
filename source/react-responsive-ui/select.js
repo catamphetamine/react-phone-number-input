@@ -113,10 +113,13 @@ export default class Select extends PureComponent
 		// matching options instead of just `maxItems`.
 		autocompleteShowAll : PropTypes.bool,
 
-		// Custom `<input/>` component may be supplied for autocomplete mode.
-		// Can be either a string or a React component class.
-		// Cannot be a React "stateless" (function) component.
-		autocompleteInputComponent : PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+		// Custom `<input/>` may be supplied for autocomplete mode.
+		// Must be a React stateless functional component
+		// (i.e. must be a function of `props` returning a React element).
+		// Such custom component must also make sure that
+		// the `ref` property passed as part of `props`
+		// is landed on the actual `<input/>` component.
+		autocompleteInputComponent : PropTypes.func.isRequired,
 
 		// Options list alignment ("left", "right")
 		alignment  : PropTypes.oneOf(['left', 'right']),
@@ -189,7 +192,7 @@ export default class Select extends PureComponent
 		required : false,
 
 		// Render basic `<input/>` component by default for autocomplete mode
-		autocompleteInputComponent : 'input',
+		autocompleteInputComponent : props => React.createElement('input', props),
 
 		// transition_item_count_min : 1,
 		// transition_duration_min : 60, // milliseconds
@@ -690,8 +693,8 @@ export default class Select extends PureComponent
 		{
 			// style = { ...style, width: autocomplete_width + 'px' }
 
-			return React.createElement(autocompleteInputComponent,
-			{
+			return autocompleteInputComponent
+			({
 				type: 'text',
 				ref: ref => this.autocomplete = ref,
 				placeholder: selected_text,
