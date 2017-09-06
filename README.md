@@ -68,6 +68,10 @@ Get the `rrui.css` and `style.css` files from this package, process these files 
 </head>
 ```
 
+## Bug reporting
+
+If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then follow the [bug reporting instructions in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#bug-reporting).
+
 ## API
 
 ### React component
