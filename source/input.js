@@ -150,7 +150,8 @@ export default class Input extends Component
 		// Defines the height of the dropdown country select list
 		selectMaxItems    : PropTypes.number,
 
-		// HTML `tabindex` attribute for the phone number input
+		// (deprecated, use just `tabIndex` instead)
+		// HTML `tabindex` attribute for the phone number `<input/>`
 		inputTabIndex     : PropTypes.number,
 
 		// CSS style object
@@ -900,6 +901,12 @@ export default class Input extends Component
 		}
 		= this.props
 
+		// `inputTabIndex` is deprecated, use just `tabIndex` instead
+		if (inputTabIndex)
+		{
+			input_props.tabIndex = inputTabIndex
+		}
+
 		const
 		{
 			value,
@@ -955,7 +962,6 @@ export default class Input extends Component
 						onBlur={ this.on_blur }
 						disabled={ disabled }
 						autoComplete={ autoComplete }
-						tabIndex={ inputTabIndex }
 						parse={ this.parse_character }
 						format={ this.format }
 						onKeyDown={ this.on_key_down }
