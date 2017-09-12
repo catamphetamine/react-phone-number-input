@@ -696,23 +696,26 @@ export default class Input extends Component
 			value_property = e164(value, country_code, metadata)
 		}
 
-		this.setState
-		({
-			// State `value` is the parsed input value
-			// (e.g. `+78005553535`, `1234567`).
-			// This is not `this.props.value`
-			// i.e. it's not neccessarily an international plaintext phone number,
-			// it's just the `value` parsed by `input-format`.
-			value,
-			// `this.state.value_property` is the `this.props.value`
-			// which corresponding to `this.state.value`.
-			// It is being compared in `componentWillReceiveProps()`
-			// against `newProps.value` to find out if the new `value` property
-			// needs `this.state.value` recalculation.
-			value_property
-		},
-		// Write the new `this.props.value`.
-		() => onChange(value_property))
+		setTimeout(() => 
+		{
+			this.setState
+			({
+				// State `value` is the parsed input value
+				// (e.g. `+78005553535`, `1234567`).
+				// This is not `this.props.value`
+				// i.e. it's not neccessarily an international plaintext phone number,
+				// it's just the `value` parsed by `input-format`.
+				value,
+				// `this.state.value_property` is the `this.props.value`
+				// which corresponding to `this.state.value`.
+				// It is being compared in `componentWillReceiveProps()`
+				// against `newProps.value` to find out if the new `value` property
+				// needs `this.state.value` recalculation.
+				value_property
+			},
+			// Write the new `this.props.value`.
+			() => onChange(value_property))
+		});
 	}
 
 	// This `onBlur` interceptor is a workaround for `redux-form`,
