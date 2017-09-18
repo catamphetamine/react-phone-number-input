@@ -9,6 +9,12 @@
 	align-items : center;
 }
 
+/* Overrides `width: 100%` setting from `react-resonsive-ui` */
+.react-phone-number-input__country
+{
+	width : auto;
+}
+
 /* The phone number input stretches to fill all empty space */
 .react-phone-number-input__phone,
 /* The country select, when expanded, stretches to fill all empty space */
@@ -22,7 +28,7 @@
 	font-size : inherit;
 }
 
-.react-phone-number-input__country:not(.rrui__select--expanded)
+.react-phone-number-input__country.rrui__select--collapsed
 {
 	margin-right : 0.5em;
 }
