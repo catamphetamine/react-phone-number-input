@@ -9,6 +9,12 @@
 	align-items : center;
 }
 
+/* Overrides `width: 100%` setting from `react-resonsive-ui` */
+.react-phone-number-input__country
+{
+	width : auto;
+}
+
 /* The phone number input stretches to fill all empty space */
 .react-phone-number-input__phone,
 /* The country select, when expanded, stretches to fill all empty space */
@@ -22,7 +28,7 @@
 	font-size : inherit;
 }
 
-.react-phone-number-input__country:not(.rrui__select--expanded)
+.react-phone-number-input__country.rrui__select--collapsed
 {
 	margin-right : 0.5em;
 }
@@ -32,6 +38,7 @@
 	width : 100%;
 }
 
+.react-phone-number-input__country,
 .react-phone-number-input__country:not(.react-phone-number-input__country--native-expanded) .rrui__input
 {
 	/* This is done to stretch `.rrui__select__options` */
@@ -42,7 +49,9 @@
 	/* the `.rrui__select__options` to contract too */
 	/* while the list collapse animation is still in progress. */
 	/* The `position: relative` container is now `.react-phone-number-input`. */
-	position: static;
+	/* The `:not(.react-phone-number-input__country--native-expanded)` selector */
+	/* is required because native `<select/>` is positioned absolutely. */
+	position : static;
 }
 
 .react-phone-number-input__phone,
