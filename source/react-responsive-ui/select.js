@@ -211,7 +211,7 @@ export default class Select extends PureComponent
 		// The "x" button that closes the `<Select/>`
 		// in fullscreen mode on mobile devices.
 		closeButton : (
-			<svg viewBox="0 0 22 21">
+			<svg viewBox="0 0 22 21" className="rrui__select__close-icon">
 				<g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round">
 					<g transform="translate(-1367.000000, -40.000000)" stroke="#000000" strokeWidth="1">
 						<g transform="translate(1368.000000, 41.000000)">
