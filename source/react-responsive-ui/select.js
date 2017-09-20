@@ -174,7 +174,7 @@ export default class Select extends PureComponent
 
 		// `aria-label` for the "Close" button
 		// (which is an "x" visible in fullscreen mode).
-		closeLabel : PropTypes.string.isRequired,
+		closeAriaLabel : PropTypes.string.isRequired,
 
 		// The "x" button that closes the `<Select/>`
 		// in fullscreen mode on mobile devices.
@@ -206,7 +206,7 @@ export default class Select extends PureComponent
 
 		// `aria-label` for the "Close" button
 		// (which is an "x" visible in fullscreen mode).
-		closeLabel : 'Close',
+		closeAriaLabel : 'Close',
 
 		// The "x" button that closes the `<Select/>`
 		// in fullscreen mode on mobile devices.
@@ -388,7 +388,7 @@ export default class Select extends PureComponent
 			value,
 			error,
 			closeButton,
-			closeLabel,
+			closeAriaLabel,
 			style,
 			className
 		}
@@ -534,7 +534,7 @@ export default class Select extends PureComponent
 						<button
 							type="button"
 							onClick={ this.toggle }
-							aria-label={ closeLabel }
+							aria-label={ closeAriaLabel }
 							className={ classNames('rrui__select__close',
 							{
 								'rrui__select__close--autocomplete' : autocomplete

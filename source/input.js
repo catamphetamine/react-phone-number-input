@@ -155,6 +155,14 @@ export default class Input extends Component
 		// HTML `tabindex` attribute for the phone number `<input/>`
 		inputTabIndex     : PropTypes.number,
 
+		// `aria-label` for the `<Select/>`'s `<button/>`
+		selectAriaLabel : PropTypes.string,
+
+		// `aria-label` for the `<Select/>`'s "Close" button
+		// (which is an "x" visible in fullscreen mode).
+		// (not yet implemented but is likely to be)
+		selectCloseAriaLabel : PropTypes.string,
+
 		// CSS style object
 		style : PropTypes.object,
 
@@ -879,6 +887,8 @@ export default class Input extends Component
 			autoComplete,
 			selectTabIndex,
 			selectMaxItems,
+			selectAriaLabel,
+			selectCloseAriaLabel,
 			inputTabIndex,
 			style,
 			selectStyle,
@@ -946,6 +956,8 @@ export default class Input extends Component
 						focusUponSelection={ false }
 						saveOnIcons={ saveOnIcons }
 						name={ input_props.name ? `${input_props.name}__country` : undefined }
+						ariaLabel={ selectAriaLabel }
+						closeAriaLabel={ selectCloseAriaLabel }
 						style={ selectStyle }
 						className={ classNames('react-phone-number-input__country',
 						{
