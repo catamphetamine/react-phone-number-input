@@ -33,7 +33,7 @@
 	margin-right : 0.5em;
 }
 
-.react-phone-number-input__country .rrui__select__selected--autocomplete
+.react-phone-number-input__country .rrui__select__autocomplete
 {
 	width : 100%;
 }
@@ -54,17 +54,16 @@
 	position : static;
 }
 
-.react-phone-number-input__phone,
-.react-phone-number-input__country .rrui__select__selected--autocomplete
+.rrui__text-input__input
 {
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
 	transition    : border 0.1s;
 }
 
-.react-phone-number-input__phone:focus
+.rrui__text-input__input:focus
 {
-	border-bottom-color: #0093C4;
+	border-bottom-color: #03B2CB;
 }
 
 .react-phone-number-input .rrui__select__arrow

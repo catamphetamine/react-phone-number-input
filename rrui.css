@@ -39,8 +39,9 @@
 ===========================================================*/
 
 /* Reset the default `<button/>` styles */
-.rrui__select__selected,
-.rrui__select__option
+.rrui__select__button,
+.rrui__select__option,
+.rrui__select__close
 {
 	margin      : 0;
 	padding     : 0;
@@ -205,7 +206,7 @@
 	background-color : #FBFDFD;
 }
 
-.rrui__select__selected--disabled,
+.rrui__select__button--disabled,
 .rrui__select__option--disabled
 {
 	cursor : default;
@@ -243,13 +244,14 @@
 }
 
 .rrui__select__toggler,
-.rrui__select__selected
+.rrui__select__button,
+.rrui__select__autocomplete
 {
 	height     : 100%;
 	box-sizing : border-box;
 }
 
-.rrui__select__selected
+.rrui__select__button
 {
 	border-bottom : 1px solid #C5D2E0;
 	transition    : border 0.1s;
@@ -258,30 +260,28 @@
 	text-align : left;
 }
 
-.rrui__select__selected:focus,
-.rrui__select__native-expanded:focus + .rrui__select__selected
+.rrui__select__button:focus,
+.rrui__select__native-expanded:focus + .rrui__select__button
 {
 	border-bottom-color: #03B2CB;
 }
 
-.rrui__select__selected:active
+.rrui__select__button:active
+{
+	color: #03B2CB;
+}
+
+.rrui__select__button--expanded
 {
 	color: #3678D1;
 }
 
-.rrui__select__selected--expanded
-{
-	color: #3678D1;
-}
-
-.rrui__select__selected--nothing,
-/* For CSS rule specificity */
-.rrui__select--expanded .rrui__select__selected--nothing
+.rrui__select__button--empty
 {
 	color: #888C91;
 }
 
-.rrui__select__selected,
+.rrui__select__button,
 .rrui__select__option
 {
 	color : inherit;
@@ -290,10 +290,9 @@
 /* Not introducing an animation on `.rrui__select__option`
    because it would introduce a little clutter due to
    focused option animation in autocomplete mode */
-.rrui__select__selected
+.rrui__select__button
 {
-	transition         : background-color 30ms ease-out, color 30ms ease-out;
-	-webkit-transition : background-color 30ms ease-out, color 30ms ease-out;
+	transition : background-color 30ms ease-out, color 30ms ease-out;
 }
 
 .rrui__select__selected-content
@@ -344,4 +343,19 @@
 	z-index  : 1;
 	opacity  : 0;
 	cursor   : pointer;
+}
+
+.rrui__select__close
+{
+	/*
+	Set `display` to `block` for fullscreen `.rrui__expandable` design.
+	display      : block;
+	*/
+	display      : none;
+	position     : fixed;
+	top          : calc(0.3rem * 2 + 4px);
+	right        : calc(0.3rem * 2 + 4px);
+	width        : calc(0.3rem * 5);
+	height       : calc(0.3rem * 5);
+	z-index      : 1;
 }

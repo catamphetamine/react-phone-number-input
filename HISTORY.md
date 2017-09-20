@@ -1,3 +1,24 @@
+0.13.0 / 20.09.2017
+===================
+
+This release contains some minor CSS class names refactoring which most likely won't introduce any issues in almost but all use cases.
+
+(CSS breaking change) Refactored `<Select/>` CSS class names in `react-responsive-ui`:
+
+  * `.rrui__select__selected--autocomplete` -> `.rrui__select__autocomplete`
+
+  * `.rrui__select__selected` -> `.rrui__select__button`
+
+  * `.rrui__select__selected--nothing` -> `.rrui__select__button--empty`
+
+  * `.rrui__select__selected--expanded` -> `.rrui__select__button--expanded`
+
+  * `.rrui__select__selected--disabled` -> `.rrui__select__button--disabled`
+
+(CSS breaking change) Added `.rrui__text-input__input` CSS class to the phone number `<input/>`.
+
+(CSS breaking change) Added global `.rrui__text-input__input` styles to `style.css`
+
 0.12.1 / 27.07.2017
 ===================
 
