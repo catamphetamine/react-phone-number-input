@@ -5,8 +5,14 @@
 	position    : relative;
 
 	/* This is done to stretch the contents of this component */
+	display     : -webkit-box;
+	display     : -webkit-flex;
+	display     : -ms-flexbox;
 	display     : flex;
-	align-items : center;
+	-webkit-box-align : center;
+	-webkit-align-items : center;
+	    -ms-flex-align : center;
+	        align-items : center;
 }
 
 /* Overrides `width: 100%` setting from `react-resonsive-ui` */
@@ -20,7 +26,10 @@
 /* The country select, when expanded, stretches to fill all empty space */
 .react-phone-number-input__country.rrui__select--expanded
 {
-	flex : 1;
+	-webkit-box-flex : 1;
+	-webkit-flex : 1;
+	    -ms-flex : 1;
+	        flex : 1;
 }
 
 .react-phone-number-input__phone
@@ -33,7 +42,7 @@
 	margin-right : 0.5em;
 }
 
-.react-phone-number-input__country .rrui__select__selected--autocomplete
+.react-phone-number-input__country .rrui__select__autocomplete
 {
 	width : 100%;
 }
@@ -54,17 +63,17 @@
 	position : static;
 }
 
-.react-phone-number-input__phone,
-.react-phone-number-input__country .rrui__select__selected--autocomplete
+.rrui__text-input__input
 {
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
+	-webkit-transition    : border 0.1s;
 	transition    : border 0.1s;
 }
 
-.react-phone-number-input__phone:focus
+.rrui__text-input__input:focus
 {
-	border-bottom-color: #0093C4;
+	border-bottom-color: #03B2CB;
 }
 
 .react-phone-number-input .rrui__select__arrow
@@ -75,8 +84,14 @@
 
 .react-phone-number-input .rrui__select__option
 {
+	display     : -webkit-box;
+	display     : -webkit-flex;
+	display     : -ms-flexbox;
 	display     : flex;
-	align-items : center;
+	-webkit-box-align : center;
+	-webkit-align-items : center;
+	    -ms-flex-align : center;
+	        align-items : center;
 }
 
 .react-phone-number-input .rrui__select__option-icon
@@ -92,7 +107,8 @@
 
 	border     : 1px solid #bfbfbf;
 	/* Makes sure `width`x`height` is exactly `4x3` and `border` width is not included in it */
-	box-sizing : content-box;
+	-webkit-box-sizing : content-box;
+	        box-sizing : content-box;
 }
 
 .react-phone-number-input__icon--international

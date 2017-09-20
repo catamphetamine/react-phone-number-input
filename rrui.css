@@ -31,7 +31,9 @@
 	border-radius : 0;
 	/* Some web browsers add <input/> padding by default */
 	padding       : 0;
-	appearance    : none;
+	-webkit-appearance    : none;
+	   -moz-appearance    : none;
+	        appearance    : none;
 }
 
 /*===========================================================
@@ -39,14 +41,17 @@
 ===========================================================*/
 
 /* Reset the default `<button/>` styles */
-.rrui__select__selected,
-.rrui__select__option
+.rrui__select__button,
+.rrui__select__option,
+.rrui__select__close
 {
 	margin      : 0;
 	padding     : 0;
 	white-space : nowrap;
 	outline     : none;
-	appearance  : none;
+	-webkit-appearance  : none;
+	   -moz-appearance  : none;
+	        appearance  : none;
 	border      : none;
 	background  : none;
 	cursor      : pointer;
@@ -65,10 +70,14 @@
 	opacity : 0;
 	pointer-events : none;
 
-	transform        : scaleY(0);
-	transform-origin : 50% top 0px;
+	-webkit-transform        : scaleY(0);
+
+	        transform        : scaleY(0);
+	-webkit-transform-origin : 50% top 0px;
+	        transform-origin : 50% top 0px;
 
 	/* 250ms - too slow for short lists */
+	-webkit-transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
 	transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
 
 	/* prevent white background showing through the transparent border */
@@ -82,8 +91,13 @@
 	opacity        : 1;
 	pointer-events : auto;
 
-	transform        : scaleY(1);
-	transform-origin : 50% top 0px;
+	-webkit-transform        : scaleY(1);
+
+	        transform        : scaleY(1);
+	-webkit-transform-origin : 50% top 0px;
+	        transform-origin : 50% top 0px;
+
+	-webkit-transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 
 	transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
@@ -105,6 +119,7 @@
 	opacity: 0;
 
 	/* Mitigates inner content overlapping with itself creating a feeling of a mess */
+	-webkit-transition: opacity 150ms ease-out;
 	transition: opacity 150ms ease-out;
 }
 
@@ -115,12 +130,16 @@
 
 .rrui__shadow
 {
-	box-shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	-webkit-box-shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	        box-shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .rrui__select
 {
-	user-select : none;
+	-webkit-user-select : none;
+	   -moz-user-select : none;
+	    -ms-user-select : none;
+	        user-select : none;
 }
 
 .rrui__select--menu
@@ -138,7 +157,8 @@
 	background-color : white;
 	list-style-type  : none;
 	overflow-x       : hidden;
-	box-sizing       : border-box;
+	-webkit-box-sizing       : border-box;
+	        box-sizing       : border-box;
 }
 
 .rrui__expandable--left-aligned
@@ -195,7 +215,9 @@
 	padding-top    : calc(0.3rem * 1);
 	padding-bottom : calc(0.3rem * 1);
 
-	box-sizing  : border-box;
+	-webkit-box-sizing  : border-box;
+
+	        box-sizing  : border-box;
 	text-align  : left;
 	white-space : nowrap;
 }
@@ -205,7 +227,7 @@
 	background-color : #FBFDFD;
 }
 
-.rrui__select__selected--disabled,
+.rrui__select__button--disabled,
 .rrui__select__option--disabled
 {
 	cursor : default;
@@ -218,7 +240,8 @@
 
 .rrui__select__options--upward
 {
-	transform-origin: 50% bottom 0px;
+	-webkit-transform-origin: 50% bottom 0px;
+	        transform-origin: 50% bottom 0px;
 }
 
 .rrui__select__option--focused
@@ -243,65 +266,78 @@
 }
 
 .rrui__select__toggler,
-.rrui__select__selected
+.rrui__select__button,
+.rrui__select__autocomplete
 {
 	height     : 100%;
-	box-sizing : border-box;
+	-webkit-box-sizing : border-box;
+	        box-sizing : border-box;
 }
 
-.rrui__select__selected
+.rrui__select__button
 {
 	border-bottom : 1px solid #C5D2E0;
+	-webkit-transition    : border 0.1s;
 	transition    : border 0.1s;
 
 	/* Because Chrome adds `text-align: center` for all buttons */
 	text-align : left;
 }
 
-.rrui__select__selected:focus
+.rrui__select__button:focus,
+.rrui__select__native-expanded:focus + .rrui__select__button
 {
 	border-bottom-color: #03B2CB;
 }
 
-.rrui__select__selected:active
+.rrui__select__button:active
+{
+	color: #03B2CB;
+}
+
+.rrui__select__button--expanded
 {
 	color: #3678D1;
 }
 
-.rrui__select__selected--expanded
+.rrui__select__button--empty
 {
-	color: #3678D1;
+	color: #888C91;
 }
 
-.rrui__select__selected,
+.rrui__select__button,
 .rrui__select__option
 {
 	color : inherit;
 }
 
-.rrui__select__selected--nothing:not(.rrui__select__selected--autocomplete)
-{
-	color: #888C91;
-}
-
 /* Not introducing an animation on `.rrui__select__option`
    because it would introduce a little clutter due to
    focused option animation in autocomplete mode */
-.rrui__select__selected
+.rrui__select__button
 {
-	transition         : background-color 30ms ease-out, color 30ms ease-out;
 	-webkit-transition : background-color 30ms ease-out, color 30ms ease-out;
+	transition : background-color 30ms ease-out, color 30ms ease-out;
 }
 
 .rrui__select__selected-content
 {
+	display     : -webkit-box;
+	display     : -webkit-flex;
+	display     : -ms-flexbox;
 	display     : flex;
-	align-items : center;
+	-webkit-box-align : center;
+	-webkit-align-items : center;
+	    -ms-flex-align : center;
+	        align-items : center;
 }
 
 .rrui__select__selected-label
 {
-	flex          : 1 0 auto;
+	-webkit-box-flex          : 1;
+	-webkit-flex          : 1 0 auto;
+	    -ms-flex          : 1 0 auto;
+	        flex          : 1 0 auto;
 	overflow      : hidden;
 	text-overflow : ellipsis;
 }
@@ -316,6 +352,8 @@
 	margin-bottom : 0.1em;
 
 	opacity: 0.7;
+
+	-webkit-transition: opacity 100ms ease-out;
 
 	transition: opacity 100ms ease-out;
 
@@ -341,4 +379,19 @@
 	z-index  : 1;
 	opacity  : 0;
 	cursor   : pointer;
+}
+
+.rrui__select__close
+{
+	/*
+	Set `display` to `block` for fullscreen `.rrui__expandable` design.
+	display      : block;
+	*/
+	display      : none;
+	position     : fixed;
+	top          : calc(0.3rem * 2 + 4px);
+	right        : calc(0.3rem * 2 + 4px);
+	width        : calc(0.3rem * 5);
+	height       : calc(0.3rem * 5);
+	z-index      : 1;
 }
