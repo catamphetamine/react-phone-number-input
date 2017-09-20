@@ -33,6 +33,7 @@ for (const item of country_names)
 // Default country flag icon
 const FlagComponent = ({ countryCode, flagsPath }) => (
 	<img
+		alt={countryCode}
 		className="react-phone-number-input__icon"
 		src={`${flagsPath}${countryCode.toLowerCase()}.svg`}/>
 )
