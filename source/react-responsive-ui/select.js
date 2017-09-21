@@ -736,6 +736,7 @@ export default class Select extends PureComponent
 
 		const selected_style_classes =
 		{
+			'rrui__input-element' : true,
 			// CSS selector performance optimization
 			'rrui__select__selected--disabled' : disabled
 		}
@@ -784,8 +785,9 @@ export default class Select extends PureComponent
 					selected_style_classes,
 					'rrui__select__button',
 					{
-						'rrui__select__button--empty' : !selected_label,
-						'rrui__input-field--invalid'  : this.should_indicate_invalid()
+						'rrui__select__button--empty'   : !selected_label,
+						'rrui__select__button--invalid' : this.should_indicate_invalid(),
+						'rrui__input-element--invalid'  : this.should_indicate_invalid()
 					}
 				) }>
 
