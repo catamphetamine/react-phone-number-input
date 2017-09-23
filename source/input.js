@@ -4,10 +4,7 @@ import ReactDOM from 'react-dom'
 import { as_you_type, parse, format, getPhoneCode } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
-
-// Not importing here directly from `react-responsive-ui` npm package
-// just to reduce the overall bundle size.
-import { Select } from './react-responsive-ui'
+import Select from 'react-responsive-ui/modules/Select'
 
 import country_names from './country names.json'
 import International_icon from './international icon'
