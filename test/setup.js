@@ -17,6 +17,10 @@ require('babel-register')
 			{
 				return false
 			}
+			if (filename.indexOf('/react-responsive-ui/') >= 0)
+			{
+				return false
+			}
 			return true
 		}
 		return false
