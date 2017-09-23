@@ -37,12 +37,7 @@
 		h2
 		{
 			margin-top: 60px;
-			margin-bottom: 40px;
-		}
-
-		h2:first-child
-		{
-			margin-top: 0;
+			margin-bottom: 30px;
 		}
 
 		.section
@@ -101,7 +96,7 @@
 			h2
 			{
 				margin-top: 40px;
-				margin-bottom: 20px;
+				margin-bottom: 12px;
 			}
 
 			code
@@ -181,8 +176,7 @@
 							</div>
 
 							<pre className="hljs"><code>
-								{`
-import Phone from 'react-phone-number-input'
+{`import Phone from 'react-phone-number-input'
 
 <Phone
   country="RU"
@@ -206,9 +200,8 @@ import Phone from 'react-phone-number-input'
 								Value: {this.state.value_convert_to_national_false}
 							</div>
 
-							<pre className="hljs"><code>
-								{`
-<Phone
+							<pre className="hljs"><code>								
+{`<Phone
   placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
@@ -230,9 +223,8 @@ import Phone from 'react-phone-number-input'
 								Value: {this.state.value_convert_to_national_true}
 							</div>
 
-							<pre className="hljs"><code>
-								{`
-<Phone
+							<pre className="hljs"><code>								
+{`<Phone
   placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }
@@ -267,8 +259,7 @@ import Phone from 'react-phone-number-input'
 							</div>
 
 							<pre className="hljs"><code>
-								{`
-import Phone, {
+{`import Phone, {
   formatPhoneNumber,
   parsePhoneNumber,
   isValidPhoneNumber
@@ -300,8 +291,7 @@ International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' )
 							</div>
 
 							<pre className="hljs"><code>
-								{`
-<Phone
+{`<Phone
   placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }
