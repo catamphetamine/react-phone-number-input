@@ -38,7 +38,6 @@
 		{
 			margin-top: 60px;
 			margin-bottom: 40px;
-			border-bottom: 1px solid #afafaf;
 		}
 
 		h2:first-child
@@ -76,7 +75,7 @@
 
 		.react-phone-number-input
 		{
-			width : 20rem;
+			max-width : 20rem;
 		}
 
 		/* Overrides Chrome autofill yellow background color */
@@ -85,6 +84,30 @@
 		.rrui__input-field:-webkit-autofill:focus
 		{
 			box-shadow: 0 0 0 1000px white inset;
+		}
+
+		@media (max-width: 720px)
+		{
+			body
+			{
+				padding: 20px;
+			}
+
+			body, h2, a.main code
+			{
+				font-size: 18px;
+			}
+
+			h2
+			{
+				margin-top: 40px;
+				margin-bottom: 20px;
+			}
+
+			code
+			{
+				font-size: 14px;
+			}
 		}
 	</style>
 
@@ -137,9 +160,9 @@
 
 							<pre className="hljs"><code>
 								{`<Phone
-	placeholder="Start typing a phone number"
-	value={ this.state.value }
-	onChange={ value => this.setState({ value }) }/>`}
+  placeholder="Start typing a phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>`}
 							</code></pre>
 
 							<h2>Default country: Russia</h2>
@@ -162,11 +185,11 @@
 import Phone from 'react-phone-number-input'
 
 <Phone
-	country="RU"
-	placeholder="Ваш телефон"
-	value={ this.state.value }
-	onChange={ value => this.setState({ value }) }/>
-	`}
+  country="RU"
+  placeholder="Ваш телефон"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>
+`}
 							</code></pre>
 
 							<h2>convertToNational = false (default)</h2>
@@ -186,10 +209,10 @@ import Phone from 'react-phone-number-input'
 							<pre className="hljs"><code>
 								{`
 <Phone
-	placeholder="Enter phone number"
-	value={ this.state.value }
-	onChange={ value => this.setState({ value }) }/>
-	`}
+  placeholder="Enter phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>
+`}
 							</code></pre>
 
 							<h2>convertToNational = true</h2>
@@ -210,11 +233,11 @@ import Phone from 'react-phone-number-input'
 							<pre className="hljs"><code>
 								{`
 <Phone
-	placeholder="Enter phone number"
-	value={ this.state.value }
-	onChange={ value => this.setState({ value }) }
-	convertToNational/>
-	`}
+  placeholder="Enter phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }
+  convertToNational/>
+`}
 							</code></pre>
 
 							<h2>Validation</h2>
@@ -246,23 +269,23 @@ import Phone from 'react-phone-number-input'
 							<pre className="hljs"><code>
 								{`
 import Phone, {
-	formatPhoneNumber,
-	parsePhoneNumber,
-	isValidPhoneNumber
+  formatPhoneNumber,
+  parsePhoneNumber,
+  isValidPhoneNumber
 }
 from 'react-phone-number-input'
 
 const { value } = this.state
 
 <Phone
-	placeholder="Enter phone number"
-	value={ value }
-	onChange={ value => this.setState({ value }) }/>
+  placeholder="Enter phone number"
+  value={ value }
+  onChange={ value => this.setState({ value }) }/>
 
 Is valid: { String( isValidPhoneNumber( value ) ) }
 Local: { formatPhoneNumber( parsePhoneNumber( value ), 'National' ) }
 International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' ) }
-	`}
+`}
 							</code></pre>
 
 							<h2>Native &lt;select/&gt;</h2>
@@ -279,11 +302,11 @@ International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' )
 							<pre className="hljs"><code>
 								{`
 <Phone
-	placeholder="Enter phone number"
-	value={ this.state.value }
-	onChange={ value => this.setState({ value }) }
-	nativeExpanded/>
-	`}
+  placeholder="Enter phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }
+  nativeExpanded/>
+`}
 							</code></pre>
 						</div>
 					)
