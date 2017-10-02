@@ -6,8 +6,8 @@ import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 import Select from 'react-responsive-ui/modules/Select'
 
-import country_names from './country names.json'
-import International_icon from './international icon'
+import country_names from './countries'
+import InternationalIcon from './InternationalIcon'
 
 // A list of all country codes
 const all_countries = []
@@ -203,7 +203,11 @@ export default class Input extends Component
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
 
 		// Default international icon (globe)
-		internationalIcon: <div className="react-phone-number-input__icon react-phone-number-input__icon--international"><International_icon/></div>,
+		internationalIcon: (
+			<div className={ classNames('react-phone-number-input__icon', 'react-phone-number-input__icon--international') }>
+				<InternationalIcon/>
+			</div>
+		),
 
 		// Custom country names
 		dictionary: {},
@@ -929,8 +933,7 @@ export default class Input extends Component
 		// Therefore it's `type="text"` now which discards the
 		// built-in phone number autocomplete feature in web-browsers.
 
-		const markup =
-		(
+		return (
 			<div
 				style={ style }
 				className={ classNames('react-phone-number-input', className) }>
@@ -980,8 +983,6 @@ export default class Input extends Component
 				}
 			</div>
 		)
-
-		return markup
 	}
 }
 

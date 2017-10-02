@@ -1,2 +1,2 @@
 // just an npm package helper
-module.exports = require('./build/countries with flags')
+module.exports = require('./commonjs/countries with flags')

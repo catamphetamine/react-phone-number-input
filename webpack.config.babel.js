@@ -23,9 +23,9 @@ else
   output_file = `${library_name}.js`
 }
 
-const config =
+export default
 {
-  entry: path.join(__dirname, '/index.es6.js'),
+  entry: path.join(__dirname, '/index.js'),
   devtool: 'source-map',
   output:
   {
@@ -42,9 +42,6 @@ const config =
       test    : /(\.js)$/,
       loader  : 'babel-loader',
       exclude : /node_modules/
-    }, {
-      test    : /(\.json)$/,
-      loader  : 'json-loader'
     }]
   },
   externals:
@@ -55,5 +52,3 @@ const config =
   },
   plugins
 }
-
-module.exports = config

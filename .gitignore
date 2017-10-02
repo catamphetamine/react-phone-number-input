@@ -26,8 +26,8 @@ npm-debug.log
 *.sublime-workspace
 
 # webpack build target folder
-/build/
-/es6/
+/commonjs/
+/modules/
 
 /bundle/index.html
 /bundle/rrui.css

@@ -9,7 +9,7 @@ import Phone,
 	parse_phone_number,
 	parsePhoneNumber
 }
-from '../index.es6'
+from '../index'
 
 describe(`exports`, function()
 {

@@ -4,20 +4,9 @@ var React = require('react')
 var metadata = require('libphonenumber-js/metadata.min.json')
 
 var Input = require('./custom').default
+var InputWithDefaultMetadata = require('./commonjs/InputWithDefaultMetadata').default
 
-var Phone = function Phone(props)
-{
-   var properties = Object.keys(props).reduce(function(reduced, property)
-   {
-   	reduced[property] = props[property]
-   	return reduced
-   },
-   { metadata: metadata })
-
-	return React.createElement(Input, properties)
-}
-
-exports = module.exports = Phone
+exports = module.exports = InputWithDefaultMetadata
 
 var custom = require('libphonenumber-js/custom')
 
@@ -47,4 +36,4 @@ exports.parsePhoneNumber   = exports.parse_phone_number
 exports.formatPhoneNumber  = exports.format_phone_number
 exports.isValidPhoneNumber = exports.is_valid_phone_number
 
-module.exports['default'] = Phone
+module.exports['default'] = InputWithDefaultMetadata

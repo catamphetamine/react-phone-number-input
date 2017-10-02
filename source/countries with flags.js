@@ -17827,7 +17827,11 @@ const items =
 
 for (let item of items)
 {
-  item.icon = <div className="react-phone-number-input__icon">{item.icon}</div>
+  item.icon = (
+    <div className="react-phone-number-input__icon">
+      {item.icon}
+    </div>
+  )
 }
 
 export default items

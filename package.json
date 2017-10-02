@@ -1,9 +1,9 @@
 {
   "name": "react-phone-number-input",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Telephone input for React",
   "main": "index.common.js",
-  "module": "index.es6.js",
+  "module": "index.js",
   "peerDependencies": {
     "react": ">=0.14.0",
     "react-dom": ">=0.14.0"
@@ -35,8 +35,8 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
     "npm-run-all": "^1.4.0",
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "rimraf": "^2.5.0",
     "webpack": "^3.6.0"
   },
@@ -45,10 +45,10 @@
     "test": "mocha --require test/setup --colors --bail --reporter spec test/ --recursive",
     "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/setup --colors --reporter dot test/ --recursive",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/setup --colors --reporter spec test/ --recursive",
-    "browser-build": "npm run build-es6-modules && WEBPACK_ENV=build webpack",
-    "browser-build-dev": "npm run build-es6-modules && WEBPACK_ENV=dev webpack --progress --colors --watch",
-    "copy-json": "cp ./source/*.json ./build/ && cp ./source/*.json ./es6/",
-    "clean-for-build": "rimraf ./build/**/* ./es6/**/*",
+    "browser-build": "npm run build-es6-modules && npm run copy-json && WEBPACK_ENV=build webpack",
+    "browser-build-dev": "npm run build-es6-modules && npm run copy-json && WEBPACK_ENV=dev webpack --progress --colors --watch",
+    "copy-json": "cp ./source/*.json ./commonjs/ && cp ./source/*.json ./modules/",
+    "clean-for-build": "rimraf ./commonjs/**/* ./modules/**/*",
     "build-commonjs-modules": "better-npm-run build-commonjs-modules",
     "build-es6-modules": "better-npm-run build-es6-modules",
     "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules copy-json",
@@ -56,13 +56,13 @@
   },
   "betterScripts": {
     "build-commonjs-modules": {
-      "command": "babel ./source --out-dir ./build --source-maps",
+      "command": "babel ./source --out-dir ./commonjs --source-maps",
       "env": {
         "BABEL_ENV": "commonjs"
       }
     },
     "build-es6-modules": {
-      "command": "babel ./source --out-dir ./es6 --source-maps",
+      "command": "babel ./source --out-dir ./modules --source-maps",
       "env": {
         "BABEL_ENV": "es6"
       }
