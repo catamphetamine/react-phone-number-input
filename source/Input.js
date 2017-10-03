@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom'
 import { as_you_type, parse, format, getPhoneCode } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
-import Select from 'react-responsive-ui/modules/Select'
+
+// Could have been `import { Select } from 'react-responsive-ui'`
+// but in that case Webpack bundles the whole `react-responsive-ui` package.
+import Select from 'react-responsive-ui/commonjs/Select'
 
 import country_names from './countries'
 import InternationalIcon from './InternationalIcon'
