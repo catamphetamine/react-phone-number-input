@@ -112,6 +112,8 @@ The available props are
 
 For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component.
 
+There have also been some [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) of non-stock Android keyboards not handling caret positioning properly.
+
 ### isValidPhoneNumber
 
 [`libphonenumber.isValidNumber`](https://github.com/catamphetamine/libphonenumber-js#isvalidnumbernumber-country_code)
