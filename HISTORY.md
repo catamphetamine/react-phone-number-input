@@ -1,3 +1,8 @@
+0.14.0 / 04.10.2017
+===================
+
+  * Returning `<input/>` `type` back to `tel`. There used to be reports previously that `input="tel"` `<input/>`s on some non-stock Android devices with non-stock keyboards had issues with proper caret positioning during input. Well, those are non-stock Android bugs and therefore they should fix those there. `type="tel"` is better in terms of the digital input keyboard so it's now a default. Still can be overridden by passing `type="text"` property.
+
 0.13.0 / 20.09.2017
 ===================
 

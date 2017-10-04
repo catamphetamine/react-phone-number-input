@@ -110,7 +110,7 @@ The available props are
 
  * `convertToNational` — if set to `true` will convert international phone number `value` into a local phone number when the component mounts (see the demo). The reason it is `false` by default is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers with a `+` in their smartphones so local phone numbers should now be considered obsolete.
 
-For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component. E.g. one may want to specify `type="tel"` property and it will be passed down to the `<input/>` component. The reason why `type="tel"` isn't used by default is because there have been [bug reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) showing that on Samsung devices keyboard caret can't be programmatically controlled for a `type="tel"` `<input/>`.
+For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component.
 
 ### isValidPhoneNumber
 

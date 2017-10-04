@@ -933,8 +933,8 @@ export default class Input extends Component
 		// `type="tel"` was reported to have issues with
 		// Samsung keyboards caret position on Android OS.
 		// https://github.com/catamphetamine/react-phone-number-input/issues/59
-		// Therefore it's `type="text"` now which discards the
-		// built-in phone number autocomplete feature in web-browsers.
+		// One may choose to pass `type="text"` in those cases
+		// but this will result in a non-digital input keyboard.
 
 		return (
 			<div
@@ -971,6 +971,7 @@ export default class Input extends Component
 
 				{ !country_select_is_shown &&
 					<ReactInput
+						type="tel"
 						{ ...input_props }
 						ref={ this.store_input_instance }
 						value={ value }
