@@ -1,6 +1,7 @@
 /node_modules
 /lib
-/build
-/es6/
+/commonjs
+/modules/
 /bundle/
 *.sublime-workspace
+coverage

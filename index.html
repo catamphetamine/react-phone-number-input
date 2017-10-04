@@ -3,8 +3,8 @@
 		<meta charset="utf-8">
 		<title>React phone number input</title>
 
-		<script src="https://unpkg.com/react@15.3.1/dist/react.js"></script>
-		<script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.js"></script>
+		<script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+		<script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
 		<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
@@ -114,17 +114,20 @@
 		<div id="content"></div>
 
 		<script type="text/babel">
-			var Content = React.createClass
-			({
-				getInitialState: function()
+			class Content extends React.Component
+			{
+				constructor()
 				{
-					return {
+					super()
+
+					this.state =
+					{
 						value_convert_to_national_false: '+78005553535',
 						value_convert_to_national_true: '+78005553535'
 					}
-				},
+				}
 
-				render: function()
+				render()
 				{
 					const library = window['react-phone-number-input']
 
@@ -200,7 +203,7 @@
 								Value: {this.state.value_convert_to_national_false}
 							</div>
 
-							<pre className="hljs"><code>								
+							<pre className="hljs"><code>
 {`<Phone
   placeholder="Enter phone number"
   value={ this.state.value }
@@ -223,7 +226,7 @@
 								Value: {this.state.value_convert_to_national_true}
 							</div>
 
-							<pre className="hljs"><code>								
+							<pre className="hljs"><code>
 {`<Phone
   placeholder="Enter phone number"
   value={ this.state.value }
@@ -301,7 +304,7 @@ International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' )
 						</div>
 					)
 				}
-			})
+			}
 
 			ReactDOM.render
 			(

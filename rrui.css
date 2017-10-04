@@ -389,9 +389,15 @@
 	*/
 	display      : none;
 	position     : fixed;
-	top          : calc(0.3rem * 2 + 4px);
-	right        : calc(0.3rem * 2 + 4px);
+	top          : 0;
+	right        : 0;
+	z-index      : 1;
+}
+
+.rrui__select__close-icon
+{
+	margin-top   : calc(0.3rem * 2 + 4px);
+	margin-right : calc(0.3rem * 2 + 4px);
 	width        : calc(0.3rem * 5);
 	height       : calc(0.3rem * 5);
-	z-index      : 1;
 }
