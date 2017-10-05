@@ -679,9 +679,14 @@ export default class Input extends Component
 		// If "International" mode is selected
 		// and the `value` doesn't start with a + sign,
 		// then prepend it to the `value`.
-		else if (!country_code)
+		else
 		{
-			value = '+' + value
+			let parsed_phone = parse('+' + value).phone;
+
+			if (!country_code || (country_code && parsed_phone && parsed_phone !== value))
+			{
+				value = '+' + value;
+			}
 		}
 
 		// `this.state.value_property` is the `this.props.value`
