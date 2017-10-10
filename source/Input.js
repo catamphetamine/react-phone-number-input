@@ -524,12 +524,6 @@ export default class Input extends Component
 	{
 		const { countries } = this.props
 
-		// Convert wide-ascii and arabic-indic numerals to European numerals
-		if (DIGITS[character])
-		{
-			character = DIGITS[character]
-		}
-
 		if (character === '+')
 		{
 			// Only allow a leading `+`
@@ -549,8 +543,9 @@ export default class Input extends Component
 				return character
 			}
 		}
-		// For digits
-		else if (character >= '0' && character <= '9')
+		// For digits.
+		// Converts wide-ascii and arabic-indic numerals to European numerals.
+		else if (DIGITS[character])
 		{
 			const { metadata } = this.props
 			const { country_code } = this.state
@@ -563,13 +558,13 @@ export default class Input extends Component
 
 			if (!should_add_international_option(this.props) && value && value[0] === '+')
 			{
-				if (!could_phone_number_belong_to_country(value + character, country_code, metadata))
+				if (!could_phone_number_belong_to_country(value + DIGITS[character], country_code, metadata))
 				{
 					return
 				}
 			}
 
-			return character
+			return DIGITS[character]
 		}
 	}
 
