@@ -133,6 +133,8 @@
 
 					const Phone = library.default
 
+					const is_valid = library.isValidPhoneNumber(this.state.value_validation)
+
 					// inputComponent={ props => <span><input {...props}/></span> }
 
 					return (
@@ -239,10 +241,12 @@
 
 							<div>
 								<Phone
+									error={!is_valid && 'Invalid phone number'}
+									indicateInvalid
 									placeholder="Enter phone number"
 									value={this.state.value_validation}
 									onChange={value => this.setState({ value_validation: value })}
-									className={library.isValidPhoneNumber(this.state.value_validation) ? 'phone-number--valid' : ''}/>
+									className={is_valid ? 'phone-number--valid' : ''}/>
 							</div>
 
 							<div className="section">

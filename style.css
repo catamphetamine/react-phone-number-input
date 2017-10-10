@@ -1,4 +1,4 @@
-.react-phone-number-input
+.react-phone-number-input__row
 {
 	/* This is done to stretch `.rrui__select__options` */
 	/* to the full width of `.react-phone-number-input__phone` */
@@ -63,19 +63,6 @@
 	position : static;
 }
 
-.rrui__text-input__input
-{
-	border        : none;
-	border-bottom : 1px solid #C5D2E0;
-	-webkit-transition    : border 0.1s;
-	transition    : border 0.1s;
-}
-
-.rrui__text-input__input:focus
-{
-	border-bottom-color: #03B2CB;
-}
-
 .react-phone-number-input .rrui__select__arrow
 {
 	margin-top  : 0.3em;
@@ -105,7 +92,7 @@
 	width      : 1.24em;
 	height     : 0.93em;
 
-	border     : 1px solid #bfbfbf;
+	border     : 1px solid rgba(0, 0, 0, 0.25);
 	/* Makes sure `width`x`height` is exactly `4x3` and `border` width is not included in it */
 	-webkit-box-sizing : content-box;
 	        box-sizing : content-box;
@@ -124,4 +111,9 @@
 	padding-right : 0.155em;
 
 	border : none;
+}
+
+.react-phone-number-input__error
+{
+	margin-left : calc(1.24em + 2px + 0.3em + 0.35em + 0.5em);
 }

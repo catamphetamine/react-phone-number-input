@@ -1,4 +1,24 @@
 /*===========================================================
+= Inputs                                                    =
+===========================================================*/
+
+.rrui__input-field,
+.rrui__select__button
+{
+	border        : none;
+	border-bottom : 1px solid #C5D2E0;
+	-webkit-transition    : border 0.1s;
+	transition    : border 0.1s;
+}
+
+.rrui__input-field:focus,
+.rrui__select__button:focus,
+.rrui__select__native-expanded:focus + .rrui__select__button
+{
+	border-bottom-color: #03B2CB;
+}
+
+/*===========================================================
 = Input                                                     =
 ===========================================================*/
 
@@ -21,6 +41,12 @@
 	min-height : calc(0.3rem * 6);
 }
 
+.rrui__input-error
+{
+	margin-top : calc(0.3rem);
+	color      : #D30F00;
+}
+
 /*===========================================================
 = Input field                                               =
 ===========================================================*/
@@ -34,6 +60,17 @@
 	-webkit-appearance    : none;
 	   -moz-appearance    : none;
 	        appearance    : none;
+}
+
+.rrui__input-field--invalid,
+.rrui__input-field--invalid:focus
+{
+	border-color: #EB2010;
+}
+
+.rrui__input-field--disabled
+{
+	cursor: default;
 }
 
 /*===========================================================
@@ -316,8 +353,8 @@
    focused option animation in autocomplete mode */
 .rrui__select__button
 {
-	-webkit-transition : background-color 30ms ease-out, color 30ms ease-out;
-	transition : background-color 30ms ease-out, color 30ms ease-out;
+	-webkit-transition : color 30ms ease-out;
+	transition : color 30ms ease-out;
 }
 
 .rrui__select__selected-content
