@@ -237,6 +237,8 @@
 
 							<h2>Validation</h2>
 
+							<p>Note: I personally wouldn't rely on Google's phone number validation too much because it might get outdated — first, new phone number rules are added to Google's <code>libphonenumber</code> library <b>after</b> they have been implemented in real life (which introduces a delay), then those new rules from Google's <code>libphonenumber</code> are updated automatically in <code>libphonenumber-js</code> library (this scheduled update script introduces a small delay of 1 day unless it malfunctions), and then there's still the web application itself using this library and until a developer installs <code>libphonenumber-js@latest</code> and redeploys the web application it's gonna use the old phone number validation rules. Still, for those who prefer to use phone number validation rules here's the code example.</p>
+
 							<div>
 								<Phone
 									error={!library.isValidPhoneNumber(this.state.value_validation) && 'Invalid phone number'}
@@ -275,11 +277,13 @@ const { value } = this.state
 <Phone
   placeholder="Enter phone number"
   value={ value }
-  onChange={ value => this.setState({ value }) }/>
+  onChange={ value => this.setState({ value }) }
+  error={ !isValidPhoneNumber(value) && 'Invalid phone number' }
+  indicateInvalid/>
 
-Is valid: { String( isValidPhoneNumber( value ) ) }
-Local: { formatPhoneNumber( parsePhoneNumber( value ), 'National' ) }
-International: { formatPhoneNumber( parsePhoneNumber( value ), 'International' ) }
+Is valid: { String( isValidPhoneNumber(value) ) }
+Local: { formatPhoneNumber( parsePhoneNumber(value), 'National' ) }
+International: { formatPhoneNumber( parsePhoneNumber(value), 'International' ) }
 `}
 							</code></pre>
 
