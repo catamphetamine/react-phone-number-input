@@ -545,6 +545,7 @@ export default class Input extends Component
 		}
 		// For digits.
 		// Converts wide-ascii and arabic-indic numerals to European numerals.
+		// E.g. in Iraq they don't write `+442323234` but rather `+٤٤٢٣٢٣٢٣٤`.
 		else if (DIGITS[character])
 		{
 			const { metadata } = this.props
