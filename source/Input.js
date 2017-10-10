@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import { as_you_type, parse, format, getPhoneCode } from 'libphonenumber-js'
+import { as_you_type, parse, format, getPhoneCode, DIGITS } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 
@@ -523,6 +523,12 @@ export default class Input extends Component
 	parse_character = (character, value) =>
 	{
 		const { countries } = this.props
+
+		// Convert wide-ascii and arabic-indic numerals to European numerals
+		if (DIGITS[character])
+		{
+			character = DIGITS[character]
+		}
 
 		if (character === '+')
 		{
