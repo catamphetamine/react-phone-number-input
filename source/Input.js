@@ -71,6 +71,13 @@ export default class Input extends Component
 		// (is `false` by default)
 		disabled : PropTypes.bool.isRequired,
 
+		// An error message below the `<input/>`
+		error : PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+		// If this flag is `true` then the `error` is shown.
+		// If this flag is `false` then the `error` is not shown (even if passed).
+		indicateInvalid : PropTypes.bool,
+
 		// Remembers the input and also autofills it
 		// with a previously remembered phone number.
 		// Default value: "tel".
@@ -179,6 +186,12 @@ export default class Input extends Component
 		// (both for the phone number `<input/>` and the autocomplete `<input/>`)
 		inputClassName : PropTypes.string,
 
+		// `<Select/>` from `react-responsive-ui` is used by default
+		selectComponent : PropTypes.func.isRequired,
+
+		// `<ReactInput/>` from `input-format` is used by default
+		inputComponent : PropTypes.func.isRequired,
+
 		// `libphonenumber-js` metadata
 		metadata : PropTypes.shape
 		({
@@ -232,7 +245,13 @@ export default class Input extends Component
 		// there are no stationary phones and therefore everyone inputs
 		// phone numbers with a `+` in their smartphones so local phone numbers
 		// should now be considered obsolete.
-		convertToNational: false
+		convertToNational: false,
+
+		// `<Select/>` from `react-responsive-ui` is used by default
+		selectComponent : Select,
+
+		// `<ReactInput/>` from `input-format` is used by default
+		inputComponent : ReactInput
 	}
 
 	state = {}
@@ -900,6 +919,12 @@ export default class Input extends Component
 			className,
 			inputClassName,
 
+			error,
+			indicateInvalid,
+
+			selectComponent : SelectComponent,
+			inputComponent  : InputComponent,
+
 			// Extract `input_props` via "object rest spread":
 			dictionary,
 			countries,
@@ -939,51 +964,79 @@ export default class Input extends Component
 		return (
 			<div
 				style={ style }
-				className={ classNames('react-phone-number-input', className) }>
+				className={ classNames('react-phone-number-input',
+				{
+					'react-phone-number-input--invalid': error && indicateInvalid
+				},
+				className) }>
 
-				{ showCountrySelect && this.can_change_country() &&
-					<Select
-						ref={ this.store_select_instance }
-						value={ country_code }
-						options={ this.select_options }
-						onChange={ this.set_country }
-						disabled={ disabled }
-						onToggle={ this.country_select_toggled }
-						onTabOut={ this.on_country_select_tab_out }
-						nativeExpanded={ nativeExpanded }
-						autocomplete
-						autocompleteShowAll
-						maxItems={ selectMaxItems }
-						concise
-						tabIndex={ selectTabIndex }
-						focusUponSelection={ false }
-						saveOnIcons={ saveOnIcons }
-						name={ input_props.name ? `${input_props.name}__country` : undefined }
-						ariaLabel={ selectAriaLabel }
-						closeAriaLabel={ selectCloseAriaLabel }
-						style={ selectStyle }
-						className={ classNames('react-phone-number-input__country',
-						{
-							'react-phone-number-input__country--native-expanded' : nativeExpanded
-						}) }
-						inputClassName={ inputClassName }/>
-				}
+				{/* Country `<select/>` and phone number `<input/>` */}
+				<div className="react-phone-number-input__row">
 
-				{ !country_select_is_shown &&
-					<ReactInput
-						type="tel"
-						{ ...input_props }
-						ref={ this.store_input_instance }
-						value={ value }
-						onChange={ this.on_change }
-						onBlur={ this.on_blur }
-						disabled={ disabled }
-						autoComplete={ autoComplete }
-						parse={ this.parse_character }
-						format={ this.format }
-						onKeyDown={ this.on_key_down }
-						style={ inputStyle }
-						className={ classNames('rrui__input', 'rrui__input-field', 'rrui__text-input__input', 'react-phone-number-input__phone', inputClassName) }/>
+					{/* Country `<select/>` */}
+					{ showCountrySelect && this.can_change_country() &&
+						<SelectComponent
+							ref={ this.store_select_instance }
+							value={ country_code }
+							options={ this.select_options }
+							onChange={ this.set_country }
+							disabled={ disabled }
+							onToggle={ this.country_select_toggled }
+							onTabOut={ this.on_country_select_tab_out }
+							nativeExpanded={ nativeExpanded }
+							autocomplete
+							autocompleteShowAll
+							maxItems={ selectMaxItems }
+							concise
+							tabIndex={ selectTabIndex }
+							focusUponSelection={ false }
+							saveOnIcons={ saveOnIcons }
+							name={ input_props.name ? `${input_props.name}__country` : undefined }
+							ariaLabel={ selectAriaLabel }
+							closeAriaLabel={ selectCloseAriaLabel }
+							style={ selectStyle }
+							className={ classNames('react-phone-number-input__country',
+							{
+								'react-phone-number-input__country--native-expanded' : nativeExpanded
+							}) }
+							inputClassName={ inputClassName }/>
+					}
+
+					{/* Phone number `<input/>` */}
+					{ !country_select_is_shown &&
+						<InputComponent
+							type="tel"
+							{ ...input_props }
+							ref={ this.store_input_instance }
+							value={ value }
+							onChange={ this.on_change }
+							onBlur={ this.on_blur }
+							disabled={ disabled }
+							autoComplete={ autoComplete }
+							parse={ this.parse_character }
+							format={ this.format }
+							onKeyDown={ this.on_key_down }
+							style={ inputStyle }
+							className={ classNames
+							(
+								'rrui__input',
+								'rrui__input-element',
+								'rrui__input-field',
+								{
+									'rrui__input-field--invalid'  : error && indicateInvalid,
+									'rrui__input-field--disabled' : disabled
+								},
+								'react-phone-number-input__phone',
+								inputClassName
+							) }/>
+					}
+				</div>
+
+				{/* Error message */}
+				{ error && indicateInvalid &&
+					<div className={ classNames('rrui__input-error', 'react-phone-number-input__error') }>
+						{ error }
+					</div>
 				}
 			</div>
 		)

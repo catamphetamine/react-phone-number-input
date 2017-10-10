@@ -1,3 +1,10 @@
+0.15.0 / 10.10.2017
+===================
+
+  * Added `error` and `indicateInvalid` properties for displaying error label.
+
+  * (CSS breaking change) `react-phone-number-input` `<div/>` is now wrapped by another `<div/>` and its CSS class name changed to `react-phone-number-input__row` and `react-phone-number-input` CSS class name goes to the wrapper.
+
 0.14.0 / 04.10.2017
 ===================
 
