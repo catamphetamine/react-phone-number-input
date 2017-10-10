@@ -84,6 +84,10 @@ Get the `rrui.css` and `style.css` files from this package, process these files 
 </head>
 ```
 
+## Android
+
+There have been some [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) of non-stock Android keyboards not handling caret positioning properly. I don't have such an Android phone at my disposal to debug that issue.
+
 ## Bug reporting
 
 If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then follow the [bug reporting instructions in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#bug-reporting).
@@ -115,8 +119,6 @@ The available props are
  * `indicateInvalid` — set to `true` to display the `error` (otherwise it will not be displayed). The reason for this flag is to enable "smart" error indication, e.g. only display the error after the user tries to submit the form.
 
 For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component.
-
-There have also been some [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) of non-stock Android keyboards not handling caret positioning properly.
 
 ### isValidPhoneNumber
 
