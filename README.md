@@ -110,6 +110,10 @@ The available props are
 
  * `convertToNational` — if set to `true` will convert international phone number `value` into a local phone number when the component mounts (see the demo). The reason it is `false` by default is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers with a `+` in their smartphones so local phone numbers should now be considered obsolete.
 
+ * `error` — a `String` error message that should be shown
+
+ * `indicateInvalid` — set to `true` to display the `error` (otherwise it will not be displayed). The reason for this flag is to enable "smart" error indication, e.g. only display the error after the user tries to submit the form.
+
 For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component.
 
 There have also been some [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) of non-stock Android keyboards not handling caret positioning properly.
