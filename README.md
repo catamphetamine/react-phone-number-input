@@ -126,6 +126,8 @@ For the full list of all possible `props` see the [source code](https://github.c
 
 (is exported just for convenience, if anyone needs that for whatever purpose)
 
+I personally prefer not using this phone number validation feature in my projects. [Read the rationale](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature).
+
 ### formatPhoneNumber
 
 [`libphonenumber.format`](https://github.com/catamphetamine/libphonenumber-js#formatparsed_number-format)
