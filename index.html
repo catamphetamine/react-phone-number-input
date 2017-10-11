@@ -237,7 +237,7 @@
 
 							<h2>Validation</h2>
 
-							<p>Note: I personally wouldn't rely on Google's phone number validation too much because it might get outdated — first, new phone number rules are added to Google's <code>libphonenumber</code> library <b>after</b> they have been implemented in real life (which introduces a delay), then those new rules from Google's <code>libphonenumber</code> are updated automatically in <code>libphonenumber-js</code> library (this scheduled update script introduces a small delay of 1 day unless it malfunctions), and then there's still the web application itself using this library and until a developer installs <code>libphonenumber-js@latest</code> and redeploys the web application it's gonna use the old phone number validation rules. Still, for those who prefer to use phone number validation rules here's the code example.</p>
+							<p>Note: I personally prefer not using this phone number validation feature in my projects. <a target="_blank" href="https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.</p>
 
 							<div>
 								<Phone
