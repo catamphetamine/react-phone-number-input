@@ -107,7 +107,7 @@ export default class Input extends Component
 
 		// Localization dictionary:
 		// `{ International: 'Международный', RU: 'Россия', US: 'США', ... }`
-		dictionary : PropTypes.objectOf(PropTypes.string),
+		dictionary : PropTypes.objectOf(PropTypes.string).isRequired,
 
 		// An optional list of allowed countries
 		countries : PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -274,7 +274,7 @@ export default class Input extends Component
 		let { country } = this.props
 
 		// Normalize `country` code
-		country = normalize_country_code(country)
+		country = normalize_country_code(country, dictionary)
 
 		// Autodetect country if value is set
 		// and is international (which it should be)
@@ -824,11 +824,11 @@ export default class Input extends Component
 	// then select the default country.
 	componentWillReceiveProps(new_props)
 	{
-		const { countries, value } = this.props
+		const { countries, value, dictionary } = this.props
 
 		// Normalize `country` codes
-		let country     = normalize_country_code(this.props.country)
-		let new_country = normalize_country_code(new_props.country)
+		let country     = normalize_country_code(this.props.country, dictionary)
+		let new_country = normalize_country_code(new_props.country, dictionary)
 
 		// If the default country changed
 		// (e.g. in case of IP detection)
@@ -1192,7 +1192,7 @@ function strip_country_phone_code(formatted_number, metadata)
 }
 
 // Validates country code
-function normalize_country_code(country)
+function normalize_country_code(country, dictionary)
 {
 	// Normalize `country` if it's an empty string
 	if (country === '')
@@ -1207,7 +1207,7 @@ function normalize_country_code(country)
 	}
 
 	// Check that `country` code exists
-	if (default_dictionary[country])
+	if (dictionary[country] || default_dictionary[country])
 	{
 		return country
 	}
