@@ -13,13 +13,13 @@ The `<select/>` component is taken from [`react-responsive-ui`](https://catamphe
 
 ## Screenshots
 
-[![Screenshot #1](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.37.51.png)](https://www.youtube.com/watch?v=6e1pMrYH5jI)
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/first-glance.png" width="279" height="156"/>
 
 ## Built-in country `<select/>` (with autocomplete)
 
 ### Desktop
 
-[![Screenshot #2](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/Screen%20Shot%202016-12-24%20at%2012.35.26.png)](https://www.youtube.com/watch?v=vsE5nHBxt2w)
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/desktop-countries.png" width="510" height="298"/>
 
 ### Mobile
 
