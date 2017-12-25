@@ -23,13 +23,13 @@ The `<select/>` component is taken from [`react-responsive-ui`](https://catamphe
 
 ### Mobile
 
-<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone.png" width="380" height="676"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-countries.png" width="380" height="676"/>
 
 ## Native `<select/>`
 
 ### Desktop
 
-![Native `<select/>`](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/native-select.png)
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/desktop-native-select.png" width="475" height="223"/>
 
 ### Mobile
 
