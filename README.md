@@ -23,7 +23,7 @@ The `<select/>` component is taken from [`react-responsive-ui`](https://catamphe
 
 ### Mobile
 
-[![Screenshot #2 on iPhone](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone.png =420x747)](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone.png)
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone.png" width="420" height="747"/>
 
 ## Native `<select/>`
 
@@ -33,7 +33,7 @@ The `<select/>` component is taken from [`react-responsive-ui`](https://catamphe
 
 ### Mobile
 
-[![Native `<select/>` on iPhone](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-native-select.png =420x747)](https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-native-select.png)
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-native-select.png" width="420" height="747"/>
 
 ## Installation
 
