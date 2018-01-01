@@ -67,8 +67,8 @@ The CSS files for this React component must be included on a page too.
 #### When using Webpack
 
 ```js
-import rrui from 'react-phone-number-input/rrui.css'
-import rpni from 'react-phone-number-input/style.css'
+import 'react-phone-number-input/rrui.css'
+import 'react-phone-number-input/style.css'
 ```
 
 And set up a [`postcss-loader`](https://github.com/postcss/postcss-loader) with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`).
