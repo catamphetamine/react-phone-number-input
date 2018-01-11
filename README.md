@@ -184,9 +184,9 @@ This error means that your Webpack is misconfigured to exclude `.json` file exte
 
 ```js
 {
-	resolve: {
-		extensions: [".js", ".json", ...]
-	}
+  resolve: {
+    extensions: [".js", ".json", ...]
+  }
 }
 ```
 
