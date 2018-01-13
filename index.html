@@ -139,14 +139,14 @@
 						<div>
 							<h2>Without default country</h2>
 
-							<div>
+							<form>
 								<Phone
 									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number--valid' : ''}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}
 									autoFocus/>
-							</div>
+							</form>
 
 							<div className="section">
 								Value: {this.state.value}
@@ -165,14 +165,14 @@
 
 							<h2>Default country: Russia</h2>
 
-							<div>
+							<form>
 								<Phone
 									country="RU"
 									placeholder="Ваш телефон"
 									value={this.state.value_RU}
 									onChange={value => this.setState({ value_RU: value })}
 									className={library.isValidPhoneNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
-							</div>
+							</form>
 
 							<div className="section">
 								Value: {this.state.value_RU}
@@ -191,13 +191,13 @@
 
 							<h2>convertToNational = false (default)</h2>
 
-							<div>
+							<form>
 								<Phone
 									placeholder="Enter phone number"
 									value={this.state.value_convert_to_national_false}
 									onChange={value => this.setState({ value_convert_to_national_false: value })}
 									className={library.isValidPhoneNumber(this.state.value_convert_to_national_false) ? 'phone-number--valid' : ''}/>
-							</div>
+							</form>
 
 							<div className="section">
 								Value: {this.state.value_convert_to_national_false}
@@ -213,14 +213,14 @@
 
 							<h2>convertToNational = true</h2>
 
-							<div>
+							<form>
 								<Phone
 									placeholder="Enter phone number"
 									value={this.state.value_convert_to_national_true}
 									onChange={value => this.setState({ value_convert_to_national_true: value })}
 									className={library.isValidPhoneNumber(this.state.value_convert_to_national_true) ? 'phone-number--valid' : ''}
 									convertToNational/>
-							</div>
+							</form>
 
 							<div className="section">
 								Value: {this.state.value_convert_to_national_true}
@@ -239,14 +239,14 @@
 
 							<p>Note: I personally prefer not using this phone number validation feature in my projects. <a target="_blank" href="https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.</p>
 
-							<div>
+							<form>
 								<Phone
 									error={!library.isValidPhoneNumber(this.state.value_validation) && 'Invalid phone number'}
 									indicateInvalid
 									placeholder="Enter phone number"
 									value={this.state.value_validation}
 									onChange={value => this.setState({ value_validation: value })}/>
-							</div>
+							</form>
 
 							<div className="section">
 								Value: {this.state.value_validation}
@@ -289,14 +289,14 @@ International: { formatPhoneNumber( parsePhoneNumber(value), 'International' ) }
 
 							<h2>Native &lt;select/&gt;</h2>
 
-							<div>
+							<form>
 								<Phone
 									placeholder="Enter phone number"
 									value={this.state.value_native}
 									onChange={value => this.setState({ value_native: value })}
 									className={library.isValidPhoneNumber(this.state.value_native) ? 'phone-number--valid' : ''}
 									nativeExpanded/>
-							</div>
+							</form>
 
 							<pre className="hljs"><code>
 {`<Phone
