@@ -140,6 +140,10 @@ For the full list of all possible `props` see the [source code](https://github.c
 
 (is exported just for convenience, if anyone needs that for whatever purpose)
 
+## Autocomplete
+
+Make sure to wrap a `<Phone/>` into a `<form/>` otherwise autocomplete feature won't work: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
+
 ## Webpack
 
 If you're using Webpack 1 then make sure that
