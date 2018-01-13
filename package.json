@@ -45,7 +45,7 @@
     "test": "mocha --require test/setup --colors --bail --reporter spec test/ --recursive",
     "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/setup --colors --reporter dot test/ --recursive",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/setup --colors --reporter spec test/ --recursive",
-    "browser-build": "npm run build-es6-modules && npm run copy-json && WEBPACK_ENV=build webpack",
+    "browser-build": "npm run build-es6-modules && npm run copy-json && better-npm-run browser-build",
     "browser-build-dev": "npm run build-es6-modules && npm run copy-json && WEBPACK_ENV=dev webpack --progress --colors --watch",
     "copy-json": "cp ./source/*.json ./commonjs/ && cp ./source/*.json ./modules/",
     "clean-for-build": "rimraf ./commonjs/**/* ./modules/**/*",
@@ -55,6 +55,12 @@
     "prepublish": "npm-run-all build browser-build test"
   },
   "betterScripts": {
+    "browser-build": {
+      "command": "webpack --progress --colors",
+      "env": {
+        "WEBPACK_ENV": "build"
+      }
+    },
     "build-commonjs-modules": {
       "command": "babel ./source --out-dir ./commonjs --source-maps",
       "env": {
