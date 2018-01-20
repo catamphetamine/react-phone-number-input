@@ -476,7 +476,7 @@ export default class Input extends Component
 					// Even if the phone number belongs to whole another country
 					// it will still be parsed into some national phone number.
 					const national_number = parse_partial_number(value, previous_country_code, metadata).national_number
-					value = format(national_number, previous_country_code, 'International_plaintext', metadata)
+					value = format(national_number, previous_country_code, 'E.164', metadata)
 				}
 			}
 
@@ -1101,7 +1101,7 @@ function e164(value, country_code, metadata)
 	}
 
 	// The value is converted to international plaintext
-	return format(partial_national_number, country_code, 'International_plaintext', metadata)
+	return format(partial_national_number, country_code, 'E.164', metadata)
 }
 
 // Gets country flag element by country code
