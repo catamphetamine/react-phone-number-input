@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import { as_you_type, parse, format, getPhoneCode, DIGITS } from 'libphonenumber-js'
+import { AsYouType, parse, format, getPhoneCode, DIGITS } from 'libphonenumber-js'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 
@@ -576,7 +576,7 @@ export default class Input extends Component
 		const { metadata } = this.props
 
 		// "As you type" formatter
-		const formatter = new as_you_type(country_code, metadata)
+		const formatter = new AsYouType(country_code, metadata)
 
 		// Is used to check if a country code can already be derived
 		this.formatter = formatter
@@ -1054,7 +1054,7 @@ export default class Input extends Component
 function parse_partial_number(value, country_code, metadata)
 {
 	// "As you type" formatter
-	const formatter = new as_you_type(country_code, metadata)
+	const formatter = new AsYouType(country_code, metadata)
 
 	// Input partially entered phone number
 	formatter.input(value)
