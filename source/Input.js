@@ -475,7 +475,7 @@ export default class Input extends Component
 					// the previously selected country phone prefix.
 					// Even if the phone number belongs to whole another country
 					// it will still be parsed into some national phone number.
-					const national_number = parse_partial_number(value, previous_country_code, metadata).national_number
+					const national_number = parse_partial_number(value, previous_country_code, metadata)
 					value = format(national_number, previous_country_code, 'E.164', metadata)
 				}
 			}
@@ -1059,9 +1059,8 @@ function parse_partial_number(value, country_code, metadata)
 	// Input partially entered phone number
 	formatter.input(value)
 
-	// Return the parsed partial phone number
-	// (has `.national_number`, `.country`, etc)
-	return formatter
+	// Return the parsed partial national phone number
+	return formatter.national_number
 }
 
 // Converts `value` to E.164 phone number format
@@ -1093,7 +1092,7 @@ function e164(value, country_code, metadata)
 
 	// The phone number is being input in a country-specific format
 
-	const partial_national_number = parse_partial_number(value, country_code).national_number
+	const partial_national_number = parse_partial_number(value, country_code)
 
 	if (!partial_national_number)
 	{
