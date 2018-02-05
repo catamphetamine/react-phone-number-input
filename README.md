@@ -96,7 +96,7 @@ Currently we live in an age where everyone has a personal mobile phone, even bus
 
 ## Validation
 
-This component is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which is a rewrite of Google's [`libphonenumber`](https://github.com/googlei18n/libphonenumber) library which [doesn't enforce](libphonenumber.appspot.com) any validation rules when entering phone numbers in "as you type" mode. The rationale is that it's better to not loose a customer just because his phone number is not supported yet (it takes time) by the library. If a user inputs an invalid phone number he just looses the formatting feature but is still able to submit the form.
+This component is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which is a rewrite of Google's [`libphonenumber`](https://github.com/googlei18n/libphonenumber) library which [doesn't enforce](http://libphonenumber.appspot.com/phonenumberparser?number=2134445566777&country=US) any validation rules when entering phone numbers in "as you type" mode (e.g. when phone number is too long or too short). The rationale is that it's better to not loose a customer just because his phone number is not supported yet (it takes time) by the library. If a user inputs an invalid phone number he just looses the formatting feature but is still able to submit the form.
 
 ## Bug reporting
 
