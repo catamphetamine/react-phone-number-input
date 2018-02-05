@@ -88,6 +88,16 @@ Get the `rrui.css` and `style.css` files from this package, process these files 
 
 There have been some [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) of non-stock Android keyboards not handling caret positioning properly. I don't have such an Android phone at my disposal to debug that issue.
 
+## Extensions
+
+This component is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which is a rewrite of Google's [`libphonenumber`](https://github.com/googlei18n/libphonenumber) library which [doesn't support](libphonenumber.appspot.com) entering phone extensions in "as you type" mode because "as you type" formatter was originally written by Google for the Android OS phone call app. Also, there's no international standard for some kind of a phone extension separator character so that's another reason. So, as it is, "as you type" formatter does not support entering phone extensions, and is unlikely to neither support those in some future nor accept pull requests adding such functionality.
+
+Currently we live in an age where everyone has a personal mobile phone, even businesses migrate from stationary phones to mobile ones by giving "work mobile phones" to their employees. Still, if phone extension input is required (e.g. some kind of a corporate application) one can add a separate hidden field for that which would get expanded manually by a user when he clicks some kind of an "Add extension" link below the phone input or to the right of it.
+
+## Validation
+
+This component is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which is a rewrite of Google's [`libphonenumber`](https://github.com/googlei18n/libphonenumber) library which [doesn't enforce](libphonenumber.appspot.com) any validation rules when entering phone numbers in "as you type" mode. The rationale is that it's better to not loose a customer just because his phone number is not supported yet (it takes time) by the library. If a user inputs an invalid phone number he just looses the formatting feature but is still able to submit the form.
+
 ## Bug reporting
 
 If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then follow the [bug reporting instructions in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#bug-reporting).
