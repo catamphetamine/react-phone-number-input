@@ -1,3 +1,9 @@
+0.16.0 / 22.02.2018
+===================
+
+  * Updated `libphonenumber-js` to `1.0.x`.
+  * `parsePhoneNumber()`, `isValidPhoneNumber()` and `formatPhoneNumber()` no longer accept `undefined` phone number argument: it must be either a `string` or a parsed number `object` having a `string` `phone` property.
+
 0.15.0 / 10.10.2017
 ===================
 
