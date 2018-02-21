@@ -141,7 +141,6 @@
 
 							<form>
 								<Phone
-									className={library.isValidPhoneNumber(this.state.value) ? 'phone-number--valid' : ''}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}
@@ -150,10 +149,6 @@
 
 							<div className="section">
 								Value: {this.state.value}
-							</div>
-
-							<div className="section">
-								Is valid: {library.isValidPhoneNumber(this.state.value) ? 'true' : 'false'}
 							</div>
 
 							<pre className="hljs"><code>
@@ -170,8 +165,7 @@
 									country="RU"
 									placeholder="Ваш телефон"
 									value={this.state.value_RU}
-									onChange={value => this.setState({ value_RU: value })}
-									className={library.isValidPhoneNumber(this.state.value_RU) ? 'phone-number--valid' : ''}/>
+									onChange={value => this.setState({ value_RU: value })}/>
 							</form>
 
 							<div className="section">
@@ -195,8 +189,7 @@
 								<Phone
 									placeholder="Enter phone number"
 									value={this.state.value_convert_to_national_false}
-									onChange={value => this.setState({ value_convert_to_national_false: value })}
-									className={library.isValidPhoneNumber(this.state.value_convert_to_national_false) ? 'phone-number--valid' : ''}/>
+									onChange={value => this.setState({ value_convert_to_national_false: value })}/>
 							</form>
 
 							<div className="section">
@@ -218,7 +211,6 @@
 									placeholder="Enter phone number"
 									value={this.state.value_convert_to_national_true}
 									onChange={value => this.setState({ value_convert_to_national_true: value })}
-									className={library.isValidPhoneNumber(this.state.value_convert_to_national_true) ? 'phone-number--valid' : ''}
 									convertToNational/>
 							</form>
 
@@ -241,7 +233,7 @@
 
 							<form>
 								<Phone
-									error={!library.isValidPhoneNumber(this.state.value_validation) && 'Invalid phone number'}
+									error={this.state.value_validation && library.isValidPhoneNumber(this.state.value_validation) ? undefined : 'Invalid phone number'}
 									indicateInvalid
 									placeholder="Enter phone number"
 									value={this.state.value_validation}
@@ -253,15 +245,15 @@
 							</div>
 
 							<div className="section">
-								Is valid: {library.isValidPhoneNumber(this.state.value_validation) ? 'true' : 'false'}
+								Is valid: {this.state.value_validation && library.isValidPhoneNumber(this.state.value_validation) ? 'true' : 'false'}
 							</div>
 
 							<div className="section">
-								Local: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_validation), 'National')}
+								Local: {this.state.value_validation && library.parsePhoneNumber(this.state.value_validation).phone && library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_validation), 'National')}
 							</div>
 
 							<div className="section">
-								International: {library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_validation), 'International')}
+								International: {this.state.value_validation && library.parsePhoneNumber(this.state.value_validation).phone &&library.formatPhoneNumber(library.parsePhoneNumber(this.state.value_validation), 'International')}
 							</div>
 
 							<pre className="hljs"><code>
@@ -278,12 +270,12 @@ const { value } = this.state
   placeholder="Enter phone number"
   value={ value }
   onChange={ value => this.setState({ value }) }
-  error={ !isValidPhoneNumber(value) && 'Invalid phone number' }
+  error={ value && isValidPhoneNumber(value) ? undefined : 'Invalid phone number' }
   indicateInvalid/>
 
-Is valid: { String( isValidPhoneNumber(value) ) }
-Local: { formatPhoneNumber( parsePhoneNumber(value), 'National' ) }
-International: { formatPhoneNumber( parsePhoneNumber(value), 'International' ) }
+Is valid: { value && isValidPhoneNumber(value) ? 'true' : 'false' }
+Local: { value && parsePhoneNumber(value).phone && formatPhoneNumber( parsePhoneNumber(value), 'National' ) }
+International: { value && parsePhoneNumber(value).phone && formatPhoneNumber( parsePhoneNumber(value), 'International' ) }
 `}
 							</code></pre>
 
@@ -294,7 +286,6 @@ International: { formatPhoneNumber( parsePhoneNumber(value), 'International' ) }
 									placeholder="Enter phone number"
 									value={this.state.value_native}
 									onChange={value => this.setState({ value_native: value })}
-									className={library.isValidPhoneNumber(this.state.value_native) ? 'phone-number--valid' : ''}
 									nativeExpanded/>
 							</form>
 
