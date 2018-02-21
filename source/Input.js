@@ -195,7 +195,7 @@ export default class Input extends Component
 		// `libphonenumber-js` metadata
 		metadata : PropTypes.shape
 		({
-			country_phone_code_to_countries : PropTypes.object.isRequired,
+			country_calling_codes : PropTypes.object.isRequired,
 			countries : PropTypes.object.isRequired
 		})
 		.isRequired
@@ -1155,14 +1155,14 @@ function could_phone_number_belong_to_country(phone_number, country_code, metada
 	// Strip the leading `+`
 	const phone_number_digits = phone_number.slice('+'.length)
 
-	for (const country_phone_code of Object.keys(metadata.country_phone_code_to_countries))
+	for (const country_phone_code of Object.keys(metadata.country_calling_codes))
 	{
 		const possible_country_phone_code = phone_number_digits.substring(0, country_phone_code.length)
 		if (country_phone_code.indexOf(possible_country_phone_code) === 0)
 		{
 			// This country phone code is possible.
 			// Does the given country correspond to this country phone code.
-			if (metadata.country_phone_code_to_countries[country_phone_code].indexOf(country_code) >= 0)
+			if (metadata.country_calling_codes[country_phone_code].indexOf(country_code) >= 0)
 			{
 				return true
 			}
@@ -1179,7 +1179,7 @@ function strip_country_phone_code(formatted_number, metadata)
 		return formatted_number
 	}
 
-	for (const country_phone_code of Object.keys(metadata.country_phone_code_to_countries))
+	for (const country_phone_code of Object.keys(metadata.country_calling_codes))
 	{
 		if (formatted_number.indexOf(country_phone_code) === '+'.length)
 		{
