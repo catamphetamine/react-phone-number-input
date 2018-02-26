@@ -117,3 +117,9 @@
 {
 	margin-left : calc(1.24em + 2px + 0.3em + 0.35em + 0.5em);
 }
+
+.react-phone-number-input__icon-image
+{
+	max-width  : 100%;
+	max-height : 100%;
+}
