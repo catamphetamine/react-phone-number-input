@@ -14,9 +14,7 @@
     "input-format": "^0.2.1",
     "libphonenumber-js": "^1.0.24",
     "prop-types": "^15.5.6",
-    "react-responsive-ui": "^0.10.2",
-    "react-styling": "^1.6.1",
-    "scroll-into-view-if-needed": "^1.1.0"
+    "react-responsive-ui": "^0.10.28"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
