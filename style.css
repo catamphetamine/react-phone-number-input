@@ -99,7 +99,7 @@
 
 .react-phone-number-input__error
 {
-	margin-left : calc(0.93em + 2px);
+	margin-left : calc(1.24em + 2px + 0.3em + 0.35em + 0.5em);
 }
 
 .react-phone-number-input__icon-image
