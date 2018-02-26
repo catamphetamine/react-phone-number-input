@@ -1,3 +1,8 @@
+0.17.0 / 26.02.2018
+===================
+
+  * (breaking change) Fixed SVG flag icons for IE. This alters the markup a bit: `<img/>` is now wrapped in a `<div/>` and the CSS class of the image becomes the CSS class of the div and also a new CSS class for the image is added. This could hypothetically be a breaking change in some advanced use cases hence the major version bump.
+
 0.16.0 / 22.02.2018
 ===================
 

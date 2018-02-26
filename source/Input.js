@@ -30,12 +30,15 @@ for (const item of country_names)
 	default_dictionary[code.toUpperCase()] = name
 }
 
-// Default country flag icon
+// Default country flag icon.
+// `<img/>` is wrapped to prevent the SVG
 const FlagComponent = ({ countryCode, flagsPath }) => (
-	<img
-		alt={countryCode}
-		className="react-phone-number-input__icon"
-		src={`${flagsPath}${countryCode.toLowerCase()}.svg`}/>
+	<div className="react-phone-number-input__icon">
+		<img
+			alt={countryCode}
+			className="react-phone-number-input__icon-image"
+			src={`${flagsPath}${countryCode.toLowerCase()}.svg`}/>
+	</div>
 )
 
 // Allows passing custom `libphonenumber-js` metadata
