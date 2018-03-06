@@ -189,6 +189,9 @@ export default class Input extends Component
 		// (both for the phone number `<input/>` and the autocomplete `<input/>`)
 		inputClassName : PropTypes.string,
 
+		// Country select `<button/>` CSS class
+		countrySelectToggleClassName : PropTypes.string,
+
 		// `<Select/>` from `react-responsive-ui` is used by default
 		selectComponent : PropTypes.func.isRequired,
 
@@ -923,6 +926,7 @@ export default class Input extends Component
 			inputStyle,
 			className,
 			inputClassName,
+			countrySelectToggleClassName,
 
 			error,
 			indicateInvalid,
@@ -1004,7 +1008,8 @@ export default class Input extends Component
 							{
 								'react-phone-number-input__country--native-expanded' : nativeExpanded
 							}) }
-							inputClassName={ inputClassName }/>
+							inputClassName={ inputClassName }
+							toggleClassName={ countrySelectToggleClassName }/>
 					}
 
 					{/* Phone number `<input/>` */}

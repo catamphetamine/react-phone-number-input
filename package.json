@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "description": "Telephone input for React",
   "main": "index.common.js",
   "module": "index.js",
@@ -14,7 +14,7 @@
     "input-format": "^0.2.1",
     "libphonenumber-js": "^1.0.24",
     "prop-types": "^15.5.6",
-    "react-responsive-ui": "^0.10.28"
+    "react-responsive-ui": "^0.10.31"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
