@@ -305,7 +305,7 @@ export default class PhoneNumberInput extends PureComponent
 		({
 			value,
 			label,
-			icon : value ? <FlagComponent country={value} flags={flags} flagsPath={flagsPath}/> : internationalIcon
+			icon : value ? () => <FlagComponent country={value} flags={flags} flagsPath={flagsPath}/> : internationalIcon
 		}))
 	}
 
