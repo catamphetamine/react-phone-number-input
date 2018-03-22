@@ -8,6 +8,7 @@
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
 	-webkit-transition    : border 0.1s;
+	-o-transition    : border 0.1s;
 	transition    : border 0.1s;
 }
 
@@ -117,12 +118,16 @@
 
 	-webkit-transform        : scaleY(0);
 
+	    -ms-transform        : scaleY(0);
+
 	        transform        : scaleY(0);
 	-webkit-transform-origin : 50% top 0px;
+	    -ms-transform-origin : 50% top 0px;
 	        transform-origin : 50% top 0px;
 
 	/* 250ms - too slow for short lists */
 	-webkit-transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
+	-o-transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
 	transition : all 150ms cubic-bezier(.76,.04,.46,.75) 0ms;
 
 	/* prevent white background showing through the transparent border */
@@ -138,11 +143,16 @@
 
 	-webkit-transform        : scaleY(1);
 
+	    -ms-transform        : scaleY(1);
+
 	        transform        : scaleY(1);
 	-webkit-transform-origin : 50% top 0px;
+	    -ms-transform-origin : 50% top 0px;
 	        transform-origin : 50% top 0px;
 
 	-webkit-transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+	-o-transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 
 	transition : all 150ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
@@ -165,6 +175,7 @@
 
 	/* Mitigates inner content overlapping with itself creating a feeling of a mess */
 	-webkit-transition: opacity 150ms ease-out;
+	-o-transition: opacity 150ms ease-out;
 	transition: opacity 150ms ease-out;
 }
 
@@ -286,6 +297,7 @@
 .rrui__select__options--upward
 {
 	-webkit-transform-origin: 50% bottom 0px;
+	    -ms-transform-origin: 50% bottom 0px;
 	        transform-origin: 50% bottom 0px;
 }
 
@@ -323,6 +335,7 @@
 {
 	border-bottom : 1px solid #C5D2E0;
 	-webkit-transition    : border 0.1s;
+	-o-transition    : border 0.1s;
 	transition    : border 0.1s;
 
 	/* Because Chrome adds `text-align: center` for all buttons */
@@ -362,6 +375,7 @@
 .rrui__select__button
 {
 	-webkit-transition : color 30ms ease-out;
+	-o-transition : color 30ms ease-out;
 	transition : color 30ms ease-out;
 }
 
@@ -384,7 +398,8 @@
 	    -ms-flex          : 1 0 auto;
 	        flex          : 1 0 auto;
 	overflow      : hidden;
-	text-overflow : ellipsis;
+	-o-text-overflow : ellipsis;
+	   text-overflow : ellipsis;
 }
 
 .rrui__select__arrow
@@ -399,6 +414,8 @@
 	opacity: 0.7;
 
 	-webkit-transition: opacity 100ms ease-out;
+
+	-o-transition: opacity 100ms ease-out;
 
 	transition: opacity 100ms ease-out;
 
