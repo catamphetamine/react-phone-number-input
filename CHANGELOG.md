@@ -1,4 +1,49 @@
-0.17.0 / 26.02.2018
+1.0.0 / 21.03.2018
+===================
+
+  * (breaking change) Rewrote `Input.js` — there is a possibility that something could potentially break for users coming from previous versions.
+
+  * (breaking change) No longer exporting `libphonenumber-js` functions.
+
+  * (breaking change) `dictionary`'s `"International"` key renamed to `"ZZ"`.
+
+  * (breaking change) `dictionary` property renamed to `labels`.
+
+  * (breaking change) `nativeExpanded` property renamed to `nativeCountrySelect`.
+
+  * (breaking change) `selectTabIndex` property renamed to `countrySelectTabIndex`.
+
+  * (breaking change) `selectMaxItems` property renamed to `countrySelectMaxItems`.
+
+  * (breaking change) `selectAriaLabel` property renamed to `countrySelectAriaLabel`.
+
+  * (breaking change) `selectCloseAriaLabel` property renamed to `countrySelectCloseAriaLabel`.
+
+  * (breaking change) `selectComponent` property renamed to `countrySelectComponent`
+
+  * (breaking change) `flagComponent`'s `countryCode` property was renamed to just `country`.
+
+  * (breaking change) Renamed `countries with flags.js` to `flags.js` and put them in the root folder.
+
+  * (breaking change) `flags` property changed: it can no longer be a `boolean` and can only be an object of flag `React.Component`s.
+
+  * (breaking change) `selectStyle` and `inputStyle` properties removed (due to not being used).
+
+  * (breaking change) `inputTabIndex` property removed (use `tabIndex` instead).
+
+  * (breaking change) `onCountryChange` property removed (no one actually used it).
+
+  * (breaking change) `convertToNational` property renamed to `displayInitialValueAsLocalNumber`.
+
+  * (breaking change) `style.css` changed a bit (to accomodate phone number extension field).
+
+  * (breaking change) If someone did override `.rrui__input:not(.rrui__input--multiline)` CSS rule then now it has been split into two CSS rules: `.rrui__input` and `.rrui__input--multiline`.
+
+  * Added `locale`s for the `labels` property (`ru` and `en`).
+
+  * Added `ext` property for phone number extension input.
+
+0.17.0 / 24.02.2018
 ===================
 
   * (breaking change) Fixed SVG flag icons for IE. This alters the markup a bit: `<img/>` is now wrapped in a `<div/>` and the CSS class of the image becomes the CSS class of the div and also a new CSS class for the image is added. This could hypothetically be a breaking change in some advanced use cases hence the major version bump.

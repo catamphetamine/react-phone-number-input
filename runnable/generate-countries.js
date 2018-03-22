@@ -55,10 +55,10 @@ function get_country_flag(code)
 
 	switch (code)
 	{
-		// Kosovo
-		case 'xk':
-			flag_path = 'flags'
-			break
+		// // Kosovo (disputed territory).
+		// case 'xk':
+		// 	flag_path = 'flags'
+		// 	break
 
 		// `flag-icon-css`
 		default:

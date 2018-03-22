@@ -6,13 +6,13 @@
 			"presets":
 			[
 				"react",
-				"es2015",
-				"stage-2"
+				"env"
 			],
 
 			"plugins":
 			[
-				"transform-runtime"
+				"transform-object-rest-spread",
+				"transform-class-properties"
 			]
 		},
 		"commonjs":
@@ -20,13 +20,13 @@
 			"presets":
 			[
 				"react",
-				"es2015",
-				"stage-2"
+				"env"
 			],
 
 			"plugins":
 			[
-				"transform-runtime",
+				"transform-object-rest-spread",
+				"transform-class-properties",
 				"transform-react-display-name"
 			]
 		},
@@ -35,13 +35,13 @@
 			"presets":
 			[
 				"react",
-				["es2015", { modules: false }],
-				"stage-2"
+				["env", { modules: false }]
 			],
 
 			"plugins":
 			[
-				"transform-runtime",
+				"transform-object-rest-spread",
+				"transform-class-properties",
 				"transform-react-display-name"
 			]
 		}

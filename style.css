@@ -107,3 +107,35 @@
 	max-width  : 100%;
 	max-height : 100%;
 }
+
+/* Removes `<input type="number"/>` up/down arrows in Webkit browsers. */
+.react-phone-number-input__ext-input::-webkit-inner-spin-button,
+.react-phone-number-input__ext-input::-webkit-outer-spin-button
+{
+	margin             : 0 !important;
+	-webkit-appearance : none !important;
+	-moz-appearance    : textfield !important;
+}
+
+.react-phone-number-input__ext-input
+{
+	width : 3em;
+}
+
+.react-phone-number-input__ext
+{
+	white-space: nowrap;
+}
+
+.react-phone-number-input__ext,
+.react-phone-number-input__ext-input
+{
+	margin-left : 0.5em;
+}
+
+/* The phone number input should shrink
+   to make room for the extension input */
+.react-phone-number-input__phone
+{
+	min-width : 0;
+}
