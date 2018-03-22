@@ -28,7 +28,7 @@
 	position : relative;
 }
 
-.rrui__input
+.rrui__input,
 .rrui__input-label
 {
 	height : calc(0.3rem * 6);
