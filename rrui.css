@@ -29,10 +29,18 @@
 	position : relative;
 }
 
-.rrui__input:not(.rrui__input--multiline),
+.rrui__input,
 .rrui__input-label
 {
 	height : calc(0.3rem * 6);
+}
+
+/* `.rrui__input:not(.rrui__input--multiline)`
+   would result in issues with this CSS selector being
+   too specific and therefore taking higher priority */
+.rrui__input--multiline
+{
+	height : auto;
 }
 
 /* For native `<select/>` in Safari */
