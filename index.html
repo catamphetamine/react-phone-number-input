@@ -492,6 +492,16 @@
 
 							<h2>Internationalization</h2>
 
+							<div className="section" style={{ lineHeight: '34px' }}>
+								Country names can be passed via the <code>labels</code> property.
+								<br/>
+								E.g. <code>labels={'{{'} RU: "Россия", US: "США", ... {'}}'}</code>.
+								<br/>
+								This component comes pre-packaged with a couple of ready-made <a target="_blank" href="https://github.com/catamphetamine/react-phone-number-input/tree/master/locale">translations</a>. Submit pull requests for adding new translations.
+								<br/>
+								<br/>
+							</div>
+
 							<form>
 								<Phone
 									placeholder="Ваш телефон"
@@ -499,10 +509,6 @@
 									onChange={value => this.setState({ value })}
 									labels={ru}/>
 							</form>
-
-							<div className="section">
-								Value: {this.state.value}
-							</div>
 
 							<pre className="hljs"><code>
 {`// Country names in Russian.
