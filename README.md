@@ -126,7 +126,7 @@ For the full list of all possible `props` see the [source code](https://github.c
 
 ## Localization
 
-This component comes pre-packaged with a couple of ready-made translations. Submit pull requests for new translations.
+Country names can be passed via the `labels` property. E.g. `labels={{ RU: 'Россия', US: 'США', ... }}`. This component comes pre-packaged with a couple of ready-made [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new translations.
 
 ```js
 import ru from 'react-phone-number-input/locale/ru'
