@@ -67,7 +67,7 @@ export function getCountrySelectOptions(_countries, country_names, includeIntern
 	// then this means the default list of `countries`
 	// is used which is already sorted by country name alphabetically.
 	//
-	if (_countries !== countries)
+	if (_countries !== countries || country_names)
 	{
 		country_select_options.sort((a, b) => compare_strings(a.label, b.label))
 	}
