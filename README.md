@@ -223,7 +223,7 @@ module.exports = function Phone(props) {
 
 For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata).
 
-## Module not found: Error: Can't resolve './countries'
+## Module not found: Error: Can't resolve 'libphonenumber-js/metadata.min'
 
 This error means that your Webpack is misconfigured to exclude `.json` file extension from [the list of the resolved ones](https://webpack.js.org/configuration/resolve/#resolve-extensions). To fix that add it back to `resolve.extensions`.
 
