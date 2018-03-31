@@ -11,7 +11,9 @@
 
 			"plugins":
 			[
+				["transform-es2015-for-of", { loose: true }],
 				"transform-object-rest-spread",
+				"transform-decorators-legacy",
 				"transform-class-properties"
 			]
 		},
@@ -25,7 +27,9 @@
 
 			"plugins":
 			[
+				["transform-es2015-for-of", { loose: true }],
 				"transform-object-rest-spread",
+				"transform-decorators-legacy",
 				"transform-class-properties",
 				"transform-react-display-name"
 			]
@@ -40,7 +44,9 @@
 
 			"plugins":
 			[
+				["transform-es2015-for-of", { loose: true }],
 				"transform-object-rest-spread",
+				"transform-decorators-legacy",
 				"transform-class-properties",
 				"transform-react-display-name"
 			]

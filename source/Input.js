@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
+import reactLifecyclesCompat from 'react-lifecycles-compat'
 import { AsYouType, parse } from 'libphonenumber-js/custom'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
@@ -30,6 +31,7 @@ import { countries } from './countries'
 
 // Allows passing custom `libphonenumber-js` metadata
 // to reduce the overall bundle size.
+@reactLifecyclesCompat
 export default class PhoneNumberInput extends PureComponent
 {
 	static propTypes =
@@ -260,17 +262,24 @@ export default class PhoneNumberInput extends PureComponent
 
 		this.state =
 		{
+			// Workaround for `this.props` inside `getDerivedStateFromProps()`.
+			props : this.props,
+
+			// The country selected.
 			country : pre_selected_country,
+
+			// Generate country `<select/>` options.
+			country_select_options : generate_country_select_options(this.props),
 
 			// `parsed_input` state property holds user's input.
 			// The reason is that there's no way of finding out
 			// in which form should `value` be displayed: international or national.
 			// E.g. if value is `+78005553535` then it could be input
 			// by a user both as `8 (800) 555-35-35` and `+7 800 555 35 35`.
-			parsed_input : this.generate_parsed_input(value, parsed_number),
+			parsed_input : generate_parsed_input(value, parsed_number, this.props),
 
 			// `value` property is duplicated in state.
-			// The reason is that `componentWillReceiveProps()`
+			// The reason is that `getDerivedStateFromProps()`
 			// needs this `value` to compare to the new `value` property
 			// to find out if `parsed_input` needs updating:
 			// If the `value` property changed externally
@@ -278,35 +287,6 @@ export default class PhoneNumberInput extends PureComponent
 			// in which case `parsed_input` and `country` get updated.
 			value
 		}
-
-		// Generate country `<select/>` options.
-		this.generate_country_select_options(countries, labels, international)
-	}
-
-	// Generates country `<select/>` options.
-	generate_country_select_options(countries, labels, international)
-	{
-		const
-		{
-			flags,
-			flagsPath,
-			flagComponent : FlagComponent,
-			internationalIcon
-		}
-		= this.props
-
-		this.country_select_options = getCountrySelectOptions
-		(
-			countries,
-			labels,
-			international
-		)
-		.map(({ value, label }) =>
-		({
-			value,
-			label,
-			icon : value ? () => <FlagComponent country={value} flags={flags} flagsPath={flagsPath}/> : internationalIcon
-		}))
 	}
 
 	// Country `<select/>` `onChange` handler.
@@ -345,7 +325,7 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			// Update the new `value` property.
 			// Doing it after the `state` has been updated
-			// because `onChange()` will trigger `componentWillReceiveProps()`
+			// because `onChange()` will trigger `getDerivedStateFromProps()`
 			// with the new `value` which will be compared to `state.value` there.
 			onChange(new_value)
 
@@ -424,7 +404,7 @@ export default class PhoneNumberInput extends PureComponent
 		},
 		// Update the new `value` property.
 		// Doing it after the `state` has been updated
-		// because `onChange()` will trigger `componentWillReceiveProps()`
+		// because `onChange()` will trigger `getDerivedStateFromProps()`
 		// with the new `value` which will be compared to `state.value` there.
 		() => onChange(value))
 	}
@@ -485,29 +465,6 @@ export default class PhoneNumberInput extends PureComponent
 		setTimeout(this.focus, 0)
 	}
 
-	generate_parsed_input(value, parsed_number)
-	{
-		const
-		{
-			displayInitialValueAsLocalNumber,
-			metadata
-		}
-		= this.props
-
-		// If the `value` (E.164 phone number)
-		// belongs to the currently selected country
-		// and `displayInitialValueAsLocalNumber` property is `true`
-		// then convert `value` (E.164 phone number)
-		// to a local phone number digits.
-		// E.g. '+78005553535' -> '88005553535'.
-		if (displayInitialValueAsLocalNumber && parsed_number.country)
-		{
-			return generateNationalNumberDigits(parsed_number, metadata)
-		}
-
-		return value
-	}
-
 	format_phone_number = (value) =>
 	{
 		const { metadata } = this.props
@@ -523,45 +480,46 @@ export default class PhoneNumberInput extends PureComponent
 
 	store_number_input_instance = _ => this.number_input = _
 
-	componentWillReceiveProps(new_props)
+	static getDerivedStateFromProps(props, state)
 	{
-		const { country, value } = this.state
+		const
+		{
+			country,
+			value,
+			props:
+			{
+				country : old_default_country,
+			}
+		}
+		= state
 
 		const
 		{
 			metadata,
-			country : old_default_country
-		}
-		= this.props
-
-		const
-		{
 			country : new_default_country,
 			value   : new_value
 		}
-		= new_props
+		= props
+
+		const new_state = { props }
 
 		// If `countries` or `labels` or `international` changed
 		// then re-generate country `<select/>` options.
-		if (new_props.countries !== this.props.countries ||
-			new_props.labels !== this.props.labels ||
-			new_props.international !== this.props.international)
+		if (props.countries !== state.props.countries ||
+			props.labels !== state.props.labels ||
+			props.international !== state.props.international)
 		{
-			this.generate_country_select_options
-			(
-				new_props.countries,
-				new_props.labels,
-				new_props.international
-			)
+			new_state.country_select_options = generate_country_select_options(props)
 		}
 
 		// If the default country changed.
 		// (e.g. in case of ajax GeoIP detection after page loaded)
 		if (new_default_country !== old_default_country && !country && !value && !new_value)
 		{
-			this.setState({
+			return {
+				...new_state,
 				country : new_default_country
-			})
+			}
 		}
 		// If a new `value` is set externally.
 		// (e.g. as a result of an ajax API request
@@ -570,12 +528,16 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			const parsed_number = parsePhoneNumber(new_value, metadata)
 
-			this.setState
-			({
-				parsed_input : this.generate_parsed_input(new_value, parsed_number),
+			return {
+				...new_state,
+				parsed_input : generate_parsed_input(new_value, parsed_number, props),
 				value : new_value,
 				country : new_value ? parsed_number.country : country
-			})
+			}
+		}
+		else if (new_state.country_select_options)
+		{
+			return new_state
 		}
 	}
 
@@ -624,6 +586,7 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			country,
 			show_country_select,
+			country_select_options,
 			parsed_input
 		}
 		= this.state
@@ -645,7 +608,7 @@ export default class PhoneNumberInput extends PureComponent
 						<CountrySelectComponent
 							ref={ this.store_country_select_instance }
 							value={ country }
-							options={ this.country_select_options }
+							options={ country_select_options }
 							onChange={ this.on_country_selected }
 							disabled={ disabled }
 							onToggle={ this.on_country_select_toggle }
@@ -730,4 +693,56 @@ export default class PhoneNumberInput extends PureComponent
 			</div>
 		)
 	}
+}
+
+// Generates country `<select/>` options.
+function generate_country_select_options(props)
+{
+	const
+	{
+		countries,
+		labels,
+		flags,
+		flagsPath,
+		flagComponent : FlagComponent,
+		international,
+		internationalIcon
+	}
+	= props
+
+	return getCountrySelectOptions
+	(
+		countries,
+		labels,
+		international
+	)
+	.map(({ value, label }) =>
+	({
+		value,
+		label,
+		icon : value ? () => <FlagComponent country={value} flags={flags} flagsPath={flagsPath}/> : internationalIcon
+	}))
+}
+
+function generate_parsed_input(value, parsed_number, props)
+{
+	const
+	{
+		displayInitialValueAsLocalNumber,
+		metadata
+	}
+	= props
+
+	// If the `value` (E.164 phone number)
+	// belongs to the currently selected country
+	// and `displayInitialValueAsLocalNumber` property is `true`
+	// then convert `value` (E.164 phone number)
+	// to a local phone number digits.
+	// E.g. '+78005553535' -> '88005553535'.
+	if (displayInitialValueAsLocalNumber && parsed_number.country)
+	{
+		return generateNationalNumberDigits(parsed_number, metadata)
+	}
+
+	return value
 }
