@@ -1,7 +1,7 @@
 import
 {
-	parse,
-	format,
+	parseNumber,
+	formatNumber,
 	getCountryCallingCode,
 	AsYouType
 }
@@ -136,12 +136,12 @@ export function formatPhoneNumber(value, country, metadata)
  * @param {string} value = E.164 phone number.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @example
- * parseNumber('+78005553535')
+ * parsePhoneNumber('+78005553535')
  * // returns `{ country: 'RU', phone: '8005553535' }`
  */
 export function parsePhoneNumber(value, metadata)
 {
-	return parse(value || '', metadata)
+	return parseNumber(value || '', metadata)
 }
 
 /**
@@ -156,7 +156,7 @@ export function parsePhoneNumber(value, metadata)
  */
 export function generateNationalNumberDigits(parsed_phone, metadata)
 {
-	return format(parsed_phone, 'National', metadata).replace(/\D/g, '')
+	return formatNumber(parsed_phone, 'National', metadata).replace(/\D/g, '')
 }
 
 /**
@@ -219,7 +219,7 @@ export function migrateParsedInputForNewCountry
 			// Even if the phone number belongs to whole another country
 			// it will still be parsed into some national phone number.
 			const partial_national_significant_number = get_national_significant_number_part(value, previous_country, metadata)
-			return format(partial_national_significant_number, previous_country, 'E.164', metadata)
+			return formatNumber(partial_national_significant_number, previous_country, 'E.164', metadata)
 		}
 	}
 
@@ -263,7 +263,7 @@ export function e164(number, country, metadata)
 		return
 	}
 
-	return format(partial_national_significant_number, country, 'E.164', metadata)
+	return formatNumber(partial_national_significant_number, country, 'E.164', metadata)
 }
 
 // If the phone number being input is an international one

@@ -84,7 +84,7 @@ There have been some [reports](https://github.com/catamphetamine/react-phone-num
 
 This component is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which is a rewrite of Google's [`libphonenumber`](https://github.com/googlei18n/libphonenumber) library which [doesn't enforce](http://libphonenumber.appspot.com/phonenumberparser?number=2134445566777&country=US) any validation rules when entering phone numbers in "as you type" mode (e.g. when phone number is too long or too short).
 
-For the actual phone number validation use [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js): either a loose validation via [`parse(value)`](https://github.com/catamphetamine/libphonenumber-js#parsetext-defaultcountry-options) or a strict validation via [`isValidNumber(value)`](https://github.com/catamphetamine/libphonenumber-js#isvalidnumbernumber-defaultcountry).
+For the actual phone number validation use [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js): either a loose validation via [`parseNumber(value)`](https://github.com/catamphetamine/libphonenumber-js#parsetext-defaultcountry-options) or a strict validation via [`isValidNumber(value)`](https://github.com/catamphetamine/libphonenumber-js#isvalidnumbernumber-defaultcountry).
 
 ## Autocomplete
 
