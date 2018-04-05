@@ -544,16 +544,16 @@ import ru from 'react-phone-number-input/locale/ru'
 							</div>
 
 							<div className="section">
-								Local: {this.state.value_validation && libphonenumber.format(this.state.value_validation, 'National')}
+								Local: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'National')}
 							</div>
 
 							<div className="section">
-								International: {this.state.value_validation && libphonenumber.format(this.state.value_validation, 'International')}
+								International: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'International')}
 							</div>
 
 							<pre className="hljs"><code>
 {`import Phone from 'react-phone-number-input'
-import { format, parse, isValidNumber } from 'libphonenumber-js'
+import { parseNumber, formatNumber, isValidNumber } from 'libphonenumber-js'
 
 const { value } = this.state
 
@@ -565,8 +565,8 @@ const { value } = this.state
   indicateInvalid/>
 
 Is valid: { value && isValidNumber(value) ? 'true' : 'false' }
-Local: { value && format(value, 'National') }
-International: { value && format(value, 'International') }
+Local: { value && formatNumber(value, 'National') }
+International: { value && formatNumber(value, 'International') }
 `}
 							</code></pre>
 
