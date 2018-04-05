@@ -516,7 +516,7 @@ export default class PhoneNumberInput extends PureComponent
 		// (e.g. in case of ajax GeoIP detection after page loaded)
 		// then select it but only if no phone number has been entered so far.
 		// Because if the user has already started inputting a phone number
-		// then he's okay with the currently selected country (or no country selected at all)
+		// then he's okay with no country being selected at all ("International")
 		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
 		if (new_default_country !== old_default_country && !country && !value && !new_value)
 		{
