@@ -543,6 +543,9 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			return new_state
 		}
+
+		// https://github.com/facebook/react/issues/12562
+		return null
 	}
 
 	render()
