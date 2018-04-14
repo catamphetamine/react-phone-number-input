@@ -449,7 +449,7 @@ export default class PhoneNumberInput extends PureComponent
 	on_country_select_toggle = (show) =>
 	{
 		this.setState({
-			show_country_select: show
+			showing_country_select: show
 		})
 	}
 
@@ -592,7 +592,7 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			country,
-			show_country_select,
+			showing_country_select,
 			country_select_options,
 			parsed_input
 		}
@@ -640,7 +640,7 @@ export default class PhoneNumberInput extends PureComponent
 					}
 
 					{/* Phone number `<input/>` */}
-					{ !show_country_select &&
+					{ !showing_country_select &&
 						<InputComponent
 							type="tel"
 							{ ...phone_number_input_props }
@@ -668,7 +668,7 @@ export default class PhoneNumberInput extends PureComponent
 					}
 
 					{/* Phone extension `<input/>` */}
-					{ ext && !show_country_select &&
+					{ ext && !showing_country_select &&
 						<label className="react-phone-number-input__ext">
 							{labels && labels.ext || 'ext.'}
 							{React.cloneElement(ext,
