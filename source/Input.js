@@ -518,7 +518,7 @@ export default class PhoneNumberInput extends PureComponent
 		// Because if the user has already started inputting a phone number
 		// then he's okay with no country being selected at all ("International")
 		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
-		if (new_default_country !== old_default_country && !country && !value && !new_value)
+		if (new_default_country !== old_default_country && !value && !new_value)
 		{
 			return {
 				...new_state,
