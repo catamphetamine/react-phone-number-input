@@ -1,39 +1,20 @@
 {
+	"presets":
+	[
+		"react",
+		"env"
+	],
+
+	"plugins":
+	[
+		["transform-es2015-for-of", { loose: true }],
+		"transform-object-rest-spread",
+		"transform-decorators-legacy",
+		"transform-class-properties"
+	],
+
 	"env":
 	{
-		"development":
-		{
-			"presets":
-			[
-				"react",
-				"env"
-			],
-
-			"plugins":
-			[
-				["transform-es2015-for-of", { loose: true }],
-				"transform-object-rest-spread",
-				"transform-decorators-legacy",
-				"transform-class-properties"
-			]
-		},
-		"commonjs":
-		{
-			"presets":
-			[
-				"react",
-				"env"
-			],
-
-			"plugins":
-			[
-				["transform-es2015-for-of", { loose: true }],
-				"transform-object-rest-spread",
-				"transform-decorators-legacy",
-				"transform-class-properties",
-				"transform-react-display-name"
-			]
-		},
 		"es6":
 		{
 			"presets":
@@ -47,9 +28,12 @@
 				["transform-es2015-for-of", { loose: true }],
 				"transform-object-rest-spread",
 				"transform-decorators-legacy",
-				"transform-class-properties",
-				"transform-react-display-name"
+				"transform-class-properties"
 			]
+		},
+		"test":
+		{
+			"plugins": ["istanbul"]
 		}
 	}
 }

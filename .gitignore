@@ -3,6 +3,7 @@
 
 # test coverage folder
 /coverage/
+/.nyc_output/
 
 # npm modules
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git

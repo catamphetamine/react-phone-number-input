@@ -1,8 +1,8 @@
 const library_name = 'react-phone-number-input'
 
-export default
+module.exports =
 {
-  entry: '/index.js',
+  entry: './index.js',
   devtool: 'source-map',
   output:
   {

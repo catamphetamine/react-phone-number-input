@@ -16,6 +16,7 @@
 
 # test coverage folder
 /coverage/
+/.nyc_output/
 
 # npm errors
 npm-debug.log
