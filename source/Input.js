@@ -316,9 +316,10 @@ export default class PhoneNumberInput extends PureComponent
 
 		this.setState
 		({
-			country : new_country,
-			parsed_input : new_parsed_input,
-			value : new_value
+			country           : new_country,
+			hasChangedCountry : true,
+			parsed_input      : new_parsed_input,
+			value             : new_value
 		},
 		() =>
 		{
@@ -484,6 +485,7 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			country,
+			hasChangedCountry,
 			value,
 			props:
 			{
@@ -513,11 +515,12 @@ export default class PhoneNumberInput extends PureComponent
 
 		// If the default country changed.
 		// (e.g. in case of ajax GeoIP detection after page loaded)
-		// then select it but only if no phone number has been entered so far.
+		// then select it but only if the user didn't previously select
+		// another country and no phone number has been entered so far.
 		// Because if the user has already started inputting a phone number
 		// then he's okay with no country being selected at all ("International")
 		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
-		if (new_default_country !== old_default_country && !value && !new_value)
+		if (new_default_country !== old_default_country && !hasChangedCountry && !value && !new_value)
 		{
 			return {
 				...new_state,
