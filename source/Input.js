@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
-import { AsYouType, parse } from 'libphonenumber-js/custom'
 import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 

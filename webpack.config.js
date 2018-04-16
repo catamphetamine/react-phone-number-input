@@ -1,15 +1,12 @@
-import webpack from 'webpack'
-import path from 'path'
-
 const library_name = 'react-phone-number-input'
 
 export default
 {
-  entry: path.join(__dirname, '/index.js'),
+  entry: '/index.js',
   devtool: 'source-map',
   output:
   {
-    path           : path.join(__dirname, '/bundle'),
+    path           : require('path').join(__dirname, '/bundle'),
     filename       : `${library_name}.min.js`,
     library        : library_name,
     libraryTarget  : 'umd',
