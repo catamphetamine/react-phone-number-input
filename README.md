@@ -213,7 +213,7 @@ export default function Phone(props) {
 And for [Common.js](https://auth0.com/blog/javascript-module-systems-showdown/) environments (or bundlers that can't do proper "tree-shaking") that would be
 
 ```js
-var Input = require('react-phone-number-input/custom')
+var Input = require('react-phone-number-input/custom').default
 var metadata = require('./metadata.min.json')
 
 module.exports = function Phone(props) {

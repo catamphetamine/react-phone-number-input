@@ -157,6 +157,15 @@ export default class PhoneNumberInput extends PureComponent
 		countrySelectComponent : PropTypes.func.isRequired,
 
 		// Phone number `<input/>` component.
+		//
+		// Receives properties:
+		//
+		// * `metadata : object` — `libphonenumber-js` metadata.
+		// * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
+		// * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
+		// * `onChange(value : string)` — Updates the `value`.
+		// * All other properties should be passed through to the underlying `<input/>`.
+		//
 		inputComponent : PropTypes.func.isRequired,
 
 		// Phone number extension element.
@@ -230,7 +239,12 @@ export default class PhoneNumberInput extends PureComponent
 		countrySelectComponent : Select,
 
 		// `<ReactInput/>` from `input-format`.
-		inputComponent : ReactInput
+		inputComponent : ({ country, metadata, ...rest }) => (
+			<ReactInput
+				{...rest}
+				parse={ parsePhoneNumberCharacter }
+				format={ value => formatPhoneNumber(value, country, metadata) }/>
+		)
 	}
 
 	constructor(props)
@@ -303,7 +317,6 @@ export default class PhoneNumberInput extends PureComponent
 		// After the new `country` has been selected,
 		// if the phone number `<input/>` holds any digits
 		// then migrate those digits for the new `country`.
-		// If returns `undefined` then it means that it stays the same.
 		const new_parsed_input = migrateParsedInputForNewCountry
 		(
 			old_parsed_input,
@@ -353,7 +366,10 @@ export default class PhoneNumberInput extends PureComponent
 
 	// `<input/>` `onChange` handler.
 	// Updates `value` property accordingly.
-	// (so that they are kept in sync)
+	// (so that they are kept in sync).
+	// `parsed_input` must be a parsed phone number
+	// or an empty string.
+	// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 	on_change = (parsed_input) =>
 	{
 		const
@@ -463,14 +479,6 @@ export default class PhoneNumberInput extends PureComponent
 		// (do it in a timeout because the `<input/>`
 		//  is hidden while selecting a country)
 		setTimeout(this.focus, 0)
-	}
-
-	format_phone_number = (value) =>
-	{
-		const { metadata } = this.props
-		const { country } = this.state
-
-		return formatPhoneNumber(value, country, metadata)
 	}
 
 	// Can be called externally.
@@ -647,9 +655,9 @@ export default class PhoneNumberInput extends PureComponent
 							type="tel"
 							{ ...phone_number_input_props }
 							ref={ this.store_number_input_instance }
-							parse={ parsePhoneNumberCharacter }
-							format={ this.format_phone_number }
-							value={ parsed_input }
+							metadata={ metadata }
+							country={ country }
+							value={ parsed_input || '' }
 							onChange={ this.on_change }
 							onBlur={ this.on_blur }
 							onKeyDown={ this.on_number_key_down }

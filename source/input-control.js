@@ -111,6 +111,36 @@ export function parsePhoneNumberCharacter(character, value)
 }
 
 /**
+ * Parses phone number characters from a string.
+ * @param  {string} string
+ * @return {string}
+ * @example
+ * ```js
+ * parsePhoneNumberCharacters('8 (800) 555')
+ * // Outputs '8800555'.
+ * parsePhoneNumberCharacters('+7 800 555')
+ * // Outputs '+7800555'.
+ * ```
+ */
+export function parsePhoneNumberCharacters(string)
+{
+	let result = ''
+
+	// Using `.split('')` here instead of normal `for ... of`
+	// because the importing application doesn't neccessarily include an ES6 polyfill.
+	// The `.split('')` approach discards "exotic" UTF-8 characters
+	// (the ones consisting of four bytes) but digits
+	// (including non-European ones) don't fall into that range
+	// so such "exotic" characters would be discarded anyway.
+	for (const character of string.split(''))
+	{
+		result += parsePhoneNumberCharacter(character, result) || ''
+	}
+
+	return result
+}
+
+/**
  * Formats a (possibly incomplete) phone number.
  * The phone number can be either in E.164 format
  * or in a form of national number digits.

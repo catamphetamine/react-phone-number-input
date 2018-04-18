@@ -3,6 +3,7 @@ import
 	getPreSelectedCountry,
 	getCountrySelectOptions,
 	parsePhoneNumberCharacter,
+	parsePhoneNumberCharacters,
 	formatPhoneNumber,
 	parsePhoneNumber,
 	generateNationalNumberDigits,
@@ -105,6 +106,23 @@ describe('input-control', () =>
 
 		// Dismisses other characters.
 		expect(parsePhoneNumberCharacter('-')).to.be.undefined
+	})
+
+	it('should parse phone number characters', () =>
+	{
+		parsePhoneNumberCharacters('').should.equal('')
+
+		// Doesn't accept non-leading `+`.
+		parsePhoneNumberCharacters('++').should.equal('+')
+
+		// Accepts leading `+`.
+		parsePhoneNumberCharacters('+7 800 555').should.equal('+7800555')
+
+		// Parses digits.
+		parsePhoneNumberCharacters('8 (800) 555').should.equal('8800555')
+
+		// Parses non-European digits.
+		parsePhoneNumberCharacters('+٤٤٢٣٢٣٢٣٤').should.equal('+442323234')
 	})
 
 	it('should format parsed input value', () =>
