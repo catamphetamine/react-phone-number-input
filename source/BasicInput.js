@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
+import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 
 import { parsePhoneNumberCharacters, formatPhoneNumber } from './input-control'
 
@@ -8,12 +9,27 @@ import { parsePhoneNumberCharacters, formatPhoneNumber } from './input-control'
  * but still works good enough. When erasing or inserting digits in the middle
  * of a phone number the caret usually jumps to the end: this is the expected
  * behaviour and it's the workaround for the [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
+ *
+ * This component is implemented as a `React.Component`
+ * because `ReactDOM.findDOMNode()` is used for focusing.
  */
-export default class BasicInput extends React.Component
+@reactLifecyclesCompat
+export default class BasicInput extends PureComponent
 {
+	// Prevents React from resetting the `<input/>` caret position.
+	// https://github.com/reactjs/react-redux/issues/525#issuecomment-254852039
+	// https://github.com/facebook/react/issues/955
+	static getDerivedStateFromProps({ value })
+	{
+		return { value }
+	}
+
+	state = {}
+
 	onChange = (event) =>
 	{
-		const { onChange, value } = this.props
+		const { onChange } = this.props
+		const { value } = this.state
 
 		let newValue = parsePhoneNumberCharacters(event.target.value)
 
@@ -33,7 +49,10 @@ export default class BasicInput extends React.Component
 			}
 		}
 
-		onChange(newValue)
+		// Prevents React from resetting the `<input/>` caret position.
+		// https://github.com/reactjs/react-redux/issues/525#issuecomment-254852039
+		// https://github.com/facebook/react/issues/955
+		this.setState({ value: newValue }, () => onChange(newValue))
 	}
 
 	format(value)
@@ -43,13 +62,11 @@ export default class BasicInput extends React.Component
 		return formatPhoneNumber(value, country, metadata).text
 	}
 
-	storeInstance = (ref) => this.input = ReactDOM.findDOMNode(ref)
-
 	render()
 	{
 		const
 		{
-			value,
+			// value,
 			onChange,
 			country,
 			metadata,
@@ -57,14 +74,14 @@ export default class BasicInput extends React.Component
 		}
 		= this.props
 
-		if (this.input) {
-			this.input.value = this.format(value)
-		}
+		// Prevents React from resetting the `<input/>` caret position.
+		// https://github.com/reactjs/react-redux/issues/525#issuecomment-254852039
+		// https://github.com/facebook/react/issues/955
+		const { value } = this.state
 
 		return (
 			<input
 				{...rest}
-				ref={this.storeInstance}
 				value={this.format(value)}
 				onChange={this.onChange}/>
 		)
