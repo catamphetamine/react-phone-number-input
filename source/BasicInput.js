@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom'
 
 import { parsePhoneNumberCharacters, formatPhoneNumber } from './input-control'
 
+/**
+ * `BasicInput`'s caret is not as "smart" as the default `inputComponent`'s
+ * but still works good enough. When erasing or inserting digits in the middle
+ * of a phone number the caret usually jumps to the end: this is the expected
+ * behaviour and it's the workaround for the [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
+ */
 export default class BasicInput extends React.Component
 {
 	onChange = (event) =>
