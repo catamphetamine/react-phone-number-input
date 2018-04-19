@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
-import { ReactInput } from 'input-format'
 import classNames from 'classnames'
 
 // Could have been `import { Select } from 'react-responsive-ui'`
@@ -11,14 +10,13 @@ import Select from 'react-responsive-ui/commonjs/Select'
 
 import InternationalIcon from './InternationalIcon'
 import FlagComponent from './Flag'
+import SmartInput from './SmartInput'
 
 import
 {
 	getPreSelectedCountry,
 	getCountrySelectOptions,
-	parsePhoneNumberCharacter,
 	parsePhoneNumber,
-	formatPhoneNumber,
 	generateNationalNumberDigits,
 	migrateParsedInputForNewCountry,
 	getCountryForParsedInput,
@@ -239,12 +237,7 @@ export default class PhoneNumberInput extends PureComponent
 		countrySelectComponent : Select,
 
 		// `<ReactInput/>` from `input-format`.
-		inputComponent : ({ country, metadata, ...rest }) => (
-			<ReactInput
-				{...rest}
-				parse={ parsePhoneNumberCharacter }
-				format={ value => formatPhoneNumber(value, country, metadata) }/>
-		)
+		inputComponent : SmartInput
 	}
 
 	constructor(props)
