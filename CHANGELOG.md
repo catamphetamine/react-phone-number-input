@@ -1,3 +1,10 @@
+1.0.8 / 19.04.2018
+===================
+
+  * (breaking change) Changed the properties passed to a custom `inputComponent`, see `Input.js` `propTypes` for more info.
+
+  * Added `BasicInput`: an alternative `inputComponent` for working around the Samsung Galaxy caret positioning bug.
+
 1.0.0 / 21.03.2018
 ===================
 
