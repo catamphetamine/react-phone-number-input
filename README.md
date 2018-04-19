@@ -46,7 +46,7 @@ return (
 
 The international phone number input utilizes [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library.
 
-The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has a bit of an issue with some Samsung Android phones, [read more](#android)).
+The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
 
 The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/).
 
@@ -78,20 +78,20 @@ Get the `rrui.css` and `style.css` files from this package, process these files 
 
 ## Android
 
-There have been some [reports](https://github.com/catamphetamine/react-phone-number-input/issues/59) of non-stock Android keyboards not handling caret positioning properly (e.g. Samsung Galaxy S8). I don't have such an Android phone at my disposal to debug that issue. You can send me one though (perhaps even donate one).
+There have been [reports](https://github.com/catamphetamine/react-phone-number-input/issues/75) of some Samsung Android phones not handling caret positioning properly (e.g. Samsung Galaxy S8+, Samsung Galaxy S7 Edge).
 
-A workaround is to use `BasicInput` as an input component:
+The workaround is to pass `smartCaret={false}` property:
 
 ```js
-import Phone, { BasicInput } from 'react-phone-number-input'
+import Phone from 'react-phone-number-input'
 
 <Phone
-  inputComponent={BasicInput}
+  smartCaret={false}
   value={this.state.value}
   onChange={value => this.setState(value)}/>
 ```
 
-`BasicInput`'s caret is not as "smart" as the default `inputComponent`'s but still works good enough (and has no issues). When erasing or inserting digits in the middle of a phone number the caret usually jumps to the end: this is the expected behaviour and it's the workaround for this [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
+`smartCaret={false}` caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number the caret usually jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
 
 ## Validation
 

@@ -8,9 +8,11 @@ import classNames from 'classnames'
 // but in that case Webpack bundles the whole `react-responsive-ui` package.
 import Select from 'react-responsive-ui/commonjs/Select'
 
+import SmartInput from './SmartInput'
+import BasicInput from './BasicInput'
+
 import InternationalIcon from './InternationalIcon'
 import FlagComponent from './Flag'
-import SmartInput from './SmartInput'
 
 import
 {
@@ -164,7 +166,12 @@ export default class PhoneNumberInput extends PureComponent
 		// * `onChange(value : string)` — Updates the `value`.
 		// * All other properties should be passed through to the underlying `<input/>`.
 		//
-		inputComponent : PropTypes.func.isRequired,
+		inputComponent : PropTypes.func,
+
+		// Set to `false` to use `inputComponent={BasicInput}`
+		// instead of `input-format`'s `<ReactInput/>`.
+		// Is `true` by default.
+		smartCaret : PropTypes.bool.isRequired,
 
 		// Phone number extension element.
 		ext : PropTypes.node,
@@ -236,8 +243,10 @@ export default class PhoneNumberInput extends PureComponent
 		// `<Select/>` from `react-responsive-ui`.
 		countrySelectComponent : Select,
 
-		// `<ReactInput/>` from `input-format`.
-		inputComponent : SmartInput
+		// Set to `false` to use `inputComponent={BasicInput}`
+		// instead of `input-format`'s `<ReactInput/>`.
+		// Is `true` by default.
+		smartCaret : true
 	}
 
 	constructor(props)
@@ -573,7 +582,8 @@ export default class PhoneNumberInput extends PureComponent
 			indicateInvalid,
 
 			countrySelectComponent : CountrySelectComponent,
-			inputComponent : InputComponent,
+			inputComponent,
+			smartCaret,
 			ext,
 
 			// Extract `phone_number_input_props` via "object rest spread":
@@ -600,6 +610,8 @@ export default class PhoneNumberInput extends PureComponent
 			parsed_input
 		}
 		= this.state
+
+		const InputComponent = inputComponent || (smartCaret ? SmartInput : BasicInput)
 
 		return (
 			<div

@@ -1,3 +1,8 @@
+1.0.10 / 19.04.2018
+===================
+
+  * Added an optional `smartCaret={false}` property for [fixing Samsung Android phones](https://github.com/catamphetamine/react-phone-number-input/issues/75).
+
 1.0.8 / 19.04.2018
 ===================
 
