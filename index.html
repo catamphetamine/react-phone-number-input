@@ -3,12 +3,15 @@
 		<meta charset="utf-8">
 		<title>React phone number input</title>
 
-		<script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
-		<script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
-		<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+		<!-- React 15.3.1 -->
+		<script src="./lib/react.js"></script>
+		<script src="./lib/react-dom.js"></script>
+		<!-- Babel 5.8 -->
+		<script src="./lib/babel.js"></script>
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+		<!-- HLJS 9.9.0 -->
+		<link rel="stylesheet" href="./lib/hljs/default.min.css">
+		<script src="./lib/hljs/highlight.min.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
 
 		<!--
@@ -397,15 +400,12 @@
 
 				render()
 				{
-					// inputComponent={ props => <span><input {...props}/></span> }
-
 					return (
 						<div>
-							<h2>Without default country</h2>
+							<h2>Example</h2>
 
 							<form>
 								<Phone
-								countrySelectToggleClassName="test"
 									placeholder="Start typing a phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}
@@ -418,6 +418,41 @@
 
 							<pre className="hljs"><code>
 								{`<Phone
+  placeholder="Start typing a phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>`}
+							</code></pre>
+
+							<h2><code>smartCaret = false</code></h2>
+
+							<div className="section">
+								There have been <a target="_blank" href="https://github.com/catamphetamine/react-phone-number-input/issues/75">reports</a> of some Samsung Android phones not handling caret positioning properly (e.g. Samsung Galaxy S8+, Samsung Galaxy S7 Edge).
+							</div>
+
+							<div className="section">
+								The workaround is to pass <code>{'smartCaret={false}'}</code> property.
+							</div>
+
+							<div className="section">
+								&nbsp;
+							</div>
+
+							<form>
+								<Phone
+									smartCaret={false}
+									placeholder="Start typing a phone number"
+									value={this.state.value}
+									onChange={value => this.setState({ value: value })}
+									autoFocus/>
+							</form>
+
+							<div className="section">
+								Value: {this.state.value}
+							</div>
+
+							<pre className="hljs"><code>
+								{`<Phone
+  smartCaret={ false }
   placeholder="Start typing a phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>`}

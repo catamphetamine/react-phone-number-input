@@ -5,3 +5,4 @@
 /bundle/
 *.sublime-workspace
 coverage
+.nyc_output
