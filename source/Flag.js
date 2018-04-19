@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 // Default country flag icon.
 // `<img/>` is wrapped in a `<div/>` to prevent SVGs from exploding in size.
