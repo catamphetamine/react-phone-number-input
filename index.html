@@ -9,10 +9,9 @@
 		<!-- Babel 5.8 -->
 		<script src="./lib/babel.js"></script>
 
-		<!-- HLJS 9.9.0 -->
-		<link rel="stylesheet" href="./lib/hljs/default.min.css">
-		<script src="./lib/hljs/highlight.min.js"></script>
-		<script>hljs.initHighlightingOnLoad();</script>
+		<!-- PrismJS -->
+		<link href="./lib/prism.css" rel="stylesheet" />
+		<script src="./lib/prism.js"></script>
 
 		<!--
 		This makes the page not scale down on mobile devices
@@ -43,6 +42,11 @@
 		{
 			margin-top: 60px;
 			margin-bottom: 30px;
+		}
+
+		pre
+		{
+			border: 1px solid rgba(0, 0, 0, 0.03);
 		}
 
 		.section
@@ -385,6 +389,15 @@
 
 			const Phone = library.default
 
+			function Highlight({ lang, style, children })
+			{
+				return (
+					<pre style={style || { marginTop: '20px' }} className={`language-${lang}`}>
+						<code dangerouslySetInnerHTML={{__html: Prism.highlight(children.trim(), Prism.languages[lang], lang)}}/>
+					</pre>
+				)
+			}
+
 			class Content extends React.Component
 			{
 				constructor()
@@ -416,12 +429,12 @@
 								Value: {this.state.value}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 								{`<Phone
   placeholder="Start typing a phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>`}
-							</code></pre>
+							</Highlight>
 
 							<h2><code>smartCaret = false</code></h2>
 
@@ -450,13 +463,13 @@
 								Value: {this.state.value}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 								{`<Phone
   smartCaret={ false }
   placeholder="Start typing a phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>`}
-							</code></pre>
+							</Highlight>
 
 							<div className="section">
 								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
@@ -476,7 +489,7 @@
 								Value: {this.state.value_RU}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`import Phone from 'react-phone-number-input'
 
 <Phone
@@ -485,7 +498,7 @@
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
-							</code></pre>
+							</Highlight>
 
 							<h2>displayInitialValueAsLocalNumber = false (default)</h2>
 
@@ -500,12 +513,12 @@
 								Value: {this.state.value_convert_to_national_false}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`<Phone
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
-							</code></pre>
+							</Highlight>
 
 							<h2>displayInitialValueAsLocalNumber = true</h2>
 
@@ -521,13 +534,13 @@
 								Value: {this.state.value_convert_to_national_true}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`<Phone
   displayInitialValueAsLocalNumber
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
-							</code></pre>
+							</Highlight>
 
 							<h2>Internationalization</h2>
 
@@ -549,7 +562,7 @@
 									labels={ru}/>
 							</form>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`// Country names in Russian.
 import ru from 'react-phone-number-input/locale/ru'
 
@@ -559,7 +572,7 @@ import ru from 'react-phone-number-input/locale/ru'
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
-							</code></pre>
+							</Highlight>
 
 							<h2>Validation</h2>
 
@@ -590,7 +603,7 @@ import ru from 'react-phone-number-input/locale/ru'
 								International: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'International')}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`import Phone from 'react-phone-number-input'
 import { parseNumber, formatNumber, isValidNumber } from 'libphonenumber-js'
 
@@ -607,7 +620,7 @@ Is valid: { value && isValidNumber(value) ? 'true' : 'false' }
 Local: { value && formatNumber(value, 'National') }
 International: { value && formatNumber(value, 'International') }
 `}
-							</code></pre>
+							</Highlight>
 
 							<h2>Extension</h2>
 
@@ -629,7 +642,7 @@ International: { value && formatNumber(value, 'International') }
 								Ext: {this.state.ext}
 							</div>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`const ext = (
   <input
     value={ this.state.ext }
@@ -641,7 +654,7 @@ International: { value && formatNumber(value, 'International') }
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
-							</code></pre>
+							</Highlight>
 
 							<h2>Native country &lt;select/&gt;</h2>
 
@@ -653,14 +666,14 @@ International: { value && formatNumber(value, 'International') }
 									nativeCountrySelect/>
 							</form>
 
-							<pre className="hljs"><code>
+							<Highlight lang="jsx">
 {`<Phone
   placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }
   nativeCountrySelect/>
 `}
-							</code></pre>
+							</Highlight>
 
 							{ debug && this.render_debug() }
 						</div>
