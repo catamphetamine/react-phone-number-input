@@ -458,6 +458,10 @@
   onChange={ value => this.setState({ value }) }/>`}
 							</code></pre>
 
+							<div className="section">
+								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
+							</div>
+
 							<h2>Default country: Russia</h2>
 
 							<form>
