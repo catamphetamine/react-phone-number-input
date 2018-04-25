@@ -8,9 +8,6 @@ import { parsePhoneNumberCharacters, formatPhoneNumber } from './input-control'
  * but still works good enough. When erasing or inserting digits in the middle
  * of a phone number the caret usually jumps to the end: this is the expected
  * behaviour and it's the workaround for the [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
- *
- * This component is implemented as a `React.Component`
- * because `ReactDOM.findDOMNode()` is used for focusing.
  */
 @reactLifecyclesCompat
 export default class BasicInput extends PureComponent
@@ -61,6 +58,13 @@ export default class BasicInput extends PureComponent
 		return formatPhoneNumber(value, country, metadata).text
 	}
 
+	focus()
+	{
+		this.input.focus()
+	}
+
+	storeInput = (ref) => this.input = ref
+
 	render()
 	{
 		const
@@ -81,6 +85,7 @@ export default class BasicInput extends PureComponent
 		return (
 			<input
 				{...rest}
+				ref={this.storeInput}
 				value={this.format(value)}
 				onChange={this.onChange}/>
 		)

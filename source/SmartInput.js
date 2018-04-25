@@ -6,12 +6,16 @@ import { parsePhoneNumberCharacter, formatPhoneNumber } from './input-control'
 /**
  * This input uses `input-format` library
  * for "smart" caret positioning.
- *
- * This component is implemented as a `React.Component`
- * because `ReactDOM.findDOMNode()` is used for focusing.
  */
 export default class SmartInput extends Component
 {
+	focus()
+	{
+		this.input.focus()
+	}
+
+	storeInput = (ref) => this.input = ref
+
 	render()
 	{
 		const { country, metadata, ...rest } = this.props
@@ -19,8 +23,9 @@ export default class SmartInput extends Component
 		return (
 			<ReactInput
 				{...rest}
-				parse={ parsePhoneNumberCharacter }
-				format={ value => formatPhoneNumber(value, country, metadata) }/>
+				ref={this.storeInput}
+				parse={parsePhoneNumberCharacter}
+				format={value => formatPhoneNumber(value, country, metadata)}/>
 		)
 	}
 }

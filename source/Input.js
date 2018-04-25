@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 import classNames from 'classnames'
 
@@ -165,6 +164,8 @@ export default class PhoneNumberInput extends PureComponent
 		// * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 		// * `onChange(value : string)` — Updates the `value`.
 		// * All other properties should be passed through to the underlying `<input/>`.
+		//
+		// Must also implement `.focus()` method.
 		//
 		inputComponent : PropTypes.func,
 
@@ -484,7 +485,7 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// Can be called externally.
-	focus = () => ReactDOM.findDOMNode(this.number_input).focus()
+	focus = () => this.number_input.focus()
 
 	store_country_select_instance = _ => this.country_select = _
 
