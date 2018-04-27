@@ -17,7 +17,7 @@
 		This makes the page not scale down on mobile devices
 		and instead adapt to the screen width using `@media` queries.
 		-->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 		<script src="./react-phone-number-input.min.js"></script>
 		<script src="./libphonenumber-js.min.js"></script>
@@ -36,6 +36,12 @@
 		body
 		{
 			padding: 40px;
+		}
+
+		pre
+		{
+			white-space: pre-wrap !important;
+			word-wrap: break-word !important;
 		}
 
 		h2
@@ -68,7 +74,7 @@
 		a.main
 		{
 			display   : block;
-			font-size : 32px;
+			font-size : 160%;
 		}
 
 		p
@@ -97,9 +103,9 @@
 				padding: calc(0.3rem * 2);
 			}
 
-			body, h2, a.main code
+			html, body, button, input, textarea, select
 			{
-				font-size: 18px;
+				font-size   : 14px;
 			}
 
 			h2
@@ -499,7 +505,7 @@
 `}
 							</Highlight>
 
-							<h2>displayInitialValueAsLocalNumber = false (default)</h2>
+							<h2>display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = false (default)</h2>
 
 							<form>
 								<Phone
@@ -519,7 +525,7 @@
 `}
 							</Highlight>
 
-							<h2>displayInitialValueAsLocalNumber = true</h2>
+							<h2>display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = true</h2>
 
 							<form>
 								<Phone
