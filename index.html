@@ -40,6 +40,13 @@
 
 		body
 		{
+			/* Disables "double tap to zoom in" on mobile devices. */
+			/* https://stackoverflow.com/questions/46167604/iphone-html-disable-double-tap-to-zoom */
+			touch-action: manipulation;
+		}
+
+		body
+		{
 			padding: 40px;
 		}
 
@@ -110,7 +117,7 @@
 
 			html, body, button, input, textarea, select
 			{
-				font-size   : 14px;
+				font-size   : 16px;
 			}
 
 			h2
