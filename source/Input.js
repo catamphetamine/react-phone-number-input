@@ -48,6 +48,12 @@ export default class PhoneNumberInput extends PureComponent
 		// `onKeyDown` handler (e.g. to handle Enter key press).
 		onKeyDown : PropTypes.func,
 
+		// Some people requested an `onCountryChange` event listener.
+		// No valid reason was given other than compliance with some legacy code
+		// which stored both phone number and country in a database.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/128
+		onCountryChange : PropTypes.func,
+
 		// Disables both the phone number `<input/>`
 		// and the country `<select/>`.
 		// (is `false` by default)
@@ -330,6 +336,8 @@ export default class PhoneNumberInput extends PureComponent
 
 		const new_value = e164(new_parsed_input, new_country, metadata)
 
+		this.onCountryChange(new_country)
+
 		this.setState
 		({
 			country           : new_country,
@@ -401,6 +409,8 @@ export default class PhoneNumberInput extends PureComponent
 					international,
 					metadata
 				)
+
+				this.onCountryChange(country)
 			}
 			// If this `onChange()` event was triggered
 			// as a result of selecting "International" country
@@ -482,6 +492,21 @@ export default class PhoneNumberInput extends PureComponent
 		// (do it in a timeout because the `<input/>`
 		//  is hidden while selecting a country)
 		setTimeout(this.focus, 0)
+	}
+
+	// Some people requested an `onCountryChange` event listener.
+	// No valid reason was given other than compliance with some legacy code
+	// which stored both phone number and country in a database.
+	// https://github.com/catamphetamine/react-phone-number-input/issues/128
+	onCountryChange(new_country)
+	{
+		const { onCountryChange } = this.props
+		const { country } = this.state
+
+		if (onCountryChange && new_country !== country)
+		{
+			onCountryChange(new_country)
+		}
 	}
 
 	// Can be called externally.
@@ -597,6 +622,7 @@ export default class PhoneNumberInput extends PureComponent
 			international,
 			internationalIcon,
 			displayInitialValueAsLocalNumber,
+			onCountryChange,
 			locale,
 			metadata,
 			...phone_number_input_props
