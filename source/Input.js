@@ -293,11 +293,16 @@ export default class PhoneNumberInput extends PureComponent
 			// Generate country `<select/>` options.
 			country_select_options : generate_country_select_options(this.props),
 
-			// `parsed_input` state property holds user's input.
+			// `parsed_input` state property holds non-formatted user's input.
 			// The reason is that there's no way of finding out
 			// in which form should `value` be displayed: international or national.
-			// E.g. if value is `+78005553535` then it could be input
+			// E.g. if `value` is `+78005553535` then it could be input
 			// by a user both as `8 (800) 555-35-35` and `+7 800 555 35 35`.
+			// Hence storing just `value`is not sufficient for correct formatting.
+			// E.g. if a user entered `8 (800) 555-35-35`
+			// then value is `+78005553535` and `parsed_input` is `88005553535`
+			// and if a user entered `+7 800 555 35 35`
+			// then value is `+78005553535` and `parsed_input` is `+78005553535`.
 			parsed_input : generate_parsed_input(value, parsed_number, this.props),
 
 			// `value` property is duplicated in state.
@@ -449,7 +454,8 @@ export default class PhoneNumberInput extends PureComponent
 	//
 	on_blur = (event) =>
 	{
-		const { value, onBlur } = this.props
+		const { onBlur } = this.props
+		const { value } = this.state
 
 		if (!onBlur)
 		{
@@ -526,6 +532,7 @@ export default class PhoneNumberInput extends PureComponent
 			props:
 			{
 				country : old_default_country,
+				value   : old_value
 			}
 		}
 		= state
@@ -538,6 +545,7 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= props
 
+		// Emulate `prevProps` via `state.props`.
 		const new_state = { props }
 
 		// If `countries` or `labels` or `international` changed
@@ -566,7 +574,15 @@ export default class PhoneNumberInput extends PureComponent
 		// If a new `value` is set externally.
 		// (e.g. as a result of an ajax API request
 		//  to get user's phone after page loaded)
-		else if (new_value !== value)
+		// The first part — `new_value !== old_value` —
+		// is basically `props.value !== prevProps.value`
+		// so it means "if value property was changed externally".
+		// The second part — `new_value !== value` —
+		// is for ignoring the `getDerivedStateFromProps()` call
+		// which happens in `this.onChange()` right after `this.setState()`.
+		// If this `getDerivedStateFromProps()` call isn't ignored
+		// then the country flag would reset on each input.
+		else if (new_value !== old_value && new_value !== value)
 		{
 			const parsed_number = parsePhoneNumber(new_value, metadata)
 
@@ -577,13 +593,10 @@ export default class PhoneNumberInput extends PureComponent
 				country : new_value ? parsed_number.country : country
 			}
 		}
-		else if (new_state.country_select_options)
-		{
-			return new_state
-		}
 
-		// https://github.com/facebook/react/issues/12562
-		return null
+		// Maybe `new_state.country_select_options` changed.
+		// In any case, update `prevProps`.
+		return new_state
 	}
 
 	render()
