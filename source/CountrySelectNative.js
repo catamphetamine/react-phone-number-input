@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export default class CountrySelectNative extends Component
 {
+	static propTypes =
+	{
+		selectArrowComponent : PropTypes.func.isRequired
+	}
+
+	static defaultProps =
+	{
+		selectArrowComponent : () => <div className="react-phone-number-input__country-select-arrow"/>
+	}
+
 	// storeSelectRef = (ref) => this.select = ref
 	// ref={ this.storeSelectRef }
 
@@ -21,7 +32,9 @@ export default class CountrySelectNative extends Component
 			options,
 			disabled,
 			tabIndex,
-			className
+			className,
+			// `<select/>`-specific properties:
+			selectArrowComponent : SelectArrow
 		}
 		= this.props
 
@@ -46,7 +59,7 @@ export default class CountrySelectNative extends Component
 					))}
 				</select>
 
-				<div className="react-phone-number-input__country-select-arrow"/>
+				<SelectArrow/>
 			</div>
 		)
 	}

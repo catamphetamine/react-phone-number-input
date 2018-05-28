@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 // Could have been `import { Select } from 'react-responsive-ui'`
@@ -7,6 +8,20 @@ import Select from 'react-responsive-ui/commonjs/Select'
 
 export default class CountrySelectReactResponsiveUI extends Component
 {
+	static defaultProps =
+	{
+		// Whether to use native country `<select/>` when it's expanded.
+		// Deprecated. Use `<PhoneInputNative/>` instead.
+		nativeExpanded: false,
+
+		// If set to `false`, then country flags will be shown
+		// for all countries when country `<select/>` is expanded.
+		// By default shows flag only for currently selected country.
+		// (is `true` by default to save user's traffic
+		//  because all flags are about 3 MegaBytes)
+		saveOnIcons: true
+	}
+
 	// storeSelectRef = (ref) => this.select = ref
 	// ref={ this.storeSelectRef }
 
@@ -24,12 +39,12 @@ export default class CountrySelectReactResponsiveUI extends Component
 			// Optional properties:
 			hidePhoneInputField,
 			onTabOut,
-			// Deprecated properties:
+			// `<Select/>`-specific properties:
 			ariaLabel,
 			closeAriaLabel,
 			saveOnIcons,
 			nativeExpanded,
-			countrySelectMaxItems,
+			maxItems,
 			inputClassName,
 			toggleClassName
 		}
@@ -53,7 +68,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 				closeAriaLabel={ closeAriaLabel }
 				saveOnIcons={ saveOnIcons }
 				nativeExpanded={ nativeExpanded }
-				maxItems={ countrySelectMaxItems }
+				maxItems={ maxItems }
 				inputClassName={ inputClassName }
 				toggleClassName={ toggleClassName }
 				focusUponSelection={ false }

@@ -119,37 +119,12 @@ export default class PhoneNumberInput extends PureComponent
 		])
 		.isRequired,
 
-		// Whether to use native country `<select/>` when it's expanded.
-		// Deprecated. Will be removed in some future major version.
-		// Use `<PhoneInputNative/>` instead.
-		nativeCountrySelect : PropTypes.bool.isRequired,
-
-		// If set to `false`, then country flags will be shown
-		// for all countries when country `<select/>` is expanded.
-		// By default shows flag only for currently selected country.
-		// Deprecated. Will be removed in some future version.
-		saveOnIcons : PropTypes.bool.isRequired,
-
 		// Whether to show country `<select/>`.
 		// (is `true` by default)
 		showCountrySelect : PropTypes.bool.isRequired,
 
 		// HTML `tabindex` attribute for the country `<select/>`.
 		countrySelectTabIndex : PropTypes.number,
-
-		// Defines the height (in items) of the expanded country `<select/>`.
-		// Deprecated. Will be removed in some future major version.
-		countrySelectMaxItems : PropTypes.number,
-
-		// `aria-label` for the `<Select/>`'s toggle `<button/>`.
-		// Deprecated. Will be removed in some future major version.
-		countrySelectAriaLabel : PropTypes.string,
-
-		// `aria-label` for the `<Select/>`'s "Close" button
-		// (which is an "x" visible in fullscreen mode).
-		// (not yet implemented but is likely to be).
-		// Deprecated. Will be removed in some future major version.
-		countrySelectCloseAriaLabel : PropTypes.string,
 
 		// `<Phone/>` component CSS style object.
 		style : PropTypes.object,
@@ -159,17 +134,12 @@ export default class PhoneNumberInput extends PureComponent
 
 		// `<input/>` CSS class.
 		// Both for the phone number `<input/>` and
-		// the country select autocomplete `<input/>`.
-		// Deprecated. Will be removed in some future major version.
+		// `react-responsive-ui` `<Select/>` autocomplete input.
 		inputClassName : PropTypes.string,
 
-		// Returns phone number `<input/>` CSS class.
+		// Returns phone number `<input/>` CSS class string.
 		// Receives an object of shape `{ disabled : boolean?, invalid : boolean? }`.
 		getInputClassName : PropTypes.func,
-
-		// Country `<select/>` toggle `<button/>` CSS class.
-		// Deprecated. Will be removed in some future major version.
-		countrySelectToggleClassName : PropTypes.string,
 
 		// Country `<select/>` component.
 		//
@@ -187,13 +157,6 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		// * `hidePhoneInputField(hide : boolean)` — Can be called to show/hide phone input field. Takes `hide : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
 		// * `onTabOut()` — Should be called when country select gets "tabbed out" (on blur). E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input in a timeout (after it is no longer hidden).
-		// * `nativeExpanded : boolean?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
-		// * `maxItems : number?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
-		// * `saveOnIcons : boolean?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
-		// * `ariaLabel : string?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
-		// * `closeAriaLabel : string?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
-		// * `inputClassName : string?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
-		// * `toggleClassName : string?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
 		//
 		countrySelectComponent : PropTypes.func.isRequired,
 
@@ -260,16 +223,6 @@ export default class PhoneNumberInput extends PureComponent
 				<InternationalIcon/>
 			</div>
 		),
-
-		// Whether to use native country `<select/>` when it's expanded.
-		nativeCountrySelect: false,
-
-		// If set to `false`, then country flags will be shown
-		// for all countries when country `<select/>` is expanded.
-		// By default shows flag only for currently selected country.
-		// (is `true` by default to save user's traffic
-		//  because all flags are about 3 MegaBytes)
-		saveOnIcons: true,
 
 		// Show country `<select/>`.
 		showCountrySelect: true,
@@ -641,17 +594,12 @@ export default class PhoneNumberInput extends PureComponent
 			disabled,
 			autoComplete,
 			countrySelectTabIndex,
-			countrySelectMaxItems,
-			countrySelectAriaLabel,
-			countrySelectCloseAriaLabel,
 			showCountrySelect,
-			nativeCountrySelect,
-			saveOnIcons,
 			style,
 			className,
 			inputClassName,
 			getInputClassName,
-			countrySelectToggleClassName,
+			countrySelectProperties,
 
 			error,
 			indicateInvalid,
@@ -689,6 +637,21 @@ export default class PhoneNumberInput extends PureComponent
 
 		const InputComponent = inputComponent || (smartCaret ? SmartInput : BasicInput)
 
+		// Extract `countrySelectProperties` from `this.props`
+		// also removing them from `phone_number_input_props`.
+		const _countrySelectProps = {}
+		if (countrySelectProperties)
+		{
+			for (const key in countrySelectProperties)
+			{
+				if (this.props.hasOwnProperty(key))
+				{
+					_countrySelectProps[countrySelectProperties[key]] = this.props[key]
+					delete phone_number_input_props[key]
+				}
+			}
+		}
+
 		return (
 			<div
 				style={ style }
@@ -704,23 +667,17 @@ export default class PhoneNumberInput extends PureComponent
 					{/* Country `<select/>` */}
 					{ showCountrySelect &&
 						<CountrySelectComponent
+							{..._countrySelectProps}
 							ref={ this.store_country_select_instance }
+							name={ phone_number_input_props.name ? `${phone_number_input_props.name}__country` : undefined }
 							value={ country }
 							options={ country_select_options }
 							onChange={ this.on_country_selected }
 							disabled={ disabled }
+							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
 							onTabOut={ this.on_country_select_tab_out }
-							nativeExpanded={ nativeCountrySelect }
-							maxItems={ countrySelectMaxItems }
-							tabIndex={ countrySelectTabIndex }
-							saveOnIcons={ saveOnIcons }
-							name={ phone_number_input_props.name ? `${phone_number_input_props.name}__country` : undefined }
-							ariaLabel={ countrySelectAriaLabel }
-							closeAriaLabel={ countrySelectCloseAriaLabel }
-							className="react-phone-number-input__country"
-							inputClassName={ inputClassName }
-							toggleClassName={ countrySelectToggleClassName }/>
+							className="react-phone-number-input__country"/>
 					}
 
 					{/* Phone number `<input/>` */}
