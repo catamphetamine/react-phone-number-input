@@ -40,7 +40,7 @@ export default class CountrySelectNative extends Component
 					tabIndex={ tabIndex }
 					className="react-phone-number-input__country-select">
 					{options.map(({ value, label }) => (
-						<option key={ value } value={ value }>
+						<option key={ value || '-' } value={ value }>
 							{ label }
 						</option>
 					))}
