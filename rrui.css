@@ -259,6 +259,7 @@
 .rrui__select__option-icon
 {
 	margin-right : calc(0.3rem * 3);
+	flex-shrink  : 0;
 }
 
 .rrui__select__options--upward
