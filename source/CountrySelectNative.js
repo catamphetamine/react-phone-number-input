@@ -45,6 +45,8 @@ export default class CountrySelectNative extends Component
 						</option>
 					))}
 				</select>
+
+				<div className="react-phone-number-input__country-select-arrow"/>
 			</div>
 		)
 	}
