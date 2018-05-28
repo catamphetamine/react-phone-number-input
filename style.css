@@ -153,6 +153,19 @@
 	margin-right : 0.5em;
 }
 
+.react-phone-number-input__country-select
+{
+	position : absolute;
+	top      : 0;
+	left     : 0;
+	height   : 100%;
+	width    : 100%;
+	z-index  : 1;
+	border   : 0;
+	opacity  : 0;
+	cursor   : pointer;
+}
+
 .react-phone-number-input__country-select-arrow
 {
 	display            : block;
@@ -176,20 +189,7 @@
 	color : #03B2CB;
 }
 
-/* For native `<select/>`. */
-.react-phone-number-input__country-select
-{
-	position : absolute;
-	top      : 0;
-	left     : 0;
-	height   : 100%;
-	width    : 100%;
-	z-index  : 1;
-	border   : 0;
-	opacity  : 0;
-	cursor   : pointer;
-}
-
+/* Remove "--native" for v 2.x */
 .react-phone-number-input__phone--native
 {
 	height        : calc(0.3rem * 6);
@@ -202,6 +202,7 @@
 	transition    : border 0.1s;
 }
 
+/* Remove "--native" for v 2.x */
 .react-phone-number-input__phone--native:focus
 {
 	border-color : #03B2CB;
@@ -218,6 +219,7 @@
 	border-color : #EB2010;
 }
 
+/* Remove "--native" for v 2.x */
 /* Overrides Chrome autofill yellow background color */
 .react-phone-number-input__phone--native:-webkit-autofill
 {
