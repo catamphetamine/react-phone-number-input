@@ -22,7 +22,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 			tabIndex,
 			className,
 			// Optional properties:
-			onToggle,
+			hidePhoneInputField,
 			onTabOut,
 			// Deprecated properties:
 			ariaLabel,
@@ -47,7 +47,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 				{
 					'react-phone-number-input__country--native-expanded' : nativeExpanded
 				}) }
-				onToggle={ onToggle }
+				onToggle={ hidePhoneInputField }
 				onTabOut={ onTabOut }
 				ariaLabel={ ariaLabel }
 				closeAriaLabel={ closeAriaLabel }

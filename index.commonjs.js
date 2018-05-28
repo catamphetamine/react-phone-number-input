@@ -1,6 +1,5 @@
 'use strict'
 
-// Deprecated export, use the `.default` export instead.
 exports = module.exports = require('./commonjs/PhoneInputReactResponsiveUIDefaultMetadata').default
 
 exports.PhoneInputNative = require('./commonjs/PhoneInputNativeDefaultMetadata').default

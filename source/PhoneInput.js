@@ -163,6 +163,10 @@ export default class PhoneNumberInput extends PureComponent
 		// Deprecated. Will be removed in some future major version.
 		inputClassName : PropTypes.string,
 
+		// Returns phone number `<input/>` CSS class.
+		// Receives an object of shape `{ disabled : boolean?, invalid : boolean? }`.
+		getInputClassName : PropTypes.func,
+
 		// Country `<select/>` toggle `<button/>` CSS class.
 		// Deprecated. Will be removed in some future major version.
 		countrySelectToggleClassName : PropTypes.string,
@@ -181,7 +185,7 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		// Optional properties (should be ignored unless needed):
 		//
-		// * `onToggle(show : boolean)` — Should be called when country select is toggled. Takes `show : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
+		// * `hidePhoneInputField(hide : boolean)` — Can be called to show/hide phone input field. Takes `hide : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
 		// * `onTabOut()` — Should be called when country select gets "tabbed out" (on blur). E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input in a timeout (after it is no longer hidden).
 		// * `nativeExpanded : boolean?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
 		// * `maxItems : number?` — This is a legacy property and is now deprecated. Will be removed in some future major version.
@@ -512,10 +516,10 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// When country `<select/>` is toggled.
-	on_country_select_toggle = (show) =>
+	hidePhoneInputField = (hide) =>
 	{
 		this.setState({
-			showing_country_select: show
+			hidePhoneInputField: hide
 		})
 	}
 
@@ -646,6 +650,7 @@ export default class PhoneNumberInput extends PureComponent
 			style,
 			className,
 			inputClassName,
+			getInputClassName,
 			countrySelectToggleClassName,
 
 			error,
@@ -676,7 +681,7 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			country,
-			showing_country_select,
+			hidePhoneInputField,
 			country_select_options,
 			parsed_input
 		}
@@ -704,7 +709,7 @@ export default class PhoneNumberInput extends PureComponent
 							options={ country_select_options }
 							onChange={ this.on_country_selected }
 							disabled={ disabled }
-							onToggle={ this.on_country_select_toggle }
+							hidePhoneInputField={ this.hidePhoneInputField }
 							onTabOut={ this.on_country_select_tab_out }
 							nativeExpanded={ nativeCountrySelect }
 							maxItems={ countrySelectMaxItems }
@@ -719,7 +724,7 @@ export default class PhoneNumberInput extends PureComponent
 					}
 
 					{/* Phone number `<input/>` */}
-					{ !showing_country_select &&
+					{ !hidePhoneInputField &&
 						<InputComponent
 							type="tel"
 							{ ...phone_number_input_props }
@@ -734,20 +739,19 @@ export default class PhoneNumberInput extends PureComponent
 							autoComplete={ autoComplete }
 							className={ classNames
 							(
-								'rrui__input',
-								'rrui__input-element',
-								'rrui__input-field',
-								{
-									'rrui__input-field--invalid'  : error && indicateInvalid,
-									'rrui__input-field--disabled' : disabled
-								},
 								'react-phone-number-input__phone',
-								inputClassName
+								// Will be uncommented for version 2.x
+								// {
+								// 	'react-phone-number-input__phone--disabled' : disabled,
+								// 	'react-phone-number-input__phone--invalid'  : error && indicateInvalid
+								// },
+								inputClassName,
+								getInputClassName && getInputClassName({ disabled, invalid: error && indicateInvalid })
 							) }/>
 					}
 
 					{/* Phone extension `<input/>` */}
-					{ ext && !showing_country_select &&
+					{ ext && !hidePhoneInputField &&
 						<label className="react-phone-number-input__ext">
 							{labels && labels.ext || 'ext.'}
 							{React.cloneElement(ext,
@@ -755,14 +759,13 @@ export default class PhoneNumberInput extends PureComponent
 								type : ext.props.type === undefined ? 'number' : ext.props.type,
 								className : classNames
 								(
-									'rrui__input',
-									'rrui__input-element',
-									'rrui__input-field',
-									{
-										'rrui__input-field--disabled' : disabled
-									},
 									'react-phone-number-input__ext-input',
+									// Will be uncommented for version 2.x
+									// {
+									// 	'react-phone-number-input__phone--disabled' : disabled,
+									// },
 									inputClassName,
+									getInputClassName && getInputClassName({ disabled }),
 									ext.props.className
 								)
 							})}

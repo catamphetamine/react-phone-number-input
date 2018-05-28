@@ -21,7 +21,22 @@
    <link rel="stylesheet" href="/css/react-phone-number-input/style.css"/>
 
 -  * `nativeExpanded` <E2><80><94> If set to `true` will render native `<select/>`
+
+* Убрать все `rrui__` из *.css и *.js. Посмотреть стили в целом и убрать лишнее (порефакторить).
+
+* Найти везде "2.x" (например, "Will be uncommented for version 2.x").
+
+* `.react-phone-number-input__phone--native` -> `.react-phone-number-input__phone`.
 -->
+
+1.1.2 / 29.05.2018
+===================
+
+  * Added an isolated `react-phone-number-input/native` export (so that it doesn't include `react-responsive-ui` package in the resulting bundle).
+
+  * Some CSS tweaks.
+
+  *  `countrySelectComponent` `onToggle` property renamed to `hidePhoneInputField`.
 
 1.1.0 / 28.05.2018
 ===================

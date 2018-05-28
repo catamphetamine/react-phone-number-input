@@ -105,13 +105,13 @@ Make sure to wrap a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["a
 
 ## Native `<select/>`
 
-One can (and probably should) choose to use native HTML `<select/>` instead of `react-responsive-ui` `<Select/>` component, in which case use the exported `<PhoneInputNative/>` instead of the default `<PhoneInput/>` export.
+One can (and probably should) choose to use native HTML `<select/>` instead of `react-responsive-ui` `<Select/>` component, in which case use the `react-phone-number-input/native` export instead of the default one.
 
 ```js
-import { PhoneInputNative } from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input/native'
 
 return (
-	<PhoneInputNative
+	<PhoneInput
 		placeholder="Enter phone number"
 		value={ this.state.phone }
 		onChange={ phone => this.setState({ phone }) } />
