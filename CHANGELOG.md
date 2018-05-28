@@ -1,3 +1,28 @@
+<!--
+2.0.0:
+
+* В README раздел про `react-responsive-ui` - вынести его в отдельную секцию, типа Custom Country Select.
+
+-The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/).
+
+* bundle/rrui.css -> bundle.react-responsive-ui.css
+
+* The CSS files for this React component must be included on a page too. -> 'file' (without "s")
+
+-import 'react-phone-number-input/rrui.css'
+-import 'react-phone-number-input/style.css'
++require('react-phone-number-input/style.css')
+
+-Get the `rrui.css` and `style.css` files from this package, process these files with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include them on a page.
++Get the `style.css` file from this package, process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include the resulting file on a page.
+
+ <head>
+-  <link rel="stylesheet" href="/css/react-phone-number-input/rrui.css"/>
+   <link rel="stylesheet" href="/css/react-phone-number-input/style.css"/>
+
+-  * `nativeExpanded` <E2><80><94> If set to `true` will render native `<select/>`
+-->
+
 1.1.0 / 28.05.2018
 ===================
 

@@ -29,7 +29,7 @@ International phone number `<input/>` for React (iPhone style).
 
 ### Mobile
 
-<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-native-select.png" width="380" height="676"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-native-select.png" width="380" height="443"/>
 
 ## Usage
 
@@ -101,7 +101,7 @@ For the actual phone number validation use [`libphonenumber-js`](https://github.
 
 ## Autocomplete
 
-Make sure to wrap a `<PhoneInput/>` into a `<form/>` otherwise autocomplete feature won't work: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
+Make sure to wrap a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature won't work: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
 
 ## Native `<select/>`
 
@@ -227,27 +227,14 @@ parseRFC3966('tel:+12133734253;ext=123')
 
 ## Reducing bundle size
 
-By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size there is a special exported `<Input/>` creator which takes custom `metadata` as an argument.
-
-For a proper "tree-shaking" bundler that would be
+By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is `react-phone-number-input/custom` export.
 
 ```js
-import { Input } from 'react-phone-number-input'
-import metadata from './metadata.min.json'
-
-export default function Phone(props) {
-	return <Input { ...props } metadata={ metadata }/>
-}
-```
-
-And for [Common.js](https://auth0.com/blog/javascript-module-systems-showdown/) environments (or bundlers that can't do proper "tree-shaking") that would be
-
-```js
-var Input = require('react-phone-number-input/custom').default
+var PhoneInput = require('react-phone-number-input/custom').default
 var metadata = require('./metadata.min.json')
 
 module.exports = function Phone(props) {
-	return <Input { ...props } metadata={ metadata }/>
+	return <PhoneInput { ...props } metadata={ metadata }/>
 }
 ```
 
@@ -266,6 +253,10 @@ This error means that your Webpack is misconfigured to exclude `.json` file exte
 ```
 
 If you're using Webpack 1 then upgrade to a newer version.
+
+## Advertisement
+
+[React Responsive UI](https://catamphetamine.github.io/react-responsive-ui/) component library.
 
 ## License
 
