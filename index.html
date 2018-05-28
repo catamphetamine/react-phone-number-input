@@ -6,6 +6,12 @@
 		<!-- React 15.3.1 -->
 		<script src="./lib/react.js"></script>
 		<script src="./lib/react-dom.js"></script>
+
+		<!-- React 16
+		<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+		<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+		-->
+
 		<!-- Babel 5.8 -->
 		<script src="./lib/babel.js"></script>
 
@@ -401,7 +407,8 @@
 
 			const library = window['react-phone-number-input']
 
-			const Phone = library.default
+			const PhoneInput = library.default
+			const PhoneInputNative = library.PhoneInputNative
 
 			function Highlight({ lang, style, children })
 			{
@@ -432,11 +439,10 @@
 							<h2>Example</h2>
 
 							<form>
-								<Phone
+								<PhoneInput
 									placeholder="Start typing a phone number"
 									value={this.state.value}
-									onChange={value => this.setState({ value: value })}
-									autoFocus/>
+									onChange={value => this.setState({ value: value })}/>
 							</form>
 
 							<div className="section">
@@ -444,7 +450,9 @@
 							</div>
 
 							<Highlight lang="jsx">
-								{`<Phone
+								{`import PhoneInput from 'react-phone-number-input'
+
+<PhoneInput
   placeholder="Start typing a phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>`}
@@ -465,7 +473,7 @@
 							</div>
 
 							<form>
-								<Phone
+								<PhoneInput
 									smartCaret={false}
 									placeholder="Start typing a phone number"
 									value={this.state.value}
@@ -477,7 +485,7 @@
 							</div>
 
 							<Highlight lang="jsx">
-								{`<Phone
+								{`<PhoneInput
   smartCaret={ false }
   placeholder="Start typing a phone number"
   value={ this.state.value }
@@ -488,10 +496,37 @@
 								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
 							</div>
 
+							<h2>Native country &lt;select/&gt;</h2>
+
+							<div className="section">
+								Native country <code>&lt;select/&gt;</code> is the most light-weight one and does not require any third party JS (<a href="https://catamphetamine.github.io/react-responsive-ui/" target="_blank"><code>react-responsive-ui</code></a>) or CSS (<code>rrui.css</code>).
+							</div>
+
+							<div className="section">
+								&nbsp;
+							</div>
+
+							<form>
+								<PhoneInputNative
+									placeholder="Enter phone number"
+									value={this.state.value_native}
+									onChange={value => this.setState({ value_native: value })}/>
+							</form>
+
+							<Highlight lang="jsx">
+{`import { PhoneInputNative } from 'react-responsive-ui'
+
+<PhoneInputNative
+  placeholder="Enter phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>
+`}
+							</Highlight>
+
 							<h2>Default country: Russia</h2>
 
 							<form>
-								<Phone
+								<PhoneInput
 									country="RU"
 									placeholder="Start typing a phone number"
 									value={this.state.value_RU}
@@ -503,9 +538,7 @@
 							</div>
 
 							<Highlight lang="jsx">
-{`import Phone from 'react-phone-number-input'
-
-<Phone
+{`<PhoneInput
   country="RU"
   placeholder="Start typing a phone number"
   value={ this.state.value }
@@ -516,7 +549,7 @@
 							<h2>display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = false (default)</h2>
 
 							<form>
-								<Phone
+								<PhoneInput
 									placeholder="Enter phone number"
 									value={this.state.value_convert_to_national_false}
 									onChange={value => this.setState({ value_convert_to_national_false: value })}/>
@@ -527,7 +560,7 @@
 							</div>
 
 							<Highlight lang="jsx">
-{`<Phone
+{`<PhoneInput
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
@@ -536,7 +569,7 @@
 							<h2>display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = true</h2>
 
 							<form>
-								<Phone
+								<PhoneInput
 									placeholder="Enter phone number"
 									value={this.state.value_convert_to_national_true}
 									onChange={value => this.setState({ value_convert_to_national_true: value })}
@@ -548,7 +581,7 @@
 							</div>
 
 							<Highlight lang="jsx">
-{`<Phone
+{`<PhoneInput
   displayInitialValueAsLocalNumber
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
@@ -568,7 +601,7 @@
 							</div>
 
 							<form>
-								<Phone
+								<PhoneInput
 									placeholder="Ваш телефон"
 									value={this.state.value}
 									onChange={value => this.setState({ value })}
@@ -579,7 +612,7 @@
 {`// Country names in Russian.
 import ru from 'react-phone-number-input/locale/ru'
 
-<Phone
+<PhoneInput
   labels={ ru }
   placeholder="Ваш телефон"
   value={ this.state.value }
@@ -592,7 +625,7 @@ import ru from 'react-phone-number-input/locale/ru'
 							<p>Note: I personally prefer not using this phone number validation feature in my projects. <a target="_blank" href="https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.</p>
 
 							<form>
-								<Phone
+								<PhoneInput
 									error={this.state.value_validation ? (libphonenumber.isValidNumber(this.state.value_validation) ? undefined : 'Invalid phone number') : 'Phone number required'}
 									indicateInvalid
 									placeholder="Enter phone number"
@@ -617,12 +650,12 @@ import ru from 'react-phone-number-input/locale/ru'
 							</div>
 
 							<Highlight lang="jsx">
-{`import Phone from 'react-phone-number-input'
+{`import PhoneInput from 'react-phone-number-input'
 import { parseNumber, formatNumber, isValidNumber } from 'libphonenumber-js'
 
 const { value } = this.state
 
-<Phone
+<PhoneInput
   placeholder="Enter phone number"
   value={ value }
   onChange={ value => this.setState({ value }) }
@@ -638,7 +671,7 @@ International: { value && formatNumber(value, 'International') }
 							<h2>Extension</h2>
 
 							<form>
-								<Phone
+								<PhoneInput
 									ext={<input
 										value={ this.state.ext }
 										onChange={ event => this.setState({ ext: event.target.value }) }/>
@@ -662,29 +695,10 @@ International: { value && formatNumber(value, 'International') }
     onChange={ event => this.setState({ ext: event.target.value }) }/>
 )
 
-<Phone
+<PhoneInput
   ext={ ext }
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
-`}
-							</Highlight>
-
-							<h2>Native country &lt;select/&gt;</h2>
-
-							<form>
-								<Phone
-									placeholder="Enter phone number"
-									value={this.state.value_native}
-									onChange={value => this.setState({ value_native: value })}
-									nativeCountrySelect/>
-							</form>
-
-							<Highlight lang="jsx">
-{`<Phone
-  placeholder="Enter phone number"
-  value={ this.state.value }
-  onChange={ value => this.setState({ value }) }
-  nativeCountrySelect/>
 `}
 							</Highlight>
 
@@ -696,10 +710,29 @@ International: { value && formatNumber(value, 'International') }
 				render_debug() {
 					return (
 						<div>
+							<h2>nativeCountrySelect (deprecated)</h2>
+
+							<form>
+								<PhoneInput
+									placeholder="Enter phone number"
+									value={this.state.value_native}
+									onChange={value => this.setState({ value_native: value })}
+									nativeCountrySelect/>
+							</form>
+
+							<Highlight lang="jsx">
+{`<PhoneInput
+  placeholder="Enter phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }
+  nativeCountrySelect/>
+`}
+							</Highlight>
+
 							{/*
 							<h2>All flags</h2>
 
-							<Phone
+							<PhoneInput
 								value={this.state.value}
 								onChange={value => this.setState({ value })}
 								flags={library.flags}/>
@@ -707,7 +740,7 @@ International: { value && formatNumber(value, 'International') }
 
 							<h2>Dynamic</h2>
 
-							<Phone
+							<PhoneInput
 								labels={this.state.dynamic_labels}
 								country={this.state.dynamic_country}
 								value={this.state.dynamic_value}
@@ -720,7 +753,7 @@ International: { value && formatNumber(value, 'International') }
 								<br/>
 							</div>
 
-							<Phone
+							<PhoneInput
 								labels={this.state.dynamic_labels}
 								country={this.state.dynamic_country}
 								value={this.state.dynamic_value}
