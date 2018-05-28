@@ -29,6 +29,11 @@
 * `.react-phone-number-input__phone--native` -> `.react-phone-number-input__phone`.
 -->
 
+1.1.3 / 29.05.2018
+===================
+
+  * Some CSS tweaks and code refactoring.
+
 1.1.2 / 29.05.2018
 ===================
 
