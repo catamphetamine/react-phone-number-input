@@ -34,10 +34,10 @@ International phone number `<input/>` for React (iPhone style).
 ## Usage
 
 ```js
-import Phone from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input'
 
 return (
-	<Phone
+	<PhoneInput
 		placeholder="Enter phone number"
 		value={ this.state.phone }
 		onChange={ phone => this.setState({ phone }) } />
@@ -83,9 +83,9 @@ There have been [reports](https://github.com/catamphetamine/react-phone-number-i
 The workaround is to pass `smartCaret={false}` property:
 
 ```js
-import Phone from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input'
 
-<Phone
+<PhoneInput
   smartCaret={false}
   value={this.state.value}
   onChange={value => this.setState(value)}/>
@@ -101,7 +101,24 @@ For the actual phone number validation use [`libphonenumber-js`](https://github.
 
 ## Autocomplete
 
-Make sure to wrap a `<Phone/>` into a `<form/>` otherwise autocomplete feature won't work: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
+Make sure to wrap a `<PhoneInput/>` into a `<form/>` otherwise autocomplete feature won't work: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
+
+## Native `<select/>`
+
+One can (and probably should) choose to use native HTML `<select/>` instead of `react-responsive-ui` `<Select/>` component, in which case use the exported `<PhoneInputNative/>` instead of the default `<PhoneInput/>` export.
+
+```js
+import { PhoneInputNative } from 'react-phone-number-input'
+
+return (
+	<PhoneInputNative
+		placeholder="Enter phone number"
+		value={ this.state.phone }
+		onChange={ phone => this.setState({ phone }) } />
+)
+```
+
+Native `<select/>` is the recommended one because it's more light-weight and doesn't require `rrui.css` file. In the next major version of this library (`2.x`) native `<select/>` will be the default one.
 
 ## Bug reporting
 
@@ -127,7 +144,7 @@ The available props are
 
  * `flagComponent` — (optional) A React component for displaying a country flag (replaces the default flag icons).
 
- * `nativeExpanded` — If set to `true` will render native `<select/>` when country select is expanded instead of the custom one (which has autocomplete feature).
+ * `nativeExpanded` — If set to `true` will render native `<select/>` when country select is expanded instead of the custom one (which has autocomplete feature). **Deprecated. Use `<PhoneInputNative/>` instead.**
 
  * `displayInitialValueAsLocalNumber` — If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set (see the example on the demo page). The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format. The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
 
@@ -144,7 +161,7 @@ Country names can be passed via the `labels` property. E.g. `labels={{ RU: 'Ро
 ```js
 import ru from 'react-phone-number-input/locale/ru'
 
-<Phone ... labels={ru}/>
+<PhoneInput ... labels={ru}/>
 ```
 
 ## Extensions

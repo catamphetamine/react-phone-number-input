@@ -1,3 +1,10 @@
+1.1.0 / 28.05.2018
+===================
+
+  * Added `PhoneInputNative` exported component which deprecateds the old `nativeCountrySelect={true/false}` property. `PhoneInputNative` component doesn't require `rrui.css`. It will be the default exported component in version `2.x`.
+
+  * Fixed [a minor bug](https://github.com/catamphetamine/react-phone-number-input/issues/131) appering in React 16.4 which caused the currently selected country flag to be reset while typing.
+
 1.0.10 / 19.04.2018
 ===================
 

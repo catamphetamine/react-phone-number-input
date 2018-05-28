@@ -1,21 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 // Default country flag icon.
 // `<img/>` is wrapped in a `<div/>` to prevent SVGs from exploding in size.
 // https://github.com/catamphetamine/react-phone-number-input/issues/111
-const FlagComponent = ({ country, flags, flagsPath }) =>
+const FlagComponent = ({ country, flags, flagsPath, className }) =>
 {
 	if (flags && flags[country])
 	{
 		return React.cloneElement(flags[country](),
 		{
-			className: 'react-phone-number-input__icon'
+			className: classNames('react-phone-number-input__icon', className)
 		})
 	}
 
 	return (
-		<div className="react-phone-number-input__icon">
+		<div className={classNames('react-phone-number-input__icon', className)}>
 			<img
 				alt={country}
 				className="react-phone-number-input__icon-image"
