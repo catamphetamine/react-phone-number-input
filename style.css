@@ -116,6 +116,8 @@
 .react-phone-number-input__error
 {
 	margin-left : calc(1.24em + 2px + 0.3em + 0.35em + 0.5em);
+	margin-top  : calc(0.3rem);
+	color       : #D30F00;
 }
 
 .react-phone-number-input__icon-image
@@ -156,18 +158,6 @@
 	min-width : 0;
 }
 
-.react-phone-number-input__country-select
-{
-	position : absolute;
-	top      : 0;
-	left     : 0;
-	height   : 100%;
-	width    : 100%;
-	border   : 0;
-	opacity  : 0;
-	cursor   : pointer;
-}
-
 .react-phone-number-input__country--native
 {
 	position     : relative;
@@ -177,7 +167,20 @@
 	margin-right : 0.5em;
 }
 
-.react-phone-number-input__country--native:after
+.react-phone-number-input__country-select
+{
+	position : absolute;
+	top      : 0;
+	left     : 0;
+	height   : 100%;
+	width    : 100%;
+	z-index  : 1;
+	border   : 0;
+	opacity  : 0;
+	cursor   : pointer;
+}
+
+.react-phone-number-input__country-select-arrow
 {
 	display            : block;
 	content            : '';
@@ -192,11 +195,10 @@
 	border-right-color : transparent;
 	color              : #B8BDC4;
 	opacity            : 0.7;
-	pointer-events     : none;
+	transition         : color 0.1s;
 }
 
-.react-phone-number-input__country--native:active:after,
-.react-phone-number-input__country--native:focus:after
+.react-phone-number-input__country-select:focus + .react-phone-number-input__country-select-arrow
 {
 	color : #03B2CB;
 }
@@ -220,7 +222,7 @@
 
 .react-phone-number-input__phone--disabled
 {
-	cursor: default;
+	cursor : default;
 }
 
 .react-phone-number-input__phone--invalid,
@@ -230,15 +232,7 @@
 }
 
 /* Overrides Chrome autofill yellow background color */
-.react-phone-number-input__phone--native:-webkit-autofill,
-.react-phone-number-input__phone--native:-webkit-autofill:hover,
-.react-phone-number-input__phone--native:-webkit-autofill:focus
+.react-phone-number-input__phone--native:-webkit-autofill
 {
 	box-shadow : 0 0 0 1000px white inset;
-}
-
-.react-phone-number-input__error
-{
-	margin-top : calc(0.3rem);
-	color      : #D30F00;
 }
