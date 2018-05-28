@@ -111,10 +111,10 @@ One can (and probably should) choose to use native HTML `<select/>` instead of `
 import PhoneInput from 'react-phone-number-input/native'
 
 return (
-	<PhoneInput
-		placeholder="Enter phone number"
-		value={ this.state.phone }
-		onChange={ phone => this.setState({ phone }) } />
+  <PhoneInput
+    placeholder="Enter phone number"
+    value={ this.state.phone }
+    onChange={ phone => this.setState({ phone }) } />
 )
 ```
 
