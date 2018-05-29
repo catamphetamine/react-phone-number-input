@@ -303,7 +303,7 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// Country `<select/>` `onChange` handler.
-	on_country_selected = (new_country) =>
+	onCountrySelected = (new_country) =>
 	{
 		const { metadata, onChange } = this.props
 
@@ -352,7 +352,7 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// Phone number `<input/>` `onKeyDown` handler.
-	on_number_key_down = (event) =>
+	onPhoneNumberKeyDown = (event) =>
 	{
 		const { onKeyDown } = this.props
 
@@ -374,7 +374,7 @@ export default class PhoneNumberInput extends PureComponent
 	// `parsed_input` must be a parsed phone number
 	// or an empty string.
 	// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
-	on_change = (parsed_input) =>
+	onChange = (parsed_input) =>
 	{
 		const
 		{
@@ -434,22 +434,23 @@ export default class PhoneNumberInput extends PureComponent
 	// This `onBlur` interceptor is a workaround for `redux-form`
 	// so that it gets the up-to-date `value` in its `onBlur` handler.
 	// Without this fix it just gets the actual (raw) input field textual value.
+	// E.g. `+7 800 555 35 35` instead of `+78005553535`.
 	//
 	// A developer is not supposed to pass this `onBlur` property manually.
 	// Instead, `redux-form` passes `onBlur` to this component automatically
-	// and this component patches that `onBlur` handler passing it further to
-	// `input-format`'s `<ReactInput/>`.
+	// and this component patches that `onBlur` handler (a hacky way but works).
 	//
-	on_blur = (event) =>
+	onBlur = (event) =>
 	{
 		const { onBlur } = this.props
 		const { value } = this.state
 
-		if (!onBlur)
-		{
+		if (!onBlur) {
 			return
 		}
 
+		// `event` is React's `SyntheticEvent`.
+		// Its `.value` is read-only therefore cloning it.
 		const _event =
 		{
 			...event,
@@ -494,9 +495,9 @@ export default class PhoneNumberInput extends PureComponent
 	// Can be called externally.
 	focus = () => this.number_input.focus()
 
-	store_country_select_instance = _ => this.country_select = _
+	storeCountrySelectInstance = _ => this.country_select = _
 
-	store_number_input_instance = _ => this.number_input = _
+	storePhoneNumberInputInstance = _ => this.number_input = _
 
 	static getDerivedStateFromProps(props, state)
 	{
@@ -579,6 +580,7 @@ export default class PhoneNumberInput extends PureComponent
 	{
 		const
 		{
+			name,
 			disabled,
 			autoComplete,
 			countrySelectTabIndex,
@@ -597,7 +599,7 @@ export default class PhoneNumberInput extends PureComponent
 			smartCaret,
 			ext,
 
-			// Extract `phone_number_input_props` via "object rest spread":
+			// Extract `phoneNumberInputProps` via "object rest spread":
 			countries,
 			labels,
 			country : _,
@@ -610,7 +612,7 @@ export default class PhoneNumberInput extends PureComponent
 			onCountryChange,
 			locale,
 			metadata,
-			...phone_number_input_props
+			...phoneNumberInputProps
 		}
 		= this.props
 
@@ -626,7 +628,7 @@ export default class PhoneNumberInput extends PureComponent
 		const InputComponent = inputComponent || (smartCaret ? SmartInput : BasicInput)
 
 		// Extract `countrySelectProperties` from `this.props`
-		// also removing them from `phone_number_input_props`.
+		// also removing them from `phoneNumberInputProps`.
 		const _countrySelectProps = {}
 		if (countrySelectProperties)
 		{
@@ -635,7 +637,7 @@ export default class PhoneNumberInput extends PureComponent
 				if (this.props.hasOwnProperty(key))
 				{
 					_countrySelectProps[countrySelectProperties[key]] = this.props[key]
-					delete phone_number_input_props[key]
+					delete phoneNumberInputProps[key]
 				}
 			}
 		}
@@ -656,11 +658,11 @@ export default class PhoneNumberInput extends PureComponent
 					{ showCountrySelect &&
 						<CountrySelectComponent
 							{..._countrySelectProps}
-							ref={ this.store_country_select_instance }
-							name={ phone_number_input_props.name ? `${phone_number_input_props.name}__country` : undefined }
+							ref={ this.storeCountrySelectInstance }
+							name={ name ? `${name}__country` : undefined }
 							value={ country }
 							options={ country_select_options }
-							onChange={ this.on_country_selected }
+							onChange={ this.onCountrySelected }
 							disabled={ disabled }
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
@@ -672,14 +674,15 @@ export default class PhoneNumberInput extends PureComponent
 					{ !hidePhoneInputField &&
 						<InputComponent
 							type="tel"
-							{ ...phone_number_input_props }
-							ref={ this.store_number_input_instance }
+							name={ name }
+							{ ...phoneNumberInputProps }
+							ref={ this.storePhoneNumberInputInstance }
 							metadata={ metadata }
 							country={ country }
 							value={ parsed_input || '' }
-							onChange={ this.on_change }
-							onBlur={ this.on_blur }
-							onKeyDown={ this.on_number_key_down }
+							onChange={ this.onChange }
+							onBlur={ this.onBlur }
+							onKeyDown={ this.onPhoneNumberKeyDown }
 							disabled={ disabled }
 							autoComplete={ autoComplete }
 							className={ classNames
