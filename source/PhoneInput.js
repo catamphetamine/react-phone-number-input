@@ -369,6 +369,8 @@ export default class PhoneNumberInput extends PureComponent
 			// with the new `value` which will be compared to `state.value` there.
 			onChange(new_value)
 
+			onInput(new_value)
+
 			// Focus the phone number `<input/>` upon country selection.
 			// Doing it in a `setState()` callback because the phone number
 			// `<input/>` is hidden while country `<select/>` is expanded.
@@ -710,6 +712,7 @@ export default class PhoneNumberInput extends PureComponent
 							country={ country }
 							value={ parsed_input || '' }
 							onChange={ this.onChange }
+							onInput= { this.onChange }
 							onBlur={ this.onBlur }
 							onKeyDown={ this.onPhoneNumberKeyDown }
 							disabled={ disabled }
