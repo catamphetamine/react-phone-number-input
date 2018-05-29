@@ -50,7 +50,8 @@ export default class PhoneInputReactResponsiveUI extends Component
 				ref={ this.storeInputRef }
 				getInputClassName={ this.getInputClassName }
 				countrySelectComponent={ CountrySelect }
-				countrySelectProperties={ countrySelectProperties }/>
+				countrySelectProperties={ countrySelectProperties }
+				countrySelectHidesPhoneInputField/>
 		)
 	}
 
