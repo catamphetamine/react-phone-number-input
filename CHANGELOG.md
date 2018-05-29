@@ -1,6 +1,8 @@
 <!--
 2.0.0:
 
+* Сделать custom компоненты полностью минимальными (посмотреть, что они импортируют). Например, сделать property для dictionary, и не включать словарь по умолчанию.
+
 * В README раздел про `react-responsive-ui` - вынести его в отдельную секцию, типа Custom Country Select.
 
 -The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/).

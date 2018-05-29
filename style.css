@@ -1,7 +1,8 @@
 .react-phone-number-input__row
 {
 	/* This is done to stretch `.rrui__select__options` */
-	/* to the full width of `.react-phone-number-input__phone` */
+	/* to the full width of `.react-phone-number-input__phone`. */
+	/* Will be moved to `rrui.css` in version 2.x. */
 	position    : relative;
 
 	/* This is done to stretch the contents of this component */
@@ -17,7 +18,8 @@
 
 /* The phone number input stretches to fill all empty space */
 .react-phone-number-input__phone,
-/* The country select, when expanded, stretches to fill all empty space */
+/* The country select, when expanded, stretches to fill all empty space. */
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country.rrui__select--expanded
 {
 	flex : 1;
@@ -28,16 +30,19 @@
 	font-size : inherit;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country.rrui__select--collapsed
 {
 	margin-right : 0.5em;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country .rrui__select__autocomplete
 {
 	width : 100%;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country,
 .react-phone-number-input__country:not(.react-phone-number-input__country--native-expanded) .rrui__input
 {
@@ -54,18 +59,21 @@
 	position : static;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input .rrui__select__arrow
 {
 	margin-top  : 0.3em;
 	margin-left : 0.3em;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input .rrui__select__option
 {
 	display     : flex;
 	align-items : center;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input .rrui__select__option-icon
 {
 	margin-bottom : 0.1em;

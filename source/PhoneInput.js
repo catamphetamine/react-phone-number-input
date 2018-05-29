@@ -747,7 +747,7 @@ export default class PhoneNumberInput extends PureComponent
 
 				{/* Error message */}
 				{ error && indicateInvalid &&
-					<div className={ classNames('rrui__input-error', 'react-phone-number-input__error') }>
+					<div className={ classNames('react-phone-number-input__error', 'rrui__input-error') }>
 						{ error }
 					</div>
 				}
