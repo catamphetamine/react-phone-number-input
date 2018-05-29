@@ -227,7 +227,7 @@ parseRFC3966('tel:+12133734253;ext=123')
 
 ## Customizing
 
-One can use the exported `<PhoneInput/>` component for supplying custom country select component and phone number input field component.
+One can use the exported `<PhoneInput/>` component for supplying custom country select and phone number input field components.
 
 ```js
 import { PhoneInput } from 'react-phone-number-input'
@@ -255,10 +255,10 @@ React component for the phone number input field. See [SmartInput](https://githu
 
 Receives properties:
 
-* `metadata : object` — `libphonenumber-js` metadata.
-* `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
 * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 * `onChange(value : string)` — Updates the `value`.
+* `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
+* `metadata : object` — `libphonenumber-js` metadata.
 * All other properties should be passed through to the underlying `<input/>`.
 
 Must also implement `.focus()` method.

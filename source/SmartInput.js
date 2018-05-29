@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { ReactInput } from 'input-format'
 
-import { parsePhoneNumberCharacter, formatPhoneNumber } from './input-control'
+// Both these functions are exported from `react-phone-number-input`.
+import { parsePhoneNumberCharacter } from './parsePhoneNumberCharacters'
+import formatPhoneNumber from './formatPhoneNumber'
 
 /**
  * This input uses `input-format` library

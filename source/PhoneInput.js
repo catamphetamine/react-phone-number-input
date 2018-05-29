@@ -164,10 +164,10 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		// Receives properties:
 		//
-		// * `metadata : object` — `libphonenumber-js` metadata.
-		// * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
 		// * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 		// * `onChange(value : string)` — Updates the `value`.
+		// * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
+		// * `metadata : object` — `libphonenumber-js` metadata.
 		// * All other properties should be passed through to the underlying `<input/>`.
 		//
 		// Must also implement `.focus()` method.

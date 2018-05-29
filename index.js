@@ -3,6 +3,8 @@ export { default as PhoneInputReactResponsiveUI } from './modules/PhoneInputReac
 export { default as default } from './modules/PhoneInputReactResponsiveUIDefaultMetadata'
 
 export { default as PhoneInput } from './modules/PhoneInput'
+export { default as formatPhoneNumber } from './modules/formatPhoneNumber'
+export { default as parsePhoneNumberCharacters, parsePhoneNumberCharacter } from './modules/parsePhoneNumberCharacters'
 
 // Deprecated export. Will be removed in some future major version.
 export { default as Input } from './modules/PhoneInputReactResponsiveUI'

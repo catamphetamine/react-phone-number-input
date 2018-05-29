@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 
-import { parsePhoneNumberCharacters, formatPhoneNumber } from './input-control'
+// Both these functions are exported from `react-phone-number-input`.
+import parsePhoneNumberCharacters from './parsePhoneNumberCharacters'
+import formatPhoneNumber from './formatPhoneNumber'
 
 /**
  * `BasicInput`'s caret is not as "smart" as the default `inputComponent`'s
