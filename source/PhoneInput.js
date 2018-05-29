@@ -145,18 +145,18 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		// Receives properties:
 		//
+		// * `name : string?` — HTML `name` attribute.
 		// * `value : string?` — The currently selected country code.
 		// * `onChange(value : string?)` — Updates the `value`.
 		// * `options : object[]` — The available countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
 		// * `disabled : boolean?` — Whether the country select should be disabled.
 		// * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
-		// * `name : string?` — HTML `name` attribute.
 		// * `className : string` — CSS class name.
 		//
 		// Optional properties (should be ignored unless needed):
 		//
 		// * `hidePhoneInputField(hide : boolean)` — Can be called to show/hide phone input field. Takes `hide : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
-		// * `onTabOut()` — Should be called when country select gets "tabbed out" (on blur). E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input in a timeout (after it is no longer hidden).
+		// * `focusPhoneInputField()` — Can be called to manually focus phone input field. E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input after country selection in a timeout (after the phone input field is no longer hidden).
 		//
 		countrySelectComponent : PropTypes.func.isRequired,
 
@@ -476,18 +476,6 @@ export default class PhoneNumberInput extends PureComponent
 		})
 	}
 
-	// Focuses phone number `<input/>` field
-	// on tab out of the country `<select/>`.
-	on_country_select_tab_out = (event) =>
-	{
-		event.preventDefault()
-
-		// Focus the phone number input upon country selection
-		// (do it in a timeout because the `<input/>`
-		//  is hidden while selecting a country)
-		setTimeout(this.focus, 0)
-	}
-
 	// Some people requested an `onCountryChange` event listener.
 	// No valid reason was given other than compliance with some legacy code
 	// which stored both phone number and country in a database.
@@ -676,7 +664,7 @@ export default class PhoneNumberInput extends PureComponent
 							disabled={ disabled }
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
-							onTabOut={ this.on_country_select_tab_out }
+							focusPhoneInputField={ this.focus }
 							className="react-phone-number-input__country"/>
 					}
 

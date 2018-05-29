@@ -38,7 +38,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 			className,
 			// Optional properties:
 			hidePhoneInputField,
-			onTabOut,
+			// focusPhoneInputField,
 			// `<Select/>`-specific properties:
 			ariaLabel,
 			closeAriaLabel,
@@ -63,7 +63,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 					'react-phone-number-input__country--native-expanded' : nativeExpanded
 				}) }
 				onToggle={ hidePhoneInputField }
-				onTabOut={ onTabOut }
+				onTabOut={ this.onTabOut }
 				ariaLabel={ ariaLabel }
 				closeAriaLabel={ closeAriaLabel }
 				saveOnIcons={ saveOnIcons }
@@ -76,6 +76,20 @@ export default class CountrySelectReactResponsiveUI extends Component
 				autocomplete
 				autocompleteShowAll/>
 		)
+	}
+
+	// Focuses phone number `<input/>` field
+	// on tab out of the country `<select/>`.
+	onTabOut = (event) =>
+	{
+		const { focusPhoneInputField } = this.props
+
+		event.preventDefault()
+
+		// Focus the phone number input upon country selection
+		// (do it in a timeout because the `<input/>`
+		//  is hidden while selecting a country)
+		setTimeout(focusPhoneInputField, 0)
 	}
 
 	// toggle()
