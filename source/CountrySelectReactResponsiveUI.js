@@ -55,6 +55,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 				name={ name }
 				value={ value }
 				onChange={ onChange }
+				onInput={ onChange }
 				options={ options }
 				disabled={ disabled }
 				tabIndex={ tabIndex }
