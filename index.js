@@ -2,6 +2,8 @@ export { default as PhoneInputNative } from './modules/PhoneInputNativeDefaultMe
 export { default as PhoneInputReactResponsiveUI } from './modules/PhoneInputReactResponsiveUIDefaultMetadata'
 export { default as default } from './modules/PhoneInputReactResponsiveUIDefaultMetadata'
 
+export { default as PhoneInput } from './modules/PhoneInput'
+
 // Deprecated export. Will be removed in some future major version.
 export { default as Input } from './modules/PhoneInputReactResponsiveUI'
 

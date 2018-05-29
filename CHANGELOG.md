@@ -1,6 +1,10 @@
 <!--
 2.0.0:
 
+* Убрать из index.common.js экспорты /rrui и /native, чтобы был просто bare.
+
+* BasicInput -> InputBasic. SmartInput -> InputSmart.
+
 * Сделать custom компоненты полностью минимальными (посмотреть, что они импортируют). Например, сделать property для dictionary, и не включать словарь по умолчанию.
 
 * В README раздел про `react-responsive-ui` - вынести его в отдельную секцию, типа Custom Country Select.

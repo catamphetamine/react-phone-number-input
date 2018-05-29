@@ -225,6 +225,44 @@ parseRFC3966('tel:+12133734253;ext=123')
 // { number: '+12133734253', ext: '123' }
 ```
 
+## Customizing
+
+One can use the exported `<PhoneInput/>` component for supplying custom country select component and phone number input field component.
+
+```js
+import { PhoneInput } from 'react-phone-number-input'
+
+<PhoneInput countrySelectComponent={...} inputComponent={...}/>
+```
+
+#### `countrySelectComponent`
+
+React component for the country select. See [CountrySelectNative](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectNative.js) and [CountrySelectReactResponsiveUI](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectReactResponsiveUI.js) for an example.
+
+Receives properties:
+
+* `name : string?` — HTML `name` attribute.
+* `value : string?` — The currently selected country code.
+* `onChange(value : string?)` — Updates the `value`.
+* `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
+* `disabled : boolean?` — HTML `disabled` attribute.
+* `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
+* `className : string` — CSS class name.
+
+#### `inputComponent`
+
+React component for the phone number input field. See [SmartInput](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/SmartInput.js) and [BasicInput](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/BasicInput.js) for an example.
+
+Receives properties:
+
+* `metadata : object` — `libphonenumber-js` metadata.
+* `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
+* `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
+* `onChange(value : string)` — Updates the `value`.
+* All other properties should be passed through to the underlying `<input/>`.
+
+Must also implement `.focus()` method.
+
 ## Reducing bundle size
 
 By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is `react-phone-number-input/custom` export.

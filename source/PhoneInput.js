@@ -148,8 +148,8 @@ export default class PhoneNumberInput extends PureComponent
 		// * `name : string?` — HTML `name` attribute.
 		// * `value : string?` — The currently selected country code.
 		// * `onChange(value : string?)` — Updates the `value`.
-		// * `options : object[]` — The available countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
-		// * `disabled : boolean?` — Whether the country select should be disabled.
+		// * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
+		// * `disabled : boolean?` — HTML `disabled` attribute.
 		// * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
 		// * `className : string` — CSS class name.
 		//
