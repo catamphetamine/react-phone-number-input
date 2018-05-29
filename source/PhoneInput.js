@@ -36,7 +36,10 @@ export default class PhoneNumberInput extends PureComponent
 
 		// `onChange` handler is called each time
 		// the phone number `<input/>` is edited.
-		onChange : PropTypes.func.isRequired,
+		onChange : PropTypes.func,
+
+		//'onInput' handler is called as same of onChange
+		onInput : PropTypes.func,
 
 		// `onBlur` is usually passed by `redux-form`.
 		onBlur : PropTypes.func,
@@ -318,6 +321,7 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			metadata,
 			onChange,
+			onInput,
 			countrySelectHidesPhoneInputField
 		}
 		= this.props
@@ -687,6 +691,7 @@ export default class PhoneNumberInput extends PureComponent
 							value={ country }
 							options={ country_select_options }
 							onChange={ this.onCountrySelected }
+							onInput= { this.onCountrySelected }
 							disabled={ disabled }
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }

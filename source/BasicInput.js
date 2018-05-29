@@ -71,6 +71,7 @@ export default class BasicInput extends PureComponent
 		{
 			// value,
 			onChange,
+			onInput,
 			country,
 			metadata,
 			...rest
@@ -87,7 +88,9 @@ export default class BasicInput extends PureComponent
 				{...rest}
 				ref={this.storeInput}
 				value={this.format(value)}
-				onChange={this.onChange}/>
+				onChange={this.onChange}
+				onInput={this.onChange}
+			/>
 		)
 	}
 }
