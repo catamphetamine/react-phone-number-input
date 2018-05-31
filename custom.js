@@ -9,4 +9,7 @@ exports.formatPhoneNumber = require('./commonjs/formatPhoneNumber').default
 exports.parsePhoneNumberCharacter = require('./commonjs/parsePhoneNumberCharacters').parsePhoneNumberCharacter
 exports.parsePhoneNumberCharacters = require('./commonjs/parsePhoneNumberCharacters').default
 
+exports.InputBasic = require('./commonjs/InputBasic').default
+exports.InputSmart = require('./commonjs/InputSmart').default
+
 exports['default'] = require('./commonjs/PhoneInputReactResponsiveUI').default

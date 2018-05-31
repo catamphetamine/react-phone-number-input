@@ -3,7 +3,13 @@
 
 * Remove `/rrui` and `/native` exports from `index.commonjs.js` so that's it's minimal and bare.
 
-* Сделать custom компоненты полностью минимальными (посмотреть, что они импортируют). Например, сделать property для dictionary, и не включать словарь по умолчанию.
+* Make `/custom` components bare ones.
+
+Remove default value for `inputComponent` and require passing one (e.g. InputBasic, InputSmart). Move `smartCaret` property to the top level from `PhoneInput`: to `PhoneInputNativeDefaultMetadata` and to `PhoneInputReactResponsiveUIDefaultMetadata`.
+
+Remove default value for `dictionary` property and require passing one (e.g. dictionary).
+
+Remove default value for `internationalIcon` property and require passing one (e.g. InternationalIcon).
 
 * Add "Custom Country Select" section to README and move all `react-responsive-ui` text there:
 
