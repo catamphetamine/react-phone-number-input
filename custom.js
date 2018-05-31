@@ -9,7 +9,4 @@ exports.formatPhoneNumber = require('./commonjs/formatPhoneNumber').default
 exports.parsePhoneNumberCharacter = require('./commonjs/parsePhoneNumberCharacters').parsePhoneNumberCharacter
 exports.parsePhoneNumberCharacters = require('./commonjs/parsePhoneNumberCharacters').default
 
-// Deprecated export, use `smartCaret={false}` instead of `inputComponent={BasicInput}`.
-exports.BasicInput = require('./commonjs/BasicInput').default
-
 exports['default'] = require('./commonjs/PhoneInputReactResponsiveUI').default

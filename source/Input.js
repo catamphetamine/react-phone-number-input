@@ -1,2 +1,2 @@
-// Deprecated file. Will be removed in some future major version.
+// Deprecated file. Will be removed in version 2.x.
 export { default as default } from './PhoneInputReactResponsiveUI'

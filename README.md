@@ -235,6 +235,12 @@ import { PhoneInput } from 'react-phone-number-input'
 <PhoneInput countrySelectComponent={...} inputComponent={...}/>
 ```
 
+For non-ES6-capable environment:
+
+```js
+const PhoneInput = require('react-phone-number-input/custom').PhoneInput
+```
+
 #### `countrySelectComponent`
 
 React component for the country select. See [CountrySelectNative](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectNative.js) and [CountrySelectReactResponsiveUI](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectReactResponsiveUI.js) for an example.
@@ -251,7 +257,7 @@ Receives properties:
 
 #### `inputComponent`
 
-React component for the phone number input field. See [SmartInput](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/SmartInput.js) and [BasicInput](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/BasicInput.js) for an example.
+React component for the phone number input field. See [InputSmart](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/InputSmart.js) and [InputBasic](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/InputBasic.js) for an example.
 
 Receives properties:
 

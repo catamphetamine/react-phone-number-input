@@ -9,7 +9,7 @@ import formatPhoneNumber from './formatPhoneNumber'
  * This input uses `input-format` library
  * for "smart" caret positioning.
  */
-export default class SmartInput extends Component
+export default class InputSmart extends Component
 {
 	focus()
 	{

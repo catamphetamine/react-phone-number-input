@@ -5,8 +5,8 @@ import PhoneInputDefault,
 	formatPhoneNumber,
 	parsePhoneNumberCharacter,
 	parsePhoneNumberCharacters,
-	Input,
-	BasicInput
+	// Deprecated. Will be removed in version 2.x.
+	Input
 }
 from '../index'
 
@@ -22,8 +22,8 @@ describe(`exports`, function()
 		parsePhoneNumberCharacter.should.be.a('function')
 		parsePhoneNumberCharacters.should.be.a('function')
 
+		// Deprecated. Will be removed in version 2.x.
 		Input.should.be.a('function')
-		BasicInput.should.be.a('function')
 	})
 
 	it(`should export CommonJS`, function()
@@ -37,19 +37,15 @@ describe(`exports`, function()
 
 		Library.PhoneInputNative.should.be.a('function')
 
-		Library.PhoneInput.should.be.a('function')
-		Library.formatPhoneNumber.should.be.a('function')
-		Library.parsePhoneNumberCharacter.should.be.a('function')
-		Library.parsePhoneNumberCharacters.should.be.a('function')
-
 		Custom.default.should.be.a('function')
 		// Deprecated export.
 		Custom.should.be.a('function')
 
 		Custom.PhoneInputNative.should.be.a('function')
 
-		// Duplicating this export.
-		Library.BasicInput.should.be.a('function')
-		Custom.BasicInput.should.be.a('function')
+		Custom.PhoneInput.should.be.a('function')
+		Custom.formatPhoneNumber.should.be.a('function')
+		Custom.parsePhoneNumberCharacter.should.be.a('function')
+		Custom.parsePhoneNumberCharacters.should.be.a('function')
 	})
 })

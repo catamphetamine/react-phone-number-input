@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 import classNames from 'classnames'
 
-import SmartInput from './SmartInput'
-import BasicInput from './BasicInput'
+import InputSmart from './InputSmart'
+import InputBasic from './InputBasic'
 
 import InternationalIcon from './InternationalIcon'
 import FlagComponent from './Flag'
@@ -174,7 +174,7 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		inputComponent : PropTypes.func,
 
-		// Set to `false` to use `inputComponent={BasicInput}`
+		// Set to `false` to use `inputComponent={InputBasic}`
 		// instead of `input-format`'s `<ReactInput/>`.
 		// Is `true` by default.
 		smartCaret : PropTypes.bool.isRequired,
@@ -241,7 +241,7 @@ export default class PhoneNumberInput extends PureComponent
 		// are gradually being considered more natural than local ones.
 		displayInitialValueAsLocalNumber: false,
 
-		// Set to `false` to use `inputComponent={BasicInput}`
+		// Set to `false` to use `inputComponent={InputBasic}`
 		// instead of `input-format`'s `<ReactInput/>`.
 		// Is `true` by default.
 		smartCaret : true,
@@ -649,7 +649,7 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= this.state
 
-		const InputComponent = inputComponent || (smartCaret ? SmartInput : BasicInput)
+		const InputComponent = inputComponent || (smartCaret ? InputSmart : InputBasic)
 
 		// Extract `countrySelectProperties` from `this.props`
 		// also removing them from `phoneNumberInputProps`.

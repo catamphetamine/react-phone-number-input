@@ -1,38 +1,42 @@
 <!--
 2.0.0:
 
-* Убрать из index.common.js экспорты /rrui и /native, чтобы был просто bare.
-
-* BasicInput -> InputBasic. SmartInput -> InputSmart.
+* Remove `/rrui` and `/native` exports from `index.commonjs.js` so that's it's minimal and bare.
 
 * Сделать custom компоненты полностью минимальными (посмотреть, что они импортируют). Например, сделать property для dictionary, и не включать словарь по умолчанию.
 
-* В README раздел про `react-responsive-ui` - вынести его в отдельную секцию, типа Custom Country Select.
+* Add "Custom Country Select" section to README and move all `react-responsive-ui` text there:
 
--The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/).
+"The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/)."
 
-* bundle/rrui.css -> bundle.react-responsive-ui.css
+* Delete `rrui.css` (from root and `bundle`). Instead use modular inclusion of selective styles from `react-responsive-ui/styles`.
 
-* The CSS files for this React component must be included on a page too. -> 'file' (without "s")
+Remove from README:
 
--import 'react-phone-number-input/rrui.css'
--import 'react-phone-number-input/style.css'
-+require('react-phone-number-input/style.css')
+"import 'react-phone-number-input/rrui.css'"
 
--Get the `rrui.css` and `style.css` files from this package, process these files with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include them on a page.
-+Get the `style.css` file from this package, process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include the resulting file on a page.
+and replace:
 
- <head>
--  <link rel="stylesheet" href="/css/react-phone-number-input/rrui.css"/>
-   <link rel="stylesheet" href="/css/react-phone-number-input/style.css"/>
+"import 'react-phone-number-input/style.css'"
+with "require('react-phone-number-input/style.css')"
 
--  * `nativeExpanded` <E2><80><94> If set to `true` will render native `<select/>`
+Remove "rrui.css" from this part of README:
 
-* Убрать все `rrui__` из *.css и *.js. Посмотреть стили в целом и убрать лишнее (порефакторить).
+"Get the `rrui.css` and `style.css` files from this package, process these files with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include them on a page."
 
-* Найти везде "2.x" (например, "Will be uncommented for version 2.x").
+Remove from README:
 
-* `.react-phone-number-input__phone--native` -> `.react-phone-number-input__phone`.
+"<link rel="stylesheet" href="/css/react-phone-number-input/rrui.css"/>"
+
+Remove from README:
+
+"`nativeExpanded`"
+
+* Rename in CSS `.react-phone-number-input__phone--native` -> `.react-phone-number-input__phone`.
+
+* Remove all `rrui__` from *.css and *.js files. Review `style.css` and maybe refactor it removing unneeded style rules.
+
+* Search for "2.x" in code (e.g., "Will be uncommented for version 2.x") and remove those performing the actions.
 -->
 
 1.1.3 / 29.05.2018
