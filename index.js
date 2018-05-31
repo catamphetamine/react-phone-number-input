@@ -9,5 +9,7 @@ export { default as parsePhoneNumberCharacters, parsePhoneNumberCharacter } from
 export { default as InputBasic } from './modules/InputBasic'
 export { default as InputSmart } from './modules/InputSmart'
 
+export { default as InternationalIcon } from './modules/InternationalIcon'
+
 // Deprecated export. Will be removed in version 2.x.
 export { default as Input } from './modules/PhoneInputReactResponsiveUI'

@@ -112,12 +112,7 @@ export default class PhoneNumberInput extends PureComponent
 		international : PropTypes.bool,
 
 		// Custom "International" country `<select/>` option icon.
-		internationalIcon : PropTypes.oneOfType
-		([
-			PropTypes.func,
-			PropTypes.element
-		])
-		.isRequired,
+		internationalIcon : PropTypes.func.isRequired,
 
 		// Whether to show country `<select/>`.
 		// (is `true` by default)
@@ -223,11 +218,7 @@ export default class PhoneNumberInput extends PureComponent
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
 
 		// Default "International" country `<select/>` option icon (globe).
-		internationalIcon: (props) => (
-			<div className={ classNames('react-phone-number-input__icon', 'react-phone-number-input__icon--international', props && props.className) }>
-				<InternationalIcon/>
-			</div>
-		),
+		internationalIcon: InternationalIcon,
 
 		// Show country `<select/>`.
 		showCountrySelect: true,
@@ -265,6 +256,12 @@ export default class PhoneNumberInput extends PureComponent
 			metadata
 		}
 		= this.props
+
+		// Will be removed in version 2.x.
+		if (typeof this.props.internationalIcon !== 'function')
+		{
+			throw new Error("You're passing a custom `internationalIcon` property to `react-phone-number-input` component. In the latest version it may only be a React component (a class or a function), not a React element. Wrap `internationalIcon` into a function to resolve the error: `() => internationalIcon`.")
+		}
 
 		const parsed_number = parsePhoneNumber(value, metadata)
 
@@ -763,11 +760,7 @@ function generate_country_select_options(props)
 	{
 		countries,
 		labels,
-		flags,
-		flagsPath,
-		flagComponent : FlagComponent,
-		international,
-		internationalIcon
+		international
 	}
 	= props
 
@@ -781,8 +774,43 @@ function generate_country_select_options(props)
 	({
 		value,
 		label,
-		icon : value ? (props) => <FlagComponent country={value} flags={flags} flagsPath={flagsPath} className={props ? props.className : undefined}/> : (typeof internationalIcon === 'function' ? internationalIcon : () => internationalIcon)
+		icon : createCountrySelectOptionIconComponent(value, label, props)
 	}))
+}
+
+function createCountrySelectOptionIconComponent(value, label, props)
+{
+	const
+	{
+		flags,
+		flagsPath,
+		flagComponent : FlagComponent,
+		internationalIcon : InternationalIcon
+	}
+	= props
+
+	if (value)
+	{
+		return (props) => (
+			<FlagComponent
+				country={value}
+				flags={flags}
+				flagsPath={flagsPath}
+				className={props ? props.className : undefined}/>
+		)
+	}
+
+	return (props) => (
+		<div
+			className={classNames
+			(
+				'react-phone-number-input__icon',
+				'react-phone-number-input__icon--international',
+				props && props.className
+			)}>
+			<InternationalIcon/>
+		</div>
+	)
 }
 
 function generate_parsed_input(value, parsed_number, props)
