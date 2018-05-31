@@ -295,7 +295,7 @@ export default class PhoneNumberInput extends PureComponent
 			// then value is `+78005553535` and `parsed_input` is `88005553535`
 			// and if a user entered `+7 800 555 35 35`
 			// then value is `+78005553535` and `parsed_input` is `+78005553535`.
-			parsed_input : generate_parsed_input(value, parsed_number, this.props),
+			parsed_input : generateParsedInput(value, parsed_number, this.props),
 
 			// `value` property is duplicated in state.
 			// The reason is that `getDerivedStateFromProps()`
@@ -585,7 +585,7 @@ export default class PhoneNumberInput extends PureComponent
 
 			return {
 				...new_state,
-				parsed_input : generate_parsed_input(new_value, parsed_number, props),
+				parsed_input : generateParsedInput(new_value, parsed_number, props),
 				value : new_value,
 				country : new_value ? parsed_number.country : country
 			}
@@ -813,7 +813,7 @@ function createCountrySelectOptionIconComponent(value, label, props)
 	)
 }
 
-function generate_parsed_input(value, parsed_number, props)
+function generateParsedInput(value, parsed_number, props)
 {
 	const
 	{
