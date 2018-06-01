@@ -38,6 +38,10 @@ describe('input-control', () =>
 
 		// Country derived from the phone number overrides the supplied one.
 		getPreSelectedCountry({ country: 'RU', phone: '8005553535' }, 'US', ['US', 'RU'], false, metadata).should.equal('RU')
+
+		// Only pre-select a country if it's in the available `countries` list.
+		getPreSelectedCountry({ country: 'RU', phone: '8005553535' }, null, ['US', 'DE'], false, metadata).should.equal('US')
+		expect(getPreSelectedCountry({ country: 'RU', phone: '8005553535' }, 'US', ['US', 'DE'], true, metadata)).to.be.undefined
 	})
 
 	it('should generate country select options', () =>

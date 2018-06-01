@@ -29,6 +29,12 @@ export function getPreSelectedCountry(parsed_number, country, countries, include
 		country = parsed_number.country
 	}
 
+	// Only pre-select a country if it's in the available `countries` list.
+	if (countries.indexOf(country) < 0)
+	{
+		country = undefined
+	}
+
 	// If there will be no "International" option
 	// then some `country` must be selected.
 	// It will still be the wrong country though.
