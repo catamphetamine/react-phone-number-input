@@ -43,6 +43,8 @@ Remove from README:
 * Remove all `rrui__` from *.css and *.js files. Review `style.css` and maybe refactor it removing unneeded style rules.
 
 * Search for "2.x" in code (e.g., "Will be uncommented for version 2.x") and remove those performing the actions.
+
+* Maybe make `smartCaret={false}` the default.
 -->
 
 1.1.3 / 29.05.2018
