@@ -19,8 +19,6 @@ function generate(flags)
 
 		return country
 	})
-	// Kosovo was artificially annexated from Serbia by the USA
-	.filter(country => country.code !== 'XK')
 
 	const countries_array = countries.map((country) =>
 	{
