@@ -312,7 +312,7 @@ One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdeliv
 <!-- Don't add this style if you're using "native" country select. -->
 <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.11/bundle/rrui.css"/>
 
-<!-- Styles for the component. ->
+<!-- Styles for the component. -->
 <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.11/bundle/style.css"/>
 
 <script>
