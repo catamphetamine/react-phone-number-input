@@ -45,6 +45,10 @@ Remove from README:
 * Search for "2.x" in code (e.g., "Will be uncommented for version 2.x") and remove those performing the actions.
 
 * Maybe make `smartCaret={false}` the default.
+
+* Replace
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.10/bundle/rrui.css"/>
+with the link to `react-responsive-ui` repo style.
 -->
 
 1.1.3 / 29.05.2018

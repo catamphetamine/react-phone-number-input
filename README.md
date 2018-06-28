@@ -303,8 +303,21 @@ If you're using Webpack 1 then upgrade to a newer version.
 One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.net](https://jsdelivr.net)
 
 ```html
+<!-- `libphonenumber-js` (is used internally by `react-phone-number-input`) -->
 <script src="https://unpkg.com/libphonenumber-js@1.2.15/bundle/libphonenumber-js.min.js"></script>
+
+<!-- `react-phone-number-input` -->
 <script src="https://unpkg.com/react-phone-number-input@1.1.10/bundle/react-phone-number-input.min.js"></script>
+
+<!-- Don't add this style if you're using "native" country select. -->
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.10/bundle/rrui.css"/>
+
+<!-- Styles for the component. ->
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.10/bundle/style.css"/>
+
+<script>
+  var PhoneInput = window['react-phone-number-input']
+</script>
 ```
 
 ## Advertisement

@@ -1,0 +1,31 @@
+const fs = require('fs')
+const path = require('path')
+
+var autoprefixer = require('autoprefixer')
+var postcss = require('postcss')
+
+RegExp.escape = function (string)
+{
+	const specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g")
+	return string.replace(specials, "\\$&")
+}
+
+String.prototype.replace_all = function (what, with_what)
+{
+	const regexp = new RegExp(RegExp.escape(what), "g")
+	return this.replace(regexp, with_what)
+}
+
+function transformStyle(filePath)
+{
+  let text = fs.readFileSync(path.join(__dirname, filePath), 'utf8')
+
+  return postcss([ autoprefixer({ browsers: 'last 4 versions, iOS >= 7, Android >= 4'.split(', ') }) ]).process(text, { from: undefined }).then((result) =>
+  {
+    result.warnings().forEach((warn) => console.warn(warn.toString()))
+    fs.writeFileSync(path.join(__dirname, 'bundle', filePath), result.css)
+  })
+}
+
+const styles = ['style.css', 'rrui.css']
+Promise.all(styles.map(style => transformStyle(style)))
