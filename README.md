@@ -298,6 +298,15 @@ This error means that your Webpack is misconfigured to exclude `.json` file exte
 
 If you're using Webpack 1 then upgrade to a newer version.
 
+## CDN
+
+One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.net](https://jsdelivr.net)
+
+```html
+<script src="https://unpkg.com/libphonenumber-js@1.2.15/bundle/libphonenumber-js.min.js"></script>
+<script src="https://unpkg.com/react-phone-number-input-js@1.1.10/bundle/react-phone-number-input.min.js"></script>
+```
+
 ## Advertisement
 
 [React Responsive UI](https://catamphetamine.github.io/react-responsive-ui/) component library.
