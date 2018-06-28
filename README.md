@@ -304,7 +304,7 @@ One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdeliv
 
 ```html
 <script src="https://unpkg.com/libphonenumber-js@1.2.15/bundle/libphonenumber-js.min.js"></script>
-<script src="https://unpkg.com/react-phone-number-input-js@1.1.10/bundle/react-phone-number-input.min.js"></script>
+<script src="https://unpkg.com/react-phone-number-input@1.1.10/bundle/react-phone-number-input.min.js"></script>
 ```
 
 ## Advertisement
