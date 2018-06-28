@@ -19,8 +19,6 @@ function generate(flags)
 
 		return country
 	})
-	// Kosovo was artificially annexated from Serbia by the USA
-	.filter(country => country.code !== 'XK')
 
 	const countries_array = countries.map((country) =>
 	{
@@ -55,10 +53,6 @@ function get_country_flag(code)
 
 	switch (code)
 	{
-		// // Kosovo (disputed territory).
-		// case 'xk':
-		// 	flag_path = 'flags'
-		// 	break
 
 		// `flag-icon-css`
 		default:
