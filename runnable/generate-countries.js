@@ -1,16 +1,20 @@
-import country_names from '../source/international/countries'
+import { getCountryCodes } from './countries'
+import defaultLabels from '../locale/default'
 
 import path from 'path'
 import fs from 'fs'
 
-// fs.writeFileSync(path.join(__dirname, '../source/international/countries.js'), generate())
-fs.writeFileSync(path.join(__dirname, '../source/international/countries with flags.js'), generate(true))
+fs.writeFileSync(path.join(__dirname, '../source/flags.js'), generate(true))
 
 function generate(flags)
 {
-	const countries = country_names.map(([ code, name ]) =>
+	const countries = getCountryCodes(defaultLabels).map((code) =>
 	{
-		const country = { code: code.toUpperCase(), name }
+		const country =
+		{
+			code: code,
+			name: defaultLabels[code]
+		}
 
 		if (flags)
 		{
@@ -19,8 +23,6 @@ function generate(flags)
 
 		return country
 	})
-	// Kosovo was artificially annexated from Serbia by the USA
-	.filter(country => country.code !== 'XK')
 
 	const countries_array = countries.map((country) =>
 	{

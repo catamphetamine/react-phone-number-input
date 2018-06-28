@@ -7,14 +7,12 @@ import
 }
 from 'libphonenumber-js/custom'
 
-import default_country_names, { countries } from './countries'
-
 /**
  * Decides which country should be pre-selected
  * when the phone number input component is first mounted.
  * @param  {object} parsedNumber - A parsed number object: `{ country, phone }`. Can be an empty object.
  * @param  {string?} country - Pre-defined country (two-letter code).
- * @param  {string[]} countries - A list of countries available.
+ * @param  {string[]?} countries - A list of countries available.
  * @param  {boolean} includeInternationalOption - Whether "International" country option is available.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @return {string?}
@@ -30,7 +28,7 @@ export function getPreSelectedCountry(parsed_number, country, countries, include
 	}
 
 	// Only pre-select a country if it's in the available `countries` list.
-	if (countries.indexOf(country) < 0)
+	if (countries && countries.indexOf(country) < 0)
 	{
 		country = undefined
 	}
@@ -39,7 +37,7 @@ export function getPreSelectedCountry(parsed_number, country, countries, include
 	// then some `country` must be selected.
 	// It will still be the wrong country though.
 	// But still country `<select/>` can't be left in a broken state.
-	if (!country && !has_international_option(countries, includeInternationalOption))
+	if (!country && !has_international_option(countries, includeInternationalOption) && countries && countries.length > 0)
 	{
 		country = countries[0]
 	}
@@ -54,30 +52,22 @@ export function getPreSelectedCountry(parsed_number, country, countries, include
  * @param  {boolean} includeInternationalOption - Whether should include "International" option at the top of the list.
  * @return {object[]} A list of objects having shape `{ value : string, label : string }`.
  */
-export function getCountrySelectOptions(_countries, country_names, includeInternationalOption)
+// `default_country_names` argument will be removed in version 2.x
+export function getCountrySelectOptions(countries, country_names, includeInternationalOption, default_country_names)
 {
 	// Generates a `<Select/>` option for each country.
-	const country_select_options = _countries.map((country) =>
+	const country_select_options = countries.map((country) =>
 	({
 		value : country,
+		// `default_country_names` will be removed from here in version 2.x
 		label : (country_names && country_names[country]) || default_country_names[country]
 	}))
 
 	// Sort the list of countries alphabetically.
-	//
-	// This is only done when custom `countries` are supplied.
-	//
-	// If no custom `countries` are supplied
-	// then this means the default list of `countries`
-	// is used which is already sorted by country name alphabetically.
-	//
-	if (_countries !== countries || country_names)
-	{
-		country_select_options.sort((a, b) => compare_strings(a.label, b.label))
-	}
+	country_select_options.sort((a, b) => compare_strings(a.label, b.label))
 
 	// Add the "International" option to the country list (if suitable)
-	if (has_international_option(_countries, includeInternationalOption))
+	if (has_international_option(countries, includeInternationalOption))
 	{
 		country_select_options.unshift
 		({
@@ -229,7 +219,7 @@ export function e164(number, country, metadata)
 /**
  * @param {string} parsedInput - A possibly incomplete E.164 phone number.
  * @param {string?} country - Currently selected country.
- * @param {string[]} countries - A list of available countries.
+ * @param {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
  * @param {boolean} includeInternationalOption - Whether "International" country option is available.
  * @param  {[object} metadata - `libphonenumber-js` metadata.
  * @return {string?}
@@ -254,7 +244,7 @@ export function getCountryForParsedInput
 	// If a phone number is being input in international form
 	// and the country can already be derived from it,
 	// then select that country.
-	if (derived_country && countries.indexOf(derived_country) >= 0)
+	if (derived_country && (!countries || (countries.indexOf(derived_country) >= 0)))
 	{
 		return derived_country
 	}
@@ -298,23 +288,38 @@ export function compare_strings(a, b) {
   // Use `String.localeCompare` if it's available.
   // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
   // Which means everyone except IE <= 10 and Safari <= 10.
+  // `localeCompare()` is available in latest Node.js versions.
+  /* istanbul ignore else */
   if (String.prototype.localeCompare) {
     return a.localeCompare(b);
   }
+  /* istanbul ignore next */
   return a < b ? -1 : (a > b ? 1 : 0);
 }
 
 /**
  * Whether should add the "International" option to country `<select/>`.
  */
-export function has_international_option(_countries, includeInternationalOption)
+export function has_international_option(countries, includeInternationalOption)
 {
+	// `includeInternationalOption` won't be `undefined` in version 2.x
+
 	// If this behaviour is explicitly set, then do as it says.
 	if (includeInternationalOption !== undefined)
 	{
 		return includeInternationalOption
 	}
 
+	// If no `countries` were specified
+	// then it means "the default behaviour"
+	// which means "include the International option".
+	if (!countries)
+	{
+		return true
+	}
+
+	// Will be removed in version 2.x
+	//
 	// If the list of `countries` has been overridden
 	// then only show "International" option
 	// if no countries have been left out.
@@ -323,7 +328,10 @@ export function has_international_option(_countries, includeInternationalOption)
 	// then he can input a phone number for a non-included country
 	// and perhaps that's what a developer didn't encourage
 	// when he was reducing the set of selectable countries.
-	return _countries.length >= countries.length
+	//
+	// There are `242` countries total in the default country list in version `1.1.7`.
+	//
+	return countries.length >= 242
 }
 
 /**

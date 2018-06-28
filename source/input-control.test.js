@@ -18,9 +18,12 @@ import
 }
 from './input-control'
 
-import { countries } from './countries'
-
 import metadata from 'libphonenumber-js/metadata.min'
+
+// Will be removed in version 2.x
+import defaultLabels from '../locale/default'
+import { getCountryCodes } from './countries'
+const allCountries = getCountryCodes(defaultLabels)
 
 describe('input-control', () =>
 {
@@ -47,7 +50,7 @@ describe('input-control', () =>
 	it('should generate country select options', () =>
 	{
 		// Without custom country names.
-		getCountrySelectOptions(['US', 'RU'], null, false).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], null, false, defaultLabels).should.deep.equal
 		([{
 			value : 'RU',
 			label : 'Russia (Россия)'
@@ -57,7 +60,7 @@ describe('input-control', () =>
 		}])
 
 		// With custom country names.
-		getCountrySelectOptions(['US', 'RU'], { 'RU': 'Russia' }, false).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], { 'RU': 'Russia' }, false, defaultLabels).should.deep.equal
 		([{
 			value : 'RU',
 			label : 'Russia'
@@ -67,7 +70,7 @@ describe('input-control', () =>
 		}])
 
 		// With "International" (without custom country names).
-		getCountrySelectOptions(['US', 'RU'], null, true).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], null, true, defaultLabels).should.deep.equal
 		([{
 			label : 'International'
 		}, {
@@ -79,7 +82,7 @@ describe('input-control', () =>
 		}])
 
 		// With "International" (with custom country names).
-		getCountrySelectOptions(['US', 'RU'], { 'RU': 'Russia', ZZ: 'Intl' }, true).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], { 'RU': 'Russia', ZZ: 'Intl' }, true, defaultLabels).should.deep.equal
 		([{
 			label : 'Intl'
 		}, {
@@ -213,7 +216,8 @@ describe('input-control', () =>
 		has_international_option(['US', 'RU'], false).should.equal(false)
 		has_international_option(['US', 'RU'], true).should.equal(true)
 		has_international_option(['US', 'RU']).should.equal(false)
-		has_international_option(countries).should.equal(true)
+		has_international_option(allCountries).should.equal(true)
+		has_international_option().should.equal(true)
 	})
 
 	it('should strip country calling code from a number', () =>
@@ -223,6 +227,7 @@ describe('input-control', () =>
 
 		// Number is shorter than (or equal to) country calling code prefix.
 		strip_country_calling_code('+3', 'FR', metadata).should.equal('')
+		strip_country_calling_code('+7', 'FR', metadata).should.equal('')
 
 		// `country` doesn't fit the actual `number`.
 		// Iterates through all available country calling codes.

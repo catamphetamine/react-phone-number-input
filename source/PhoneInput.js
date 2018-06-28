@@ -21,7 +21,10 @@ import
 }
 from './input-control'
 
-import { countries } from './countries'
+// Move these to a non-default property in version 2.x
+import defaultLabels from '../locale/default'
+
+import { getCountryCodes } from './countries'
 
 // Allows passing custom `libphonenumber-js` metadata
 // to reduce the overall bundle size.
@@ -84,11 +87,11 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Only these countries will be available for selection.
 		// Includes all countries by default.
-		countries : PropTypes.arrayOf(PropTypes.string).isRequired,
+		countries : PropTypes.arrayOf(PropTypes.string),
 
 		// Custom country `<select/>` option names.
 		// E.g. `{ ZZ: 'Международный', RU: 'Россия', US: 'США', ... }`
-		labels : PropTypes.objectOf(PropTypes.string),
+		labels : PropTypes.objectOf(PropTypes.string).isRequired,
 
 		// Country flag icon components.
 		// By default flag icons are inserted as `<img/>`s
@@ -208,8 +211,7 @@ export default class PhoneNumberInput extends PureComponent
 		// Remember (and autofill) the value as a phone number.
 		autoComplete: 'tel',
 
-		// Include all countries.
-		countries,
+		labels: defaultLabels,
 
 		// Flag icon component.
 		flagComponent: FlagComponent,
@@ -269,7 +271,7 @@ export default class PhoneNumberInput extends PureComponent
 		(
 			parsed_number,
 			country,
-			countries,
+			countries || getCountryCodes(labels),
 			international,
 			metadata
 		)
@@ -722,7 +724,7 @@ export default class PhoneNumberInput extends PureComponent
 					{/* Phone extension `<input/>` */}
 					{ ext && !hidePhoneInputField &&
 						<label className="react-phone-number-input__ext">
-							{labels && labels.ext || 'ext.'}
+							{labels.ext}
 							{React.cloneElement(ext,
 							{
 								type : ext.props.type === undefined ? 'number' : ext.props.type,
@@ -766,9 +768,10 @@ function generate_country_select_options(props)
 
 	return getCountrySelectOptions
 	(
-		countries,
+		countries || getCountryCodes(labels),
 		labels,
-		international
+		international,
+		defaultLabels
 	)
 	.map(({ value, label }) =>
 	({

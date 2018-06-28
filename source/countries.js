@@ -1,13 +1,7 @@
-// A list of all country names
-// sorted by country code.
-import country_names from './countries.json'
-
-// A list of all country codes.
-export const countries = []
-
-// Country code to country name map.
-const default_country_names =
+export function getCountryCodes(labels)
 {
+	// Includes all country codes (excluding "ZZ" for "International").
+	//
 	// From ISO 3166-1:2006(E/F):
 	//
 	// 8.1.3   User-assigned code elements
@@ -18,16 +12,5 @@ const default_country_names =
 	// and ZZA to ZZZ respectively, and the series of numbers 900 to 999
 	// are available. These users should inform the ISO 3166/MA of such use.
 	//
-	ZZ: 'International'
+	return Object.keys(labels).filter(key => key.length === 2 && key.toUpperCase() === key && key !== 'ZZ')
 }
-
-// Populate country codes and country names.
-for (const country of country_names)
-{
-	const [code, name] = country
-
-	countries.push(code)
-	default_country_names[code] = name
-}
-
-export default default_country_names

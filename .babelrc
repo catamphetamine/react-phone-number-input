@@ -33,7 +33,13 @@
 		},
 		"test":
 		{
-			"plugins": ["istanbul"]
+			"plugins": ["istanbul"],
+			"ignore": [
+				"bundle",
+				"modules",
+				"commonjs",
+				"source/flags.js"
+			]
 		}
 	}
 }
