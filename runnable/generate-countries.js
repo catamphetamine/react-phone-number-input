@@ -59,7 +59,7 @@ function get_country_flag(code)
 	{
 		// // Kosovo (disputed territory).
 		// case 'xk':
-		// 	flag_path = 'flags'
+		// 	flag_path = 'resources/flags'
 		// 	break
 
 		// `flag-icon-css`
