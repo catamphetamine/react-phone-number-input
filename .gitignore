@@ -30,8 +30,4 @@ npm-debug.log
 /commonjs/
 /modules/
 
-/bundle/index.html
-/bundle/rrui.css
-/bundle/react-responsive-ui.css
-/bundle/style.css
-/bundle/lib
+/bundle/

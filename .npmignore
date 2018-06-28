@@ -36,9 +36,6 @@ npm-debug.log
 *.sublime-workspace
 *.sublime-project
 
-# NUL
-/NUL
-
 # webpack is used in development
 /webpack.config.babel.js
 
@@ -46,4 +43,10 @@ npm-debug.log
 /test/
 
 # bundle for the browser
-/bundle/
+/bundle/lib
+/bundle/index.html
+/bundle/libphonenumber-js.min.js
+/bundle/libphonenumber-js.min.js.map
+/bundle/rrui.css
+/bundle/react-responsive-ui.css
+/bundle/style.css
