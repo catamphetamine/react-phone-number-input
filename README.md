@@ -307,16 +307,16 @@ One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdeliv
 <script src="https://unpkg.com/libphonenumber-js@1.2.15/bundle/libphonenumber-js.min.js"></script>
 
 <!-- Either `react-phone-number-input` with "native" country `<select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@1.1.11/bundle/react-phone-number-input-native.js"></script>
+<script src="https://unpkg.com/react-phone-number-input@1.1.12/bundle/react-phone-number-input-native.js"></script>
 
 <!-- Or `react-phone-number-input` with `react-responsive-ui` `<Select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@1.1.11/bundle/react-phone-number-input-react-responsive-ui.js"></script>
+<script src="https://unpkg.com/react-phone-number-input@1.1.12/bundle/react-phone-number-input-react-responsive-ui.js"></script>
 
 <!-- Don't add this style if you're using "native" country `<select/>`. -->
-<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.11/bundle/rrui.css"/>
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.12/bundle/rrui.css"/>
 
 <!-- Styles for the component. -->
-<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.11/bundle/style.css"/>
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.12/bundle/style.css"/>
 
 <script>
   var PhoneInput = window['react-phone-number-input']
