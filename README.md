@@ -303,13 +303,16 @@ If you're using Webpack 1 then upgrade to a newer version.
 One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.net](https://jsdelivr.net)
 
 ```html
-<!-- `libphonenumber-js` (is used internally by `react-phone-number-input`) -->
+<!-- `libphonenumber-js` (is used internally by `react-phone-number-input`). -->
 <script src="https://unpkg.com/libphonenumber-js@1.2.15/bundle/libphonenumber-js.min.js"></script>
 
-<!-- `react-phone-number-input` -->
-<script src="https://unpkg.com/react-phone-number-input@1.1.11/bundle/react-phone-number-input.min.js"></script>
+<!-- Either `react-phone-number-input` with "native" country `<select/>`. -->
+<script src="https://unpkg.com/react-phone-number-input@1.1.11/bundle/react-phone-number-input-native.js"></script>
 
-<!-- Don't add this style if you're using "native" country select. -->
+<!-- Or `react-phone-number-input` with `react-responsive-ui` `<Select/>`. -->
+<script src="https://unpkg.com/react-phone-number-input@1.1.11/bundle/react-phone-number-input-react-responsive-ui.js"></script>
+
+<!-- Don't add this style if you're using "native" country `<select/>`. -->
 <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.11/bundle/rrui.css"/>
 
 <!-- Styles for the component. -->

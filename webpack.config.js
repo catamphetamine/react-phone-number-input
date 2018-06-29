@@ -1,14 +1,14 @@
-const library_name = 'react-phone-number-input'
+const library_name = 'react-phone-number-input-' + process.env.WEBPACK_BUNDLE_TYPE
 
 module.exports =
 {
-  entry: './index.js',
+  entry: './' + process.env.WEBPACK_BUNDLE_TYPE + '.js',
   devtool: 'source-map',
   output:
   {
     path           : require('path').join(__dirname, '/bundle'),
-    filename       : `${library_name}.min.js`,
-    library        : library_name,
+    filename       : `${library_name}.js`,
+    library        : 'react-phone-number-input',
     libraryTarget  : 'umd',
     umdNamedDefine : true
   },
