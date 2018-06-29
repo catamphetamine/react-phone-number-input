@@ -14,3 +14,5 @@ Now, my personal point of view on this whole situation.
 Did Albanians have the moral right to demand full independence? My personal opinion is no, they didn't. They were citizens of Yugoslavia, they had their autonomy, still they kept demanding more and more freedom. I'd say they got carried away. Autonomy is good, but demanding complete independence is too much, and it's illegal by any country's laws. No government would allow its territories to simply become independent. Italy wont't allow it for Catalonia. England won't allow it for Ireland.
 
 Still, I'd personally agree with the annexation of Kosovo if it was just a war between Albanians and Serbs and if Albanians would win because that would mean that the strongest one takes the prize. But as soon as NATO intervened the competition was no longer fair and so I don't agree with any of its outcome.
+
+The relevant discussion: https://github.com/catamphetamine/react-phone-number-input/pull/155
