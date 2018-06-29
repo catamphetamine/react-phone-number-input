@@ -1,7 +1,8 @@
 .react-phone-number-input__row
 {
 	/* This is done to stretch `.rrui__select__options` */
-	/* to the full width of `.react-phone-number-input__phone` */
+	/* to the full width of `.react-phone-number-input__phone`. */
+	/* Will be moved to `rrui.css` in version 2.x. */
 	position    : relative;
 
 	/* This is done to stretch the contents of this component */
@@ -23,7 +24,8 @@
 
 /* The phone number input stretches to fill all empty space */
 .react-phone-number-input__phone,
-/* The country select, when expanded, stretches to fill all empty space */
+/* The country select, when expanded, stretches to fill all empty space. */
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country.rrui__select--expanded
 {
 	-webkit-box-flex : 1;
@@ -37,16 +39,19 @@
 	font-size : inherit;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country.rrui__select--collapsed
 {
 	margin-right : 0.5em;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country .rrui__select__autocomplete
 {
 	width : 100%;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input__country,
 .react-phone-number-input__country:not(.react-phone-number-input__country--native-expanded) .rrui__input
 {
@@ -63,12 +68,14 @@
 	position : static;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input .rrui__select__arrow
 {
 	margin-top  : 0.3em;
 	margin-left : 0.3em;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input .rrui__select__option
 {
 	display     : -webkit-box;
@@ -81,6 +88,7 @@
 	        align-items : center;
 }
 
+/* Will be moved to `rrui.css` in version 2.x. */
 .react-phone-number-input .rrui__select__option-icon
 {
 	margin-bottom : 0.1em;
@@ -158,12 +166,22 @@
 	min-width : 0;
 }
 
+/* Native `<select/>`. */
+
 .react-phone-number-input__country--native
 {
 	position     : relative;
-	align-self   : stretch;
+	-webkit-align-self   : stretch;
+	    -ms-flex-item-align   : stretch;
+	        align-self   : stretch;
+	display      : -webkit-box;
+	display      : -webkit-flex;
+	display      : -ms-flexbox;
 	display      : flex;
-	align-items  : center;
+	-webkit-box-align  : center;
+	-webkit-align-items  : center;
+	    -ms-flex-align  : center;
+	        align-items  : center;
 	margin-right : 0.5em;
 }
 
@@ -195,6 +213,8 @@
 	border-right-color : transparent;
 	color              : #B8BDC4;
 	opacity            : 0.7;
+	-webkit-transition         : color 0.1s;
+	-o-transition         : color 0.1s;
 	transition         : color 0.1s;
 }
 
@@ -203,18 +223,24 @@
 	color : #03B2CB;
 }
 
+/* Remove "--native" for v 2.x */
 .react-phone-number-input__phone--native
 {
 	height        : calc(0.3rem * 6);
 	outline       : none;
 	border-radius : 0;
 	padding       : 0;
-	appearance    : none;
+	-webkit-appearance    : none;
+	   -moz-appearance    : none;
+	        appearance    : none;
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
+	-webkit-transition    : border 0.1s;
+	-o-transition    : border 0.1s;
 	transition    : border 0.1s;
 }
 
+/* Remove "--native" for v 2.x */
 .react-phone-number-input__phone--native:focus
 {
 	border-color : #03B2CB;
@@ -231,8 +257,10 @@
 	border-color : #EB2010;
 }
 
+/* Remove "--native" for v 2.x */
 /* Overrides Chrome autofill yellow background color */
 .react-phone-number-input__phone--native:-webkit-autofill
 {
-	box-shadow : 0 0 0 1000px white inset;
+	-webkit-box-shadow : 0 0 0 1000px white inset;
+	        box-shadow : 0 0 0 1000px white inset;
 }

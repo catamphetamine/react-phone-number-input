@@ -25,7 +25,18 @@
 		-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-		<script src="./react-phone-number-input.min.js"></script>
+		<script src="./react-phone-number-input-react-responsive-ui.js"></script>
+
+		<script>
+			window.PhoneInput = window['react-phone-number-input']
+		</script>
+
+		<script src="./react-phone-number-input-native.js"></script>
+
+		<script>
+			window.PhoneInputNative = window['react-phone-number-input']
+		</script>
+
 		<script src="./libphonenumber-js.min.js"></script>
 
 		<link rel="stylesheet" href="./rrui.css"/>
@@ -404,11 +415,6 @@
 
 		<script type="text/babel">
 			const debug = window.location.origin === 'file://'
-
-			const library = window['react-phone-number-input']
-
-			const PhoneInput = library.default
-			const PhoneInputNative = library.PhoneInputNative
 
 			function Highlight({ lang, style, children })
 			{
