@@ -3,7 +3,6 @@ import PhoneInputDefault,
 	PhoneInputNative,
 	PhoneInput,
 	formatPhoneNumber,
-	parsePhoneNumberCharacter,
 	parsePhoneNumberCharacters,
 	// Deprecated. Will be removed in version 2.x.
 	Input
@@ -19,7 +18,6 @@ describe(`exports`, function()
 
 		PhoneInput.should.be.a('function')
 		formatPhoneNumber.should.be.a('function')
-		parsePhoneNumberCharacter.should.be.a('function')
 		parsePhoneNumberCharacters.should.be.a('function')
 
 		// Deprecated. Will be removed in version 2.x.
@@ -45,7 +43,6 @@ describe(`exports`, function()
 
 		Custom.PhoneInput.should.be.a('function')
 		Custom.formatPhoneNumber.should.be.a('function')
-		Custom.parsePhoneNumberCharacter.should.be.a('function')
 		Custom.parsePhoneNumberCharacters.should.be.a('function')
 	})
 })
