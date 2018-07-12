@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
-
-// Both these functions are exported from `react-phone-number-input`.
-import parsePhoneNumberCharacters from './parsePhoneNumberCharacters'
-import formatPhoneNumber from './formatPhoneNumber'
+import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphonenumber-js/custom'
 
 /**
  * `InputBasic`'s caret is not as "smart" as the default `inputComponent`'s
@@ -14,6 +12,27 @@ import formatPhoneNumber from './formatPhoneNumber'
 @reactLifecyclesCompat
 export default class InputBasic extends PureComponent
 {
+	static propTypes =
+	{
+		// The parsed phone number.
+		// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
+		value : PropTypes.string.isRequired,
+
+		// Updates the `value`.
+		onChange : PropTypes.func.isRequired,
+
+		// A two-letter country code for formatting `value`
+		// as a national phone number (e.g. `(800) 555 35 35`).
+		// E.g. "US", "RU", etc.
+		// If no `country` is passed then `value`
+		// is formatted as an international phone number.
+		// (e.g. `+7 800 555 35 35`)
+		country : PropTypes.string,
+
+		// `libphonenumber-js` metadata.
+		metadata : PropTypes.object.isRequired
+	}
+
 	// Prevents React from resetting the `<input/>` caret position.
 	// https://github.com/reactjs/react-redux/issues/525#issuecomment-254852039
 	// https://github.com/facebook/react/issues/955
@@ -29,7 +48,7 @@ export default class InputBasic extends PureComponent
 		const { onChange } = this.props
 		const { value } = this.state
 
-		let newValue = parsePhoneNumberCharacters(event.target.value)
+		let newValue = parseIncompletePhoneNumber(event.target.value)
 
 		// By default, if a value is something like `"(123)"`
 		// then Backspace would only erase the rightmost brace
@@ -57,13 +76,10 @@ export default class InputBasic extends PureComponent
 	{
 		const { country, metadata } = this.props
 
-		return formatPhoneNumber(value, country, metadata).text
+		return formatIncompletePhoneNumber(value, country, metadata)
 	}
 
-	focus()
-	{
-		this.input.focus()
-	}
+	focus = () => this.input.focus()
 
 	storeInput = (ref) => this.input = ref
 
@@ -71,7 +87,6 @@ export default class InputBasic extends PureComponent
 	{
 		const
 		{
-			// value,
 			onChange,
 			country,
 			metadata,

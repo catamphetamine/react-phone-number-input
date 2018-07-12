@@ -1,6 +1,10 @@
 <!--
 2.0.0:
 
+* Remove `parsePhoneNumberCharacters` and `formatPhoneNumber` (including test files) (use `libphonenumber-js` ones instead: `parseIncompletePhoneNumber` and `formatIncompletePhoneNumber`).
+
+* Remove `<InputBasic/>` (use `libphonenumber-js` one instead).
+
 * Remove `/rrui` and `/native` exports from `index.commonjs.js` so that's it's minimal and bare.
 
 * Make `/custom` components bare ones.
@@ -49,7 +53,14 @@ Remove from README:
 * Replace
 <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.10/bundle/rrui.css"/>
 with the link to `react-responsive-ui` repo style.
+
+* Remove resources folder
 -->
+
+1.1.13 / 12.07.2018
+===================
+
+  * Added `react-phone-number-input/basic-input` component.
 
 1.1.3 / 29.05.2018
 ===================

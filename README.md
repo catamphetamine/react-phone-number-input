@@ -120,6 +120,29 @@ return (
 
 Native `<select/>` is the recommended one because it's more light-weight and doesn't require `rrui.css` file. In the next major version of this library (`2.x`) native `<select/>` will be the default one.
 
+## Without country select
+
+```js
+import PhoneInput from `react-phone-number-input/basic-input`
+
+class Example extends Component {
+  state = {
+    value: ''
+  }
+
+  render() {
+    // If `country` property is not passed
+    // then "International" format is used.
+    return (
+      <PhoneInput
+        country="US"
+        value={ this.state.value }
+        onChange={ value => this.setState({ value }) } />
+    )
+  }
+}
+```
+
 ## Bug reporting
 
 If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then follow the [bug reporting instructions in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#bug-reporting).

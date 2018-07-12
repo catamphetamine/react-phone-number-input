@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { ReactInput } from 'input-format'
 
-// Both these functions are exported from `react-phone-number-input`.
-import { parsePhoneNumberCharacter } from './parsePhoneNumberCharacters'
+import { parsePhoneNumberCharacter } from 'libphonenumber-js/custom'
 import formatPhoneNumber from './formatPhoneNumber'
 
 /**
@@ -11,12 +10,16 @@ import formatPhoneNumber from './formatPhoneNumber'
  */
 export default class InputSmart extends Component
 {
-	focus()
-	{
-		this.input.focus()
-	}
+	focus = () => this.input.focus()
 
 	storeInput = (ref) => this.input = ref
+
+	format = (value) =>
+	{
+		const { country, metadata } = this.props
+
+		return formatPhoneNumber(value, country, metadata)
+	}
 
 	render()
 	{
@@ -27,7 +30,7 @@ export default class InputSmart extends Component
 				{...rest}
 				ref={this.storeInput}
 				parse={parsePhoneNumberCharacter}
-				format={value => formatPhoneNumber(value, country, metadata)}/>
+				format={this.format}/>
 		)
 	}
 }

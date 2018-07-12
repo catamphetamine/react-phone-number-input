@@ -1,24 +1,24 @@
-import parsePhoneNumberCharacters, { parsePhoneNumberCharacter } from './parsePhoneNumberCharacters'
+import parsePhoneNumberCharacters from './parsePhoneNumberCharacters'
 
 describe('parsePhoneNumberCharacters', () =>
 {
-	it('should parse phone number character', () =>
-	{
-		// Accepts leading `+`.
-		parsePhoneNumberCharacter('+').should.equal('+')
+	// it('should parse phone number character', () =>
+	// {
+	// 	// Accepts leading `+`.
+	// 	parsePhoneNumberCharacter('+').should.equal('+')
 
-		// Doesn't accept non-leading `+`.
-		expect(parsePhoneNumberCharacter('+', '+')).to.be.undefined
+	// 	// Doesn't accept non-leading `+`.
+	// 	expect(parsePhoneNumberCharacter('+', '+')).to.be.undefined
 
-		// Parses digits.
-		parsePhoneNumberCharacter('1').should.equal('1')
+	// 	// Parses digits.
+	// 	parsePhoneNumberCharacter('1').should.equal('1')
 
-		// Parses non-European digits.
-		parsePhoneNumberCharacter('٤').should.equal('4')
+	// 	// Parses non-European digits.
+	// 	parsePhoneNumberCharacter('٤').should.equal('4')
 
-		// Dismisses other characters.
-		expect(parsePhoneNumberCharacter('-')).to.be.undefined
-	})
+	// 	// Dismisses other characters.
+	// 	expect(parsePhoneNumberCharacter('-')).to.be.undefined
+	// })
 
 	it('should parse phone number characters', () =>
 	{
