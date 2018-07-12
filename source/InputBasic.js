@@ -21,6 +21,9 @@ export default class InputBasic extends PureComponent
 		// Updates the `value`.
 		onChange : PropTypes.func.isRequired,
 
+		// `onBlur` workaround for `redux-form`'s bug.
+		onBlur : PropTypes.func,
+
 		// A two-letter country code for formatting `value`
 		// as a national phone number (e.g. `(800) 555 35 35`).
 		// E.g. "US", "RU", etc.
@@ -72,6 +75,47 @@ export default class InputBasic extends PureComponent
 		this.setState({ value: newValue }, () => onChange(newValue))
 	}
 
+	// This `onBlur` interceptor is a workaround for `redux-form`'s bug
+	// so that it gets the up-to-date `value` in its `onBlur` handler.
+	// Without this fix it just gets the actual (raw) input field textual value.
+	// E.g. `+7 800 555 35 35` instead of `+78005553535`.
+	//
+	// New `value` is taken from `event` in `redux-form`'s `handleBlur()`.
+	// https://github.com/erikras/redux-form/blob/785edf8aac3adc84aba2ab6898a4aa8c48687750/src/ConnectedField.js#L168
+	// `redux-form` shouldn't have taken the new `value` from `event`.
+	//
+	// A developer is not supposed to pass this `onBlur` property manually.
+	// Instead, `redux-form` passes `onBlur` to this component automatically
+	// and this component patches that `onBlur` handler (a hacky way but works).
+	//
+	onBlur = (event) =>
+	{
+		const { onBlur } = this.props
+		const { value } = this.state
+
+		if (onBlur)
+		{
+			// `event` is React's `SyntheticEvent`.
+			// Its `.value` is read-only therefore cloning it.
+			const _event =
+			{
+				...event,
+				target:
+				{
+					...event.target,
+					value
+				}
+			}
+
+			// Workaround for `redux-form` event detection.
+			// https://github.com/erikras/redux-form/blob/v5/src/events/isEvent.js
+			_event.stopPropagation = event.stopPropagation
+			_event.preventDefault  = event.preventDefault
+
+			return onBlur(_event)
+		}
+	}
+
 	format(value)
 	{
 		const { country, metadata } = this.props
@@ -104,7 +148,8 @@ export default class InputBasic extends PureComponent
 				{...rest}
 				ref={this.storeInput}
 				value={this.format(value)}
-				onChange={this.onChange}/>
+				onChange={this.onChange}
+				onBlur={this.onBlur}/>
 		)
 	}
 }
