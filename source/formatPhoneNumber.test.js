@@ -14,13 +14,13 @@ describe('formatPhoneNumber', () =>
 		result.template.should.equal('x (xxx) xxx-xx-xx')
 
 		// International input, no country.
-		result = formatPhoneNumber('780055535', null, metadata)
-		result.text.should.equal('7 800 555 35')
+		result = formatPhoneNumber('+780055535', null, metadata)
+		result.text.should.equal('+7 800 555 35')
 		result.template.should.equal('xx xxx xxx xx xx')
 
 		// International input, with country.
-		result = formatPhoneNumber('780055535', 'RU', metadata)
-		result.text.should.equal('7 800 555 35')
+		result = formatPhoneNumber('+780055535', 'RU', metadata)
+		result.text.should.equal('+7 800 555 35')
 		result.template.should.equal('xx xxx xxx xx xx')
 	})
 })
