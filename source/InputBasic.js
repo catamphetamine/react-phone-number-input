@@ -145,6 +145,8 @@ export default class InputBasic extends PureComponent
 
 		return (
 			<input
+				type="tel"
+				autoComplete="tel"
 				{...rest}
 				ref={this.storeInput}
 				value={this.format(value)}
