@@ -1,7 +1,7 @@
 <!--
 2.0.0:
 
-* Remove `parsePhoneNumberCharacters` and `formatPhoneNumber` (including test files) (use `libphonenumber-js` ones instead: `parseIncompletePhoneNumber` and `formatIncompletePhoneNumber`).
+* Remove `parsePhoneNumberCharacters` and `formatPhoneNumber` exports (and tests).
 
 * Remove `<InputBasic/>` (use `libphonenumber-js` one instead).
 
