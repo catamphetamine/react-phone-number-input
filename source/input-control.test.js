@@ -46,7 +46,8 @@ describe('input-control', () =>
 		const defaultLabels =
 		{
 			'RU': 'Russia (Россия)',
-			'US': 'United States'
+			'US': 'United States',
+			'ZZ': 'International'
 		}
 
 		// Without custom country names.
@@ -56,7 +57,7 @@ describe('input-control', () =>
 			label : 'Russia (Россия)'
 		}, {
 			value : 'US',
-			label :
+			label : 'United States'
 		}])
 
 		// With custom country names.
