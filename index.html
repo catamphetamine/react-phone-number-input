@@ -28,18 +28,18 @@
 		<script src="./react-phone-number-input-react-responsive-ui.js"></script>
 
 		<script>
-			window.PhoneInput = window['react-phone-number-input']
+			window.PhoneInputReactResponsiveUI = window['react-phone-number-input']
 		</script>
 
 		<script src="./react-phone-number-input-native.js"></script>
 
 		<script>
-			window.PhoneInputNative = window['react-phone-number-input']
+			window.PhoneInput = window['react-phone-number-input']
 		</script>
 
 		<script src="./libphonenumber-js.min.js"></script>
 
-		<link rel="stylesheet" href="./rrui.css"/>
+		<link rel="stylesheet" href="./react-responsive-ui.css"/>
 		<link rel="stylesheet" href="./style.css"/>
 	</head>
 
@@ -115,16 +115,18 @@
 
 		.react-phone-number-input
 		{
-			max-width : 17rem;
+			max-width : 13rem;
 		}
 
 		/* Overrides Chrome autofill yellow background color */
+		/*
 		.rrui__input-field:-webkit-autofill,
 		.rrui__input-field:-webkit-autofill:hover,
 		.rrui__input-field:-webkit-autofill:focus
 		{
 			box-shadow: 0 0 0 1000px white inset;
 		}
+		*/
 
 		@media (max-width: 720px)
 		{
@@ -443,11 +445,46 @@
 				{
 					return (
 						<div>
-							<h2>Example</h2>
+							<h2>Native country &lt;select/&gt;</h2>
+
+							<div className="section">
+								Native country <code>&lt;select/&gt;</code> is the most light-weight one and does not require any additional JS or CSS.
+							</div>
+
+							<div className="section">
+								&nbsp;
+							</div>
 
 							<form>
 								<PhoneInput
-									placeholder="Start typing a phone number"
+									placeholder="Enter phone number"
+									value={this.state.value_native}
+									onChange={value => this.setState({ value_native: value })}/>
+							</form>
+
+							<Highlight lang="jsx">
+{`import PhoneInput from 'react-phone-number-input'
+
+<PhoneInput
+  placeholder="Enter phone number"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>
+`}
+							</Highlight>
+
+							<h2>Custom country &lt;select/&gt;</h2>
+
+							<div className="section">
+								This is an example of using <a target="_blank" href="https://catamphetamine.github.io/react-responsive-ui/"><code>react-responsive-ui</code></a> <code>&lt;Select/&gt;</code> component for country <code>&lt;select/&gt;</code>.
+							</div>
+
+							<div className="section">
+								&nbsp;
+							</div>
+
+							<form>
+								<PhoneInputReactResponsiveUI
+									placeholder="Enter phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}/>
 							</form>
@@ -457,14 +494,17 @@
 							</div>
 
 							<Highlight lang="jsx">
-								{`import PhoneInput from 'react-phone-number-input'
+								{`import 'react-responsive-ui/style.css'
+
+import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 
 <PhoneInput
-  placeholder="Start typing a phone number"
+  placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>`}
 							</Highlight>
 
+							{/*
 							<h2><code>smartCaret = false</code></h2>
 
 							<div className="section">
@@ -482,7 +522,7 @@
 							<form>
 								<PhoneInput
 									smartCaret={false}
-									placeholder="Start typing a phone number"
+									placeholder="Enter phone number"
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}/>
 							</form>
@@ -494,7 +534,7 @@
 							<Highlight lang="jsx">
 								{`<PhoneInput
   smartCaret={ false }
-  placeholder="Start typing a phone number"
+  placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>`}
 							</Highlight>
@@ -502,40 +542,14 @@
 							<div className="section">
 								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
 							</div>
-
-							<h2>Native country &lt;select/&gt;</h2>
-
-							<div className="section">
-								Native country <code>&lt;select/&gt;</code> is the most light-weight one and does not require any third party JS (<a href="https://catamphetamine.github.io/react-responsive-ui/" target="_blank"><code>react-responsive-ui</code></a>) or CSS (<code>rrui.css</code>).
-							</div>
-
-							<div className="section">
-								&nbsp;
-							</div>
-
-							<form>
-								<PhoneInputNative
-									placeholder="Enter phone number"
-									value={this.state.value_native}
-									onChange={value => this.setState({ value_native: value })}/>
-							</form>
-
-							<Highlight lang="jsx">
-{`import PhoneInput from 'react-phone-number-input/native'
-
-<PhoneInput
-  placeholder="Enter phone number"
-  value={ this.state.value }
-  onChange={ value => this.setState({ value }) }/>
-`}
-							</Highlight>
+							*/}
 
 							<h2>Default country: Russia</h2>
 
 							<form>
 								<PhoneInput
 									country="RU"
-									placeholder="Start typing a phone number"
+									placeholder="Enter phone number"
 									value={this.state.value_RU}
 									onChange={value => this.setState({ value_RU: value })}/>
 							</form>
@@ -547,7 +561,7 @@
 							<Highlight lang="jsx">
 {`<PhoneInput
   country="RU"
-  placeholder="Start typing a phone number"
+  placeholder="Enter phone number"
   value={ this.state.value }
   onChange={ value => this.setState({ value }) }/>
 `}
@@ -717,25 +731,6 @@ International: { value && formatNumber(value, 'International') }
 				render_debug() {
 					return (
 						<div>
-							<h2>nativeCountrySelect (deprecated)</h2>
-
-							<form>
-								<PhoneInput
-									placeholder="Enter phone number"
-									value={this.state.value_native}
-									onChange={value => this.setState({ value_native: value })}
-									nativeCountrySelect/>
-							</form>
-
-							<Highlight lang="jsx">
-{`<PhoneInput
-  placeholder="Enter phone number"
-  value={ this.state.value }
-  onChange={ value => this.setState({ value }) }
-  nativeCountrySelect/>
-`}
-							</Highlight>
-
 							{/*
 							<h2>All flags</h2>
 
