@@ -11,16 +11,6 @@ International phone number `<input/>` for React (iPhone style).
 
 <img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/first-glance.png" width="279" height="156"/>
 
-## Built-in country `<select/>` (with autocomplete)
-
-### Desktop
-
-<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/desktop-countries.png" width="510" height="298"/>
-
-### Mobile
-
-<img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-countries.png" width="380" height="676"/>
-
 ## Native `<select/>`
 
 ### Desktop
@@ -37,10 +27,10 @@ International phone number `<input/>` for React (iPhone style).
 import PhoneInput from 'react-phone-number-input'
 
 return (
-	<PhoneInput
-		placeholder="Enter phone number"
-		value={ this.state.phone }
-		onChange={ phone => this.setState({ phone }) } />
+  <PhoneInput
+    placeholder="Enter phone number"
+    value={ this.state.phone }
+    onChange={ phone => this.setState({ phone }) } />
 )
 ```
 
