@@ -19,7 +19,7 @@ export default class PhoneInputReactResponsiveUIDefaultMetadata extends Componen
 	static propTypes =
 	{
 		metadata : metadataPropType.isRequired,
-		labels : metadataPropType.isRequired,
+		labels : labelsPropType.isRequired,
 		internationalIcon : PropTypes.func.isRequired
 	}
 

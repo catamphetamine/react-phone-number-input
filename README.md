@@ -24,6 +24,7 @@ International phone number `<input/>` for React (iPhone style).
 ## Usage
 
 ```js
+import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
 return (

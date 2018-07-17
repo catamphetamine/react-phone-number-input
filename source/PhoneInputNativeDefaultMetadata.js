@@ -19,7 +19,7 @@ export default class PhoneInputNativeDefaultMetadata extends Component
 	static propTypes =
 	{
 		metadata : metadataPropType.isRequired,
-		labels : metadataPropType.isRequired,
+		labels : labelsPropType.isRequired,
 		internationalIcon : PropTypes.func.isRequired
 	}
 
