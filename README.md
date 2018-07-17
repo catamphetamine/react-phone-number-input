@@ -46,9 +46,9 @@ return (
 
 The international phone number input utilizes [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library.
 
+<!--
 The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
-
-The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/).
+-->
 
 I could also easily include all country flags in a form of `<svg/>` React elements as part of this library but the overall size of the bundle would then be about 3 MegaBytes (yeah, those SVGs turned out to be really huge) which is too much for a website. Therefore the default behaviour is a compromise: instead of pleloading the flags for all countries in the expanded list of countries only the flag for the currently selected country is shown. This way the user only downloads a single SVG image and is not forced to download the whole international flags bundle.
 
@@ -59,7 +59,6 @@ The CSS files for this React component must be included on a page too.
 #### When using Webpack
 
 ```js
-import 'react-phone-number-input/rrui.css'
 import 'react-phone-number-input/style.css'
 ```
 
@@ -67,15 +66,15 @@ And set up a [`postcss-loader`](https://github.com/postcss/postcss-loader) with 
 
 #### When not using Webpack
 
-Get the `rrui.css` and `style.css` files from this package, process these files with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include them on a page.
+Get the `style.css` file from this package, process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include the autoprefixed CSS file on a page.
 
 ```html
 <head>
-  <link rel="stylesheet" href="/css/react-phone-number-input/rrui.css"/>
   <link rel="stylesheet" href="/css/react-phone-number-input/style.css"/>
 </head>
 ```
 
+<!--
 ## Android
 
 There have been [reports](https://github.com/catamphetamine/react-phone-number-input/issues/75) of some Samsung Android phones not handling caret positioning properly (e.g. Samsung Galaxy S8+, Samsung Galaxy S7 Edge).
@@ -92,6 +91,7 @@ import PhoneInput from 'react-phone-number-input'
 ```
 
 `smartCaret={false}` caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret usually jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
+-->
 
 ## Validation
 
@@ -103,12 +103,22 @@ For the actual phone number validation use [`libphonenumber-js`](https://github.
 
 Make sure to wrap a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
 
-## Native `<select/>`
+## Custom country `<select/>`
 
-One can (and probably should) choose to use native HTML `<select/>` instead of `react-responsive-ui` `<Select/>` component, in which case use the `react-phone-number-input/native` export instead of the default one.
+One can supply their own country `<select/>` component in case the native one doesn't fit the app. Here's an example of using [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/) `<Select/>` component.
+
+<!--
+// Or import styles individually to reduce bundle size for a little bit:
+// import 'react-responsive-ui/variables.css'
+// import 'react-responsive-ui/styles/Expandable.css'
+// ...
+// import 'react-responsive-ui/styles/Select.css'
+-->
 
 ```js
-import PhoneInput from 'react-phone-number-input/native'
+import 'react-responsive-ui/style.css'
+
+import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 
 return (
   <PhoneInput
@@ -118,9 +128,9 @@ return (
 )
 ```
 
-Native `<select/>` is the recommended one because it's more light-weight and doesn't require `rrui.css` file. In the next major version of this library (`2.x`) native `<select/>` will be the default one.
-
 ## Without country select
+
+Some people requested an exported minimal phone number input component without country `<select/>`.
 
 ```js
 import PhoneInput from `react-phone-number-input/basic-input`
@@ -166,8 +176,6 @@ The available props are
  * `flags` — (optional) Supplies `<svg/>` elements for flags instead of the default `<img src="..."/>` ones. This might be suitable if someone's making an application which is supposed to be able to work offline (a downloadable app, or an "internal" website): `import flags from 'react-phone-number-input/flags'`.
 
  * `flagComponent` — (optional) A React component for displaying a country flag (replaces the default flag icons).
-
- * `nativeExpanded` — If set to `true` will render native `<select/>` when country select is expanded instead of the custom one (which has autocomplete feature). **Deprecated. Use `<PhoneInputNative/>` instead.**
 
  * `displayInitialValueAsLocalNumber` — If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set (see the example on the demo page). The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format. The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
 
@@ -250,18 +258,18 @@ parseRFC3966('tel:+12133734253;ext=123')
 
 ## Customizing
 
-One can use the exported `<PhoneInput/>` component for supplying custom country select and phone number input field components.
+One can use the `/custom` export to import a bare `<PhoneInput/>` component and supply it with custom properties such as country select component and phone number input field component.
 
 ```js
-import { PhoneInput } from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input/custom'
+import InternationalIcon from 'react-phone-number-input/international-icon'
+import labels from 'react-phone-number-input/locale/ru'
 
-<PhoneInput countrySelectComponent={...} inputComponent={...}/>
-```
-
-For non-ES6-capable environment:
-
-```js
-const PhoneInput = require('react-phone-number-input/custom').PhoneInput
+<PhoneInput
+  countrySelectComponent={...required...}
+  inputComponent={...optional...}
+  internationalIcon={InternationalIcon}
+  labels={labels}/>
 ```
 
 #### `countrySelectComponent`
@@ -330,16 +338,17 @@ One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdeliv
 <script src="https://unpkg.com/libphonenumber-js@1.2.15/bundle/libphonenumber-js.min.js"></script>
 
 <!-- Either `react-phone-number-input` with "native" country `<select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@1.1.12/bundle/react-phone-number-input-native.js"></script>
+<script src="https://unpkg.com/react-phone-number-input@2.0.0/bundle/react-phone-number-input-native.js"></script>
 
 <!-- Or `react-phone-number-input` with `react-responsive-ui` `<Select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@1.1.12/bundle/react-phone-number-input-react-responsive-ui.js"></script>
-
-<!-- Don't add this style if you're using "native" country `<select/>`. -->
-<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.12/bundle/rrui.css"/>
+<script src="https://unpkg.com/react-phone-number-input@2.0.0/bundle/react-phone-number-input-react-responsive-ui.js"></script>
 
 <!-- Styles for the component. -->
-<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.12/bundle/style.css"/>
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@2.0.0/bundle/style.css"/>
+
+<!-- Styles for `react-responsive-ui` `<Select/> -->
+<!-- (only if `react-responsive-ui` `<Select/>` is used). -->
+<link rel="stylesheet" href="https://unpkg.com/react-responsive-ui@0.13.8/bundle/style.css"/>
 
 <script>
   var PhoneInput = window['react-phone-number-input']

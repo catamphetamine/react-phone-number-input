@@ -37,7 +37,7 @@ export function getPreSelectedCountry(parsed_number, country, countries, include
 	// then some `country` must be selected.
 	// It will still be the wrong country though.
 	// But still country `<select/>` can't be left in a broken state.
-	if (!country && !has_international_option(countries, includeInternationalOption) && countries && countries.length > 0)
+	if (!country && !includeInternationalOption && countries && countries.length > 0)
 	{
 		country = countries[0]
 	}
@@ -48,30 +48,28 @@ export function getPreSelectedCountry(parsed_number, country, countries, include
 /**
  * Generates a sorted list of country `<select/>` options.
  * @param  {string[]} countries - A list of two-letter ("ISO 3166-1 alpha-2") country codes.
- * @param  {object?} labels - Custom country labels. E.g. `{ RU: 'Россия', US: 'США', ... }`.
+ * @param  {object} labels - Custom country labels. E.g. `{ RU: 'Россия', US: 'США', ... }`.
  * @param  {boolean} includeInternationalOption - Whether should include "International" option at the top of the list.
  * @return {object[]} A list of objects having shape `{ value : string, label : string }`.
  */
-// `default_country_names` argument will be removed in version 2.x
-export function getCountrySelectOptions(countries, country_names, includeInternationalOption, default_country_names)
+export function getCountrySelectOptions(countries, country_names, includeInternationalOption)
 {
 	// Generates a `<Select/>` option for each country.
 	const country_select_options = countries.map((country) =>
 	({
 		value : country,
-		// `default_country_names` will be removed from here in version 2.x
-		label : (country_names && country_names[country]) || default_country_names[country]
+		label : country_names[country]
 	}))
 
 	// Sort the list of countries alphabetically.
 	country_select_options.sort((a, b) => compare_strings(a.label, b.label))
 
 	// Add the "International" option to the country list (if suitable)
-	if (has_international_option(countries, includeInternationalOption))
+	if (includeInternationalOption)
 	{
 		country_select_options.unshift
 		({
-			label : (country_names && country_names.ZZ) || default_country_names.ZZ
+			label : country_names.ZZ
 		})
 	}
 
@@ -252,7 +250,7 @@ export function getCountryForParsedInput
 	// and the international phone number entered doesn't correspond
 	// to the currently selected country then reset the currently selected country.
 	else if (country &&
-		has_international_option(countries, includeInternationalOption) &&
+		includeInternationalOption &&
 		!could_number_belong_to_country(parsed_input, country, metadata))
 	{
 		return undefined
@@ -295,43 +293,6 @@ export function compare_strings(a, b) {
   }
   /* istanbul ignore next */
   return a < b ? -1 : (a > b ? 1 : 0);
-}
-
-/**
- * Whether should add the "International" option to country `<select/>`.
- */
-export function has_international_option(countries, includeInternationalOption)
-{
-	// `includeInternationalOption` won't be `undefined` in version 2.x
-
-	// If this behaviour is explicitly set, then do as it says.
-	if (includeInternationalOption !== undefined)
-	{
-		return includeInternationalOption
-	}
-
-	// If no `countries` were specified
-	// then it means "the default behaviour"
-	// which means "include the International option".
-	if (!countries)
-	{
-		return true
-	}
-
-	// Will be removed in version 2.x
-	//
-	// If the list of `countries` has been overridden
-	// then only show "International" option
-	// if no countries have been left out.
-	// The reasoning is that if some countries were left out
-	// and a user selects "International" option
-	// then he can input a phone number for a non-included country
-	// and perhaps that's what a developer didn't encourage
-	// when he was reducing the set of selectable countries.
-	//
-	// There are `242` countries total in the default country list in version `1.1.7`.
-	//
-	return countries.length >= 242
 }
 
 /**

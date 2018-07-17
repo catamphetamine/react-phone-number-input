@@ -1,82 +1,18 @@
 .react-phone-number-input__row
 {
-	/* This is done to stretch `.rrui__select__options` */
-	/* to the full width of `.react-phone-number-input__phone`. */
-	/* Will be moved to `rrui.css` in version 2.x. */
-	position    : relative;
-
 	/* This is done to stretch the contents of this component */
 	display     : flex;
 	align-items : center;
 }
 
-/* Overrides `width: 100%` setting from `react-resonsive-ui` */
-.react-phone-number-input__country
-{
-	width : auto;
-}
-
-/* The phone number input stretches to fill all empty space */
-.react-phone-number-input__phone,
-/* The country select, when expanded, stretches to fill all empty space. */
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input__country.rrui__select--expanded
-{
-	flex : 1;
-}
-
 .react-phone-number-input__phone
 {
-	font-size : inherit;
-}
+	/* The phone number input stretches to fill all empty space */
+	flex : 1;
 
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input__country.rrui__select--collapsed
-{
-	margin-right : 0.5em;
-}
-
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input__country .rrui__select__autocomplete
-{
-	width : 100%;
-}
-
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input__country,
-.react-phone-number-input__country:not(.react-phone-number-input__country--native-expanded) .rrui__input
-{
-	/* This is done to stretch `.rrui__select__options` */
-	/* to the full width of `.react-phone-number-input__phone` */
-	/* rather than to the full width of `.rrui__select` */
-	/* because the `.rrui__select` is contracted */
-	/* as soon as a user selects a country which caused */
-	/* the `.rrui__select__options` to contract too */
-	/* while the list collapse animation is still in progress. */
-	/* The `position: relative` container is now `.react-phone-number-input`. */
-	/* The `:not(.react-phone-number-input__country--native-expanded)` selector */
-	/* is required because native `<select/>` is positioned absolutely. */
-	position : static;
-}
-
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input .rrui__select__arrow
-{
-	margin-top  : 0.3em;
-	margin-left : 0.3em;
-}
-
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input .rrui__select__option
-{
-	display     : flex;
-	align-items : center;
-}
-
-/* Will be moved to `rrui.css` in version 2.x. */
-.react-phone-number-input .rrui__select__option-icon
-{
-	margin-bottom : 0.1em;
+	/* The phone number input should shrink
+	   to make room for the extension input */
+	min-width : 0;
 }
 
 .react-phone-number-input__icon
@@ -94,8 +30,8 @@
 {
 	/* The international icon size is square */
 	/* and also has no border hence the `2 * 1px` `width` and `height` compensation */
-	width         : calc(0.93em + 2px);
-	height        : calc(0.93em + 2px);
+	width  : calc(0.93em + 2px);
+	height : calc(0.93em + 2px);
 
 	/* The international icon size is square hence the exact `padding` value */
 	/* for precise alignment with `4x3` sized country flags. */
@@ -143,14 +79,7 @@
 	margin-left : 0.5em;
 }
 
-/* The phone number input should shrink
-   to make room for the extension input */
-.react-phone-number-input__phone
-{
-	min-width : 0;
-}
-
-/* Native `<select/>`. */
+/* Styling native country `<select/>`. */
 
 .react-phone-number-input__country--native
 {
@@ -197,8 +126,9 @@
 	color : #03B2CB;
 }
 
-/* Remove "--native" for v 2.x */
-.react-phone-number-input__phone--native
+/* Styling phone number input */
+
+.react-phone-number-input__input
 {
 	height        : calc(0.3rem * 6);
 	outline       : none;
@@ -208,28 +138,33 @@
 	border        : none;
 	border-bottom : 1px solid #C5D2E0;
 	transition    : border 0.1s;
+	font-size     : inherit;
 }
 
-/* Remove "--native" for v 2.x */
-.react-phone-number-input__phone--native:focus
+.react-phone-number-input__input:focus
 {
 	border-color : #03B2CB;
 }
 
-.react-phone-number-input__phone--disabled
+.react-phone-number-input__input--disabled
 {
 	cursor : default;
 }
 
-.react-phone-number-input__phone--invalid,
-.react-phone-number-input__phone--invalid:focus
+.react-phone-number-input__input--invalid,
+.react-phone-number-input__input--invalid:focus
 {
 	border-color : #EB2010;
 }
 
-/* Remove "--native" for v 2.x */
 /* Overrides Chrome autofill yellow background color */
-.react-phone-number-input__phone--native:-webkit-autofill
+.react-phone-number-input__input:-webkit-autofill
 {
 	box-shadow : 0 0 0 1000px white inset;
+}
+
+/* A small fix for `react-responsive-ui` */
+.react-phone-number-input__country .rrui__select__button
+{
+	border-bottom : none;
 }

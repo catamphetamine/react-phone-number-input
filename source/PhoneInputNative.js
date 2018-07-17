@@ -21,30 +21,13 @@ export default class PhoneInputNative extends Component
 			<PhoneInput
 				{ ...this.props }
 				ref={ this.storeInputRef }
-				getInputClassName={ this.getInputClassName }
 				countrySelectComponent={ CountrySelect }
 				countrySelectProperties={ countrySelectProperties }/>
 		)
 	}
 
-	getInputClassName = ({ disabled, invalid }) =>
-	{
-		return classNames
-		(
-			// Will be removed in version 2.x
-			'react-phone-number-input__phone--native',
-			{
-				'react-phone-number-input__phone--disabled' : disabled,
-				'react-phone-number-input__phone--invalid'  : invalid
-			}
-		)
-	}
-
 	// Proxy `.focus()` method.
-	focus()
-	{
-		return this.input.focus()
-	}
+	focus = () => this.input.focus()
 }
 
 const countrySelectProperties =

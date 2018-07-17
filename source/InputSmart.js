@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { ReactInput } from 'input-format'
 
 import { parsePhoneNumberCharacter } from 'libphonenumber-js/custom'
-import formatPhoneNumber from './formatPhoneNumber'
 
 /**
  * This input uses `input-format` library
@@ -18,7 +17,13 @@ export default class InputSmart extends Component
 	{
 		const { country, metadata } = this.props
 
-		return formatPhoneNumber(value, country, metadata)
+		// "As you type" formatter.
+		const formatter = new AsYouType(country, metadata)
+
+		// Format the number.
+		const text = formatter.input(value)
+
+		return { text, template: formatter.template }
 	}
 
 	render()

@@ -11,7 +11,6 @@ import
 	// Private functions
 	get_country_from_possibly_incomplete_international_phone_number,
 	compare_strings,
-	has_international_option,
 	strip_country_calling_code,
 	get_national_significant_number_part,
 	could_number_belong_to_country
@@ -19,11 +18,6 @@ import
 from './input-control'
 
 import metadata from 'libphonenumber-js/metadata.min'
-
-// Will be removed in version 2.x
-import defaultLabels from '../locale/default'
-import { getCountryCodes } from './countries'
-const allCountries = getCountryCodes(defaultLabels)
 
 describe('input-control', () =>
 {
@@ -49,18 +43,24 @@ describe('input-control', () =>
 
 	it('should generate country select options', () =>
 	{
+		const defaultLabels =
+		{
+			'RU': 'Russia (Россия)',
+			'US': 'United States'
+		}
+
 		// Without custom country names.
-		getCountrySelectOptions(['US', 'RU'], null, false, defaultLabels).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], defaultLabels, false).should.deep.equal
 		([{
 			value : 'RU',
 			label : 'Russia (Россия)'
 		}, {
 			value : 'US',
-			label : 'United States'
+			label :
 		}])
 
 		// With custom country names.
-		getCountrySelectOptions(['US', 'RU'], { 'RU': 'Russia' }, false, defaultLabels).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], { ...defaultLabels, 'RU': 'Russia' }, false).should.deep.equal
 		([{
 			value : 'RU',
 			label : 'Russia'
@@ -70,7 +70,7 @@ describe('input-control', () =>
 		}])
 
 		// With "International" (without custom country names).
-		getCountrySelectOptions(['US', 'RU'], null, true, defaultLabels).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], defaultLabels, true).should.deep.equal
 		([{
 			label : 'International'
 		}, {
@@ -82,7 +82,7 @@ describe('input-control', () =>
 		}])
 
 		// With "International" (with custom country names).
-		getCountrySelectOptions(['US', 'RU'], { 'RU': 'Russia', ZZ: 'Intl' }, true, defaultLabels).should.deep.equal
+		getCountrySelectOptions(['US', 'RU'], { ...defaultLabels, 'RU': 'Russia', ZZ: 'Intl' }, true).should.deep.equal
 		([{
 			label : 'Intl'
 		}, {
@@ -209,15 +209,6 @@ describe('input-control', () =>
 		compare_strings('aa', 'ab').should.equal(-1)
 		compare_strings('aa', 'aa').should.equal(0)
 		compare_strings('aac', 'aab').should.equal(1)
-	})
-
-	it('should determine whether to show "International" option', () =>
-	{
-		has_international_option(['US', 'RU'], false).should.equal(false)
-		has_international_option(['US', 'RU'], true).should.equal(true)
-		has_international_option(['US', 'RU']).should.equal(false)
-		has_international_option(allCountries).should.equal(true)
-		has_international_option().should.equal(true)
 	})
 
 	it('should strip country calling code from a number', () =>

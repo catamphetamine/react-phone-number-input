@@ -19,11 +19,6 @@ export default class PhoneInputReactResponsiveUI extends Component
 		// By default shows flag only for currently selected country.
 		saveOnIcons : PropTypes.bool,
 
-		// Whether to use native country `<select/>` when it's expanded.
-		// Deprecated. Will be removed in some future major version.
-		// Use `<PhoneInputNative/>` instead.
-		nativeCountrySelect : PropTypes.bool,
-
 		// `aria-label` for the `<Select/>`'s toggle `<button/>`.
 		countrySelectAriaLabel : PropTypes.string,
 
@@ -33,11 +28,7 @@ export default class PhoneInputReactResponsiveUI extends Component
 		countrySelectCloseAriaLabel : PropTypes.string,
 
 		// Defines the height (in items) of the expanded country `<select/>`.
-		countrySelectMaxItems : PropTypes.number,
-
-		// Country `<select/>` toggle `<button/>` CSS class.
-		// Deprecated. Will be removed in some future major version.
-		countrySelectToggleClassName : PropTypes.string
+		countrySelectMaxItems : PropTypes.number
 	}
 
 	storeInputRef = (ref) => this.input = ref
@@ -70,19 +61,14 @@ export default class PhoneInputReactResponsiveUI extends Component
 	}
 
 	// Proxy `.focus()` method.
-	focus()
-	{
-		return this.input.focus()
-	}
+	focus = () => this.input.focus()
 }
 
 const countrySelectProperties =
 {
 	inputClassName               : 'inputClassName',
 	saveOnIcons                  : 'saveOnIcons',
-	nativeCountrySelect          : 'nativeExpanded',
 	countrySelectAriaLabel       : 'ariaLabel',
 	countrySelectCloseAriaLabel  : 'closeAriaLabel',
-	countrySelectMaxItems        : 'maxItems',
-	countrySelectToggleClassName : 'toggleClassName'
+	countrySelectMaxItems        : 'maxItems'
 }

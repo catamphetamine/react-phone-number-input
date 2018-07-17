@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 // Default country flag icon.
-// `<img/>` is wrapped in a `<div/>` to prevent SVGs from exploding in size.
+// `<img/>` is wrapped in a `<div/>` to prevent SVGs from exploding in size in IE 11.
 // https://github.com/catamphetamine/react-phone-number-input/issues/111
 const FlagComponent = ({ country, flags, flagsPath, className }) =>
 {

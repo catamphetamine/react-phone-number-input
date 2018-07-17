@@ -1,1 +1,0 @@
-export { parseIncompletePhoneNumber as default } from 'libphonenumber-js/custom'

@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 import classNames from 'classnames'
 
-import InputSmart from './InputSmart'
+// import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
 
-import InternationalIcon from './InternationalIcon'
 import FlagComponent from './Flag'
+
+import
+{
+	metadata as metadataPropType,
+	labels as labelsPropType
+}
+from './PropTypes'
 
 import
 {
@@ -20,9 +26,6 @@ import
 	e164
 }
 from './input-control'
-
-// Move these to a non-default property in version 2.x
-import defaultLabels from '../locale/default'
 
 import { getCountryCodes } from './countries'
 
@@ -91,7 +94,7 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Custom country `<select/>` option names.
 		// E.g. `{ ZZ: 'Международный', RU: 'Россия', US: 'США', ... }`
-		labels : PropTypes.objectOf(PropTypes.string).isRequired,
+		labels : labelsPropType.isRequired,
 
 		// Country flag icon components.
 		// By default flag icons are inserted as `<img/>`s
@@ -111,8 +114,7 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Whether to add the "International" option
 		// to the list of countries.
-		// By default it's added if the list of `countries` hasn't been overridden.
-		international : PropTypes.bool,
+		international : PropTypes.bool.isRequired,
 
 		// Custom "International" country `<select/>` option icon.
 		internationalIcon : PropTypes.func.isRequired,
@@ -170,12 +172,12 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		// Must also implement `.focus()` method.
 		//
-		inputComponent : PropTypes.func,
+		inputComponent : PropTypes.func.isRequired,
 
-		// Set to `false` to use `inputComponent={InputBasic}`
-		// instead of `input-format`'s `<ReactInput/>`.
-		// Is `true` by default.
-		smartCaret : PropTypes.bool.isRequired,
+		// // Set to `false` to use `inputComponent={InputBasic}`
+		// // instead of `input-format`'s `<ReactInput/>`.
+		// // Is `false` by default.
+		// smartCaret : PropTypes.bool.isRequired,
 
 		// For example, `react-responsive-ui` `<Select/>`
 		// hides the phone number input field when expanded.
@@ -194,13 +196,8 @@ export default class PhoneNumberInput extends PureComponent
 		// Translation.
 		locale : PropTypes.objectOf(PropTypes.string),
 
-		// `libphonenumber-js` metadata
-		metadata : PropTypes.shape
-		({
-			country_calling_codes : PropTypes.object.isRequired,
-			countries : PropTypes.object.isRequired
-		})
-		.isRequired
+		// `libphonenumber-js` metadata.
+		metadata : metadataPropType.isRequired
 	}
 
 	static defaultProps =
@@ -211,16 +208,17 @@ export default class PhoneNumberInput extends PureComponent
 		// Remember (and autofill) the value as a phone number.
 		autoComplete: 'tel',
 
-		labels: defaultLabels,
-
 		// Flag icon component.
 		flagComponent: FlagComponent,
 
 		// By default use icons from `flag-icon-css` github repo.
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
 
-		// Default "International" country `<select/>` option icon (globe).
-		internationalIcon: InternationalIcon,
+		// // Default "International" country `<select/>` option icon (globe).
+		// internationalIcon: InternationalIcon,
+
+		// Phone number `<input/>` component.
+		inputComponent: InputBasic,
 
 		// Show country `<select/>`.
 		showCountrySelect: true,
@@ -234,10 +232,14 @@ export default class PhoneNumberInput extends PureComponent
 		// are gradually being considered more natural than local ones.
 		displayInitialValueAsLocalNumber: false,
 
-		// Set to `false` to use `inputComponent={InputBasic}`
-		// instead of `input-format`'s `<ReactInput/>`.
-		// Is `true` by default.
-		smartCaret : true,
+		// // Set to `false` to use `inputComponent={InputBasic}`
+		// // instead of `input-format`'s `<ReactInput/>`.
+		// // Is `false` by default.
+		// smartCaret : false,
+
+		// Whether to add the "International" option
+		// to the list of countries.
+		international : true,
 
 		// `react-responsive-ui` `<Select/>` sets this to true
 		// to hide the phone number input field when expanded.
@@ -258,12 +260,6 @@ export default class PhoneNumberInput extends PureComponent
 			metadata
 		}
 		= this.props
-
-		// Will be removed in version 2.x.
-		if (typeof this.props.internationalIcon !== 'function')
-		{
-			throw new Error("You're passing a custom `internationalIcon` property to `react-phone-number-input` component. In the latest version it may only be a React component (a class or a function), not a React element. Wrap `internationalIcon` into a function to resolve the error: `() => internationalIcon`.")
-		}
 
 		const parsed_number = parsePhoneNumber(value, metadata)
 
@@ -617,8 +613,8 @@ export default class PhoneNumberInput extends PureComponent
 			indicateInvalid,
 
 			countrySelectComponent : CountrySelectComponent,
-			inputComponent,
-			smartCaret,
+			inputComponent : InputComponent,
+			// smartCaret,
 			ext,
 
 			// Extract `phoneNumberInputProps` via "object rest spread":
@@ -648,7 +644,7 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= this.state
 
-		const InputComponent = inputComponent || (smartCaret ? InputSmart : InputBasic)
+		// const InputComponent = inputComponent || (smartCaret ? InputSmart : InputBasic)
 
 		// Extract `countrySelectProperties` from `this.props`
 		// also removing them from `phoneNumberInputProps`.
@@ -710,12 +706,12 @@ export default class PhoneNumberInput extends PureComponent
 							autoComplete={ autoComplete }
 							className={ classNames
 							(
+								'react-phone-number-input__input',
 								'react-phone-number-input__phone',
-								// Will be uncommented for version 2.x
-								// {
-								// 	'react-phone-number-input__phone--disabled' : disabled,
-								// 	'react-phone-number-input__phone--invalid'  : error && indicateInvalid
-								// },
+								{
+									'react-phone-number-input__input--disabled' : disabled,
+									'react-phone-number-input__input--invalid'  : error && indicateInvalid
+								},
 								inputClassName,
 								getInputClassName && getInputClassName({ disabled, invalid: error && indicateInvalid })
 							) }/>
@@ -730,11 +726,11 @@ export default class PhoneNumberInput extends PureComponent
 								type : ext.props.type === undefined ? 'number' : ext.props.type,
 								className : classNames
 								(
+									'react-phone-number-input__input',
 									'react-phone-number-input__ext-input',
-									// Will be uncommented for version 2.x
-									// {
-									// 	'react-phone-number-input__phone--disabled' : disabled,
-									// },
+									{
+										'react-phone-number-input__input--disabled' : disabled,
+									},
 									inputClassName,
 									getInputClassName && getInputClassName({ disabled }),
 									ext.props.className
@@ -746,7 +742,7 @@ export default class PhoneNumberInput extends PureComponent
 
 				{/* Error message */}
 				{ error && indicateInvalid &&
-					<div className={ classNames('react-phone-number-input__error', 'rrui__input-error') }>
+					<div className="react-phone-number-input__error">
 						{ error }
 					</div>
 				}
@@ -770,8 +766,7 @@ function generate_country_select_options(props)
 	(
 		countries || getCountryCodes(labels),
 		labels,
-		international,
-		defaultLabels
+		international
 	)
 	.map(({ value, label }) =>
 	({

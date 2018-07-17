@@ -16,16 +16,20 @@ String.prototype.replace_all = function (what, with_what)
 	return this.replace(regexp, with_what)
 }
 
-function transformStyle(filePath)
+function transformStyle(inPath, outPath)
 {
-  let text = fs.readFileSync(path.join(__dirname, filePath), 'utf8')
+  outPath = outPath || inPath
+
+  let text = fs.readFileSync(path.join(__dirname, inPath), 'utf8')
 
   return postcss([ autoprefixer({ browsers: 'last 4 versions, iOS >= 7, Android >= 4'.split(', ') }) ]).process(text, { from: undefined }).then((result) =>
   {
     result.warnings().forEach((warn) => console.warn(warn.toString()))
-    fs.writeFileSync(path.join(__dirname, 'bundle', filePath), result.css)
+    fs.writeFileSync(path.join(__dirname, 'bundle', outPath), result.css)
   })
 }
 
-const styles = ['style.css', 'rrui.css']
-Promise.all(styles.map(style => transformStyle(style)))
+Promise.all
+([
+  transformStyle('style.css')
+])

@@ -1,61 +1,21 @@
-<!--
-2.0.0:
+2.0.0 / 17.07.2018
+==================
 
-* Remove `parsePhoneNumberCharacters` and `formatPhoneNumber` exports (and tests).
+  * (breaking change) `/native` is now the default export. `react-responsive-ui` select is now exported as `react-phone-number-input/react-responsive-ui`.
 
-* Remove `<InputBasic/>` (use `libphonenumber-js` one instead).
+  * (breaking change) Migrated `react-responsive-ui` country select from `0.10` to `0.13`. It no longer has text input functionality (like "autocomplete") — it's just a `<select/>` now, without any text input field. Removed `rrui.css` file (use `react-responsive-ui/style.css` bundle instead, or import styles individually from `react-responsive-ui/styles`). Renamed `maxItems` property to `scrollMaxItems`. Removed `countrySelectToggleClassName` property (unused).
 
-* Remove `/rrui` and `/native` exports from `index.commonjs.js` so that's it's minimal and bare.
+  * (breaking change) `smartCaret` is now `false` by default (previously was `true`). This was done because some Samsung Android phones were having issues with `smartCaret={true}` (which was the default in version `1.x`). `smartCaret` has been removed for now, so that it doesn't include `input-format` library code.
 
-* Make `/custom` components bare ones.
+  * (breaking change) `international` property is now `true` by default meaning that by default there will always be the "International" option in the country `<select/>`.
 
-Remove default value for `inputComponent` and require passing one (e.g. InputBasic, InputSmart). Move `smartCaret` property to the top level from `PhoneInput`: to `PhoneInputNativeDefaultMetadata` and to `PhoneInputReactResponsiveUIDefaultMetadata`.
+  * (breaking change) CSS changes: renamed `.react-phone-number-input__phone--native` CSS class to `.react-phone-number-input__phone`, added new `.react-phone-number-input__input` CSS class (the phone input).
 
-Remove default value for `dictionary` property and require passing one (e.g. dictionary).
+  * (breaking change) Removed undocumented exports.
 
-Remove default value for `internationalIcon` property and require passing one (e.g. InternationalIcon).
+  * (breaking change) For `/custom` component `labels` and `internationalIcon` properties are now required (previously were `react-phone-number-input/locales/default.json` and  `react-phone-number-input/commonjs/InternationalIcon` by default).
 
-* Add "Custom Country Select" section to README and move all `react-responsive-ui` text there:
-
-"The countries dropdown with autocomplete is taken from [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/)."
-
-* Delete `rrui.css` (from root and `bundle`). Instead use modular inclusion of selective styles from `react-responsive-ui/styles`.
-
-Remove from README:
-
-"import 'react-phone-number-input/rrui.css'"
-
-and replace:
-
-"import 'react-phone-number-input/style.css'"
-with "require('react-phone-number-input/style.css')"
-
-Remove "rrui.css" from this part of README:
-
-"Get the `rrui.css` and `style.css` files from this package, process these files with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers (e.g. `last 2 versions`, `iOS >= 7`, `Android >= 4`), and then include them on a page."
-
-Remove from README:
-
-"<link rel="stylesheet" href="/css/react-phone-number-input/rrui.css"/>"
-
-Remove from README:
-
-"`nativeExpanded`"
-
-* Rename in CSS `.react-phone-number-input__phone--native` -> `.react-phone-number-input__phone`.
-
-* Remove all `rrui__` from *.css and *.js files. Review `style.css` and maybe refactor it removing unneeded style rules.
-
-* Search for "2.x" in code (e.g., "Will be uncommented for version 2.x") and remove those performing the actions.
-
-* Maybe make `smartCaret={false}` the default.
-
-* Replace
-<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@1.1.10/bundle/rrui.css"/>
-with the link to `react-responsive-ui` repo style.
-
-* Remove resources folder
--->
+  * (breaking change) Removed `/resources` directory (due to not being used).
 
 1.1.13 / 12.07.2018
 ===================
