@@ -1,3 +1,8 @@
+2.1.0 / 20.07.2018
+==================
+
+  * (breaking change) React >= 16.3 is required (was `>= 14.0` previously). Since not many people upgraded to `2.0.0` yet I decided to make this breaking change while it still can be done.
+
 2.0.0 / 17.07.2018
 ==================
 

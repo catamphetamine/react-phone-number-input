@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Telephone input for React",
   "main": "index.commonjs.js",
   "module": "index.js",
@@ -8,14 +8,14 @@
     "*.css"
   ],
   "peerDependencies": {
-    "react": ">=0.14.0"
+    "react": ">=0.16.3",
+    "react-dom": ">=0.16.3"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "input-format": "^0.2.2",
     "libphonenumber-js": "^1.2.20",
     "prop-types": "^15.5.6",
-    "react-lifecycles-compat": "^3.0.2",
     "react-responsive-ui": "^0.14.1"
   },
   "devDependencies": {
@@ -49,8 +49,8 @@
     "test-coverage": "cross-env NODE_ENV=test nyc mocha --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "browser-build": "npm-run-all browser-build-native browser-build-rrui",
-    "browser-build-native": "cross-env WEBPACK_BUNDLE_TYPE=native webpack --mode production --progress --colors",
-    "browser-build-rrui": "cross-env WEBPACK_BUNDLE_TYPE=react-responsive-ui webpack --mode production --progress --colors",
+    "browser-build-native": "cross-env WEBPACK_BUNDLE_TYPE=native webpack --mode development --progress --colors",
+    "browser-build-rrui": "cross-env WEBPACK_BUNDLE_TYPE=react-responsive-ui webpack --mode development --progress --colors",
     "clean-for-build": "rimraf ./commonjs/**/* ./modules/**/*",
     "build-commonjs-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps --ignore *.test.js",
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",

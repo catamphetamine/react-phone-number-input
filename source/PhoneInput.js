@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 import classNames from 'classnames'
 
 // import InputSmart from './InputSmart'
@@ -29,9 +28,6 @@ from './input-control'
 
 import { getCountryCodes } from './countries'
 
-// Allows passing custom `libphonenumber-js` metadata
-// to reduce the overall bundle size.
-@reactLifecyclesCompat
 export default class PhoneNumberInput extends PureComponent
 {
 	static propTypes =
@@ -196,7 +192,8 @@ export default class PhoneNumberInput extends PureComponent
 		// Translation.
 		locale : PropTypes.objectOf(PropTypes.string),
 
-		// `libphonenumber-js` metadata.
+		// Allows passing custom `libphonenumber-js` metadata
+		// to reduce the overall bundle size for those compiling "custom" metadata.
 		metadata : metadataPropType.isRequired
 	}
 
