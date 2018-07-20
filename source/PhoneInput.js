@@ -373,6 +373,7 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Actually "Down arrow" key is used for showing "autocomplete" ("autofill") options.
 		// (e.g. previously entered phone numbers for `autoComplete="tel"`)
+		// so can't hijack "Down arrow" keypress here.
 		// // Expand country `<select/>`` on "Down arrow" key press.
 		// if (event.keyCode === 40) {
 		// 	this.country_select.toggle()
