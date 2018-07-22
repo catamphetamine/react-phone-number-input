@@ -168,11 +168,9 @@ The available props are
 
  * `flagComponent` — (optional) A React component for displaying a country flag (replaces the default flag icons).
 
- * `displayInitialValueAsLocalNumber` — If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set (see the example on the demo page). The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format. The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
+ * `displayInitialValueAsLocalNumber` — (optional) If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set (see the example on the demo page). The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format. The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
 
- * `error` — a `String` error message that should be shown.
-
- * `indicateInvalid` — `error` won't be shown unless `indicateInvalid` is `true`. The reason for this additional boolean flag is to enable some advanced ("smart") form field error indication scenarios.
+ * `error` — (optional) a `String` error message.
 
 For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component.
 

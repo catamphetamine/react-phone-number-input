@@ -186,7 +186,9 @@ export default class PhoneNumberInput extends PureComponent
 		// An error message shown below the phone number `<input/>`.
 		error : PropTypes.string,
 
-		// The `error` is shown only when `indicateInvalid` is true.
+		// The `error` is shown only when `indicateInvalid` is `true`.
+		// (which is the default).
+		// (depecated).
 		indicateInvalid : PropTypes.bool,
 
 		// Translation.
@@ -201,6 +203,10 @@ export default class PhoneNumberInput extends PureComponent
 	{
 		// Not disabled.
 		disabled: false,
+
+		// Show `error` (if passed).
+		// (depecated).
+		indicateInvalid : true,
 
 		// Remember (and autofill) the value as a phone number.
 		autoComplete: 'tel',

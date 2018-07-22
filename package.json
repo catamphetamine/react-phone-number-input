@@ -16,7 +16,7 @@
     "input-format": "^0.2.2",
     "libphonenumber-js": "^1.2.20",
     "prop-types": "^15.5.6",
-    "react-responsive-ui": "^0.14.1"
+    "react-responsive-ui": "^0.14.4"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.4",
