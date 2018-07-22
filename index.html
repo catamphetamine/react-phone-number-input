@@ -649,7 +649,6 @@ import ru from 'react-phone-number-input/locale/ru'
 							<form>
 								<PhoneInput
 									error={this.state.value_validation ? (libphonenumber.isValidNumber(this.state.value_validation) ? undefined : 'Invalid phone number') : 'Phone number required'}
-									indicateInvalid
 									placeholder="Enter phone number"
 									value={this.state.value_validation}
 									onChange={value => this.setState({ value_validation: value })}/>
@@ -681,8 +680,7 @@ const { value } = this.state
   placeholder="Enter phone number"
   value={ value }
   onChange={ value => this.setState({ value }) }
-  error={ value ? (isValidNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required' }
-  indicateInvalid/>
+  error={ value ? (isValidNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required' }/>
 
 Is valid: { value && isValidNumber(value) ? 'true' : 'false' }
 Local: { value && formatNumber(value, 'National') }
