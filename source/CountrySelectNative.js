@@ -14,13 +14,11 @@ export default class CountrySelectNative extends Component
 		selectArrowComponent : () => <div className="react-phone-number-input__country-select-arrow"/>
 	}
 
-	// storeSelectRef = (ref) => this.select = ref
-	// ref={ this.storeSelectRef }
-
 	onChange = (event) =>
 	{
 		const { onChange } = this.props
-		onChange(event.target.value)
+		const value = event.target.value
+		onChange(value === 'ZZ' ? undefined : value)
 	}
 
 	render()
@@ -33,7 +31,6 @@ export default class CountrySelectNative extends Component
 			disabled,
 			tabIndex,
 			className,
-			// `<select/>`-specific properties:
 			selectArrowComponent : SelectArrow
 		}
 		= this.props
@@ -53,7 +50,7 @@ export default class CountrySelectNative extends Component
 					tabIndex={ tabIndex }
 					className="react-phone-number-input__country-select">
 					{options.map(({ value, label }) => (
-						<option key={ value || '-' } value={ value }>
+						<option key={ value || '-' } value={ value || 'ZZ' }>
 							{ label }
 						</option>
 					))}
@@ -63,9 +60,4 @@ export default class CountrySelectNative extends Component
 			</div>
 		)
 	}
-
-	// toggle()
-	// {
-	// 	this.select.click()
-	// }
 }
