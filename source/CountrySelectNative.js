@@ -44,7 +44,7 @@ export default class CountrySelectNative extends Component
 
 				<select
 					name={ name }
-					value={ value }
+					value={ value || 'ZZ' }
 					onChange={ this.onChange }
 					disabled={ disabled }
 					tabIndex={ tabIndex }
