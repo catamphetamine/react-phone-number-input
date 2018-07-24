@@ -194,34 +194,34 @@ import { Field, reduxForm } from 'redux-form'
 import Phone from 'react-phone-number-input'
 
 @reduxForm({
-	form: 'contact'
+  form: 'contact'
 })
 class Form extends Component {
-	render() {
-		const { handleSubmit } = this.props
+  render() {
+    const { handleSubmit } = this.props
 
-		const ext = (
-			<Field
-				name="ext"
-				component="input"
-				type="number"
-				noValidate
-				className={ className } />
-		)
+    const ext = (
+      <Field
+        name="ext"
+        component="input"
+        type="number"
+        noValidate
+        className={ className } />
+    )
 
-		return (
-			<form onSubmit={ handleSubmit }>
-				<Field
-					name="phone"
-					component={ Phone }
-					ext={ ext } />
+    return (
+      <form onSubmit={ handleSubmit }>
+        <Field
+          name="phone"
+          component={ Phone }
+          ext={ ext } />
 
-				<button type="submit">
-					Submit
-				</button>
-			</form>
-		);
-	}
+        <button type="submit">
+          Submit
+        </button>
+      </form>
+    );
+  }
 }
 ```
 
@@ -298,7 +298,7 @@ var PhoneInput = require('react-phone-number-input/custom').default
 var metadata = require('./metadata.min.json')
 
 module.exports = function Phone(props) {
-	return <PhoneInput { ...props } metadata={ metadata }/>
+  return <PhoneInput { ...props } metadata={ metadata }/>
 }
 ```
 
