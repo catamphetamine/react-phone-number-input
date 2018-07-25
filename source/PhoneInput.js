@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 
 // import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
@@ -28,6 +29,7 @@ from './input-control'
 
 import { getCountryCodes } from './countries'
 
+@reactLifecyclesCompat
 export default class PhoneNumberInput extends PureComponent
 {
 	static propTypes =

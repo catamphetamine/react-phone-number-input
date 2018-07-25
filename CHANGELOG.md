@@ -1,3 +1,8 @@
+2.1.5 / 26.07.2018
+==================
+
+  * Actually, reverting the requirement for React >= 16.3 because it's only required for `react-responsive-ui` and this component comes with `native` as the default one. Also I rewrote `react-responsive-ui` `<Select/>` component without React >= 16.3 requirement too, so now it can work on older React even if using the `/react-responsive-ui` flavour. So old React is supported again (>= 15.3.0 for `PureComponent`).
+
 2.1.0 / 20.07.2018
 ==================
 

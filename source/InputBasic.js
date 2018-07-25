@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphonenumber-js/custom'
+import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 
 /**
  * `InputBasic`'s caret is not as "smart" as the default `inputComponent`'s
@@ -8,6 +9,7 @@ import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphon
  * of a phone number the caret usually jumps to the end: this is the expected
  * behaviour and it's the workaround for the [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
  */
+@reactLifecyclesCompat
 export default class InputBasic extends PureComponent
 {
 	static propTypes =
