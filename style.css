@@ -30,7 +30,9 @@
 	width      : 1.24em;
 	height     : 0.93em;
 
-	border     : 1px solid rgba(0, 0, 0, 0.25);
+	/* `1px` is still too much for a "retina" screen but there's no way in CSS to specify "hairline" border width. */
+	border     : 1px solid rgba(0, 0, 0, 0.5);
+
 	/* Makes sure `width`x`height` is exactly `4x3` and `border` width is not included in it */
 	-webkit-box-sizing : content-box;
 	        box-sizing : content-box;
