@@ -186,34 +186,28 @@ import ru from 'react-phone-number-input/locale/ru'
 
 ## Extensions
 
-Some users asked for phone extension input feature. It can be activated by passing `ext` property (a `React.Element`). The `ext` property is most likely gonna be a `redux-form` `<Field/>` (or a [`react-final-form`](https://github.com/final-form/react-final-form) field).
+Some users asked for phone extension input feature. It can be activated by passing `ext` property (a `React.Element`).
 
 ```js
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import PhoneInput from 'react-phone-number-input'
 
-@reduxForm({
-  form: 'contact'
-})
 class Form extends Component {
   render() {
-    const { handleSubmit } = this.props
-
     const ext = (
-      <Field
-        name="ext"
-        component="input"
+      <input
+        value={ ... }
+        onChange={ ... }
         type="number"
-        noValidate
-        className={ className } />
+        noValidate />
     )
 
     return (
-      <form onSubmit={ handleSubmit }>
-        <Field
-          name="phone"
-          component={ PhoneInput }
+      <form onSubmit={ ... }>
+        <PhoneInput
+          value={ ... }
+          onChange={ ... }
           ext={ ext } />
 
         <button type="submit">
@@ -224,6 +218,8 @@ class Form extends Component {
   }
 }
 ```
+
+In a real-world application the `ext` property is most likely gonna be a `redux-form` `<Field/>` (or a [`react-final-form`](https://github.com/final-form/react-final-form) field).
 
 The code above hasn't been tested, but it most likely works. Phone extension input will appear to the right of the phone number input. One can always skip using `ext` property and add a completely separate form field for phone number extension input instead.
 
