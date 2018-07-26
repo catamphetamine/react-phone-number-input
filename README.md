@@ -168,11 +168,11 @@ The available props are
 
  * `flagComponent` — (optional) A React component for displaying a country flag (replaces the default flag icons).
 
- * `displayInitialValueAsLocalNumber` — (optional) If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set (see the example on the demo page). The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format. The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
+ * `displayInitialValueAsLocalNumber` — (optional) (see the example on the demo page) If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set after it has already been mounted. The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format (e.g. `+7 800 555 35 35`). The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
 
  * `error` — (optional) a `String` error message.
 
-For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/Input.js). All other properties are passed through to the `<input/>` component.
+For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/PhoneInput.js). All other properties are passed through to the `<input/>` component.
 
 ## Localization
 
@@ -186,12 +186,12 @@ import ru from 'react-phone-number-input/locale/ru'
 
 ## Extensions
 
-Some users asked for phone extension input feature. It can be activated by passing `ext` property (React.Element). The `ext` property is most likely gonna be a `redux-form` `<Field/>` (or `simpler-redux-form` `<Field/>`).
+Some users asked for phone extension input feature. It can be activated by passing `ext` property (a `React.Element`). The `ext` property is most likely gonna be a `redux-form` `<Field/>` (or a [`react-final-form`](https://github.com/final-form/react-final-form) field).
 
 ```js
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import Phone from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input'
 
 @reduxForm({
   form: 'contact'
@@ -213,7 +213,7 @@ class Form extends Component {
       <form onSubmit={ handleSubmit }>
         <Field
           name="phone"
-          component={ Phone }
+          component={ PhoneInput }
           ext={ ext } />
 
         <button type="submit">
@@ -255,8 +255,8 @@ import InternationalIcon from 'react-phone-number-input/international-icon'
 import labels from 'react-phone-number-input/locale/ru'
 
 <PhoneInput
-  countrySelectComponent={...required...}
-  inputComponent={...optional...}
+  countrySelectComponent={...}
+  inputComponent={...}
   internationalIcon={InternationalIcon}
   labels={labels}/>
 ```
@@ -291,24 +291,15 @@ Must also implement `.focus()` method.
 
 ## Flags
 
-Since this is a React component I thought that finding all country flags in SVG and including them natively as part of this library would be the best way to go. But then it truned out that when bundled all those country flags would take the extra 3 Megabytes (yeah, those SVGs turned out to be really huge) which is obviously not an option for a website (thought it might be an option for an "internal" web application, or a desktop application built with Electron, or a mobile app).
+Since this is a React component I thought that finding all country flags in SVG and including them as native React components as part of this library would be the best way to go. But then it truned out that when bundled all those country flags would take the extra 3 megabytes which is obviously not an option for a website (though it might be an option for an "internal" web application, or a desktop application built with Electron, or a mobile app).
 
-So, including all country flags in the javascript bundle wouldn't be an option, and so all country flags are included as `<img src="..."/>` flags (by default the `src` points to [`flag-icon-css`](http://flag-icon-css.lip.is/) GitHub repo). When using the (default) native country `<select/>` only the selected country flag icon is displayed therefore reducing footprint to the minimum.
+So, including all country flags in the javascript bundle wouldn't be an option, and so all country flags are included as `<img src="..."/>` flags (by default the `src` points to [`flag-icon-css`](http://flag-icon-css.lip.is/) GitHub repo). And when using the (default) native country `<select/>` only the selected country flag icon is displayed therefore reducing footprint to the minimum.
 
 For the same reasons the custom `react-responsive-ui` country `<select/>` doesn't show all country flag icons when expanded: otherwise the user would have to download all those flag icons when the country `<select/>` is expanded.
 
 ## Reducing bundle size
 
-By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is `react-phone-number-input/custom` export.
-
-```js
-var PhoneInput = require('react-phone-number-input/custom').default
-var metadata = require('./metadata.min.json')
-
-module.exports = function Phone(props) {
-  return <PhoneInput { ...props } metadata={ metadata }/>
-}
-```
+By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is a possibility to pass custom `metadata` property to the `react-phone-number-input/custom` export.
 
 For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata).
 
