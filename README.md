@@ -37,7 +37,7 @@ return (
 )
 ```
 
-The international phone number input utilizes [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library.
+The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library.
 
 <!--
 The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
@@ -45,7 +45,7 @@ The phone number `<input/>` itself is implemented using [`input-format`](https:/
 
 ## CSS
 
-The CSS files for this React component must be included on a page too.
+The styles for this React component must be included on a page too.
 
 #### When using Webpack
 
