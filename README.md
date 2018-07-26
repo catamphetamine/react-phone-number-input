@@ -105,6 +105,7 @@ One can supply their own country `<select/>` component in case the native one do
 -->
 
 ```js
+import 'react-phone-number-input/style.css'
 import 'react-responsive-ui/style.css'
 
 import PhoneInput from 'react-phone-number-input/react-responsive-ui'
