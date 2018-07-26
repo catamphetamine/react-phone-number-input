@@ -480,6 +480,10 @@
 									onChange={value => this.setState({ value_native: value })}/>
 							</form>
 
+							<div className="section">
+								Value: {this.state.value_native}
+							</div>
+
 							<Highlight lang="jsx">
 {`import PhoneInput from 'react-phone-number-input'
 
@@ -506,10 +510,6 @@
 									value={this.state.value}
 									onChange={value => this.setState({ value: value })}/>
 							</form>
-
-							<div className="section">
-								Value: {this.state.value}
-							</div>
 
 							<Highlight lang="jsx">
 								{`import 'react-responsive-ui/style.css'
