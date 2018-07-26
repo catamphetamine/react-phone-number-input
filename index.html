@@ -48,6 +48,12 @@
 			window.PhoneInput = window['react-phone-number-input']
 		</script>
 
+		<script src="./react-phone-number-input-smart-input.js"></script>
+
+		<script>
+			window.SmartInput = window['react-phone-number-input-smart-input']
+		</script>
+
 		<script src="./libphonenumber-js.min.js"></script>
 
 		<link rel="stylesheet" href="./react-responsive-ui.css"/>
@@ -99,6 +105,7 @@
 		.section
 		{
 			margin-top: 20px;
+			line-height: 1.35em;
 		}
 
 		a
@@ -515,46 +522,6 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
   onChange={ value => this.setState({ value }) }/>`}
 							</Highlight>
 
-							{/*
-							<h2><code>smartCaret = false</code></h2>
-
-							<div className="section">
-								There have been <a target="_blank" href="https://github.com/catamphetamine/react-phone-number-input/issues/75">reports</a> of some Samsung Android phones not handling caret positioning properly (e.g. Samsung Galaxy S8+, Samsung Galaxy S7 Edge).
-							</div>
-
-							<div className="section">
-								The workaround is to pass <code>{'smartCaret={false}'}</code> property.
-							</div>
-
-							<div className="section">
-								&nbsp;
-							</div>
-
-							<form>
-								<PhoneInput
-									smartCaret={false}
-									placeholder="Enter phone number"
-									value={this.state.value}
-									onChange={value => this.setState({ value: value })}/>
-							</form>
-
-							<div className="section">
-								Value: {this.state.value}
-							</div>
-
-							<Highlight lang="jsx">
-								{`<PhoneInput
-  smartCaret={ false }
-  placeholder="Enter phone number"
-  value={ this.state.value }
-  onChange={ value => this.setState({ value }) }/>`}
-							</Highlight>
-
-							<div className="section">
-								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
-							</div>
-							*/}
-
 							<h2>Default country: Russia</h2>
 
 							<form>
@@ -732,7 +699,54 @@ International: { value && formatNumber(value, 'International') }
 `}
 							</Highlight>
 
+							{ this.render_smart_input() }
+
 							{ debug && this.render_debug() }
+						</div>
+					)
+				}
+
+				render_smart_input()
+				{
+					return (
+						<div>
+							<h2><code>Smart Caret</code></h2>
+
+							<div className="section">
+								This component originally came with "Smart Caret" feature (based on <a target="_blank" href="https://github.com/catamphetamine/input-format"><code className="color">input-format</code></a> library) where a user could edit the phone number somewhere in the middle and the caret wouldn't jump to the end. But then there have been <a target="_blank" href="https://github.com/catamphetamine/react-phone-number-input/issues/75">reports</a> of some Samsung Android phones not handling caret positioning properly (e.g. Samsung Galaxy S8+, Samsung Galaxy S7 Edge). So the "Smart Caret" feature was decided to be turned off. Still, it is possible to turn the "Smart Caret" feature on by supplying "smart-input" <code>inputComponent</code> property.
+							</div>
+
+							<div className="section">
+								&nbsp;
+							</div>
+
+							<form>
+								<PhoneInput
+									inputComponent={SmartInput}
+									placeholder="Enter phone number"
+									value={this.state.value}
+									onChange={value => this.setState({ value: value })}/>
+							</form>
+
+							<div className="section">
+								Value: {this.state.value}
+							</div>
+
+							<Highlight lang="jsx">
+								{`import SmartInput from 'react-phone-number-input/smart-input'
+
+<PhoneInput
+	inputComponent={ SmartInput }
+	placeholder="Enter phone number"
+	value={ this.state.value }
+	onChange={ value => this.setState({ value }) }/>`}
+							</Highlight>
+
+							{/*
+							<div className="section">
+								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
+							</div>
+							*/}
 						</div>
 					)
 				}
