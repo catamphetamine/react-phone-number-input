@@ -1,4 +1,4 @@
-var Input = require('./commonjs/InputBasic').default
+var Input = require('./commonjs/InputSmart').default
 
 exports = module.exports = Input
 exports['default']       = Input

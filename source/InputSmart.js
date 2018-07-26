@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { ReactInput } from 'input-format'
+import { AsYouType } from 'libphonenumber-js/custom'
 
 import { parsePhoneNumberCharacter } from 'libphonenumber-js/custom'
 

@@ -1,14 +1,16 @@
-const library_name = 'react-phone-number-input-' + process.env.WEBPACK_BUNDLE_TYPE
+const inputFileName = process.env.WEBPACK_BUNDLE_TYPE
+const outputFileName = 'react-phone-number-input-' + process.env.WEBPACK_BUNDLE_TYPE
+const globalVariableName = process.env.WEBPACK_BUNDLE_TYPE === 'smart-input' ? 'react-phone-number-input-smart-input' : 'react-phone-number-input'
 
 module.exports =
 {
-  entry: './' + process.env.WEBPACK_BUNDLE_TYPE + '.js',
+  entry: './' + inputFileName + '.js',
   devtool: 'source-map',
   output:
   {
     path           : require('path').join(__dirname, '/bundle'),
-    filename       : `${library_name}.js`,
-    library        : 'react-phone-number-input',
+    filename       : `${outputFileName}.js`,
+    library        : globalVariableName,
     libraryTarget  : 'umd',
     umdNamedDefine : true
   },
