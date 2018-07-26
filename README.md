@@ -41,8 +41,6 @@ The international phone number input utilizes [`libphonenumber-js`](https://gith
 The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
 -->
 
-I could also easily include all country flags in a form of `<svg/>` React elements as part of this library but the overall size of the bundle would then be about 3 MegaBytes (yeah, those SVGs turned out to be really huge) which is too much for a website. Therefore the default behaviour is a compromise: instead of pleloading the flags for all countries in the expanded list of countries only the flag for the currently selected country is shown. This way the user only downloads a single SVG image and is not forced to download the whole international flags bundle.
-
 ## CSS
 
 The CSS files for this React component must be included on a page too.
@@ -288,6 +286,14 @@ Receives properties:
 * All other properties should be passed through to the underlying `<input/>`.
 
 Must also implement `.focus()` method.
+
+## Flags
+
+Since this is a React component I thought that finding all country flags in SVG and including them natively as part of this library would be the best way to go. But then it truned out that when bundled all those country flags would take the extra 3 Megabytes (yeah, those SVGs turned out to be really huge) which is obviously not an option for a website (thought it might be an option for an "internal" web application, or a desktop application built with Electron, or a mobile app).
+
+So, including all country flags in the javascript bundle wouldn't be an option, and so all country flags are included as `<img src="..."/>` flags (by default the `src` points to [`flag-icon-css`](http://flag-icon-css.lip.is/) GitHub repo). When using the (default) native country `<select/>` only the selected country flag icon is displayed therefore reducing footprint to the minimum.
+
+For the same reasons the custom `react-responsive-ui` country `<select/>` doesn't show all country flag icons when expanded: otherwise the user would have to download all those flag icons when the country `<select/>` is expanded.
 
 ## Reducing bundle size
 
