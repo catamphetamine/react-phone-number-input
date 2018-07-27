@@ -219,7 +219,7 @@ class Form extends Component {
 }
 ```
 
-In a real-world application the `ext` property is most likely gonna be a `redux-form` `<Field/>` (or a [`react-final-form`](https://github.com/final-form/react-final-form) field).
+In a real-world application the `ext` property is most likely gonna be a [`basic-react-form`](https://github.com/catamphetamine/basic-react-form) `<Field/>`, or a `redux-form` `<Field/>`, or a `react-final-form` `<Field/>`.
 
 The code above hasn't been tested, but it most likely works. Phone extension input will appear to the right of the phone number input. One can always skip using `ext` property and add a completely separate form field for phone number extension input instead.
 
