@@ -1,7 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphonenumber-js/custom'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
+
+// `PureComponent` is only available in React >= 15.3.0.
+const PureComponent = React.PureComponent || React.Component
 
 /**
  * `InputBasic`'s caret is not as "smart" as the default `inputComponent`'s

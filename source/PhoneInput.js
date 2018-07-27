@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
@@ -28,6 +28,9 @@ import
 from './input-control'
 
 import { getCountryCodes } from './countries'
+
+// `PureComponent` is only available in React >= 15.3.0.
+const PureComponent = React.PureComponent || React.Component
 
 @reactLifecyclesCompat
 export default class PhoneNumberInput extends PureComponent
