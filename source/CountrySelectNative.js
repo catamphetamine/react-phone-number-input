@@ -35,12 +35,11 @@ export default class CountrySelectNative extends Component
 		}
 		= this.props
 
-		const selectedOption = options.filter(option => option.value === value)[0] || options[0]
-		const SelectedCountryFlag = selectedOption.icon
+		const selectedOption = getSelectedOption(options, value)
 
 		return (
 			<div className={ classNames(className, 'react-phone-number-input__country--native') }>
-				<SelectedCountryFlag/>
+				{ selectedOption && selectedOption.icon && React.createElement(selectedOption.icon) }
 
 				<select
 					name={ name }
@@ -49,8 +48,13 @@ export default class CountrySelectNative extends Component
 					disabled={ disabled }
 					tabIndex={ tabIndex }
 					className="react-phone-number-input__country-select">
-					{options.map(({ value, label }) => (
-						<option key={ value || '-' } value={ value || 'ZZ' }>
+					{options.map(({ value, label, disabled, style, className }, i) => (
+						<option
+							key={ disabled ? i : value || '-' }
+							value={ disabled ? undefined : value || 'ZZ' }
+							disabled={ disabled }
+							style={ style }
+							className={ className }>
 							{ label }
 						</option>
 					))}
@@ -59,5 +63,24 @@ export default class CountrySelectNative extends Component
 				<SelectArrow/>
 			</div>
 		)
+	}
+}
+
+function getSelectedOption(options, value)
+{
+	for (const option of options)
+	{
+		if (!option.disabled && option.value === value)
+		{
+			return option
+		}
+	}
+
+	for (const option of options)
+	{
+		if (!option.disabled)
+		{
+			return option
+		}
 	}
 }

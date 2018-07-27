@@ -127,6 +127,31 @@ export default class PhoneNumberInput extends PureComponent
 		// HTML `tabindex` attribute for the country `<select/>`.
 		countrySelectTabIndex : PropTypes.number,
 
+		// An extension point for customizing country select options.
+		// E.g. placing some countries above others,
+		// adding divider (separator) lines, etc.
+		// ```js
+		// transformCountrySelectOptions={(options) => {
+		// 	// Find the position of the "United States" option.
+		// 	const indexOfUSA = options.indexOf(options.filter(option => option.value === 'US')[0])
+		// 	// Get "United States" option.
+		// 	const USA = options[indexOfUSA]
+		// 	// Remove "United States" option from its default position.
+		// 	options.splice(indexOfUSA, 1)
+		// 	// Add a divider (separator) line under "United States" option.
+		// 	options.unshift({
+		// 		disabled: true,
+		// 		style: { fontSize: '1px', background: 'black' },
+		// 		label: ' '
+		// 	})
+		// 	// Add "United States" option on top.
+		// 	options.unshift(USA)
+		// 	// Return the transformed options.
+		// 	return options
+		// }}
+		// ```
+		transformCountrySelectOptions : PropTypes.func.isRequired,
+
 		// `<Phone/>` component CSS style object.
 		style : PropTypes.object,
 
@@ -230,6 +255,8 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Show country `<select/>`.
 		showCountrySelect: true,
+
+		transformCountrySelectOptions: options => options,
 
 		// Don't convert the initially passed phone number `value`
 		// to a national phone number for its country.
@@ -767,11 +794,12 @@ function generate_country_select_options(props)
 	{
 		countries,
 		labels,
-		international
+		international,
+		transformCountrySelectOptions
 	}
 	= props
 
-	return getCountrySelectOptions
+	return transformCountrySelectOptions(getCountrySelectOptions
 	(
 		countries || getCountryCodes(labels),
 		labels,
@@ -782,7 +810,7 @@ function generate_country_select_options(props)
 		value,
 		label,
 		icon : createCountrySelectOptionIconComponent(value, label, props)
-	}))
+	})))
 }
 
 function createCountrySelectOptionIconComponent(value, label, props)
