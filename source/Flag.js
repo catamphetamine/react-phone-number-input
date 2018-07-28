@@ -9,19 +9,14 @@ const FlagComponent = ({ country, flags, flagsPath, className }) =>
 {
 	if (flags && flags[country])
 	{
-		return React.cloneElement(flags[country](),
-		{
-			className: classNames('react-phone-number-input__icon', className)
-		})
+		return flags[country]()
 	}
 
 	return (
-		<div className={classNames('react-phone-number-input__icon', className)}>
-			<img
-				alt={country}
-				className="react-phone-number-input__icon-image"
-				src={`${flagsPath}${country.toLowerCase()}.svg`}/>
-		</div>
+		<img
+			alt={country}
+			className="react-phone-number-input__icon-image"
+			src={`${flagsPath}${country.toLowerCase()}.svg`}/>
 	)
 }
 

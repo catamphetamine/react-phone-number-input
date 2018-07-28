@@ -35,11 +35,16 @@ export default class CountrySelectNative extends Component
 		}
 		= this.props
 
-		const selectedOption = getSelectedOption(options, value)
+		let selectedOption
+		for (const option of options) {
+			if (!option.divider && option.value === value) {
+				selectedOption = option
+			}
+		}
 
 		return (
 			<div className={ classNames(className, 'react-phone-number-input__country--native') }>
-				{ selectedOption && selectedOption.icon && React.createElement(selectedOption.icon) }
+				{ selectedOption && React.createElement(selectedOption.icon, ({ value })) }
 
 				<select
 					name={ name }
@@ -48,13 +53,12 @@ export default class CountrySelectNative extends Component
 					disabled={ disabled }
 					tabIndex={ tabIndex }
 					className="react-phone-number-input__country-select">
-					{options.map(({ value, label, disabled, style, className }, i) => (
+					{options.map(({ value, label, divider }) => (
 						<option
-							key={ disabled ? i : value || '-' }
-							value={ disabled ? undefined : value || 'ZZ' }
-							disabled={ disabled }
-							style={ style }
-							className={ className }>
+							key={ divider ? '|' : value || 'ZZ' }
+							value={ divider ? '|' : value || 'ZZ' }
+							disabled={ divider ? true : false }
+							className={ divider ? 'react-phone-number-input__country-select-divider' : undefined }>
 							{ label }
 						</option>
 					))}
@@ -63,24 +67,5 @@ export default class CountrySelectNative extends Component
 				<SelectArrow/>
 			</div>
 		)
-	}
-}
-
-function getSelectedOption(options, value)
-{
-	for (const option of options)
-	{
-		if (!option.disabled && option.value === value)
-		{
-			return option
-		}
-	}
-
-	for (const option of options)
-	{
-		if (!option.disabled)
-		{
-			return option
-		}
 	}
 }

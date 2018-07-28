@@ -127,30 +127,9 @@ export default class PhoneNumberInput extends PureComponent
 		// HTML `tabindex` attribute for the country `<select/>`.
 		countrySelectTabIndex : PropTypes.number,
 
-		// An extension point for customizing country select options.
-		// E.g. placing some countries above others,
-		// adding divider (separator) lines, etc.
-		// ```js
-		// transformCountrySelectOptions={(options) => {
-		// 	// Find the position of the "United States" option.
-		// 	const indexOfUSA = options.indexOf(options.filter(option => option.value === 'US')[0])
-		// 	// Get "United States" option.
-		// 	const USA = options[indexOfUSA]
-		// 	// Remove "United States" option from its default position.
-		// 	options.splice(indexOfUSA, 1)
-		// 	// Add a divider (separator) line under "United States" option.
-		// 	options.unshift({
-		// 		disabled: true,
-		// 		style: { fontSize: '1px', background: 'black' },
-		// 		label: ' '
-		// 	})
-		// 	// Add "United States" option on top.
-		// 	options.unshift(USA)
-		// 	// Return the transformed options.
-		// 	return options
-		// }}
-		// ```
-		transformCountrySelectOptions : PropTypes.func.isRequired,
+		// Can be used to place some countries on top of the list.
+		// E.g. `["US", "CA", "AU", "|", "..."]`.
+		countryOptions : PropTypes.arrayOf(PropTypes.string),
 
 		// `<Phone/>` component CSS style object.
 		style : PropTypes.object,
@@ -255,8 +234,6 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Show country `<select/>`.
 		showCountrySelect: true,
-
-		transformCountrySelectOptions: options => options,
 
 		// Don't convert the initially passed phone number `value`
 		// to a national phone number for its country.
@@ -795,11 +772,13 @@ function generate_country_select_options(props)
 		countries,
 		labels,
 		international,
-		transformCountrySelectOptions
+		countryOptions
 	}
 	= props
 
-	return transformCountrySelectOptions(getCountrySelectOptions
+	const CountrySelectOptionIcon = createCountrySelectOptionIconComponent(props)
+
+	return transformCountryOptions(getCountrySelectOptions
 	(
 		countries || getCountryCodes(labels),
 		labels,
@@ -809,11 +788,12 @@ function generate_country_select_options(props)
 	({
 		value,
 		label,
-		icon : createCountrySelectOptionIconComponent(value, label, props)
-	})))
+		icon : CountrySelectOptionIcon
+	})),
+	countryOptions)
 }
 
-function createCountrySelectOptionIconComponent(value, label, props)
+function createCountrySelectOptionIconComponent(props)
 {
 	const
 	{
@@ -824,28 +804,63 @@ function createCountrySelectOptionIconComponent(value, label, props)
 	}
 	= props
 
-	if (value)
-	{
-		return (props) => (
-			<FlagComponent
-				country={value}
-				flags={flags}
-				flagsPath={flagsPath}
-				className={props ? props.className : undefined}/>
-		)
-	}
-
-	return (props) => (
+	return ({ value }) => (
 		<div
-			className={classNames
-			(
-				'react-phone-number-input__icon',
-				'react-phone-number-input__icon--international',
-				props && props.className
-			)}>
-			<InternationalIcon/>
+			className={classNames('react-phone-number-input__icon',
+			{
+				'react-phone-number-input__icon--international': value === undefined
+			})}>
+			{
+				value
+				?
+				<FlagComponent
+					country={value}
+					flags={flags}
+					flagsPath={flagsPath}/>
+				:
+				<InternationalIcon/>
+			}
 		</div>
 	)
+}
+
+// Can move some country `<select/>` options
+// to the top of the list, for example.
+// See `countryOptions` property.
+function transformCountryOptions(options, transform)
+{
+	if (!transform) {
+		return options
+	}
+
+	const optionsOnTop = []
+	const optionsOnBottom = []
+	let appendTo = optionsOnTop
+
+	for (const element of transform)
+	{
+		if (element === '|')
+		{
+			appendTo.push({ divider: true })
+		}
+		else if (element === '...' || element === '…')
+		{
+			appendTo = optionsOnBottom
+		}
+		else
+		{
+			// Find the position of the option.
+			const index = options.indexOf(options.filter(option => option.value === element)[0])
+			// Get the option.
+			const option = options[index]
+			// Remove the option from its default position.
+			options.splice(index, 1)
+			// Add the option on top.
+			appendTo.push(option)
+		}
+	}
+
+	return optionsOnTop.concat(options).concat(optionsOnBottom)
 }
 
 function generateParsedInput(value, parsed_number, props)
