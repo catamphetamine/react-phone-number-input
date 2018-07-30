@@ -495,21 +495,6 @@ export default class PhoneNumberInput extends PureComponent
 		})
 	}
 
-	// Some people requested an `onCountryChange` event listener.
-	// No valid reason was given other than compliance with some legacy code
-	// which stored both phone number and country in a database.
-	// https://github.com/catamphetamine/react-phone-number-input/issues/128
-	onCountryChange(new_country)
-	{
-		const { onCountryChange } = this.props
-		const { country } = this.state
-
-		if (onCountryChange && new_country !== country)
-		{
-			onCountryChange(new_country)
-		}
-	}
-
 	// Can be called externally.
 	focus = () => this.number_input.focus()
 
