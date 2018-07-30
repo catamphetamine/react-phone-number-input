@@ -310,7 +310,7 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// Country `<select/>` `onChange` handler.
-	onCountrySelected = (new_country) =>
+	onCountryChange = (new_country) =>
 	{
 		const
 		{
@@ -665,7 +665,7 @@ export default class PhoneNumberInput extends PureComponent
 							name={ name ? `${name}__country` : undefined }
 							value={ country }
 							options={ country_select_options }
-							onChange={ this.onCountrySelected }
+							onChange={ this.onCountryChange }
 							disabled={ disabled }
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
