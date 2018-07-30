@@ -595,11 +595,8 @@
   line-height: 0;
   font-size: 0; }
 
-.rrui__divider--list {
-  padding-top: 0.6rem;
-  padding-bottom: 0.6rem; }
-
 .rrui__divider__line {
+  width: 100%;
   height: 1px;
   margin-bottom: -1px;
   background-color: rgba(0, 0, 0, 0.16);
@@ -948,7 +945,9 @@ than 100% of the parent if the parent is small enough.
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  height: calc(0.6rem * 4);
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   /*
 	This side padding is also connected to
 	`.rrui__select__options--left-aligned`'s `left`,
@@ -970,6 +969,16 @@ than 100% of the parent if the parent is small enough.
   background-color: #03b2cb;
   color: #ffffff; }
 
+.rrui__list__item--button {
+  height: calc(0.6rem * 4); }
+
+.rrui__list__item--divider {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  pointer-events: none; }
+
 .rrui__list__item--focused {
   background-color: #F3F3F3; }
 
@@ -978,11 +987,6 @@ than 100% of the parent if the parent is small enough.
   -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
           flex-shrink: 0; }
-
-.rrui__list__item-label {
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis; }
 
 .rrui__list__item--disabled {
   /* "pointer-events" prevents "cursor: wait" from working */
@@ -1004,6 +1008,10 @@ than 100% of the parent if the parent is small enough.
 .rrui__menu .rrui__list__item {
   padding-left: calc(0.6rem * 2.5);
   padding-right: calc(0.6rem * 2.5); }
+
+.rrui__menu .rrui__list__item--divider {
+  padding-left: 0;
+  padding-right: 0; }
 
 .rrui__menu-button {
   display: inline-block;
@@ -1421,78 +1429,6 @@ but rather `width: auto` or `left: 0; right: 0;`.
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch; }
 
-.rrui__segmented-control {
-  position: relative;
-  white-space: nowrap; }
-
-.rrui__segmented-control .rrui__input {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex; }
-
-.rrui__segmented-control__option {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  height: 100%;
-  padding-left: calc(0.6rem * 1.5);
-  padding-right: calc(0.6rem * 1.5);
-  background-color: transparent;
-  border: 1px solid #03b2cb;
-  border-radius: 0.2rem;
-  outline: none;
-  -webkit-transition: all 50ms ease-out;
-  -o-transition: all 50ms ease-out;
-  transition: all 50ms ease-out; }
-
-.rrui__segmented-control__option--first {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right: none; }
-
-.rrui__segmented-control__option--last {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0; }
-
-.rrui__segmented-control__option--middle {
-  border-radius: 0;
-  border-right: none; }
-
-.rrui__segmented-control__option:focus:not(:active):not(.rrui__segmented-control__option--selected) {
-  color: #03b2cb; }
-
-.rrui__segmented-control__option:active {
-  color: #ffffff;
-  background-color: #2bd7f0;
-  -webkit-transition: none;
-  -o-transition: none;
-  transition: none; }
-
-/*
-.rrui__rich__fallback .rrui__segmented-control__option:active
-{
-	color            : #000000;
-	background-color : transparent;
-}
-*/
-/*
-.rrui__rich__fallback .rrui__segmented-control__option input
-{
-	margin-left: 0;
-}
-*/
-.rrui__segmented-control__option--selected {
-  color: #ffffff;
-  background-color: #03b2cb; }
-
-.rrui__segmented-control__option {
-  cursor: pointer; }
-
-.rrui__segmented-control__option--disabled {
-  cursor: default; }
-
 .rrui__select {
   /* This is for `.rrui__select__options` to be positioned
 	   correctly relative to the `<Select/>` itself. */
@@ -1534,7 +1470,7 @@ but rather `width: auto` or `left: 0; right: 0;`.
 .rrui__select__button--expanded {
   color: #03b2cb; }
 
-.rrui__select__button--empty .rrui__list__item-label {
+.rrui__select__button--empty .rrui__select__selected-label {
   color: #888888; }
 
 .rrui__select__button--invalid {
@@ -1803,6 +1739,78 @@ but rather `width: auto` or `left: 0; right: 0;`.
 
 .rrui__switch__knob--on {
   left: 0.7125em; }
+
+.rrui__switcher {
+  position: relative;
+  white-space: nowrap; }
+
+.rrui__switcher .rrui__input {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+
+.rrui__switcher__option {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  height: 100%;
+  padding-left: calc(0.6rem * 1.5);
+  padding-right: calc(0.6rem * 1.5);
+  background-color: transparent;
+  border: 1px solid #03b2cb;
+  border-radius: 0.2rem;
+  outline: none;
+  -webkit-transition: all 50ms ease-out;
+  -o-transition: all 50ms ease-out;
+  transition: all 50ms ease-out; }
+
+.rrui__switcher__option--first {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none; }
+
+.rrui__switcher__option--last {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+
+.rrui__switcher__option--middle {
+  border-radius: 0;
+  border-right: none; }
+
+.rrui__switcher__option:focus:not(:active):not(.rrui__switcher__option--selected) {
+  color: #03b2cb; }
+
+.rrui__switcher__option:active {
+  color: #ffffff;
+  background-color: #2bd7f0;
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none; }
+
+/*
+.rrui__rich__fallback .rrui__switcher__option:active
+{
+	color            : #000000;
+	background-color : transparent;
+}
+*/
+/*
+.rrui__rich__fallback .rrui__switcher__option input
+{
+	margin-left: 0;
+}
+*/
+.rrui__switcher__option--selected {
+  color: #ffffff;
+  background-color: #03b2cb; }
+
+.rrui__switcher__option {
+  cursor: pointer; }
+
+.rrui__switcher__option--disabled {
+  cursor: default; }
 
 .rrui__text-input__label--invalid {
   color: #d30f00; }

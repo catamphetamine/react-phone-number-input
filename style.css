@@ -143,6 +143,13 @@
 	transition         : color 0.1s;
 }
 
+/* Something from stackoverflow. */
+.react-phone-number-input__country-select-divider
+{
+	font-size  : 1px;
+	background : black;
+}
+
 .react-phone-number-input__country-select:focus + .react-phone-number-input__country-select-arrow
 {
 	color : #03B2CB;
