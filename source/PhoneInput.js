@@ -315,7 +315,8 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			metadata,
-			onChange
+			onChange,
+			onCountryChange
 		}
 		= this.props
 
@@ -339,7 +340,9 @@ export default class PhoneNumberInput extends PureComponent
 
 		const new_value = e164(new_parsed_input, new_country, metadata)
 
-		this.onCountryChange(new_country)
+		if (onCountryChange) {
+			onCountryChange(new_country)
+		}
 
 		// Focus phone number `<input/>` upon country selection.
 		this.focus()
@@ -390,6 +393,7 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			onChange,
+			onCountryChange,
 			countries,
 			international,
 			metadata
@@ -405,6 +409,7 @@ export default class PhoneNumberInput extends PureComponent
 			// (regardless of whether there's any country currently selected)
 			if (parsed_input[0] === '+')
 			{
+				const old_country = country
 				country = getCountryForParsedInput
 				(
 					parsed_input,
@@ -414,7 +419,9 @@ export default class PhoneNumberInput extends PureComponent
 					metadata
 				)
 
-				this.onCountryChange(country)
+				if (country !== old_country && onCountryChange) {
+					onCountryChange(country)
+				}
 			}
 			// If this `onChange()` event was triggered
 			// as a result of selecting "International" country
