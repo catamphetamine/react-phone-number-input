@@ -184,11 +184,6 @@ export default class PhoneNumberInput extends PureComponent
 		// // Is `false` by default.
 		// smartCaret : PropTypes.bool.isRequired,
 
-		// For example, `react-responsive-ui` `<Select/>`
-		// hides the phone number input field when expanded.
-		// Is `false` by default.
-		countrySelectHidesPhoneInputField : PropTypes.bool.isRequired,
-
 		// Phone number extension element.
 		ext : PropTypes.node,
 
@@ -251,11 +246,7 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Whether to add the "International" option
 		// to the list of countries.
-		international : true,
-
-		// `react-responsive-ui` `<Select/>` sets this to true
-		// to hide the phone number input field when expanded.
-		countrySelectHidesPhoneInputField : false
+		international : true
 	}
 
 	constructor(props)
@@ -324,8 +315,7 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			metadata,
-			onChange,
-			countrySelectHidesPhoneInputField
+			onChange
 		}
 		= this.props
 
@@ -351,11 +341,8 @@ export default class PhoneNumberInput extends PureComponent
 
 		this.onCountryChange(new_country)
 
-		// Focus the phone number `<input/>` upon country selection.
-		// The default behaviour.
-		if (!countrySelectHidesPhoneInputField) {
-			this.focus()
-		}
+		// Focus phone number `<input/>` upon country selection.
+		this.focus()
 
 		this.setState
 		({
@@ -371,13 +358,6 @@ export default class PhoneNumberInput extends PureComponent
 			// because `onChange()` will trigger `getDerivedStateFromProps()`
 			// with the new `value` which will be compared to `state.value` there.
 			onChange(new_value)
-
-			// Focus the phone number `<input/>` upon country selection.
-			// Doing it in a `setState()` callback because the phone number
-			// `<input/>` is hidden while country `<select/>` is expanded.
-			if (countrySelectHidesPhoneInputField) {
-				this.focus()
-			}
 		})
 	}
 
@@ -641,7 +621,6 @@ export default class PhoneNumberInput extends PureComponent
 			internationalIcon,
 			displayInitialValueAsLocalNumber,
 			onCountryChange,
-			countrySelectHidesPhoneInputField,
 			locale,
 			metadata,
 			...phoneNumberInputProps
