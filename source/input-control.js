@@ -92,6 +92,7 @@ export function parsePhoneNumber(value, metadata)
 /**
  * Generates national number digits for a parsed phone.
  * May prepend national prefix.
+ * The phone number must be a complete and valid phone number.
  * @param  {object} parsedPhone - Object having shape `{ country : string, phone : string }`.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @return {string}
@@ -110,6 +111,7 @@ export function generateNationalNumberDigits(parsed_phone, metadata)
  * @param {string?} previousCountry - Previously selected country.
  * @param {string?} newCountry - Newly selected country. Can't be same as previously selected country.
  * @param {object} metadata - `libphonenumber-js` metadata.
+ * @param {boolean} preferNationalFormat - whether should attempt to convert from international to national number for the new country.
  * @return {string}
  */
 export function migrateParsedInputForNewCountry
@@ -117,7 +119,8 @@ export function migrateParsedInputForNewCountry
 	value,
 	previous_country,
 	new_country,
-	metadata
+	metadata,
+	preferNationalFormat
 )
 {
 	// If `parsed_input` is empty
@@ -139,6 +142,20 @@ export function migrateParsedInputForNewCountry
 		// the previously selected country phone prefix.
 		if (value[0] === '+')
 		{
+			// If the international phone number is for the new country
+			// then convert it to local if required.
+			if (preferNationalFormat)
+			{
+				// If a phone number is being input in international form
+				// and the country can already be derived from it,
+				// and if it is the new country, then format as a national number.
+				const derived_country = get_country_from_possibly_incomplete_international_phone_number(value, metadata)
+				if (derived_country === new_country)
+				{
+					return strip_country_calling_code(value, derived_country, metadata)
+				}
+			}
+
 			// If the international phone number already contains
 			// any country calling code then trim the country calling code part.
 			// (that could also be the newly selected country phone code prefix as well)
@@ -204,11 +221,9 @@ export function e164(number, country, metadata)
 
 	const partial_national_significant_number = get_national_significant_number_part(number, country, metadata)
 
-	if (!partial_national_significant_number) {
-		return
+	if (partial_national_significant_number) {
+		return formatNumber(partial_national_significant_number, country, 'E.164', metadata)
 	}
-
-	return formatNumber(partial_national_significant_number, country, 'E.164', metadata)
 }
 
 // If the phone number being input is an international one

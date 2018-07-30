@@ -316,7 +316,8 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			metadata,
 			onChange,
-			onCountryChange
+			onCountryChange,
+			displayInitialValueAsLocalNumber
 		}
 		= this.props
 
@@ -335,7 +336,8 @@ export default class PhoneNumberInput extends PureComponent
 			old_parsed_input,
 			old_country,
 			new_country,
-			metadata
+			metadata,
+			displayInitialValueAsLocalNumber
 		)
 
 		const new_value = e164(new_parsed_input, new_country, metadata)
