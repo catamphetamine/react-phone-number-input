@@ -606,6 +606,7 @@ export default class PhoneNumberInput extends PureComponent
 
 			// Extract `phoneNumberInputProps` via "object rest spread":
 			countries,
+			countryOptions,
 			labels,
 			country : _,
 			flags,
