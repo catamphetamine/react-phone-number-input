@@ -1,3 +1,8 @@
+2.2.0 / 03.08.2018
+==================
+
+  * Changed the output of `AsYouType` formatter. E.g. before for `US` and input `21` it was outputting `(21 )` which is not good for phone number input (not intuitive and is confusing). Now it will not add closing braces which haven't been reached yet by the input cursor and it will also strip the corresponding opening braces, so for `US` and input `21` it now is just `21`, and for `213` it is `(213)`.
+
 2.1.8 / 27.07.2018
 ==================
 
