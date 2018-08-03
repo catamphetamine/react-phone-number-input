@@ -24,7 +24,7 @@ export default class InputSmart extends Component
 		// Format the number.
 		const text = formatter.input(value)
 
-		return { text, template: formatter.template }
+		return { text, template: formatter.getTemplate() }
 	}
 
 	render()
