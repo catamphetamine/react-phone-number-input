@@ -258,11 +258,22 @@ export default class PhoneNumberInput extends PureComponent
 			value,
 			country,
 			countries,
+			countryOptions,
 			labels,
 			international,
 			metadata
 		}
 		= this.props
+
+		if (country) {
+			validateCountry(country, metadata)
+		}
+		if (countries) {
+			validateCountries(countries, metadata)
+		}
+		if (countryOptions) {
+			validateCountryOptions(countryOptions, metadata)
+		}
 
 		const parsed_number = parsePhoneNumber(value, metadata)
 
@@ -306,6 +317,25 @@ export default class PhoneNumberInput extends PureComponent
 			// then it won't be equal to state `value`
 			// in which case `parsed_input` and `country` get updated.
 			value
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		const {
+			country,
+			countries,
+			countryOptions,
+			metadata
+		} = this.props
+
+		if (country && country !== prevProps.country) {
+			validateCountry(country, metadata)
+		}
+		if (countries && countries !== prevProps.countries) {
+			validateCountries(countries, metadata)
+		}
+		if (countryOptions && countryOptions !== prevProps.countryOptions) {
+			validateCountryOptions(countryOptions, metadata)
 		}
 	}
 
@@ -858,4 +888,32 @@ function generateParsedInput(value, parsed_number, props)
 	}
 
 	return value
+}
+
+function validateCountryOptions(countries, metadata) {
+	for (const country of countries) {
+		if (country !== '|') {
+			if (!metadata.countries[country]) {
+				throwCountryNotFound(country)
+			}
+		}
+	}
+}
+
+function validateCountries(countries, metadata) {
+	for (const country of countries) {
+		if (!metadata.countries[country]) {
+			throwCountryNotFound(country)
+		}
+	}
+}
+
+function validateCountry(country, metadata) {
+	if (!metadata.countries[country]) {
+		throwCountryNotFound(country)
+	}
+}
+
+function throwCountryNotFound(country) {
+	throw new Error(`Country not found: ${country}`)
 }
