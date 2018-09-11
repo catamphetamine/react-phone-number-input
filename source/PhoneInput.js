@@ -23,7 +23,8 @@ import
 	generateNationalNumberDigits,
 	migrateParsedInputForNewCountry,
 	getCountryForParsedInput,
-	e164
+	e164,
+	trimNumber
 }
 from './input-control'
 
@@ -186,6 +187,10 @@ export default class PhoneNumberInput extends PureComponent
 
 		// Phone number extension element.
 		ext : PropTypes.node,
+
+		// If set to `true` the phone number input will get trimmed
+		// if it exceeds the maximum length for the country selected.
+		limitMaxLength : PropTypes.bool,
 
 		// An error message shown below the phone number `<input/>`.
 		error : PropTypes.string,
@@ -428,6 +433,7 @@ export default class PhoneNumberInput extends PureComponent
 			onCountryChange,
 			countries,
 			international,
+			limitMaxLength,
 			metadata
 		}
 		= this.props
@@ -463,6 +469,11 @@ export default class PhoneNumberInput extends PureComponent
 			{
 				parsed_input = '+' + parsed_input
 			}
+		}
+
+		// Trim the input to not exceed the maximum possible number length.
+		if (limitMaxLength) {
+			parsed_input = trimNumber(parsed_input, country, metadata)
 		}
 
 		// Generate the new `value` property.

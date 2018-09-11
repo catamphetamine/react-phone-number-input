@@ -3,7 +3,8 @@ import
 	parseNumber,
 	formatNumber,
 	getCountryCallingCode,
-	AsYouType
+	AsYouType,
+	Metadata
 }
 from 'libphonenumber-js/custom'
 
@@ -224,6 +225,34 @@ export function e164(number, country, metadata)
 	if (partial_national_significant_number) {
 		return formatNumber(partial_national_significant_number, country, 'E.164', metadata)
 	}
+}
+
+/**
+ * Trims phone number digits if they exceed the maximum possible length
+ * for a national (significant) number for the country.
+ * @param  {string?} number - A possibly incomplete phone number digits string. Can be a possibly incomplete E.164 phone number.
+ * @param  {string?} country
+ * @param  {[object} metadata - `libphonenumber-js` metadata.
+ * @return {string?}
+ */
+export function trimNumber(number, country, metadata)
+{
+	if (!number || !country) {
+		return number
+	}
+
+	const _metadata = new Metadata(metadata)
+	_metadata.country(country)
+	const possibleLengths = _metadata.possibleLengths()
+
+	const maxLength = possibleLengths[possibleLengths.length - 1]
+	const nationalSignificantNumberPart = get_national_significant_number_part(number, country, metadata)
+	const overflowDigitsCount = nationalSignificantNumberPart.length - maxLength
+	if (overflowDigitsCount > 0) {
+		return number.slice(0, number.length - overflowDigitsCount)
+	}
+
+	return number
 }
 
 // If the phone number being input is an international one

@@ -6,6 +6,7 @@ import
 	generateNationalNumberDigits,
 	migrateParsedInputForNewCountry,
 	e164,
+	trimNumber,
 	getCountryForParsedInput,
 
 	// Private functions
@@ -176,6 +177,28 @@ describe('input-control', () =>
 
 		// National number. With country. Just national prefix.
 		e164('8800', 'RU', metadata).should.equal('+7800')
+	})
+
+	it('should trim the phone number if it exceeds the maximum length', () =>
+	{
+		// No number.
+		expect(trimNumber()).to.be.undefined
+
+		// International number. Without country.
+		trimNumber('+780055535351').should.equal('+780055535351')
+
+		// National number. Without country.
+		trimNumber('880055535351', null).should.equal('880055535351')
+
+		// National number. Doesn't exceed the maximum length.
+		trimNumber('88005553535', 'RU', metadata).should.equal('88005553535')
+		// National number. Exceeds the maximum length.
+		trimNumber('880055535351', 'RU', metadata).should.equal('88005553535')
+
+		// International number. Doesn't exceed the maximum length.
+		trimNumber('+78005553535', 'RU', metadata).should.equal('+78005553535')
+		// International number. Exceeds the maximum length.
+		trimNumber('+780055535351', 'RU', metadata).should.equal('+78005553535')
 	})
 
 	it('should get country for parsed input', () =>
