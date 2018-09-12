@@ -903,7 +903,7 @@ function generateParsedInput(value, parsed_number, props)
 
 function validateCountryOptions(countries, metadata) {
 	for (const country of countries) {
-		if (country !== '|') {
+		if (country && country !== '|' && country !== '...' && country !== '…') {
 			if (!metadata.countries[country]) {
 				throwCountryNotFound(country)
 			}
