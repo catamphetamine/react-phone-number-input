@@ -1,0 +1,1 @@
+module.exports = require('libphonenumber-js/index.common.js')
