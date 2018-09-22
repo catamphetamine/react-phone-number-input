@@ -301,20 +301,6 @@ By default all countries are included which means that [`libphonenumber-js`](htt
 
 For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata).
 
-## Module not found: Error: Can't resolve 'libphonenumber-js/metadata.min'
-
-This error means that your Webpack is misconfigured to exclude `.json` file extension from [the list of the resolved ones](https://webpack.js.org/configuration/resolve/#resolve-extensions). To fix that add it back to `resolve.extensions`.
-
-```js
-{
-  resolve: {
-    extensions: [".js", ".json", ...]
-  }
-}
-```
-
-If you're using Webpack 1 then upgrade to a newer version.
-
 ## CDN
 
 One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.net](https://jsdelivr.net)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import metadata from 'libphonenumber-js/metadata.min'
+import metadata from 'libphonenumber-js/metadata.min.json'
 
 import InputBasic from './InputBasic'
 

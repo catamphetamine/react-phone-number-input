@@ -18,7 +18,7 @@ import
 }
 from './input-control'
 
-import metadata from 'libphonenumber-js/metadata.min'
+import metadata from 'libphonenumber-js/metadata.min.json'
 
 describe('input-control', () =>
 {
