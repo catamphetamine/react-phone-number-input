@@ -27,17 +27,19 @@ International phone number `<input/>` for React (iPhone style).
 
 ```js
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput, { formatPhoneNumber } from 'react-phone-number-input'
 
 return (
   <PhoneInput
     placeholder="Enter phone number"
     value={ this.state.phone }
     onChange={ phone => this.setState({ phone }) } />
+
+  You entered phone number: { formatPhoneNumber(this.state.phone, 'International') }
 )
 ```
 
-The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library.
+The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) international phone number parsing and formatting library. The `formatPhoneNumber()` function is documented in [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) readme.
 
 <!--
 The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
