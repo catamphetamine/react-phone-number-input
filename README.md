@@ -29,7 +29,7 @@ International phone number `<input/>` for React (iPhone style).
 npm install react-phone-number-input --save
 ```
 
-Also available [over a CDN](https://github.com/catamphetamine/react-phone-number-input/#cdn).
+If you're not using a bundler then use a [CDN version](https://github.com/catamphetamine/react-phone-number-input/#cdn).
 
 ## Usage
 
