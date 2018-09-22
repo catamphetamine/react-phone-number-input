@@ -44,7 +44,8 @@ return (
       value={ this.state.phone }
       onChange={ phone => this.setState({ phone }) } />
 
-    You entered phone number: { formatPhoneNumber(this.state.phone, 'International') }
+    You entered phone number:
+    { this.state.phone && formatPhoneNumber(this.state.phone, 'International') }
   </div>
 )
 ```
