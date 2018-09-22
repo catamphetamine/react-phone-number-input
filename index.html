@@ -619,6 +619,44 @@ import ru from 'react-phone-number-input/locale/ru'
 `}
 							</Highlight>
 
+							<h2>Format <code>value</code></h2>
+
+							<p><code>value</code> can be saved in a database and later be output on a page using <code>formatPhoneNumber()</code> function.</p>
+
+							<form>
+								<PhoneInput
+									placeholder="Enter phone number"
+									value={this.state.value_validation}
+									onChange={value => this.setState({ value_validation: value })}/>
+							</form>
+
+							<div className="section">
+								<code>value</code>: {this.state.value_validation}
+							</div>
+
+							<div className="section">
+								<code>"National"</code>: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'National')}
+							</div>
+
+							<div className="section">
+								<code>"International"</code>: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'International')}
+							</div>
+
+							<Highlight lang="jsx">
+{`import PhoneInput, { formatPhoneNumber } from 'react-phone-number-input'
+
+const { value } = this.state
+
+<PhoneInput
+  placeholder="Enter phone number"
+  value={ value }
+  onChange={ value => this.setState({ value }) }/>
+
+National: { value && formatPhoneNumber(value, 'National') }
+International: { value && formatPhoneNumber(value, 'International') }
+`}
+							</Highlight>
+
 							<h2>Validation</h2>
 
 							<p>Note: I personally prefer not using this phone number validation feature in my projects. <a target="_blank" href="https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.</p>
@@ -648,8 +686,7 @@ import ru from 'react-phone-number-input/locale/ru'
 							</div>
 
 							<Highlight lang="jsx">
-{`import PhoneInput from 'react-phone-number-input'
-import { parseNumber, formatNumber, isValidNumber } from 'libphonenumber-js'
+{`import PhoneInput, { formatPhoneNumber, isValidPhoneNumber } from 'react-phone-number-input'
 
 const { value } = this.state
 
@@ -657,11 +694,11 @@ const { value } = this.state
   placeholder="Enter phone number"
   value={ value }
   onChange={ value => this.setState({ value }) }
-  error={ value ? (isValidNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required' }/>
+  error={ value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required' }/>
 
-Is valid: { value && isValidNumber(value) ? 'true' : 'false' }
-Local: { value && formatNumber(value, 'National') }
-International: { value && formatNumber(value, 'International') }
+Is valid: { value && isValidPhoneNumber(value) ? 'true' : 'false' }
+National: { value && formatPhoneNumber(value, 'National') }
+International: { value && formatPhoneNumber(value, 'International') }
 `}
 							</Highlight>
 
