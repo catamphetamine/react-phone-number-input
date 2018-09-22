@@ -23,6 +23,14 @@ International phone number `<input/>` for React (iPhone style).
 
 <img src="https://raw.githubusercontent.com/catamphetamine/react-phone-number-input/master/docs/images/iphone-native-select.png" width="380" height="443"/>
 
+## Install
+
+```
+npm install react-phone-number-input --save
+```
+
+Also available [over a CDN](https://github.com/catamphetamine/react-phone-number-input/#cdn).
+
 ## Usage
 
 ```js
