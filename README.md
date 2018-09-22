@@ -38,12 +38,14 @@ import 'react-phone-number-input/style.css'
 import PhoneInput, { formatPhoneNumber } from 'react-phone-number-input'
 
 return (
-  <PhoneInput
-    placeholder="Enter phone number"
-    value={ this.state.phone }
-    onChange={ phone => this.setState({ phone }) } />
+  <div>
+    <PhoneInput
+      placeholder="Enter phone number"
+      value={ this.state.phone }
+      onChange={ phone => this.setState({ phone }) } />
 
-  You entered phone number: { formatPhoneNumber(this.state.phone, 'International') }
+    You entered phone number: { formatPhoneNumber(this.state.phone, 'International') }
+  </div>
 )
 ```
 
