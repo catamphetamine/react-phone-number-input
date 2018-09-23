@@ -31,7 +31,7 @@ npm install react-phone-number-input --save
 
 If you're not using a bundler then use a [standalone version from a CDN](https://github.com/catamphetamine/react-phone-number-input/#cdn).
 
-## Usage
+## Use
 
 The component requires two properties to be passed: `value` and `onChange(value)`.
 
