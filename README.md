@@ -33,24 +33,37 @@ If you're not using a bundler then use a [standalone version from a CDN](https:/
 
 ## Usage
 
+The component requires two properties to be passed: `value` and `onChange(value)`.
+
 ```js
 import 'react-phone-number-input/style.css'
-import PhoneInput, { formatPhoneNumber } from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input'
 
 return (
-  <div>
-    <PhoneInput
-      placeholder="Enter phone number"
-      value={ this.state.phone }
-      onChange={ phone => this.setState({ phone }) } />
-
-    You entered phone number:
-    { this.state.phone && formatPhoneNumber(this.state.phone, "International") }
-  </div>
+  <PhoneInput
+    placeholder="Enter phone number"
+    value={ this.state.phone }
+    onChange={ phone => this.setState({ phone }) } />
 )
 ```
 
+`value` is gonna be the parsed phone number, e.g. if a user chooses "United States" and enters `(213) 373-4253` then `value` is gonna be `+12133734253`.
+
+To format `value` back to a human-readable phone number use [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function.
+
+
+```js
+import { formatPhoneNumber } from 'react-phone-number-input'
+
+if (value) {
+  // Can be "National" or "International".
+  formatPhoneNumber(value, "International")
+}
+```
+
+<!--
 The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) phone number parsing/formatting library. The [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function can be used to output the `value` in `"National"` or `"International"` format.
+-->
 
 <!--
 The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.github.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
