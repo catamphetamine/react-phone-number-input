@@ -47,7 +47,7 @@ return (
 )
 ```
 
-`value` is gonna be the parsed phone number, e.g. if a user chooses "United States" and enters `(213) 373-4253` then `value` is gonna be `+12133734253`.
+`value` will be the parsed phone number, e.g. if a user chooses "United States" and enters `(213) 373-4253` then `value` will be `+12133734253`.
 
 To format `value` back to a human-readable phone number use [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function.
 
