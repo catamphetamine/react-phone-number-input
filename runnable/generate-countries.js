@@ -1,5 +1,5 @@
 import { getCountryCodes } from './countries'
-import defaultLabels from '../locale/default'
+import defaultLabels from '../locale/default.json'
 
 import path from 'path'
 import fs from 'fs'

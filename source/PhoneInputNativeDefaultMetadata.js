@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-import labels from '../locale/default'
+import labels from '../locale/default.json'
 import internationalIcon from './InternationalIcon'
 
 import
