@@ -477,7 +477,7 @@ export default class PhoneNumberInput extends PureComponent
 		}
 
 		// Generate the new `value` property.
-		const value = parsed_input ? e164(parsed_input, country, metadata) : null;
+		const value = parsed_input ? e164(parsed_input, country, metadata) : null
 
 		this.setState
 		({
