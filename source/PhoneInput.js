@@ -46,6 +46,9 @@ export default class PhoneNumberInput extends PureComponent
 		// the phone number `<input/>` is edited.
 		onChange : PropTypes.func.isRequired,
 
+		// Toggles the `--focus` CSS class.
+		onFocus : PropTypes.func,
+
 		// `onBlur` is usually passed by `redux-form`.
 		onBlur : PropTypes.func,
 
@@ -154,6 +157,8 @@ export default class PhoneNumberInput extends PureComponent
 		// * `name : string?` — HTML `name` attribute.
 		// * `value : string?` — The currently selected country code.
 		// * `onChange(value : string?)` — Updates the `value`.
+		// * `onFocus()` — Toggles the `--focus` CSS class.
+		// * `onBlur()` — Toggles the `--focus` CSS class.
 		// * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
 		// * `disabled : boolean?` — HTML `disabled` attribute.
 		// * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
@@ -172,6 +177,8 @@ export default class PhoneNumberInput extends PureComponent
 		//
 		// * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 		// * `onChange(value : string)` — Updates the `value`.
+		// * `onFocus()` — Toggles the `--focus` CSS class.
+		// * `onBlur()` — Toggles the `--focus` CSS class.
 		// * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
 		// * `metadata : object` — `libphonenumber-js` metadata.
 		// * All other properties should be passed through to the underlying `<input/>`.
@@ -492,6 +499,12 @@ export default class PhoneNumberInput extends PureComponent
 		() => onChange(value))
 	}
 
+	// Toggles the `--focus` CSS class.
+	onFocus = () => this.setState({ isFocused: true })
+
+	// Toggles the `--focus` CSS class.
+	_onBlur = () => this.setState({ isFocused: false })
+
 	// This `onBlur` interceptor is a workaround for `redux-form`
 	// so that it gets the up-to-date `value` in its `onBlur` handler.
 	// Without this fix it just gets the actual (raw) input field textual value.
@@ -505,6 +518,8 @@ export default class PhoneNumberInput extends PureComponent
 	{
 		const { onBlur } = this.props
 		const { value } = this.state
+
+		this._onBlur()
 
 		if (!onBlur) {
 			return
@@ -668,7 +683,8 @@ export default class PhoneNumberInput extends PureComponent
 			country,
 			hidePhoneInputField,
 			country_select_options,
-			parsed_input
+			parsed_input,
+			isFocused
 		}
 		= this.state
 
@@ -694,7 +710,8 @@ export default class PhoneNumberInput extends PureComponent
 				style={ style }
 				className={ classNames('react-phone-number-input',
 				{
-					'react-phone-number-input--invalid': error && indicateInvalid
+					'react-phone-number-input--focus'   : isFocused,
+					'react-phone-number-input--invalid' : error && indicateInvalid
 				},
 				className) }>
 
@@ -710,6 +727,8 @@ export default class PhoneNumberInput extends PureComponent
 							value={ country }
 							options={ country_select_options }
 							onChange={ this.onCountryChange }
+							onFocus={ this.onFocus }
+							onBlur={ this._onBlur }
 							disabled={ disabled }
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
@@ -728,6 +747,7 @@ export default class PhoneNumberInput extends PureComponent
 							country={ country }
 							value={ parsed_input || '' }
 							onChange={ this.onChange }
+							onFocus={ this.onFocus }
 							onBlur={ this.onBlur }
 							onKeyDown={ this.onPhoneNumberKeyDown }
 							disabled={ disabled }
@@ -752,6 +772,8 @@ export default class PhoneNumberInput extends PureComponent
 							{React.cloneElement(ext,
 							{
 								type : ext.props.type === undefined ? 'number' : ext.props.type,
+								onFocus : this.onFocus,
+								onBlur : this._onBlur,
 								className : classNames
 								(
 									'react-phone-number-input__input',

@@ -15,7 +15,15 @@ export default class CountrySelectReactResponsiveUI extends Component
 		// By default shows flag only for currently selected country.
 		// (is `true` by default to save user's traffic
 		//  because all flags are about 3 MegaBytes)
-		saveOnIcons: true
+		saveOnIcons: true,
+
+		// Toggles the `--focus` CSS class.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/189
+		onFocus : PropTypes.func,
+
+		// Toggles the `--focus` CSS class.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/189
+		onBlur : PropTypes.func
 	}
 
 	render()
@@ -25,6 +33,8 @@ export default class CountrySelectReactResponsiveUI extends Component
 			name,
 			value,
 			onChange,
+			onFocus,
+			onBlur,
 			options,
 			disabled,
 			tabIndex,
@@ -46,6 +56,8 @@ export default class CountrySelectReactResponsiveUI extends Component
 				name={ name }
 				value={ value }
 				onChange={ onChange }
+				onFocus={ onFocus }
+				onBlur={ onBlur }
 				options={ options }
 				disabled={ disabled }
 				tabIndex={ tabIndex }

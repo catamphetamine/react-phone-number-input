@@ -1,3 +1,8 @@
+2.2.9 / 30.09.2018
+==================
+
+  * Added `.react-phone-number-input--focus` CSS class. [Issue](https://github.com/catamphetamine/react-phone-number-input/issues/189).
+
 2.2.0 / 03.08.2018
 ==================
 

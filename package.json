@@ -17,7 +17,7 @@
     "libphonenumber-js": "^1.4.7",
     "prop-types": "^15.5.6",
     "react-lifecycles-compat": "^3.0.4",
-    "react-responsive-ui": "^0.14.9"
+    "react-responsive-ui": "^0.14.39"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.4",

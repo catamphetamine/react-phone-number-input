@@ -6,7 +6,39 @@ export default class CountrySelectNative extends Component
 {
 	static propTypes =
 	{
-		selectArrowComponent : PropTypes.func.isRequired
+		// A two-letter country code.
+		// E.g. "US", "RU", etc.
+		value : PropTypes.string,
+
+		// Updates the `value`.
+		onChange : PropTypes.func.isRequired,
+
+		// `<select/>` options.
+		options : PropTypes.arrayOf(PropTypes.shape({
+			value : PropTypes.string,
+			label : PropTypes.string,
+			divider : PropTypes.bool
+		})).isRequired,
+
+		// HTML `name` attribute.
+		name : PropTypes.string,
+
+		// HTML `disabled` attribute.
+		disabled : PropTypes.bool,
+
+		// HTML `tabIndex` attribute.
+		tabIndex : PropTypes.number,
+
+		// Select arrow component.
+		selectArrowComponent : PropTypes.func.isRequired,
+
+		// Toggles the `--focus` CSS class.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/189
+		onFocus : PropTypes.func,
+
+		// Toggles the `--focus` CSS class.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/189
+		onBlur : PropTypes.func
 	}
 
 	static defaultProps =
@@ -28,6 +60,8 @@ export default class CountrySelectNative extends Component
 			name,
 			value,
 			options,
+			onFocus,
+			onBlur,
 			disabled,
 			tabIndex,
 			className,
@@ -50,6 +84,8 @@ export default class CountrySelectNative extends Component
 					name={ name }
 					value={ value || 'ZZ' }
 					onChange={ this.onChange }
+					onFocus={ onFocus }
+					onBlur={ onBlur }
 					disabled={ disabled }
 					tabIndex={ tabIndex }
 					className="react-phone-number-input__country-select">

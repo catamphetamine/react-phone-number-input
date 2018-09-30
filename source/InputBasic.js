@@ -24,6 +24,10 @@ export default class InputBasic extends PureComponent
 		// Updates the `value`.
 		onChange : PropTypes.func.isRequired,
 
+		// Toggles the `--focus` CSS class.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/189
+		onFocus : PropTypes.func,
+
 		// `onBlur` workaround for `redux-form`'s bug.
 		onBlur : PropTypes.func,
 
@@ -135,6 +139,7 @@ export default class InputBasic extends PureComponent
 		const
 		{
 			onChange,
+			onFocus,
 			country,
 			metadata,
 			...rest
@@ -154,6 +159,7 @@ export default class InputBasic extends PureComponent
 				ref={this.storeInput}
 				value={this.format(value)}
 				onChange={this.onChange}
+				onFocus={onFocus}
 				onBlur={this.onBlur}/>
 		)
 	}
