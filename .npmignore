@@ -43,6 +43,7 @@ npm-debug.log
 /test/
 
 # bundle for the browser
+/bundle/docs
 /bundle/lib
 /bundle/index.html
 /bundle/libphonenumber-js.min.js

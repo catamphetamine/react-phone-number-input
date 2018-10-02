@@ -40,11 +40,13 @@
     "postcss": "^6.0.23",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-styleguidist": "^7.3.8",
     "rimraf": "^2.5.0",
     "webpack": "^4.2.0",
     "webpack-cli": "^2.0.12"
   },
   "scripts": {
+    "generate-docs": "styleguidist build --config react-styleguidist.js",
     "generate-countries": "babel-node runnable/generate-countries",
     "test": "mocha --bail --require babel-core/register --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "test-coverage": "cross-env NODE_ENV=test nyc mocha --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
