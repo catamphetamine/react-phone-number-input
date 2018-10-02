@@ -38,227 +38,377 @@ export default class PhoneNumberInput extends PureComponent
 {
 	static propTypes =
 	{
-		// Phone number in E.164 format.
-		// E.g. "+12223333333" for USA.
+		/**
+		 * Phone number in `E.164` format.
+		 *
+		 * Example:
+		 *
+		 * `"+12223333333"`
+		 */
 		value : PropTypes.string,
 
-		// `onChange` handler is called each time
-		// the phone number `<input/>` is edited.
+		/**
+		 * Sets the `value` when a user inputs the phone number.
+		 */
 		onChange : PropTypes.func.isRequired,
 
-		// Toggles the `--focus` CSS class.
+		/**
+		 * Toggles the `--focus` CSS class.
+		 * @ignore
+		 */
 		onFocus : PropTypes.func,
 
-		// `onBlur` is usually passed by `redux-form`.
+		/**
+		 * `onBlur` is usually passed by `redux-form`.
+		 * @ignore
+		 */
 		onBlur : PropTypes.func,
 
-		// `onKeyDown` handler (e.g. to handle Enter key press).
+		/**
+		 * `onKeyDown` handler (e.g. to handle Enter key press).
+		 * @ignore
+		 */
 		onKeyDown : PropTypes.func,
 
-		// Some people requested an `onCountryChange` event listener.
-		// No valid reason was given other than compliance with some legacy code
-		// which stored both phone number and country in a database.
-		// https://github.com/catamphetamine/react-phone-number-input/issues/128
-		onCountryChange : PropTypes.func,
-
-		// Disables both the phone number `<input/>`
-		// and the country `<select/>`.
+		/**
+		 * Disables both the phone number `<input/>`
+		 * and the country `<select/>`.
+		 */
 		// (is `false` by default)
 		disabled : PropTypes.bool.isRequired,
 
-		// Web browser's "autocomplete" feature
-		// remembers the phone number being input
-		// and can also autofill the `<input/>`
-		// with previously remembered phone numbers.
-		//
-		// Default value: "tel".
-		//
-		// https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill
-		//
-		// "So when should you use autocomplete="off"?
-		//  One example is when you've implemented your own version
-		//  of autocomplete for search. Another example is any form field
-		//  where users will input and submit different kinds of information
-		//  where it would not be useful to have the browser remember
-		//  what was submitted previously".
-		//
+		/**
+		 * Sets `autoComplete` property for phone number `<input/>`.
+		 *
+		 * Web browser's "autocomplete" feature
+		 * remembers the phone number being input
+		 * and can also autofill the `<input/>`
+		 * with previously remembered phone numbers.
+		 *
+		 * https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill
+		 *
+		 * For example, can be used to turn it off:
+		 *
+		 * "So when should you use `autocomplete="off"`?
+		 *  One example is when you've implemented your own version
+		 *  of autocomplete for search. Another example is any form field
+		 *  where users will input and submit different kinds of information
+		 *  where it would not be useful to have the browser remember
+		 *  what was submitted previously".
+		 */
+		// (is `"tel"` by default)
 		autoComplete : PropTypes.string.isRequired,
 
-		// Should the initially passed phone number `value`
-		// be converted to a national phone number for its country.
+		/**
+		 * Set to `true` to convert the initial `value` to a national phone number.
+		 *
+		 * For example, if `value="+12133734253"` is passed then the `<input/>` value will be `"(213) 373-4253"`.
+		 */
 		// (is `false` by default)
 		displayInitialValueAsLocalNumber : PropTypes.bool.isRequired,
 
-		// The country to be selected by default.
-		// Two-letter country code ("ISO 3166-1 alpha-2").
+		/**
+		 * The country to be selected by default.
+		 * Example: `"US"`.
+		 */
+		// A two-letter country code ("ISO 3166-1 alpha-2").
 		country : PropTypes.string,
 
-		// Only these countries will be available for selection.
-		// Includes all countries by default.
+		/**
+		 * If specified, only these countries will be available for selection.
+		 *
+		 * Example:
+		 *
+		 * `["RU", "UA", "KZ"]`
+		 */
 		countries : PropTypes.arrayOf(PropTypes.string),
 
-		// Custom country `<select/>` option names.
-		// E.g. `{ ZZ: 'Международный', RU: 'Россия', US: 'США', ... }`
+		/**
+		 * Custom country `<select/>` option names.
+		 *
+		 * Example:
+		 *
+		 * `{ "ZZ": "Международный", RU: "Россия", US: "США", ... }`
+		 */
 		labels : labelsPropType.isRequired,
 
-		// Country flag icon components.
-		// By default flag icons are inserted as `<img/>`s
-		// with their `src` pointed to `flag-icon-css` github repo.
-		// There might be cases (e.g. an offline application)
-		// where having a large (3 megabyte) `<svg/>` flags
-		// bundle is more appropriate.
-		// `import flags from 'react-phone-number-input/flags'`.
-		flags : PropTypes.objectOf(PropTypes.func),
-
-		// Flag icon component.
-		flagComponent : PropTypes.func.isRequired,
-
-		// A base URL path for national flag SVG icons.
-		// By default it uses the ones from `flag-icon-css` github repo.
+		/**
+		 * The base URL path for country flag SVG icons.
+		 * By default it points to `flag-icon-css` repo github pages website.
+		 */
 		flagsPath : PropTypes.string.isRequired,
 
-		// Whether to add the "International" option
-		// to the list of countries.
+		/**
+		 * Custom country flag icon components. These flags replace the default ones.
+		 *
+		 * The shape is an object where keys are country codes
+		 * and values are flag icon components.
+		 * Flag icon components receive the same properties
+		 * as `flagComponent` (see below).
+		 *
+		 * Example:
+		 *
+		 * `{ "RU": () => <img src="..."/> }`
+		 *
+		 * Can be used to replace the default flags
+		 * with custom ones for certain (or all) countries.
+		 *
+		 * Can also be used to bundle `<svg/>` flags instead of `<img/>`s:
+		 *
+		 * By default flag icons are inserted as `<img/>`s
+		 * with their `src` pointed to `flag-icon-css` repo github pages website.
+		 *
+		 * There might be cases (e.g. an offline application)
+		 * when including the full set of `<svg/>` flags
+		 * (3 megabytes) is more appropriate.
+		 *
+		 * Example:
+		 *
+		 * `// Uses <svg/> flags (3 megabytes):`
+		 *
+		 * `import flags from 'react-phone-number-input/flags'`
+		 *
+		 * `import PhoneInput from 'react-phone-number-input'`
+		 *
+		 * `<PhoneInput flags={flags} .../>`
+		 */
+		flags : PropTypes.objectOf(PropTypes.func),
+
+		/**
+		 * Country flag icon component.
+		 *
+		 * Takes properties:
+		 *
+		 * * country : string — The country code.
+		 * * flagsPath : string — The `flagsPath` property (see above).
+		 * * flags : object — The `flags` property (see above).
+		 */
+		flagComponent : PropTypes.func.isRequired,
+
+		/**
+		 * Set to `false` to drop the "International" option from country `<select/>`.
+		 */
 		international : PropTypes.bool.isRequired,
 
-		// Custom "International" country `<select/>` option icon.
+		/**
+		 * Custom "International" country `<select/>` option icon.
+		 */
 		internationalIcon : PropTypes.func.isRequired,
 
-		// Whether to show country `<select/>`.
+		/**
+		 * Set to `false` to hide country `<select/>`.
+		 */
 		// (is `true` by default)
 		showCountrySelect : PropTypes.bool.isRequired,
 
-		// HTML `tabindex` attribute for the country `<select/>`.
+		/**
+		 * HTML `tabindex` attribute for country `<select/>`.
+		 */
 		countrySelectTabIndex : PropTypes.number,
 
-		// Can be used to place some countries on top of the list.
-		// E.g. `["US", "CA", "AU", "|", "..."]`.
+		/**
+		 * Can be used to place some countries on top of the list of country `<select/>` options.
+		 *
+		 * * `"|"` — inserts a separator.
+		 * * `"..."` — means "the rest of the countries" (can be omitted).
+		 *
+		 * Example:
+		 *
+		 * `["US", "CA", "AU", "|", "..."]`
+		 */
 		countryOptions : PropTypes.arrayOf(PropTypes.string),
 
-		// `<Phone/>` component CSS style object.
+		/**
+		 * `<Phone/>` component CSS style object.
+		 */
 		style : PropTypes.object,
 
-		// `<Phone/>` component CSS class.
+		/**
+		 * `<Phone/>` component CSS class.
+		 */
 		className : PropTypes.string,
 
-		// `<input/>` CSS class.
-		// Both for the phone number `<input/>` and
-		// `react-responsive-ui` `<Select/>` autocomplete input.
+		/**
+		 * Phone number `<input/>` CSS class.
+		 */
 		inputClassName : PropTypes.string,
 
-		// Returns phone number `<input/>` CSS class string.
-		// Receives an object of shape `{ disabled : boolean?, invalid : boolean? }`.
+		/**
+		 * Returns phone number `<input/>` CSS class string.
+		 * Receives an object of shape `{ disabled : boolean?, invalid : boolean? }`.
+		 * @ignore
+		 */
 		getInputClassName : PropTypes.func,
 
-		// Country `<select/>` component.
+		/**
+		 * Country `<select/>` component.
+		 *
+		 * Receives properties:
+		 *
+		 * * `name : string?` — HTML `name` attribute.
+		 * * `value : string?` — The currently selected country code.
+		 * * `onChange(value : string?)` — Updates the `value`.
+		 * * `onFocus()` — Toggles the `--focus` CSS class.
+		 * * `onBlur()` — Toggles the `--focus` CSS class.
+		 * * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
+		 * * `disabled : boolean?` — HTML `disabled` attribute.
+		 * * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
+		 * * `className : string` — CSS class name.
+		 */
 		//
-		// Receives properties:
-		//
-		// * `name : string?` — HTML `name` attribute.
-		// * `value : string?` — The currently selected country code.
-		// * `onChange(value : string?)` — Updates the `value`.
-		// * `onFocus()` — Toggles the `--focus` CSS class.
-		// * `onBlur()` — Toggles the `--focus` CSS class.
-		// * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
-		// * `disabled : boolean?` — HTML `disabled` attribute.
-		// * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
-		// * `className : string` — CSS class name.
-		//
+		// (deprecated)
 		// Optional properties (should be ignored unless needed):
-		//
 		// * `hidePhoneInputField(hide : boolean)` — Can be called to show/hide phone input field. Takes `hide : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
 		// * `focusPhoneInputField()` — Can be called to manually focus phone input field. E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input after country selection in a timeout (after the phone input field is no longer hidden).
 		//
 		countrySelectComponent : PropTypes.func.isRequired,
 
-		// Phone number `<input/>` component.
-		//
-		// Receives properties:
-		//
-		// * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
-		// * `onChange(value : string)` — Updates the `value`.
-		// * `onFocus()` — Toggles the `--focus` CSS class.
-		// * `onBlur()` — Toggles the `--focus` CSS class.
-		// * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
-		// * `metadata : object` — `libphonenumber-js` metadata.
-		// * All other properties should be passed through to the underlying `<input/>`.
-		//
-		// Must also implement `.focus()` method.
-		//
+		/**
+		 * Phone number `<input/>` component.
+		 *
+		 * Receives properties:
+		 *
+		 * * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
+		 * * `onChange(value : string)` — Updates the `value`.
+		 * * `onFocus()` — Toggles the `--focus` CSS class.
+		 * * `onBlur()` — Toggles the `--focus` CSS class.
+		 * * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
+		 * * `metadata : object` — `libphonenumber-js` metadata.
+		 * * All other properties should be passed through to the underlying `<input/>`.
+		 *
+		 * Must also implement `.focus()` method.
+		 */
 		inputComponent : PropTypes.func.isRequired,
 
-		// // Set to `false` to use `inputComponent={InputBasic}`
-		// // instead of `input-format`'s `<ReactInput/>`.
-		// // Is `false` by default.
+		/**
+		 * Set to `false` to use `inputComponent={InputBasic}`
+		 * instead of `input-format`'s `<ReactInput/>`.
+		 * Is `false` by default.
+		 */
 		// smartCaret : PropTypes.bool.isRequired,
 
-		// Phone number extension element.
+		/**
+		 * Phone number extension `<input/>` element.
+		 *
+		 * Example:
+		 *
+		 *	`ext={<input value={...} onChange={...}/>}`
+		 */
 		ext : PropTypes.node,
 
-		// If set to `true` the phone number input will get trimmed
-		// if it exceeds the maximum length for the country selected.
-		limitMaxLength : PropTypes.bool,
+		/**
+		 * If set to `true` the phone number input will get trimmed
+		 * if it exceeds the maximum length for the country.
+		 */
+		limitMaxLength : PropTypes.bool.isRequired,
 
-		// An error message shown below the phone number `<input/>`.
+		/**
+		 * An error message to show below the phone number `<input/>`. For example, `"Required"`.
+		 */
 		error : PropTypes.string,
 
-		// The `error` is shown only when `indicateInvalid` is `true`.
-		// (which is the default).
-		// (depecated).
+		/**
+		 * The `error` is shown only when `indicateInvalid` is `true`.
+		 * (which is the default).
+		 * @deprecated
+		 * @ignore
+		 */
 		indicateInvalid : PropTypes.bool,
 
-		// Translation.
+		/**
+		 * Translation JSON object. See the `locales` directory for examples.
+		 */
 		locale : PropTypes.objectOf(PropTypes.string),
 
-		// Allows passing custom `libphonenumber-js` metadata
-		// to reduce the overall bundle size for those compiling "custom" metadata.
-		metadata : metadataPropType.isRequired
+		/**
+		 * `libphonenumber-js` metadata.
+		 *
+		 * Can be used to pass custom `libphonenumber-js` metadata
+		 * to reduce the overall bundle size for those who compile "custom" metadata.
+		 */
+		metadata : metadataPropType.isRequired,
+
+		/**
+		 * A long time ago a person requested an `onCountryChange(country)` event listener.
+		 * No valid reason was given other than compliance with some legacy code
+		 * which stored both phone number and country in a database.
+		 * @see  https://github.com/catamphetamine/react-phone-number-input/issues/128
+		 */
+		onCountryChange : PropTypes.func
 	}
 
 	static defaultProps =
 	{
-		// Not disabled.
+		/**
+		 * Not disabled.
+		 */
 		disabled: false,
 
-		// Show `error` (if passed).
-		// (depecated).
+		/**
+		 * Show `error` (if passed).
+		 * @deprecated
+		 */
 		indicateInvalid : true,
 
-		// Remember (and autofill) the value as a phone number.
+		/**
+		 * Remember (and autofill) the value as a phone number.
+		 */
 		autoComplete: 'tel',
 
-		// Flag icon component.
+		/**
+		 * Flag icon component.
+		 */
 		flagComponent: FlagComponent,
 
-		// By default use icons from `flag-icon-css` github repo.
+		/**
+		 * By default use icons from `flag-icon-css` github repo.
+		 */
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
 
-		// // Default "International" country `<select/>` option icon (globe).
-		// internationalIcon: InternationalIcon,
+		/**
+		 * Default "International" country `<select/>` option icon (globe).
+		 */
+		 // internationalIcon: InternationalIcon,
 
-		// Phone number `<input/>` component.
+		/**
+		 * Phone number `<input/>` component.
+		 */
 		inputComponent: InputBasic,
 
-		// Show country `<select/>`.
+		/**
+		 * Show country `<select/>`.
+		 */
 		showCountrySelect: true,
 
-		// Don't convert the initially passed phone number `value`
-		// to a national phone number for its country.
-		// The reason is that the newer generation grows up when
-		// there are no stationary phones and therefore everyone inputs
-		// phone numbers with a `+` in their smartphones
-		// so phone numbers written in international form
-		// are gradually being considered more natural than local ones.
+		/**
+		 * Don't convert the initially passed phone number `value`
+		 * to a national phone number for its country.
+		 * The reason is that the newer generation grows up when
+		 * there are no stationary phones and therefore everyone inputs
+		 * phone numbers with a `+` in their smartphones
+		 * so phone numbers written in international form
+		 * are gradually being considered more natural than local ones.
+		 */
 		displayInitialValueAsLocalNumber: false,
 
-		// // Set to `false` to use `inputComponent={InputBasic}`
-		// // instead of `input-format`'s `<ReactInput/>`.
-		// // Is `false` by default.
+		/**
+		 * Set to `false` to use `inputComponent={InputBasic}`
+		 * instead of `input-format`'s `<ReactInput/>`.
+		 * Is `false` by default.
+		 */
 		// smartCaret : false,
 
-		// Whether to add the "International" option
-		// to the list of countries.
-		international : true
+		/**
+		 * Whether to add the "International" option
+		 * to the list of countries.
+		 */
+		international : true,
+
+		/**
+		 * If set to `true` the phone number input will get trimmed
+		 * if it exceeds the maximum length for the country.
+		 */
+		limitMaxLength : false
 	}
 
 	constructor(props)
