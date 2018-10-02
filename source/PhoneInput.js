@@ -822,6 +822,7 @@ export default class PhoneNumberInput extends PureComponent
 			internationalIcon,
 			displayInitialValueAsLocalNumber,
 			onCountryChange,
+			limitMaxLength,
 			locale,
 			metadata,
 			...phoneNumberInputProps
