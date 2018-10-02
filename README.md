@@ -200,7 +200,9 @@ The available props are
 
  * `error` — (optional) a `String` error message.
 
-For the full list of all possible `props` see the [source code](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/PhoneInput.js). All other properties are passed through to the `<input/>` component.
+ * See the [full list of all accepted `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for the rest of them.
+
+ * All other properties are passed through to the `<input/>` component.
 
 ## Localization
 
