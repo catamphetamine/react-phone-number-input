@@ -48,7 +48,7 @@ export default class PhoneNumberInput extends PureComponent
 		value : PropTypes.string,
 
 		/**
-		 * Sets the `value` when a user inputs the phone number.
+		 * Updates the `value` as the user inputs the phone number.
 		 */
 		onChange : PropTypes.func.isRequired,
 
@@ -100,15 +100,31 @@ export default class PhoneNumberInput extends PureComponent
 		autoComplete : PropTypes.string.isRequired,
 
 		/**
-		 * Set to `true` to convert the initial `value` to a national phone number.
+		 * Set to `true` to show the initial `value` in
+		 * "national" format rather than "international".
 		 *
-		 * For example, if `value="+12133734253"` is passed then the `<input/>` value will be `"(213) 373-4253"`.
+		 * For example, if this flag is set to `true`
+		 * and the initial `value="+12133734253"` is passed
+		 * then the `<input/>` value will be `"(213) 373-4253"`.
+		 *
+		 * By default, this flag is set to `false`,
+		 * meaning that if the initial `value="+12133734253"` is passed
+		 * then the `<input/>` value will be `"+1 213 373 4253"`.
+		 *
+		 * The reason for such default behaviour is that
+		 * the newer generation grows up when there are no stationary phones
+		 * and therefore everyone inputs phone numbers in international format
+		 * in their smartphones so people gradually get more accustomed to
+		 * writing phone numbers in international format rather than in local format.
+		 * Future people won't be using "national" format, only "international".
 		 */
 		// (is `false` by default)
 		displayInitialValueAsLocalNumber : PropTypes.bool.isRequired,
 
 		/**
 		 * The country to be selected by default.
+		 * For example, can be set after a GeoIP lookup.
+		 *
 		 * Example: `"US"`.
 		 */
 		// A two-letter country code ("ISO 3166-1 alpha-2").
@@ -133,13 +149,18 @@ export default class PhoneNumberInput extends PureComponent
 		labels : labelsPropType.isRequired,
 
 		/**
-		 * The base URL path for country flag SVG icons.
-		 * By default it points to `flag-icon-css` repo github pages website.
+		 * The base URL path for country flag icons.
+		 * By default it loads country flag icons from
+		 * `flag-icon-css` repo github pages website.
+		 * I imagine someone might want to download
+		 * those country flag icons and host them
+		 * on their own servers instead.
 		 */
 		flagsPath : PropTypes.string.isRequired,
 
 		/**
-		 * Custom country flag icon components. These flags replace the default ones.
+		 * Custom country flag icon components.
+		 * These flags replace the default ones.
 		 *
 		 * The shape is an object where keys are country codes
 		 * and values are flag icon components.
@@ -158,9 +179,10 @@ export default class PhoneNumberInput extends PureComponent
 		 * By default flag icons are inserted as `<img/>`s
 		 * with their `src` pointed to `flag-icon-css` repo github pages website.
 		 *
-		 * There might be cases (e.g. an offline application)
-		 * when including the full set of `<svg/>` flags
-		 * (3 megabytes) is more appropriate.
+		 * There might be some cases
+		 * (e.g. a standalone "native" app, or an "intranet" web application)
+		 * when including the full set of `<svg/>` country flags (3 megabytes)
+		 * is more appropriate than downloading them individually at runtime only if needed.
 		 *
 		 * Example:
 		 *
@@ -248,8 +270,8 @@ export default class PhoneNumberInput extends PureComponent
 		 * * `name : string?` — HTML `name` attribute.
 		 * * `value : string?` — The currently selected country code.
 		 * * `onChange(value : string?)` — Updates the `value`.
-		 * * `onFocus()` — Toggles the `--focus` CSS class.
-		 * * `onBlur()` — Toggles the `--focus` CSS class.
+		 * * `onFocus()` — Is used to toggle the `--focus` CSS class.
+		 * * `onBlur()` — Is used to toggle the `--focus` CSS class.
 		 * * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
 		 * * `disabled : boolean?` — HTML `disabled` attribute.
 		 * * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
@@ -270,8 +292,8 @@ export default class PhoneNumberInput extends PureComponent
 		 *
 		 * * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 		 * * `onChange(value : string)` — Updates the `value`.
-		 * * `onFocus()` — Toggles the `--focus` CSS class.
-		 * * `onBlur()` — Toggles the `--focus` CSS class.
+		 * * `onFocus()` — Is used to toggle the `--focus` CSS class.
+		 * * `onBlur()` — Is used to toggle the `--focus` CSS class.
 		 * * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
 		 * * `metadata : object` — `libphonenumber-js` metadata.
 		 * * All other properties should be passed through to the underlying `<input/>`.

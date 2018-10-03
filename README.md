@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/react-phone-number-input.svg?style=flat-square)](https://www.npmjs.com/package/react-phone-number-input)
 [![npm downloads](https://img.shields.io/npm/dm/react-phone-number-input.svg?style=flat-square)](https://www.npmjs.com/package/react-phone-number-input)
 
-International phone number `<input/>` for React (iPhone style).
+International phone number `<input/>` for React.
 
 [See Demo](http://catamphetamine.github.io/react-phone-number-input/)
 
@@ -56,7 +56,7 @@ To format `value` back to a human-readable phone number use [`formatPhoneNumber(
 import { formatPhoneNumber } from 'react-phone-number-input'
 
 if (value) {
-  // Can be "National" or "International".
+  // `format` can be "National" or "International".
   formatPhoneNumber(value, "International")
 }
 ```
@@ -112,15 +112,25 @@ import PhoneInput from 'react-phone-number-input'
 
 ## Validation
 
-For phone number validation use [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js)'s [`isValidNumber(value)`](https://github.com/catamphetamine/libphonenumber-js#isvalidnumbernumber-defaultcountry) function.
+```js
+import { isValidPhoneNumber } from 'react-phone-number-input'
+
+if (value) {
+  isValidPhoneNumber(value)
+}
+```
+
+I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation in my projects because telephone numbering plans constantly evolve and the validation rules do change over time. Still, some people want this feature, so it's included.
 
 ## Autocomplete
 
-Make sure to wrap a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
+Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
 
 ## Custom country `<select/>`
 
-One can supply their own country `<select/>` component in case the native one doesn't fit the app. Here's an example of using [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/) `<Select/>` component.
+One can supply their own country `<select/>` component in case the native one doesn't fit the app. See [`countrySelectComponent`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) property.
+
+For example, one may choose [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/)'s [`<Select/>` component](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectReactResponsiveUI.js) over the [native country `<select/>`](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectNative.js).
 
 <!--
 // Or import styles individually to reduce bundle size for a little bit:
@@ -134,7 +144,7 @@ One can supply their own country `<select/>` component in case the native one do
 import 'react-phone-number-input/style.css'
 import 'react-responsive-ui/style.css'
 
-// Supplies custom `countrySelectComponent` property.
+// A `<PhoneInput/>` with custom `countrySelectComponent`.
 import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 
 return (
@@ -178,35 +188,11 @@ If you think that the phone number parsing/formatting/validation engine malfunct
 
 ### React component
 
-The available props are
-
- * `value` — Phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. E.g. `+12223333333` for USA.
-
- * `onChange` — Updates the `value`.
-
- * `country` — (optional) The country which is selected by default (can be set after a GeoIP lookup). E.g. `US`.
-
- * `countries` — (optional) Only the specified countries will be selectable. E.g. `['RU', 'KZ', 'UA']`.
-
- * `countryOptions` - (optional) Can move some countries to the top of the list. E.g. `['US', 'CA', 'AU', '|', '...']`.
-
- * `flagsPath` — (optional) A base URL path for national flag SVG icons. By default it loads flag icons from [`flag-icon-css` github repo](https://github.com/lipis/flag-icon-css). I imagine someone might want to download those SVG flag icons and host them on their own servers instead.
-
- * `flags` — (optional) Supplies `<svg/>` elements for flags instead of the default `<img src="..."/>` ones. This might be suitable if someone's making an application which is supposed to be able to work offline (a downloadable app, or an "internal" website): `import flags from 'react-phone-number-input/flags'`.
-
- * `flagComponent` — (optional) A React component for displaying a country flag (replaces the default flag icons).
-
- * `displayInitialValueAsLocalNumber` — (optional) (see the example on the demo page) If set to `true` will display `value` phone number in local format when the component mounts or when `value` property is set after it has already been mounted. The default behaviour is `false` meaning that if initial `value` is set then it will be displayed in international format (e.g. `+7 800 555 35 35`). The reason for such default behaviour is that the newer generation grows up when there are no stationary phones and therefore everyone inputs phone numbers as international ones in their smartphones so people gradually get more accustomed to writing phone numbers in international form rather than in local form.
-
- * `error` — (optional) a `String` error message.
-
- * See the [full list of all accepted `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for the rest of them.
-
- * All other properties are passed through to the `<input/>` component.
+See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All other properties are passed through to the phone number `<input/>` component.
 
 ## Localization
 
-Country names can be passed via the `labels` property. E.g. `labels={{ RU: 'Россия', US: 'США', ... }}`. This component comes pre-packaged with a couple of ready-made [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new translations.
+Country names translation can be passed via the `labels` property. E.g. `labels={{ RU: 'Россия', US: 'США', ... }}`. This component comes pre-packaged with a couple of ready-made [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new translations.
 
 ```js
 import ru from 'react-phone-number-input/locale/ru'
@@ -216,7 +202,7 @@ import ru from 'react-phone-number-input/locale/ru'
 
 ## Extensions
 
-Some users asked for phone extension input feature. It can be activated by passing `ext` property (a `React.Element`).
+Some users asked for phone number extension input feature. It can be activated by passing `ext` property (a `React.Element`, see the demo).
 
 ```js
 import React, { Component } from 'react'
@@ -249,14 +235,14 @@ class Form extends Component {
 }
 ```
 
-In a real-world application the `ext` property is most likely gonna be a [`basic-react-form`](https://github.com/catamphetamine/basic-react-form) `<Field/>`, or a `redux-form` `<Field/>`, or a `react-final-form` `<Field/>`.
+In a real-world application the `ext` property is most likely gonna be a "form field", e.g. an [`easy-react-form`](https://github.com/catamphetamine/basic-react-form) `<Field/>`, or a `redux-form` `<Field/>`, or a `react-final-form` `<Field/>`.
 
-The code above hasn't been tested, but it most likely works. Phone extension input will appear to the right of the phone number input. One can always skip using `ext` property and add a completely separate form field for phone number extension input instead.
+Phone number extension input will appear to the right of the phone number input. One can always skip using the `ext` property and add a completely separate form field for phone number extension input instead.
 
-`{ number, ext }` object can be converted to [RFC3966](https://www.ietf.org/rfc/rfc3966.txt) string for storing it in a database.
+`{ number, ext }` object can be converted to an [RFC3966](https://www.ietf.org/rfc/rfc3966.txt) string for storing it in a database.
 
 ```js
-import { formatRFC3966 } from 'libphonenumber-js'
+import { formatRFC3966 } from 'react-phone-number-input/libphonenumber'
 
 formatRFC3966({ number: '+12133734253', ext: '123' })
 // 'tel:+12133734253;ext=123'
@@ -265,7 +251,7 @@ formatRFC3966({ number: '+12133734253', ext: '123' })
 Use the accompanying `parseRFC3966()` function to convert an RFC3966 string into an object having shape `{ number, ext }`.
 
 ```js
-import { parseRFC3966 } from 'libphonenumber-js'
+import { parseRFC3966 } from 'react-phone-number-input/libphonenumber'
 
 parseRFC3966('tel:+12133734253;ext=123')
 // { number: '+12133734253', ext: '123' }
@@ -273,18 +259,37 @@ parseRFC3966('tel:+12133734253;ext=123')
 
 ## Customizing
 
-One can use the `/custom` export to import a bare `<PhoneInput/>` component and supply it with custom properties such as country select component and phone number input field component.
+The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput):
+
+* `metadata` — Custom `libphonenumber-js` metadata.
+
+* `labels` — Custom translation (including country names).
+
+* `internationalIcon` — Custom "International" icon.
+
+* `inputComponent` — Custom phone number `<input/>` component.
+
+* `countrySelectComponent` — Custom country `<select/>` component.
+
+```js
+import PhoneInput from 'react-phone-number-input'
+
+import labels from 'react-phone-number-input/locale/ru'
+import metadata from 'libphonenumber-js/metadata.min.json'
+import InternationalIcon from 'react-phone-number-input/international-icon'
+
+<PhoneInput
+  inputComponent={...}
+  countrySelectComponent={...}
+  labels={labels}
+  metadata={metadata}
+  internationalIcon={InternationalIcon}/>
+```
+
+All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then he can use the `/custom` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties. In this case all customization properties must be passed.
 
 ```js
 import PhoneInput from 'react-phone-number-input/custom'
-import InternationalIcon from 'react-phone-number-input/international-icon'
-import labels from 'react-phone-number-input/locale/ru'
-
-<PhoneInput
-  countrySelectComponent={...}
-  inputComponent={...}
-  internationalIcon={InternationalIcon}
-  labels={labels}/>
 ```
 
 #### `countrySelectComponent`
@@ -296,6 +301,8 @@ Receives properties:
 * `name : string?` — HTML `name` attribute.
 * `value : string?` — The currently selected country code.
 * `onChange(value : string?)` — Updates the `value`.
+* `onFocus()` — Is used to toggle the `--focus` CSS class.
+* `onBlur()` — Is used to toggle the `--focus` CSS class.
 * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
 * `disabled : boolean?` — HTML `disabled` attribute.
 * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
@@ -309,6 +316,8 @@ Receives properties:
 
 * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
 * `onChange(value : string)` — Updates the `value`.
+* `onFocus()` — Is used to toggle the `--focus` CSS class.
+* `onBlur()` — Is used to toggle the `--focus` CSS class.
 * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
 * `metadata : object` — `libphonenumber-js` metadata.
 * All other properties should be passed through to the underlying `<input/>`.
@@ -317,15 +326,24 @@ Must also implement `.focus()` method.
 
 ## Flags
 
-Since this is a React component I thought that finding all country flags in SVG and including them as native React components as part of this library would be the best way to go. But then it truned out that when bundled all those country flags would take the extra 3 megabytes which is obviously not an option for a website (though it might be an option for an "internal" web application, or a desktop application built with Electron, or a mobile app).
+Since this is a React component initially I thought that including all country flags in SVG format would be the best way to go. But then it turned out that when bundled all those country flags would take an extra 3 megabytes which is obviously not an option for a website (though it might be an option for an "internal" web application, or a desktop application built with Electron, or a mobile app).
 
-So, including all country flags in the javascript bundle wouldn't be an option, and so all country flags are included as `<img src="..."/>` flags (by default the `src` points to [`flag-icon-css`](http://flag-icon-css.lip.is/) GitHub repo). And when using the (default) native country `<select/>` only the selected country flag icon is displayed therefore reducing footprint to the minimum.
+So, including all country flags in SVG format in the javascript bundle wouldn't be an option, and so all country flags are included as `<img src="..."/>` instead (by default the `src` points to [`flag-icon-css`](http://flag-icon-css.lip.is/) repo GitHub pages). And when using the (default) native country `<select/>` only the selected country flag icon is displayed therefore reducing the footprint to the minimum.
 
 For the same reasons the custom `react-responsive-ui` country `<select/>` doesn't show all country flag icons when expanded: otherwise the user would have to download all those flag icons when the country `<select/>` is expanded.
 
+To use the SVG country flags (3 megabytes):
+
+```js
+import PhoneInput from 'react-phone-number-input'
+import flags from 'react-phone-number-input/flags'
+
+<PhoneInput flags={flags} .../>
+```
+
 ## Reducing bundle size
 
-By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is a possibility to pass custom `metadata` property to the `react-phone-number-input/custom` export.
+By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is a possibility to pass custom `metadata` property to the `react-phone-number-input/custom` export. See the [Customizing](https://github.com/catamphetamine/react-phone-number-input#customizing) section for more details.
 
 For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata).
 
