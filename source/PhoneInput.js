@@ -279,7 +279,6 @@ export default class PhoneNumberInput extends PureComponent
 		 */
 		//
 		// (deprecated)
-		// Optional properties (should be ignored unless needed):
 		// * `hidePhoneInputField(hide : boolean)` — Can be called to show/hide phone input field. Takes `hide : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
 		// * `focusPhoneInputField()` — Can be called to manually focus phone input field. E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input after country selection in a timeout (after the phone input field is no longer hidden).
 		//

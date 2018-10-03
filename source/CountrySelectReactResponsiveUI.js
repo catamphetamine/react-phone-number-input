@@ -39,9 +39,6 @@ export default class CountrySelectReactResponsiveUI extends Component
 			disabled,
 			tabIndex,
 			className,
-			// Optional properties:
-			hidePhoneInputField,
-			// focusPhoneInputField,
 			// `<Select/>`-specific properties:
 			ariaLabel,
 			saveOnIcons,
