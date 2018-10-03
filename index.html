@@ -704,6 +704,12 @@ International: { value && formatPhoneNumber(value, 'International') }
 
 							<h2>Extension</h2>
 
+							<p className="section">
+								There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple <code>&lt;input type="number"/&gt;</code>.
+								<br/>
+								Still, some users kept asking for a phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing <code>ext</code> property.
+							</p>
+
 							<form>
 								<PhoneInput
 									ext={<input
