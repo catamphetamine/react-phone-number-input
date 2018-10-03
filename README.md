@@ -198,7 +198,7 @@ class Example extends Component {
 
 ## Extensions
 
-There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple `<input type="number"/>`. Still, some users kept asking for phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing `ext` property (a `React.Element`, see the demo).
+There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple `<input type="number"/>`. Still, some users kept asking for a phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing `ext` property (a `React.Element`, see the demo).
 
 ```js
 import React, { Component } from 'react'
