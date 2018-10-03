@@ -112,6 +112,16 @@ import PhoneInput from 'react-phone-number-input'
 `smartCaret={false}` caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret usually jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
 -->
 
+## Localization
+
+Country names translation can be passed via the `labels` property. E.g. `labels={{ RU: 'Россия', US: 'США', ... }}`. This component comes pre-packaged with a couple of ready-made [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new translations.
+
+```js
+import ru from 'react-phone-number-input/locale/ru'
+
+<PhoneInput ... labels={ru}/>
+```
+
 ## Validation
 
 ```js
@@ -186,19 +196,9 @@ class Example extends Component {
 }
 ```
 
-## Localization
-
-Country names translation can be passed via the `labels` property. E.g. `labels={{ RU: 'Россия', US: 'США', ... }}`. This component comes pre-packaged with a couple of ready-made [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new translations.
-
-```js
-import ru from 'react-phone-number-input/locale/ru'
-
-<PhoneInput ... labels={ru}/>
-```
-
 ## Extensions
 
-Some users asked for phone number extension input feature. It can be activated by passing `ext` property (a `React.Element`, see the demo).
+There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple `<input type="number"/>`. Still, some users kept asking for phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing `ext` property (a `React.Element`, see the demo).
 
 ```js
 import React, { Component } from 'react'
