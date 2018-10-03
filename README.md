@@ -49,6 +49,8 @@ return (
 
 `value` will be the parsed phone number, e.g. if a user chooses "United States" and enters `(213) 373-4253` then `value` will be `+12133734253`.
 
+See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All other properties are passed through to the phone number `<input/>` component.
+
 To format `value` back to a human-readable phone number use [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function.
 
 
@@ -183,12 +185,6 @@ class Example extends Component {
 ## Bug reporting
 
 If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then follow the [bug reporting instructions in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#bug-reporting).
-
-## API
-
-### React component
-
-See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All other properties are passed through to the phone number `<input/>` component.
 
 ## Localization
 
