@@ -671,10 +671,21 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// Toggles the `--focus` CSS class.
-	onFocus = () => this.setState({ isFocused: true })
+	_onFocus = () => this.setState({ isFocused: true })
 
 	// Toggles the `--focus` CSS class.
 	_onBlur = () => this.setState({ isFocused: false })
+
+	onFocus = (event) =>
+	{
+		const { onFocus } = this.props
+
+		this._onFocus()
+
+		if (onFocus) {
+			onFocus(event)
+		}
+	}
 
 	// This `onBlur` interceptor is a workaround for `redux-form`
 	// so that it gets the up-to-date `value` in its `onBlur` handler.
@@ -899,7 +910,7 @@ export default class PhoneNumberInput extends PureComponent
 							value={ country }
 							options={ country_select_options }
 							onChange={ this.onCountryChange }
-							onFocus={ this.onFocus }
+							onFocus={ this._onFocus }
 							onBlur={ this._onBlur }
 							disabled={ disabled }
 							tabIndex={ countrySelectTabIndex }
@@ -944,7 +955,7 @@ export default class PhoneNumberInput extends PureComponent
 							{React.cloneElement(ext,
 							{
 								type : ext.props.type === undefined ? 'number' : ext.props.type,
-								onFocus : this.onFocus,
+								onFocus : this._onFocus,
 								onBlur : this._onBlur,
 								className : classNames
 								(
