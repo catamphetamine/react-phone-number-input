@@ -496,18 +496,28 @@ export default class PhoneNumberInput extends PureComponent
 			// The reason is that `getDerivedStateFromProps()`
 			// needs this `value` to compare to the new `value` property
 			// to find out if `parsed_input` needs updating:
-			// If the `value` property changed externally
-			// then it won't be equal to state `value`
-			// in which case `parsed_input` and `country` get updated.
+			// If the `value` property was changed externally
+			// then it won't be equal to `state.value`
+			// in which case `parsed_input` and `country` should be updated.
 			value
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidMount() {
+		const { country, onCountryChange } = this.props
+		const { country: selectedCountry } = this.state
+
+		if (onCountryChange && selectedCountry !== country) {
+			onCountryChange(selectedCountry)
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState) {
 		const {
 			country,
 			countries,
 			countryOptions,
+			onCountryChange,
 			metadata
 		} = this.props
 
@@ -520,6 +530,10 @@ export default class PhoneNumberInput extends PureComponent
 		if (countryOptions && countryOptions !== prevProps.countryOptions) {
 			validateCountryOptions(countryOptions, metadata)
 		}
+
+		if (onCountryChange && this.state.country !== prevState.country) {
+			onCountryChange(this.state.country)
+		}
 	}
 
 	// Country `<select/>` `onChange` handler.
@@ -529,7 +543,6 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			metadata,
 			onChange,
-			onCountryChange,
 			displayInitialValueAsLocalNumber
 		}
 		= this.props
@@ -555,19 +568,20 @@ export default class PhoneNumberInput extends PureComponent
 
 		const new_value = e164(new_parsed_input, new_country, metadata)
 
-		if (onCountryChange) {
-			onCountryChange(new_country)
-		}
-
 		// Focus phone number `<input/>` upon country selection.
 		this.focus()
 
+		// If the user has already manually selected a country
+		// then don't override that already selected country
+		// if the default `country` property changes.
+		// That's what `hasUserSelectedACountry` flag is for.
+
 		this.setState
 		({
-			country           : new_country,
-			hasChangedCountry : true,
-			parsed_input      : new_parsed_input,
-			value             : new_value
+			country : new_country,
+			hasUserSelectedACountry : true,
+			parsed_input : new_parsed_input,
+			value : new_value
 		},
 		() =>
 		{
@@ -608,7 +622,6 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			onChange,
-			onCountryChange,
 			countries,
 			international,
 			limitMaxLength,
@@ -634,10 +647,6 @@ export default class PhoneNumberInput extends PureComponent
 					international,
 					metadata
 				)
-
-				if (country !== old_country && onCountryChange) {
-					onCountryChange(country)
-				}
 			}
 			// If this `onChange()` event was triggered
 			// as a result of selecting "International" country
@@ -742,12 +751,17 @@ export default class PhoneNumberInput extends PureComponent
 
 	storePhoneNumberInputInstance = _ => this.number_input = _
 
+	// `state` holds previous props as `props`, and also:
+	// * `country` — The currently selected country, e.g. `"RU"`.
+	// * `value` — The currently entered phone number (E.164), e.g. `+78005553535`.
+	// * `parsed_input` — The parsed `<input/>` value, e.g. `8005553535`.
+	// (and a couple of other less significant properties)
 	static getDerivedStateFromProps(props, state)
 	{
 		const
 		{
 			country,
-			hasChangedCountry,
+			hasUserSelectedACountry,
 			value,
 			props:
 			{
@@ -765,8 +779,15 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= props
 
-		// Emulate `prevProps` via `state.props`.
-		const new_state = { props }
+		const new_state = {
+			// Emulate `prevProps` via `state.props`.
+			props,
+			// If the user has already manually selected a country
+			// then don't override that already selected country
+			// if the default `country` property changes.
+			// That's what `hasUserSelectedACountry` flag is for.
+			hasUserSelectedACountry
+		}
 
 		// If `countries` or `labels` or `international` changed
 		// then re-generate country `<select/>` options.
@@ -779,16 +800,19 @@ export default class PhoneNumberInput extends PureComponent
 
 		// If the default country changed.
 		// (e.g. in case of ajax GeoIP detection after page loaded)
-		// then select it but only if the user didn't previously select
-		// another country and no phone number has been entered so far.
+		// then select it but only if the user hasn't already manually
+		// selected a country and no phone number has been entered so far.
 		// Because if the user has already started inputting a phone number
 		// then he's okay with no country being selected at all ("International")
 		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
-		if (new_default_country !== old_default_country && !hasChangedCountry && !value && !new_value)
+		if (new_default_country !== old_default_country &&
+			!hasUserSelectedACountry && !value && !new_value)
 		{
 			return {
 				...new_state,
 				country : new_default_country
+				// `value` is `undefined`.
+				// `parsed_input` is `undefined` because `value` is `undefined`.
 			}
 		}
 		// If a new `value` is set externally.
@@ -814,6 +838,10 @@ export default class PhoneNumberInput extends PureComponent
 			}
 		}
 
+		// `country` didn't change.
+		// `value` didn't change.
+		// `parsed_input` didn't change, because `value` didn't change.
+		//
 		// Maybe `new_state.country_select_options` changed.
 		// In any case, update `prevProps`.
 		return new_state
