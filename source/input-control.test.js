@@ -213,13 +213,13 @@ describe('input-control', () =>
 		// A country can't be derived yet.
 		// And the currently selected country doesn't fit the number.
 		expect(getCountryForParsedInput('+7', 'FR', ['FR', 'RU'], true, metadata)).to.be.undefined
-		expect(getCountryForParsedInput('+7800', 'FR', ['FR', 'RU'], true, metadata)).to.be.undefined
+		expect(getCountryForParsedInput('+12', 'FR', ['FR', 'US'], true, metadata)).to.be.undefined
 
 		// A country can't be derived yet.
 		// And the currently selected country doesn't fit the number.
 		// Bit "International" option is not available.
 		getCountryForParsedInput('+7', 'FR', ['FR', 'RU'], false, metadata).should.equal('FR')
-		getCountryForParsedInput('+7800', 'FR', ['FR', 'RU'], false, metadata).should.equal('FR')
+		getCountryForParsedInput('+12', 'FR', ['FR', 'US'], false, metadata).should.equal('FR')
 	})
 
 	it('should get country from possibly incomplete international phone number', () =>
@@ -231,7 +231,7 @@ describe('input-control', () =>
 		get_country_from_possibly_incomplete_international_phone_number('+33', metadata).should.equal('FR')
 
 		// Country can't be derived yet.
-		expect(get_country_from_possibly_incomplete_international_phone_number('+7800', metadata)).to.be.undefined
+		expect(get_country_from_possibly_incomplete_international_phone_number('+12', metadata)).to.be.undefined
 	})
 
 	it('should compare strings', () =>
