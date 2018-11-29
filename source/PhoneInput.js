@@ -78,13 +78,6 @@ export default class PhoneNumberInput extends PureComponent
 		disabled : PropTypes.bool.isRequired,
 
 		/**
-		 * Disables only the phone number `<input/>`.
-		 */
-		// (is `false` by default)
-		// https://github.com/catamphetamine/react-phone-number-input/issues/215
-		disablePhoneInput : PropTypes.bool.isRequired,
-
-		/**
 		 * Sets `autoComplete` property for phone number `<input/>`.
 		 *
 		 * Web browser's "autocomplete" feature
@@ -362,7 +355,18 @@ export default class PhoneNumberInput extends PureComponent
 		 * which stored both phone number and country in a database.
 		 * @see  https://github.com/catamphetamine/react-phone-number-input/issues/128
 		 */
-		onCountryChange : PropTypes.func
+		onCountryChange : PropTypes.func,
+
+		/**
+		 * Disables only the phone number `<input/>`.
+		 *
+		 * Some users choose to implement a digital keyboard component for phone number input.
+		 * In such cases the phone number input field must be disabled in order for the default system keyboard to not show up on focus.
+		 * At the same time, country select should not be disabled in order for the user to be able to choose their country.
+		 */
+		// (is `false` by default)
+		// https://github.com/catamphetamine/react-phone-number-input/issues/215
+		disablePhoneInput : PropTypes.bool.isRequired
 	}
 
 	static defaultProps =
