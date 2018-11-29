@@ -78,6 +78,13 @@ export default class PhoneNumberInput extends PureComponent
 		disabled : PropTypes.bool.isRequired,
 
 		/**
+		 * Disables only the phone number `<input/>`.
+		 */
+		// (is `false` by default)
+		// https://github.com/catamphetamine/react-phone-number-input/issues/215
+		disablePhoneInput : PropTypes.bool.isRequired,
+
+		/**
 		 * Sets `autoComplete` property for phone number `<input/>`.
 		 *
 		 * Web browser's "autocomplete" feature
@@ -364,6 +371,7 @@ export default class PhoneNumberInput extends PureComponent
 		 * Not disabled.
 		 */
 		disabled: false,
+		disablePhoneInput: false,
 
 		/**
 		 * Show `error` (if passed).
@@ -853,6 +861,7 @@ export default class PhoneNumberInput extends PureComponent
 		{
 			name,
 			disabled,
+			disablePhoneInput,
 			autoComplete,
 			countrySelectTabIndex,
 			showCountrySelect,
@@ -961,18 +970,21 @@ export default class PhoneNumberInput extends PureComponent
 							onFocus={ this.onFocus }
 							onBlur={ this.onBlur }
 							onKeyDown={ this.onPhoneNumberKeyDown }
-							disabled={ disabled }
+							disabled={ disabled || disablePhoneInput }
 							autoComplete={ autoComplete }
 							className={ classNames
 							(
 								'react-phone-number-input__input',
 								'react-phone-number-input__phone',
 								{
-									'react-phone-number-input__input--disabled' : disabled,
+									'react-phone-number-input__input--disabled' : disabled || disablePhoneInput,
 									'react-phone-number-input__input--invalid'  : error && indicateInvalid
 								},
 								inputClassName,
-								getInputClassName && getInputClassName({ disabled, invalid: error && indicateInvalid })
+								getInputClassName && getInputClassName({
+									disabled: disabled || disablePhoneInput,
+									invalid: error && indicateInvalid
+								})
 							) }/>
 					}
 
@@ -990,10 +1002,12 @@ export default class PhoneNumberInput extends PureComponent
 									'react-phone-number-input__input',
 									'react-phone-number-input__ext-input',
 									{
-										'react-phone-number-input__input--disabled' : disabled,
+										'react-phone-number-input__input--disabled' : disabled || disablePhoneInput,
 									},
 									inputClassName,
-									getInputClassName && getInputClassName({ disabled }),
+									getInputClassName && getInputClassName({
+										disabled: disabled || disablePhoneInput
+									}),
 									ext.props.className
 								)
 							})}
