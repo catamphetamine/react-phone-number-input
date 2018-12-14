@@ -787,6 +787,7 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			metadata,
+			countries,
 			country : new_default_country,
 			value   : new_value
 		}
@@ -847,7 +848,7 @@ export default class PhoneNumberInput extends PureComponent
 				...new_state,
 				parsed_input : generateParsedInput(new_value, parsed_number, props),
 				value : new_value,
-				country : new_value ? parsed_number.country : country
+				country : new_value ? ((!countries || countries.indexOf(parsed_number.country) >= 0) ? parsed_number.country : undefined) : country
 			}
 		}
 
