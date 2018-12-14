@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
+import { parseDigits } from 'libphonenumber-js/custom'
 
 // import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
@@ -998,7 +999,7 @@ export default class PhoneNumberInput extends PureComponent
 							{labels.ext}
 							{React.cloneElement(ext,
 							{
-								type : ext.props.type === undefined ? 'number' : ext.props.type,
+								onChange : ext.props.onChange ? (event) => ext.props.onChange(parseExtDigits(event)) : undefined,
 								onFocus : this._onFocus,
 								onBlur : this._onBlur,
 								className : classNames
@@ -1178,4 +1179,15 @@ function validateCountry(country, metadata) {
 
 function throwCountryNotFound(country) {
 	throw new Error(`Country not found: ${country}`)
+}
+
+function parseExtDigits(event) {
+	if (event) {
+		if (typeof event === 'string') {
+			event = parseDigits(event)
+		} else if (event.target && event.target.value) {
+			event.target.value = parseDigits(event.target.value)
+		}
+	}
+	return event
 }
