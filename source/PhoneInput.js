@@ -536,6 +536,7 @@ export default class PhoneNumberInput extends PureComponent
 
 		if (country && country !== prevProps.country) {
 			validateCountry(country, metadata)
+			this.setState({ country })
 		}
 		if (countries && countries !== prevProps.countries) {
 			validateCountries(countries, metadata)
