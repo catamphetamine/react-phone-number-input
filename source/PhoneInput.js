@@ -536,7 +536,6 @@ export default class PhoneNumberInput extends PureComponent
 
 		if (country && country !== prevProps.country) {
 			validateCountry(country, metadata)
-			this.setState({ country })
 		}
 		if (countries && countries !== prevProps.countries) {
 			validateCountries(countries, metadata)
@@ -645,40 +644,33 @@ export default class PhoneNumberInput extends PureComponent
 
 		let { country } = this.state
 
-		if (parsed_input)
+		// Generate the new `value` property.
+		const value = e164(parsed_input, country, metadata)
+
+		// Derive the country of the phone number
+		// (regardless of whether there's any country selected)
+		country = getCountryForParsedInput
+		(
+			value,
+			country,
+			countries,
+			international,
+			metadata
+		)
+
+		if (parsed_input && !country && parsed_input[0] !== '+')
 		{
-			// If the phone number being input is an international one
-			// then tries to derive the country from the phone number.
-			// (regardless of whether there's any country currently selected)
-			if (parsed_input[0] === '+')
-			{
-				const old_country = country
-				country = getCountryForParsedInput
-				(
-					parsed_input,
-					country,
-					countries,
-					international,
-					metadata
-				)
-			}
 			// If this `onChange()` event was triggered
 			// as a result of selecting "International" country
 			// then force-prepend a `+` sign if the phone number
 			// `<input/>` value isn't in international format.
-			else if (!country)
-			{
-				parsed_input = '+' + parsed_input
-			}
+			parsed_input = '+' + parsed_input
 		}
 
 		// Trim the input to not exceed the maximum possible number length.
 		if (limitMaxLength) {
 			parsed_input = trimNumber(parsed_input, country, metadata)
 		}
-
-		// Generate the new `value` property.
-		const value = e164(parsed_input, country, metadata)
 
 		this.setState
 		({
