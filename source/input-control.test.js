@@ -6,15 +6,16 @@ import
 	generateNationalNumberDigits,
 	migrateParsedInputForNewCountry,
 	e164,
-	trimNumber,
-	getCountryForParsedInput,
+	getCountryForPartialE164Number,
+	parseInput,
 
 	// Private functions
 	get_country_from_possibly_incomplete_international_phone_number,
 	compare_strings,
 	strip_country_calling_code,
 	get_national_significant_number_part,
-	could_number_belong_to_country
+	could_number_belong_to_country,
+	trimNumber
 }
 from './input-control'
 
@@ -181,14 +182,17 @@ describe('input-control', () =>
 
 	it('should trim the phone number if it exceeds the maximum length', () =>
 	{
-		// No number.
-		expect(trimNumber()).to.be.undefined
+		// // No number.
+		// expect(trimNumber()).to.be.undefined
 
-		// International number. Without country.
-		trimNumber('+780055535351').should.equal('+780055535351')
+		// Empty number.
+		expect(trimNumber('', 'RU', metadata)).to.equal('')
 
-		// National number. Without country.
-		trimNumber('880055535351', null).should.equal('880055535351')
+		// // International number. Without country.
+		// trimNumber('+780055535351').should.equal('+780055535351')
+
+		// // National number. Without country.
+		// trimNumber('880055535351', null).should.equal('880055535351')
 
 		// National number. Doesn't exceed the maximum length.
 		trimNumber('88005553535', 'RU', metadata).should.equal('88005553535')
@@ -201,25 +205,25 @@ describe('input-control', () =>
 		trimNumber('+780055535351', 'RU', metadata).should.equal('+78005553535')
 	})
 
-	it('should get country for parsed input', () =>
+	it('should get country for partial E.164 number', () =>
 	{
 		// Just a '+' sign.
-		getCountryForParsedInput('+', 'RU', ['US', 'RU'], true, metadata).should.equal('RU')
-		expect(getCountryForParsedInput('+', undefined, ['US', 'RU'], true, metadata)).to.be.undefined
+		getCountryForPartialE164Number('+', 'RU', ['US', 'RU'], true, metadata).should.equal('RU')
+		expect(getCountryForPartialE164Number('+', undefined, ['US', 'RU'], true, metadata)).to.be.undefined
 
 		// A country can be derived.
-		getCountryForParsedInput('+78005553535', undefined, ['US', 'RU'], true, metadata).should.equal('RU')
+		getCountryForPartialE164Number('+78005553535', undefined, ['US', 'RU'], true, metadata).should.equal('RU')
 
 		// A country can't be derived yet.
 		// And the currently selected country doesn't fit the number.
-		expect(getCountryForParsedInput('+7', 'FR', ['FR', 'RU'], true, metadata)).to.be.undefined
-		expect(getCountryForParsedInput('+12', 'FR', ['FR', 'US'], true, metadata)).to.be.undefined
+		expect(getCountryForPartialE164Number('+7', 'FR', ['FR', 'RU'], true, metadata)).to.be.undefined
+		expect(getCountryForPartialE164Number('+12', 'FR', ['FR', 'US'], true, metadata)).to.be.undefined
 
 		// A country can't be derived yet.
 		// And the currently selected country doesn't fit the number.
 		// Bit "International" option is not available.
-		getCountryForParsedInput('+7', 'FR', ['FR', 'RU'], false, metadata).should.equal('FR')
-		getCountryForParsedInput('+12', 'FR', ['FR', 'US'], false, metadata).should.equal('FR')
+		getCountryForPartialE164Number('+7', 'FR', ['FR', 'RU'], false, metadata).should.equal('FR')
+		getCountryForPartialE164Number('+12', 'FR', ['FR', 'US'], false, metadata).should.equal('FR')
 	})
 
 	it('should get country from possibly incomplete international phone number', () =>
@@ -265,7 +269,12 @@ describe('input-control', () =>
 		get_national_significant_number_part('+7800555', null, metadata).should.equal('800555')
 
 		// National number.
+		get_national_significant_number_part('8', 'RU', metadata).should.equal('')
 		get_national_significant_number_part('8800555', 'RU', metadata).should.equal('800555')
+
+		// No national (significant) number digits.
+		get_national_significant_number_part('+', null, metadata).should.equal('')
+		get_national_significant_number_part('+7', null, metadata).should.equal('')
 	})
 
 	it('should determine of a number could belong to a country', () =>
@@ -281,5 +290,82 @@ describe('input-control', () =>
 
 		// Number is shorter than country calling code.
 		could_number_belong_to_country('+99', 'KG', metadata).should.equal(true)
+	})
+
+	it('should parse input', () =>
+	{
+		parseInput(undefined, undefined, undefined, true, false, metadata).should.deep.equal({
+			input: undefined,
+			country: undefined,
+			value: undefined
+		})
+
+		parseInput('', undefined, undefined, true, false, metadata).should.deep.equal({
+			input: '',
+			country: undefined,
+			value: undefined
+		})
+
+		parseInput('+', undefined, undefined, true, false, metadata).should.deep.equal({
+			input: '+',
+			country: undefined,
+			value: undefined
+		})
+
+		parseInput('1213', undefined, undefined, true, false, metadata).should.deep.equal({
+			input: '+1213',
+			country: undefined,
+			value: '+1213'
+		})
+
+		parseInput('+1213', undefined, undefined, true, false, metadata).should.deep.equal({
+			input: '+1213',
+			country: undefined,
+			value: '+1213'
+		})
+
+		parseInput('213', 'US', undefined, true, false, metadata).should.deep.equal({
+			input: '213',
+			country: 'US',
+			value: '+1213'
+		})
+
+		parseInput('+78005553535', 'US', undefined, true, false, metadata).should.deep.equal({
+			input: '+78005553535',
+			country: 'RU',
+			value: '+78005553535'
+		})
+
+		// Won't reset an already selected country.
+
+		parseInput('+15555555555', 'US', undefined, true, false, metadata).should.deep.equal({
+			input: '+15555555555',
+			country: 'US',
+			value: '+15555555555'
+		})
+
+		// `limitMaxLength`.
+
+		parseInput('21337342530', 'US', undefined, true, true, metadata).should.deep.equal({
+			input: '2133734253',
+			country: 'US',
+			value: '+12133734253'
+		})
+
+		parseInput('+121337342530', 'US', undefined, true, true, metadata).should.deep.equal({
+			input: '+12133734253',
+			country: 'US',
+			value: '+12133734253'
+		})
+
+		// This case is intentionally ignored to simplify the code.
+		parseInput('+121337342530', undefined, undefined, true, true, metadata).should.deep.equal({
+			// input: '+12133734253',
+			// country: 'US',
+			// value: '+12133734253'
+			input: '+121337342530',
+			country: undefined,
+			value: '+121337342530'
+		})
 	})
 })

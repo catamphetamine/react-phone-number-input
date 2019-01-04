@@ -230,29 +230,28 @@ export function e164(number, country, metadata)
 /**
  * Trims phone number digits if they exceed the maximum possible length
  * for a national (significant) number for the country.
- * @param  {string?} number - A possibly incomplete phone number digits string. Can be a possibly incomplete E.164 phone number.
- * @param  {string?} country
- * @param  {[object} metadata - `libphonenumber-js` metadata.
- * @return {string?}
+ * @param  {string} number - A possibly incomplete phone number digits string. Can be a possibly incomplete E.164 phone number.
+ * @param  {string} country
+ * @param  {object} metadata - `libphonenumber-js` metadata.
+ * @return {string} Can be empty.
  */
 export function trimNumber(number, country, metadata)
 {
-	if (!number || !country) {
-		return number
-	}
-
-	const _metadata = new Metadata(metadata)
-	_metadata.country(country)
-	const possibleLengths = _metadata.possibleLengths()
-
-	const maxLength = possibleLengths[possibleLengths.length - 1]
 	const nationalSignificantNumberPart = get_national_significant_number_part(number, country, metadata)
-	const overflowDigitsCount = nationalSignificantNumberPart.length - maxLength
+	const overflowDigitsCount = nationalSignificantNumberPart.length - getMaxNumberLength(country, metadata)
 	if (overflowDigitsCount > 0) {
 		return number.slice(0, number.length - overflowDigitsCount)
 	}
-
 	return number
+}
+
+function getMaxNumberLength(country, metadata)
+{
+	// Get "possible lengths" for a phone number of the country.
+	metadata = new Metadata(metadata)
+	metadata.country(country)
+	// Return the last "possible length".
+	return metadata.possibleLengths()[metadata.possibleLengths().length - 1]
 }
 
 // If the phone number being input is an international one
@@ -263,25 +262,25 @@ export function trimNumber(number, country, metadata)
  * @param {string?} country - Currently selected country.
  * @param {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
  * @param {boolean} includeInternationalOption - Whether "International" country option is available.
- * @param  {[object} metadata - `libphonenumber-js` metadata.
+ * @param  {object} metadata - `libphonenumber-js` metadata.
  * @return {string?}
  */
-export function getCountryForParsedInput
+export function getCountryForPartialE164Number
 (
-	parsed_input,
+	partialE164Number,
 	country,
 	countries,
 	includeInternationalOption,
 	metadata
 )
 {
-	if (parsed_input === '+')
+	if (partialE164Number === '+')
 	{
 		// Don't change the currently selected country yet.
 		return country
 	}
 
-	const derived_country = get_country_from_possibly_incomplete_international_phone_number(parsed_input, metadata)
+	const derived_country = get_country_from_possibly_incomplete_international_phone_number(partialE164Number, metadata)
 
 	// If a phone number is being input in international form
 	// and the country can already be derived from it,
@@ -295,13 +294,75 @@ export function getCountryForParsedInput
 	// to the currently selected country then reset the currently selected country.
 	else if (country &&
 		includeInternationalOption &&
-		!could_number_belong_to_country(parsed_input, country, metadata))
+		!could_number_belong_to_country(partialE164Number, country, metadata))
 	{
 		return undefined
 	}
 
 	// Don't change the currently selected country.
 	return country
+}
+
+/**
+ * Parses `<input/>` value. Derives `country` from `input`. Derives an E.164 `value`.
+ * @param  {string?} input — Parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
+ * @param  {string?} country - Currently selected country.
+ * @param  {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
+ * @param  {boolean} includeInternationalOption - Whether "International" country option is available.
+ * @param  {boolean} limitMaxLength — Whether to enable limiting phone number max length.
+ * @param  {object} metadata - `libphonenumber-js` metadata.
+ * @return {object} An object of shape `{ input, country, value }`.
+ */
+export function parseInput(
+	input,
+	country,
+	countries,
+	includeInternationalOption,
+	limitMaxLength,
+	metadata
+) {
+	// Trim the input to not exceed the maximum possible number length.
+	if (country && limitMaxLength) {
+		input = trimNumber(input, country, metadata)
+	}
+
+	// If this `onChange()` event was triggered
+	// as a result of selecting "International" country
+	// then force-prepend a `+` sign if the phone number
+	// `<input/>` value isn't in international format.
+	if (input && !country && input[0] !== '+') {
+		input = '+' + input
+	}
+
+	// Generate the new `value` property.
+	let value
+	if (input) {
+		if (input[0] === '+') {
+			if (input !== '+') {
+				value = input
+			}
+		} else {
+			value = e164(input, country, metadata)
+		}
+	}
+
+	// Derive the country from the phone number.
+	// (regardless of whether there's any country currently selected)
+	if (value) {
+		country = getCountryForPartialE164Number(
+			value,
+			country,
+			countries,
+			includeInternationalOption,
+			metadata
+		)
+	}
+
+	return {
+		input,
+		country,
+		value
+	}
 }
 
 /**
@@ -392,6 +453,7 @@ export function strip_country_calling_code(number, country, metadata)
  * @param {string} number - National number digits. Or possibly incomplete E.164 phone number.
  * @param {string?} country
  * @param {object} metadata - `libphonenumber-js` metadata.
+ * @return {string} Can be empty.
  */
 export function get_national_significant_number_part(number, country, metadata)
 {

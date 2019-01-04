@@ -23,9 +23,9 @@ import
 	parsePhoneNumber,
 	generateNationalNumberDigits,
 	migrateParsedInputForNewCountry,
-	getCountryForParsedInput,
-	e164,
-	trimNumber
+	getCountryForPartialE164Number,
+	parseInput,
+	e164
 }
 from './input-control'
 
@@ -624,13 +624,12 @@ export default class PhoneNumberInput extends PureComponent
 		}
 	}
 
-	// `<input/>` `onChange` handler.
-	// Updates `value` property accordingly.
-	// (so that they are kept in sync).
-	// `parsed_input` must be a parsed phone number
-	// or an empty string.
-	// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
-	onChange = (parsed_input) =>
+	/**
+	 * `<input/>` `onChange()` handler.
+	 * Updates `value` property accordingly (so that they are kept in sync).
+	 * @param {string?} input — Either a parsed phone number or an empty string. Examples: `""`, `"+"`, `"+123"`, `"123"`.
+	 */
+	onChange = (_input) =>
 	{
 		const
 		{
@@ -642,46 +641,25 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= this.props
 
-		let { country } = this.state
-
-		if (parsed_input)
+		const
 		{
-			// If the phone number being input is an international one
-			// then tries to derive the country from the phone number.
-			// (regardless of whether there's any country currently selected)
-			if (parsed_input[0] === '+')
-			{
-				const old_country = country
-				country = getCountryForParsedInput
-				(
-					parsed_input,
-					country,
-					countries,
-					international,
-					metadata
-				)
-			}
-			// If this `onChange()` event was triggered
-			// as a result of selecting "International" country
-			// then force-prepend a `+` sign if the phone number
-			// `<input/>` value isn't in international format.
-			else if (!country)
-			{
-				parsed_input = '+' + parsed_input
-			}
+			input,
+			country,
+			value
 		}
-
-		// Trim the input to not exceed the maximum possible number length.
-		if (limitMaxLength) {
-			parsed_input = trimNumber(parsed_input, country, metadata)
-		}
-
-		// Generate the new `value` property.
-		const value = e164(parsed_input, country, metadata)
+		= parseInput
+		(
+			_input,
+			this.state.country,
+			countries,
+			international,
+			limitMaxLength,
+			metadata
+		)
 
 		this.setState
 		({
-			parsed_input,
+			parsed_input: input,
 			value,
 			country
 		},
