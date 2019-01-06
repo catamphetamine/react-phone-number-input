@@ -59,7 +59,7 @@ export default class CountrySelectReactResponsiveUI extends Component
 				disabled={ disabled }
 				tabIndex={ tabIndex }
 				className={ className }
-				ariaLabel={ ariaLabel }
+				aria-label={ this.props['aria-label'] }
 				saveOnIcons={ saveOnIcons }
 				scrollMaxItems={ scrollMaxItems }
 				toggleClassName={ toggleClassName }/>

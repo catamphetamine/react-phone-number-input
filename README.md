@@ -171,6 +171,9 @@ For example, one may choose [`react-responsive-ui`](https://catamphetamine.githu
 
 ```js
 import 'react-phone-number-input/style.css'
+
+// Requires "CSS custom properties" support.
+// For Internet Explorer use PostCSS with "CSS custom properties" plugin.
 import 'react-responsive-ui/style.css'
 
 // A `<PhoneInput/>` with custom `countrySelectComponent`.

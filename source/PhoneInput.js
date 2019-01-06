@@ -142,10 +142,13 @@ export default class PhoneNumberInput extends PureComponent
 
 		/**
 		 * Custom country `<select/>` option names.
+		 * Also some labels like "ext" and country `<select/>` `aria-label`.
 		 *
 		 * Example:
 		 *
 		 * `{ "ZZ": "Международный", RU: "Россия", US: "США", ... }`
+		 *
+		 * See the `locales` directory for examples.
 		 */
 		labels : labelsPropType.isRequired,
 
@@ -336,11 +339,6 @@ export default class PhoneNumberInput extends PureComponent
 		 * @ignore
 		 */
 		indicateInvalid : PropTypes.bool,
-
-		/**
-		 * Translation JSON object. See the `locales` directory for examples.
-		 */
-		locale : PropTypes.objectOf(PropTypes.string),
 
 		/**
 		 * `libphonenumber-js` metadata.
@@ -876,7 +874,6 @@ export default class PhoneNumberInput extends PureComponent
 			displayInitialValueAsLocalNumber,
 			onCountryChange,
 			limitMaxLength,
-			locale,
 			metadata,
 			...phoneNumberInputProps
 		}
@@ -937,6 +934,7 @@ export default class PhoneNumberInput extends PureComponent
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
 							focusPhoneInputField={ this.focus }
+							aria-label={ labels.country }
 							className="react-phone-number-input__country"/>
 					}
 

@@ -88,6 +88,7 @@ export default class CountrySelectNative extends Component
 					onBlur={ onBlur }
 					disabled={ disabled }
 					tabIndex={ tabIndex }
+					aria-label={ this.props['aria-label'] }
 					className="react-phone-number-input__country-select">
 					{options.map(({ value, label, divider }) => (
 						<option
