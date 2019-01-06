@@ -1,85 +1,60 @@
 
 
-/* Developers should define `:focus` styles for focusable controls. */
-/* Didn't add `:focus` specifier for lesser CSS rule priority. */
-.rrui__outline:not(.rrui__outline--default) {
-  outline: none; }
-
-/* Reset the default `<button/>` styles */
-.rrui__button-reset {
-  margin: 0;
-  padding: 0;
-  white-space: nowrap;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  font-style: inherit;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  /* box-sizing  : border-box; */ }
-
-/* This CSS class can be used on its own in applications. */
-/* Because of that, `outline: none` is added here too. */
-/* Developers should define `:focus` styles for buttons. */
-/* Didn't add `:focus` specifier for lesser CSS rule priority. */
-.rrui__button-reset:not(.rrui__outline--default) {
-  outline: none; }
-
-.rrui__button-reset--link:hover {
-  text-decoration: none; }
-
 .rrui__activity-indicator {
-  position: relative;
   width: calc(0.6rem * 3);
-  height: calc(0.6rem * 3); }
+  height: calc(0.6rem * 3);
+  stroke: currentColor;
+  line-height: 0; }
 
-.rrui__activity-indicator__arc {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border: 0.15em solid currentColor;
-  border-radius: 50%;
-  -webkit-animation: rrui__activity-indicator 1.2s cubic-bezier(0.5, 0.15, 0.5, 0.85) infinite;
-          animation: rrui__activity-indicator 1.2s cubic-bezier(0.5, 0.15, 0.5, 0.85) infinite;
-  border-color: currentColor transparent transparent transparent; }
+.rrui__activity-indicator-circle-container {
+  -webkit-animation: rrui-spinner-rotate 2s linear infinite;
+          animation: rrui-spinner-rotate 2s linear infinite;
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center; }
 
-.rrui__activity-indicator__arc:nth-child(1) {
-  -webkit-animation-delay: -0.45s;
-          animation-delay: -0.45s; }
+.rrui__activity-indicator-circle {
+  /* IE can not animate SVG. */
+  /* Only Microsoft Edge supports SVG CSS Transitions and Animation. */
+  /* Could use `stroke-dasharray: 89,200` and `stroke-dashoffset: -35` here */
+  /* to show an indicator in IE but the aethetics is better othewise so screw IE. */
+  stroke-dasharray: 1,200;
+  stroke-dashoffset: 0;
+  -webkit-animation: rrui-spinner-extent 1.5s ease-in-out infinite;
+          animation: rrui-spinner-extent 1.5s ease-in-out infinite;
+  stroke-linecap: round; }
 
-.rrui__activity-indicator__arc:nth-child(2) {
-  -webkit-animation-delay: -0.3s;
-          animation-delay: -0.3s; }
-
-.rrui__activity-indicator__arc:nth-child(3) {
-  -webkit-animation-delay: -0.15s;
-          animation-delay: -0.15s; }
-
-@-webkit-keyframes rrui__activity-indicator {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
+@-webkit-keyframes rrui-spinner-rotate {
   100% {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
 
-@keyframes rrui__activity-indicator {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
+@keyframes rrui-spinner-rotate {
   100% {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
+
+@-webkit-keyframes rrui-spinner-extent {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124; } }
+
+@keyframes rrui-spinner-extent {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124; } }
 
 .rrui__autocomplete__input {
   height: 100%;
@@ -106,7 +81,7 @@
 	At the same time `<Select/>` options should stretch themselves
 	horizontally to the width of the containing column (when using grid layout).
 	*/
-  width: calc(100% + (0.6rem * 1.5 - 0rem) * 2);
+  width: calc(100% + 0.6rem * 1.5 * 2);
   /* Makes `border-bottom` visible on an iPhone */
   margin-top: 1px; }
 
@@ -118,6 +93,30 @@
 
 .rrui__autocomplete--compact .rrui__expandable-list {
   width: auto; }
+
+/* Reset the default `<button/>` styles */
+.rrui__button-reset {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  outline: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+
+.rrui__button-reset--link:hover {
+  text-decoration: none; }
 
 .rrui__button {
   display: -webkit-inline-box;
@@ -141,12 +140,10 @@
   -webkit-transition: background-color 30ms ease-out, color 30ms ease-out, border-color 30ms ease-out;
   -o-transition: background-color 30ms ease-out, color 30ms ease-out, border-color 30ms ease-out;
   transition: background-color 30ms ease-out, color 30ms ease-out, border-color 30ms ease-out;
-  background-color: transparent;
-  color: #03b2cb;
-  border-radius: 0rem; }
+  cursor: pointer;
+  color: #03b2cb; }
 
 .rrui__button:active {
-  background-color: transparent;
   color: #2bd7f0; }
 
 .rrui__button--busy,
@@ -161,11 +158,7 @@
   display: flex;
   width: 100%; }
 
-.rrui__button--link:hover {
-  text-decoration: none; }
-
 .rrui__button__busy {
-  display: block;
   position: absolute;
   left: 0rem;
   bottom: calc(50% - 0.7em);
@@ -227,12 +220,22 @@
   to {
     left: 100%; } }
 
+/* Button colors */
+.rrui__button {
+  color: #03b2cb; }
+
+.rrui__button:active {
+  color: #2bd7f0; }
+
+.rrui__button--link:hover {
+  text-decoration: none; }
+
 /* http://tympanus.net/codrops/2013/10/15/animated-checkboxes-and-radio-buttons-with-svg/ */
 .rrui__checkbox .rrui__input {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
@@ -265,29 +268,24 @@
       -ms-flex: 1 0 0px;
           flex: 1 0 0; }
 
-.rrui__checkbox--multiline .rrui__checkbox__checkbox {
-  margin-top: 0.12em; }
-
 .rrui__checkbox__input,
 .rrui__checkbox__label {
   cursor: pointer; }
 
-.rrui__checkbox--disabled {
-  pointer-events: none; }
+.rrui__checkbox--disabled .rrui__checkbox__input,
+.rrui__checkbox--disabled .rrui__checkbox__label {
+  cursor: default; }
 
 .rrui__checkbox__checkbox {
   position: relative;
-  z-index: 0;
   -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
           flex-shrink: 0;
-  width: 0.9em;
-  height: 0.9em;
-  color: #000000; }
+  width: calc(0.6rem * 2);
+  height: calc(0.6rem * 2); }
 
 .rrui__checkbox__input {
   position: absolute;
-  z-index: 3;
   left: -40%;
   top: -40%;
   width: 180%;
@@ -296,9 +294,6 @@
   opacity: 0; }
 
 .rrui__checkbox__box {
-  display: block;
-  position: relative;
-  z-index: 2;
   width: 100%;
   height: 100%;
   fill: currentColor;
@@ -309,54 +304,18 @@
   pointer-events: none; }
 
 /* Checkbox color (:checked) */
-.rrui__checkbox__box--checked {
-  color: #03b2cb; }
-
-/* Checkbox color (:focus) */
+.rrui__checkbox__box--checked,
 .rrui__checkbox__input:focus + .rrui__checkbox__box {
   color: #03b2cb; }
 
-/* Checkbox color (:focus) (:checked) */
-.rrui__checkbox__input:focus + .rrui__checkbox__box--checked {
-  color: #03b2cb; }
-
 /* Checkbox color (:checked / :active) */
+.rrui__checkbox:active .rrui__checkbox__box,
 .rrui__checkbox__input:active + .rrui__checkbox__box {
   color: #2bd7f0; }
-
-.rrui__checkbox__box-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  border-radius: 10%;
-  -webkit-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-          transform: scale(0.9); }
 
 /* Checkbox color (:invalid) */
 .rrui__checkbox--invalid .rrui__checkbox__box {
   color: #d30f00; }
-
-/* Focus ring. */
-.rrui__checkbox__focus-ring {
-  display: block;
-  position: absolute;
-  left: calc(-1 * (250% - 100%) / 2);
-  top: calc(-1 * (250% - 100%) / 2);
-  width: 250%;
-  height: 250%;
-  border-radius: 50%;
-  z-index: 0; }
-
-.rrui__checkbox__input:focus + .rrui__checkbox__box + .rrui__checkbox__box-background + .rrui__checkbox__focus-ring {
-  background-color: transparent; }
-
-.rrui__checkbox__input:active + .rrui__checkbox__box + .rrui__checkbox__box-background + .rrui__checkbox__focus-ring {
-  background-color: transparent; }
 
 /*
 .rrui__close--top-right
@@ -379,8 +338,7 @@
   -webkit-box-sizing: content-box;
           box-sizing: content-box; }
 
-.rrui__close:active .rrui__close__icon-path,
-.rrui__button:active .rrui__close__icon-path {
+.rrui__close__icon:active .rrui__close__icon-path {
   color: #03b2cb; }
 
 .rrui__close__icon-path {
@@ -392,54 +350,60 @@
   margin: calc(0.6rem * 2 * -1 / 2); }
 
 /* DayPicker styles (version 7.1.10) */
-.DayPicker {
+.DayPicker-wrapper {
+  position: relative;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row; }
+
+.DayPicker-Months {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.DayPicker-Month {
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none; }
 
-.DayPicker-wrapper {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: calc(0.6rem * 2);
-  border-bottom: 0.1em solid transparent; }
-
-.DayPicker-wrapper:focus {
-  border-bottom-color: #03b2cb; }
-
 .DayPicker-NavButton {
   position: absolute;
-  top: calc(0.6rem * 2 + 0.25em);
+  top: -0.25em;
   cursor: pointer;
   width: 1.5em;
   height: 1.5em; }
 
 .DayPicker-NavButton--prev {
-  left: calc(0.6rem * 2 + 0.25em);
+  left: 0.25em;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' style='fill: currentColor; color: %2303b2cb;'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'%3E%3C/path%3E%3C/svg%3E"); }
 
 .DayPicker-NavButton--next {
-  right: calc(0.6rem * 2 + 0.25em);
+  right: 0.25em;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' style='fill: currentColor; color: %2303b2cb;'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'%3E%3C/path%3E%3C/svg%3E"); }
-
-.DayPicker-NavButton--prev:focus,
-.DayPicker-NavButton--next:focus {
-  background-color: #f7f7f7;
-  border-radius: 50%; }
 
 .DayPicker-NavButton--interactionDisabled {
   display: none; }
 
 .DayPicker-Caption {
-  /* iPhone moves <select/>s around the screen on focus when using `display: table-caption`. */
-  /* display: table-caption; */
+  display: table-caption;
   text-align: center;
   margin-bottom: 1em; }
 
@@ -475,14 +439,24 @@
   vertical-align: middle;
   border-radius: 50%; }
 
-.DayPicker-Day:focus {
-  background-color: #f7f7f7; }
-
 .DayPicker--interactionDisabled .DayPicker-Day {
   cursor: default; }
 
+.DayPicker-Footer {
+  padding-top: 0.5em; }
+
+.DayPicker-TodayButton {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  cursor: pointer;
+  color: #03b2cb;
+  font-size: 0.875em; }
+
 /* Default modifiers */
-.DayPicker-Day--today:not(.DayPicker-Day--selected):not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+.DayPicker-Day--today {
   /*
 	color: #03b2cb;
 	font-weight: 700;
@@ -503,18 +477,11 @@
   color: #cacaca;
   cursor: default; }
 
+/* Example modifiers */
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  position: relative;
   color: #ffffff;
   background-color: #03b2cb; }
-
-/* .DayPicker:not(.DayPicker--interactionDisabled) ... */
-.DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-  background-color: #F3F3F3;
-  color: currentColor; }
-
-.DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):active {
-  color: #ffffff;
-  background-color: #2bd7f0; }
 
 /* =============================== */
 /* Custom `react-daypicker` styles */
@@ -533,18 +500,14 @@
   display: inline-block;
   position: relative; }
 
-/* `:focus` styles are implemented using
-   `background-color` / `border-color`
-   instead of a standard `outline`. */
-/* Didn't add `:focus` specifier for lesser CSS rule priority. */
-/* ------------------------------------ */
-/* `.DayPicker-wrapper` is a `<div/>` wrapping the calendar.
-   It gets focused upon expanding which causes an outline.
-   That outline can be safely removed because it doesn't aid accesiblity. */
-.rrui__date-picker:not(.rrui__outline--default) .DayPicker-wrapper,
-.rrui__date-picker:not(.rrui__outline--default) .DayPicker-Day,
-.rrui__date-picker:not(.rrui__outline--default) .DayPicker-NavButton {
+.DayPicker-wrapper,
+.DayPicker-Day,
+.DayPicker-NavButton {
   outline: none; }
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  color: #ffffff;
+  background-color: #03b2cb; }
 
 /* https://github.com/gpbl/react-day-picker/issues/708 */
 /*
@@ -553,6 +516,16 @@
 	color : #2bd7f0;
 }
 */
+/* .DayPicker:not(.DayPicker--interactionDisabled) ... */
+.DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+  background-color: #F3F3F3;
+  border-radius: 50%; }
+
+.DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):active {
+  color: #ffffff;
+  background-color: #2bd7f0;
+  border-radius: 50%; }
+
 /* ----------------------------------------------------- */
 /* -                  `<DatePicker/>`                  - */
 /* ----------------------------------------------------- */
@@ -561,13 +534,17 @@
 
 .rrui__date-picker .rrui__expandable {
   min-width: 100%;
-  background-color: #ffffff;
-  color: currentColor; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  background-color: #ffffff; }
 
 .rrui__date-picker .rrui__expandable__content {
-  /* For compatibility with older versions. */
-  /* Deprecated. Will be removed in versions > 0.14. */
-  padding: 0; }
+  display: inline-block;
+  padding-top: calc(0.6rem * 2);
+  padding-bottom: calc(0.6rem * 2);
+  padding-left: calc(0.6rem * 2);
+  padding-right: calc(0.6rem * 2); }
 
 .rrui__date-picker__calendar abbr {
   text-decoration: none; }
@@ -596,6 +573,7 @@
   display: none; }
 
 .rrui__date-picker__icon {
+  display: none;
   position: absolute;
   top: calc((0.6rem * 3 - 0.6rem * 1.5) / 2);
   right: calc(0.6rem / 2);
@@ -605,29 +583,13 @@
   opacity: 0.5;
   color: #000000; }
 
-.rrui__date-picker__icon--hidden {
-  display: none; }
-
-/*
-// Adding `:focus` style for date picker icon is not required
-// because it's not tabbable (`tabIndex={-1}`).
-.rrui__date-picker__icon:focus,
-*/
 .rrui__date-picker .rrui__expanded--expanded .rrui__date-picker__icon {
-  opacity: 1;
-  color: #03b2cb; }
-
-.rrui__date-picker__icon:focus {
   opacity: 1;
   color: #03b2cb; }
 
 .rrui__date-picker__icon:active {
   opacity: 1;
   color: #2bd7f0; }
-
-.DayPicker-YearSelect select:focus + button .rrui__select__arrow,
-.DayPicker-MonthSelect select:focus + button .rrui__select__arrow {
-  color: #03b2cb; }
 
 .rrui__divider {
   line-height: 0;
@@ -694,16 +656,16 @@
 .rrui__expandable {
   opacity: 0;
   pointer-events: none;
-  -webkit-transform: scaleY(0.8);
-      -ms-transform: scaleY(0.8);
-          transform: scaleY(0.8);
+  -webkit-transform: scaleY(0.5);
+      -ms-transform: scaleY(0.5);
+          transform: scaleY(0.5);
   -webkit-transform-origin: 50% top 0px;
       -ms-transform-origin: 50% top 0px;
           transform-origin: 50% top 0px;
   /* 250ms - too slow for short lists */
-  -webkit-transition: all 150ms ease-out;
-  -o-transition: all 150ms ease-out;
-  transition: all 150ms ease-out;
+  -webkit-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
   /* prevent white background showing through the transparent border */
   /* http://stackoverflow.com/questions/7473200/transparent-border-expands-background-color-image */
   background-clip: padding-box;
@@ -778,120 +740,15 @@
   right: 0; }
 
 .rrui__options-list--left-aligned {
-  left: calc((0.6rem * 1.5 - 0rem) * -1); }
+  left: calc(0.6rem * 1.5 * -1); }
 
 .rrui__options-list--right-aligned {
-  right: calc((0.6rem * 1.5 - 0rem) * -1); }
+  right: calc(0.6rem * 1.5 * -1); }
 
-/* Styles are from Material UI. */
-/* https://material-ui.com/demos/expansion-panels/ */
-.rrui__expansion-panel {
-  background-color: #ffffff; }
-
-.rrui__expansion-panel--expanded {
-  /* margin: 16px 0; */ }
-
-/*
-.rrui__expansion-panel:before
-{
-	top: -1px;
-	left: 0;
-	right: 0;
-	height: 1px;
-	content: "";
-	opacity: 1;
-	position: absolute;
-	transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-	background-color: ;
-}
-
-.rrui__expansion-panel--expanded:before
-{
-	opacity: 0;
-}
-*/
-.rrui__expansion-panel__header {
-  position: relative;
-  width: 100%;
-  height: calc(0.6rem * 4);
-  -webkit-transition: height 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: height 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: height 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: normal;
-  text-align: left; }
-
-.rrui__expansion-panel--expanded .rrui__expansion-panel__header {
-  height: calc(0.6rem * 5); }
-
-.rrui__expansion-panel--toggle-icon-end .rrui__expansion-panel__header {
-  background-color: #F3F3F3; }
-
-.rrui__expansion-panel--toggle-icon-end .rrui__expansion-panel__header:focus {
-  -webkit-box-shadow: inset 0 0 0 1px #cacaca;
-          box-shadow: inset 0 0 0 1px #cacaca; }
-
-.rrui__expansion-panel--toggle-icon-start .rrui__expansion-panel__header:focus .rrui__expansion-panel__heading {
-  padding-bottom: 0.15em;
-  border-bottom: 1px solid #03b2cb; }
-
-.rrui__expansion-panel--toggle-icon-start .rrui__expansion-panel__header:active .rrui__expansion-panel__heading {
-  border-bottom: 1px solid #2bd7f0; }
-
-.rrui__expansion-panel--toggle-icon-start.rrui__expansion-panel--expanded .rrui__expansion-panel__header {
-  height: calc(0.6rem * 4); }
-
-.rrui__expansion-panel__content-wrapper {
-  overflow: hidden;
-  -webkit-transition: height 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: height 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: height 210ms cubic-bezier(0.4, 0, 0.2, 1); }
-
-.rrui__expansion-panel__header,
-.rrui__expansion-panel__content {
-  padding-left: calc(0.6rem * 2);
-  padding-right: calc(0.6rem * 2); }
-
-.rrui__expansion-panel__content {
-  padding-top: calc(0.6rem * 2);
-  padding-bottom: calc(0.6rem * 2); }
-
-.rrui__expansion-panel__icon {
-  position: absolute;
-  top: 50%;
-  width: 0.6rem;
-  -webkit-transition: -webkit-transform 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: -webkit-transform 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: transform 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform 210ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform 210ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 210ms cubic-bezier(0.4, 0, 0.2, 1); }
-
-.rrui__expansion-panel__icon--end {
-  right: calc(0.6rem * 2);
-  -webkit-transform: translateY(-50%) rotate(0deg);
-      -ms-transform: translateY(-50%) rotate(0deg);
-          transform: translateY(-50%) rotate(0deg); }
-
-.rrui__expansion-panel--expanded .rrui__expansion-panel__icon--end {
-  -webkit-transform: translateY(-50%) rotate(180deg);
-      -ms-transform: translateY(-50%) rotate(180deg);
-          transform: translateY(-50%) rotate(180deg); }
-
-.rrui__expansion-panel__icon--start {
-  left: 0;
-  margin-right: 0.6rem;
-  -webkit-transform: translateY(-50%) rotate(-90deg);
-      -ms-transform: translateY(-50%) rotate(-90deg);
-          transform: translateY(-50%) rotate(-90deg); }
-
-.rrui__expansion-panel--expanded .rrui__expansion-panel__icon--start {
-  -webkit-transform: translateY(-50%) rotate(0deg);
-      -ms-transform: translateY(-50%) rotate(0deg);
-          transform: translateY(-50%) rotate(0deg); }
-
-.rrui__file-upload__area {
+.rrui__file-upload {
   cursor: pointer; }
 
-.rrui__file-upload__area--disabled {
+.rrui__file-upload--disabled {
   cursor: default; }
 
 .rrui__form {
@@ -939,8 +796,7 @@
 
 .rrui__input,
 .rrui__input-label {
-  height: calc(0.6rem * 3);
-  font-size: inherit; }
+  height: calc(0.6rem * 3); }
 
 /* `.rrui__input:not(.rrui__input--multiline)`
    would result in issues with this CSS selector being
@@ -960,6 +816,7 @@ than 100% of the parent if the parent is small enough.
   color: #d30f00; }
 
 .rrui__input-field {
+  outline: none;
   border-radius: 0;
   /* Some web browsers add <input/> padding by default */
   padding: 0;
@@ -973,43 +830,29 @@ than 100% of the parent if the parent is small enough.
 
 /* Overrides Chrome autofill yellow background color */
 .rrui__input-field:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
-          box-shadow: 0 0 0 1000px #ffffff inset; }
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+          box-shadow: 0 0 0 1000px white inset; }
 
+/* Stretches the inputs to full column width by default. */
+/* Because everyone uses CSS grids today. */
 .rrui__input-field,
-.rrui__select__button {
-  /* Stretches the inputs to full column width by default. */
-  /* Because everyone uses CSS grids today. */
-  width: 100%;
-  padding-left: 0rem;
-  padding-right: 0rem;
-  background-color: #ffffff;
-  border-radius: 0rem; }
+.rrui__select__button,
+.rrui__select__autocomplete {
+  width: 100%; }
 
 .rrui__input-field,
 .rrui__select__button,
 .rrui__select__native {
-  border-width: 0;
-  border-bottom-width: 1px;
-  border-style: solid;
-  border-color: #cacaca;
+  border: none;
+  border-bottom: 1px solid #cacaca;
   -webkit-transition: border 0.1s;
   -o-transition: border 0.1s;
   transition: border 0.1s; }
 
 .rrui__input-field:focus,
 .rrui__select__button:focus,
-.rrui__select__native:focus + .rrui__select__button,
-.rrui__select__native:focus {
-  border-color: #03b2cb; }
-
-.rrui__input-field--invalid,
-.rrui__input-field--invalid:focus,
-.rrui__select__button--invalid,
-.rrui__select__button--invalid:focus,
-.rrui__select__native--invalid,
-.rrui__select__native:focus + .rrui__select__button--invalid {
-  border-color: #d30f00; }
+.rrui__select__native:focus + .rrui__select__button {
+  border-bottom-color: #03b2cb; }
 
 .rrui__input-field {
   height: 100%;
@@ -1028,7 +871,7 @@ than 100% of the parent if the parent is small enough.
 
 .rrui__input-field--disabled {
   cursor: default;
-  background-color: #ffffff; }
+  background-color: transparent; }
 
 .rrui__input-label {
   position: absolute;
@@ -1068,12 +911,17 @@ than 100% of the parent if the parent is small enough.
   transition: color 0.1s ease-out, transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
   transition: color 0.1s ease-out, transform 450ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 450ms cubic-bezier(0.23, 1, 0.32, 1); }
 
-/* Focused input label. */
-/* For `<Select native={false}/>` (default). */
+/* Focused input label */
 .rrui__select__native:focus + .rrui__select__button + .rrui__input-label,
-.rrui__select__native:focus + .rrui__input-label,
 .rrui__input-element:focus + .rrui__input-label {
   color: #03b2cb; }
+
+/* (when the `value` is empty) */
+/* Required input field label asterisk. */
+.rrui__input-label--required:after,
+.rrui__select__selected-label--required:after {
+  content: '*';
+  margin-left: 0.2em; }
 
 .rrui__list {
   margin: 0;
@@ -1082,7 +930,6 @@ than 100% of the parent if the parent is small enough.
   padding-bottom: 0.6rem;
   overflow-y: auto;
   background-color: #ffffff;
-  color: currentColor;
   list-style-type: none;
   overflow-x: hidden;
   -webkit-box-sizing: border-box;
@@ -1116,8 +963,7 @@ than 100% of the parent if the parent is small enough.
   white-space: nowrap; }
 
 .rrui__list__item:hover {
-  background-color: #F3F3F3;
-  color: currentColor; }
+  background-color: #F3F3F3; }
 
 .rrui__list__item:active {
   background-color: #03b2cb;
@@ -1133,14 +979,8 @@ than 100% of the parent if the parent is small enough.
   padding-bottom: 0.6rem;
   pointer-events: none; }
 
-.rrui__list__item--focus {
-  background-color: #F3F3F3;
-  color: currentColor; }
-
-.rrui__list__item--selected,
-.rrui__list__item--selected:hover {
-  background-color: #03b2cb;
-  color: #ffffff; }
+.rrui__list__item--focused {
+  background-color: #F3F3F3; }
 
 .rrui__list__item-icon {
   margin-right: 0.6rem;
@@ -1174,17 +1014,22 @@ than 100% of the parent if the parent is small enough.
   padding-right: 0; }
 
 .rrui__menu-button {
-  position: relative;
   display: inline-block;
-  width: calc(0.6rem * 3 + 0.6rem);
-  height: calc(0.6rem * 3 + 0.6rem);
+  width: calc(0.6rem * 3);
+  height: calc(0.6rem * 3);
   padding: calc(0.6rem / 2);
   margin: calc(-1 * 0.6rem / 2);
   line-height: 0;
   color: #000000;
-  /* This CSS rule can be removed if .rrui__button-reset gets it. */
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box; }
+  outline: none; }
+
+.rrui__menu-button {
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
 
 /*
 .rrui__menu-button:active
@@ -1193,62 +1038,75 @@ than 100% of the parent if the parent is small enough.
 }
 */
 /* https://codepen.io/bennettfeely/pen/twbyA */
-.rrui__menu-icon {
+.rrui__menu-button__icon {
   position: relative;
-  width: 100%;
-  height: 100%; }
+  top: calc((100% - 12.5%) / 2);
+  height: 12.5%;
+  -webkit-transition: 0.25s;
+  -o-transition: 0.25s;
+  transition: 0.25s; }
 
-.rrui__menu-icon__bar {
+.rrui__menu-button__icon,
+.rrui__menu-button__icon:before,
+.rrui__menu-button__icon:after {
+  background: currentColor; }
+
+.rrui__menu-button__icon:before,
+.rrui__menu-button__icon:after {
+  display: block;
+  content: "";
   position: absolute;
-  left: 0;
-  top: calc((100% - 6%) / 2);
   width: 100%;
-  height: 6%;
-  background-color: currentColor; }
+  height: 100%;
+  z-index: -1;
+  -webkit-transition: 0.25s;
+  -o-transition: 0.25s;
+  transition: 0.25s; }
 
-.rrui__menu-icon__bar--transition {
-  -webkit-transition: opacity 0.25s, -webkit-transform 0.25s;
-  transition: opacity 0.25s, -webkit-transform 0.25s;
-  -o-transition: transform 0.25s, opacity 0.25s;
-  transition: transform 0.25s, opacity 0.25s;
-  transition: transform 0.25s, opacity 0.25s, -webkit-transform 0.25s; }
+.rrui__menu-button__icon:before {
+  top: -200%;
+  /* 25% */ }
 
-.rrui__menu-icon__bar:nth-child(1) {
-  -webkit-transform: translateY(-450%);
-      -ms-transform: translateY(-450%);
-          transform: translateY(-450%); }
+.rrui__menu-button__icon:after {
+  top: 200%;
+  /* 25% */ }
 
-.rrui__menu-icon__bar:nth-child(3) {
-  -webkit-transform: translateY(450%);
-      -ms-transform: translateY(450%);
-          transform: translateY(450%); }
+.rrui__menu-button:hover .rrui__menu-button__icon:before {
+  -webkit-transform: translateY(-64%);
+      -ms-transform: translateY(-64%);
+          transform: translateY(-64%);
+  /* 33% */ }
 
-/*
-.rrui__menu-icon:hover .rrui__menu-icon__bar:nth-child(1)
-{
-	transform : translateY(-550%);
-}
+.rrui__menu-button:hover .rrui__menu-button__icon:after {
+  -webkit-transform: translateY(64%);
+      -ms-transform: translateY(64%);
+          transform: translateY(64%);
+  /* 33% */ }
 
-.rrui__menu-icon:hover .rrui__menu-icon__bar:nth-child(3)
-{
-	transform : translateY(550%);
-}
-*/
-.rrui__menu-icon__bar--expanded:nth-child(2) {
-  opacity: 0;
-  -webkit-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-          transform: scale(0.9); }
+.rrui__menu-button--expanded .rrui__menu-button__icon {
+  -webkit-transform: scale(0.75);
+      -ms-transform: scale(0.75);
+          transform: scale(0.75); }
 
-.rrui__menu-icon__bar--expanded:nth-child(1) {
-  -webkit-transform: rotate(-45deg) scale(0.9);
-      -ms-transform: rotate(-45deg) scale(0.9);
-          transform: rotate(-45deg) scale(0.9); }
+.rrui__menu-button--expanded .rrui__menu-button__icon:before,
+.rrui__menu-button--expanded .rrui__menu-button__icon:after {
+  /* !important overrides `:hover` */
+  top: 0 !important; }
 
-.rrui__menu-icon__bar--expanded:nth-child(3) {
-  -webkit-transform: rotate(45deg) scale(0.9);
-      -ms-transform: rotate(45deg) scale(0.9);
-          transform: rotate(45deg) scale(0.9); }
+.rrui__menu-button--expanded .rrui__menu-button__icon--x {
+  background: transparent; }
+
+.rrui__menu-button--expanded .rrui__menu-button__icon--x:before {
+  /* `!important` overrides `:hover` */
+  -webkit-transform: rotate(-45deg) !important;
+      -ms-transform: rotate(-45deg) !important;
+          transform: rotate(-45deg) !important; }
+
+.rrui__menu-button--expanded .rrui__menu-button__icon--x:after {
+  /* `!important` overrides `:hover` */
+  -webkit-transform: rotate(45deg) !important;
+      -ms-transform: rotate(45deg) !important;
+          transform: rotate(45deg) !important; }
 
 /*===========================================================
 = `react-modal`                                             =
@@ -1282,6 +1140,9 @@ also change `default_close_timeout` in ./Modal.js accordingly
   -webkit-transition: background-color 100ms ease-out;
   -o-transition: background-color 100ms ease-out;
   transition: background-color 100ms ease-out; }
+
+.ReactModal__Content {
+  outline: none; }
 
 .rrui__modal__contents {
   opacity: 0;
@@ -1416,9 +1277,12 @@ but rather `width: auto` or `left: 0; right: 0;`.
       -ms-flex-pack: center;
           justify-content: center; }
 
-.rrui__modal__close:focus {
-  background-color: #F3F3F3;
-  border-radius: 50%; }
+.rrui__modal__close {
+  float: right;
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer; }
 
 .rrui__modal__close--busy {
   cursor: wait; }
@@ -1440,8 +1304,7 @@ but rather `width: auto` or `left: 0; right: 0;`.
       -ms-flex-preferred-size: auto;
           flex-basis: auto;
   border-radius: 0.2rem;
-  background-color: #ffffff;
-  color: currentColor; }
+  background-color: #ffffff; }
 
 .rrui__modal__contents--fullscreen {
   /* Completely cover the screen */
@@ -1558,25 +1421,8 @@ but rather `width: auto` or `left: 0; right: 0;`.
   margin-bottom: calc(0.6rem * 2); }
 
 .rrui__modal__close {
-  /* Prevents `<Modal.Title/>` overlapping with `<Close/>` padding. */
-  margin-left: 0;
-  /* Prevents the close button from being stretched vertically. */
-  line-height: 0; }
-
-.rrui__modal__content--close-button,
-.rrui__modal__title--close-button {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start; }
+  /* Prevents `<Modal.Title/>` overlapping with `<Close/>` padding */
+  margin-left: 0; }
 
 .rrui__scrollable {
   /* https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/ */
@@ -1598,7 +1444,7 @@ but rather `width: auto` or `left: 0; right: 0;`.
 	At the same time `<Select/>` options should stretch themselves
 	horizontally to the width of the containing column (when using grid layout).
 	*/
-  width: calc(100% + (0.6rem * 1.5 - 0rem) * 2);
+  width: calc(100% + 0.6rem * 1.5 * 2);
   /*
 	`margin-top` is constituted by:
 	- `.rrui__select__options` `padding-top`.
@@ -1628,12 +1474,12 @@ but rather `width: auto` or `left: 0; right: 0;`.
   color: #888888; }
 
 .rrui__select__button--invalid {
-  border-color: #d30f00; }
+  border-bottom-color: #d30f00; }
 
-/* For `<Select native={false}/>` (default). */
+.rrui__select__button:active .rrui__select__selected-label,
+.rrui__select__button:active .rrui__select__arrow,
 .rrui__select__native:active + .rrui__select__button .rrui__select__selected-label,
-.rrui__select__native:active + .rrui__select__button .rrui__select__arrow,
-.rrui__select__native:active + .rrui__input-label {
+.rrui__select__native:active + .rrui__select__button .rrui__select__arrow {
   color: #03b2cb; }
 
 .rrui__select__selected-content {
@@ -1687,29 +1533,21 @@ but rather `width: auto` or `left: 0; right: 0;`.
 
 .rrui__select__button--disabled {
   /* "pointer-events" prevents "cursor: wait" from working */
-  pointer-events: none;
-  background-color: #ffffff; }
+  pointer-events: none; }
 
 /* Stretches the inputs to full column width by default. */
 /* Because everyone uses CSS grids today. */
-.rrui__select__button,
-.rrui__select__native {
+.rrui__select__button {
   width: 100%; }
 
 .rrui__select__native {
-  height: 100%;
-  cursor: pointer; }
+  cursor: pointer;
+  outline: none; }
 
-/* Something from stackoverflow. */
-.rrui__select__native-option--divider {
-  font-size: 1px;
-  background: currentColor; }
-
-/* ChromeVox has a bug where `opacity: 0` elements are ignored. */
-/* https://github.com/michalsnik/aos/issues/397 */
-/* opacity  : 0.001; */
 .rrui__select__native--overlay {
   position: absolute;
+  height: 100%;
+  width: 100%;
   z-index: 1;
   opacity: 0; }
 
@@ -1722,123 +1560,37 @@ but rather `width: auto` or `left: 0; right: 0;`.
 
 .rrui__slideout-menu {
   position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
   z-index: 100;
-  padding-top: calc(0.6rem * 2.5);
-  padding-bottom: calc(0.6rem * 2.5);
-  /* `box-sizing` is for padding to not glitch when overflown vertically. */
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  min-height: 100%;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
   overflow-y: auto;
   opacity: 0.9;
   background-color: #000000;
-  color: #ffffff;
   -webkit-transform: translate3d(-100%, 0, 0);
           transform: translate3d(-100%, 0, 0);
-  -webkit-transition: -webkit-transform 220ms ease-out, -webkit-box-shadow 220ms ease-out;
-  transition: -webkit-transform 220ms ease-out, -webkit-box-shadow 220ms ease-out;
-  -o-transition: transform 220ms ease-out, box-shadow 220ms ease-out;
-  transition: transform 220ms ease-out, box-shadow 220ms ease-out;
-  transition: transform 220ms ease-out, box-shadow 220ms ease-out, -webkit-transform 220ms ease-out, -webkit-box-shadow 220ms ease-out; }
-
-.rrui__slideout-menu--fullscreen {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center; }
-
-.rrui__slideout-menu--expanded {
-  -webkit-box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.4);
-          box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.4); }
-
-.rrui__slideout-menu--left {
-  left: 0;
-  top: 0;
-  bottom: 0;
-  -webkit-transform: translate3d(-100%, 0, 0);
-          transform: translate3d(-100%, 0, 0); }
-
-.rrui__slideout-menu--left.rrui__slideout-menu--fullscreen {
-  right: 0; }
-
-.rrui__slideout-menu--left.rrui__slideout-menu--expanded {
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0); }
-
-.rrui__slideout-menu--right {
-  right: 0;
-  top: 0;
-  bottom: 0;
-  -webkit-transform: translate3d(100%, 0, 0);
-          transform: translate3d(100%, 0, 0); }
-
-.rrui__slideout-menu--right.rrui__slideout-menu--fullscreen {
-  left: 0; }
-
-.rrui__slideout-menu--right.rrui__slideout-menu--expanded {
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0); }
-
-.rrui__slideout-menu--top {
-  left: 0;
-  right: 0;
-  top: 0;
-  -webkit-transform: translate3d(0, -100%, 0);
-          transform: translate3d(0, -100%, 0); }
-
-.rrui__slideout-menu--top.rrui__slideout-menu--fullscreen {
-  bottom: 0; }
-
-.rrui__slideout-menu--top.rrui__slideout-menu--expanded {
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0); }
-
-.rrui__slideout-menu--bottom {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  -webkit-transform: translate3d(0, 100%, 0);
-          transform: translate3d(0, 100%, 0); }
-
-.rrui__slideout-menu--bottom.rrui__slideout-menu--fullscreen {
-  top: 0; }
-
-.rrui__slideout-menu--bottom.rrui__slideout-menu--expanded {
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0); }
+  -webkit-transition: -webkit-transform 120ms ease-out;
+  transition: -webkit-transform 120ms ease-out;
+  -o-transition: transform 120ms ease-out;
+  transition: transform 120ms ease-out;
+  transition: transform 120ms ease-out, -webkit-transform 120ms ease-out; }
 
 .rrui__slideout-menu__item {
   display: block;
   height: calc(0.6rem * 4);
   line-height: calc(0.6rem * 4);
-  padding-left: calc(0.6rem * 2.5 * 1.5);
-  padding-right: calc(0.6rem * 2.5 * 1.5);
-  color: currentColor;
-  opacity: 0;
-  -webkit-transition: opacity calc(220ms / 2) ease-out;
-  -o-transition: opacity calc(220ms / 2) ease-out;
-  transition: opacity calc(220ms / 2) ease-out; }
-
-.rrui__slideout-menu--expanded .rrui__slideout-menu__item {
-  opacity: 1; }
-
-.rrui__slideout-menu__item:hover {
-  text-decoration: none; }
-
-.rrui__slideout-menu__item:active {
-  background-color: #03b2cb;
+  padding-left: calc(0.6rem * 2.5);
+  padding-right: calc(0.6rem * 2.5);
   color: #ffffff; }
 
-.rrui__slideout-menu--fullscreen .rrui__slideout-menu__item {
-  text-align: center; }
+.rrui__slideout-menu--expanded {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  -webkit-box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.4);
+          box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.4); }
 
 .rrui__snackbar__container {
   display: -webkit-box;
@@ -1954,26 +1706,18 @@ but rather `width: auto` or `left: 0; right: 0;`.
   display: inline-block;
   width: 1.65em;
   height: 1em;
-  color: #03b2cb;
-  background-color: #ffffff;
+  background: #ffffff;
   -webkit-box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16);
           box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16);
   border-radius: 0.5em;
   -webkit-transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98);
   -o-transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98);
-  transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98); }
-
-.rrui__switch__input:focus + .rrui__switch__groove {
-  -webkit-box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16), 0 0 0 0 transparent;
-          box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16), 0 0 0 0 transparent; }
+  transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98);
+  color: #03b2cb; }
 
 .rrui__switch__groove--on {
   -webkit-box-shadow: inset 0 0 0 0.73em currentColor;
           box-shadow: inset 0 0 0 0.73em currentColor; }
-
-.rrui__switch__input:focus + .rrui__switch__groove--on {
-  -webkit-box-shadow: inset 0 0 0 0.73em currentColor, 0 0 0 0 transparent;
-          box-shadow: inset 0 0 0 0.73em currentColor, 0 0 0 0 transparent; }
 
 .rrui__switch__knob {
   position: absolute;
@@ -1982,16 +1726,16 @@ but rather `width: auto` or `left: 0; right: 0;`.
   border-radius: 0.4375em;
   top: 0.0625em;
   left: 0.0625em;
-  background-color: #ffffff;
-  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em transparent, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
-          box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em transparent, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+          box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
   -webkit-transition: all 0.25s ease-out;
   -o-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out; }
 
 .rrui__switch__input:focus + .rrui__switch__groove + .rrui__switch__knob {
-  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em #03b2cb, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
-          box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em #03b2cb, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2); }
+  -webkit-box-shadow: inset 0 0 0 0.03em #03b2cb, 0 0 0.05em #03b2cb, 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+          box-shadow: inset 0 0 0 0.03em #03b2cb, 0 0 0.05em #03b2cb, 0 0.1em 0.2em rgba(0, 0, 0, 0.2); }
 
 .rrui__switch__knob--on {
   left: 0.7125em; }
@@ -2015,9 +1759,9 @@ but rather `width: auto` or `left: 0; right: 0;`.
   padding-left: calc(0.6rem * 1.5);
   padding-right: calc(0.6rem * 1.5);
   background-color: transparent;
-  color: #03b2cb;
   border: 1px solid #03b2cb;
   border-radius: 0.2rem;
+  outline: none;
   -webkit-transition: all 50ms ease-out;
   -o-transition: all 50ms ease-out;
   transition: all 50ms ease-out; }
@@ -2041,15 +1785,26 @@ but rather `width: auto` or `left: 0; right: 0;`.
 .rrui__switcher__option:active {
   color: #ffffff;
   background-color: #2bd7f0;
-  /*border-color     : transparent;*/
   -webkit-transition: none;
   -o-transition: none;
   transition: none; }
 
+/*
+.rrui__rich__fallback .rrui__switcher__option:active
+{
+	color            : #000000;
+	background-color : transparent;
+}
+*/
+/*
+.rrui__rich__fallback .rrui__switcher__option input
+{
+	margin-left: 0;
+}
+*/
 .rrui__switcher__option--selected {
   color: #ffffff;
-  background-color: #03b2cb;
-  /*border-color     : #03b2cb;*/ }
+  background-color: #03b2cb; }
 
 .rrui__switcher__option {
   cursor: pointer; }
@@ -2061,9 +1816,9 @@ but rather `width: auto` or `left: 0; right: 0;`.
   color: #d30f00; }
 
 .rrui__input-field:not(:focus) + .rrui__text-input__label--placeholder {
-  -webkit-transform: translateX(0rem) translateY(0) scale(1);
-      -ms-transform: translateX(0rem) translateY(0) scale(1);
-          transform: translateX(0rem) translateY(0) scale(1);
+  -webkit-transform: translateY(0) scale(1);
+      -ms-transform: translateY(0) scale(1);
+          transform: translateY(0) scale(1);
   /* Introducing a return animation delay */
   /* Because when a user clicks/taps on an option */
   /* Then the input loses focus */
@@ -2077,15 +1832,15 @@ but rather `width: auto` or `left: 0; right: 0;`.
 /* Set the default height of multiline `<TextInput/>`s. */
 .rrui__input-field--multiline {
   height: calc(0.6rem * 7);
-  padding-top: 0.6rem;
-  padding-bottom: 0.6rem;
-  padding-left: 0rem;
-  padding-right: 0rem; }
+  padding-top: calc(0.6rem / 2);
+  padding-bottom: calc(0.6rem / 2);
+  padding-left: 0;
+  padding-right: 0; }
 
 /* Multiline `<TextInput/>`'s label positioning. */
 /* Must be same as `padding-top`/`padding-bottom`. */
 .rrui__text-input__label--multiline {
-  top: 0.6rem; }
+  top: calc(0.6rem / 2); }
 
 .rrui__tooltip {
   display: -webkit-box;

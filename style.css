@@ -150,7 +150,8 @@
 	background : black;
 }
 
-.react-phone-number-input__country-select:focus + .react-phone-number-input__country-select-arrow
+.react-phone-number-input__country-select:focus + .react-phone-number-input__country-select-arrow,
+.react-phone-number-input__country.rrui__select--focus .rrui__select__arrow
 {
 	color : #03B2CB;
 }
