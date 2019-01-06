@@ -51,16 +51,15 @@ return (
 
 See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All other properties are passed through to the phone number `<input/>` component.
 
-To format `value` back to a human-readable phone number use [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function.
+To format `value` back to a human-readable phone number use `formatPhoneNumber(value)` and `formatPhoneNumberIntl(value)` functions.
 
 
 ```js
-import { formatPhoneNumber } from 'react-phone-number-input'
+import { formatPhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input'
 
-if (value) {
-  // `format` can be "National" or "International".
-  formatPhoneNumber(value, "International")
-}
+const value = '+12133734253'
+formatPhoneNumber(value) === '(213) 373-4253' // National format
+formatPhoneNumberIntl(value) === '+1 213 373 4253' // International format
 ```
 
 <!--
@@ -128,11 +127,25 @@ import ru from 'react-phone-number-input/locale/ru'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
 if (value) {
-  isValidPhoneNumber(value)
+  isValidPhoneNumber(value) // `true` or `false`
 }
 ```
 
-I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation in my projects because telephone numbering plans constantly evolve and the validation rules do change over time. Still, some people want this feature, so it's included.
+This library comes pre-packaged with three flavors of metadata:
+
+* `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`).
+
+* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Doesn't contain regular expressions for advanced phone number validation. Some simple phone number validation still works (basic length check, etc), it's just that it's loose compared to the "advanced" validation (not so strict).
+
+* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `105 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`).
+
+To use a particular metadata set import the component from the relevant sub-package: `react-phone-number-input/max`, `react-phone-number-input/min` or `react-phone-number-input/mobile`.
+
+Importing the component directly from `react-phone-number-input` results in using the `min` metadata which means loose (non-strict) phone number validation.
+
+Sometimes (rarely) not all countries are needed and in those cases the developers may want to [generate](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata) their own "custom" metadata set. For those cases there's `react-phone-number-input/core` sub-package which doesn't come pre-wired with any default metadata and instead accepts the metadata as a property.
+
+I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation in my projects because telephone numbering plans constantly evolve and validation rules do change over time which means `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. Still, some people want this feature, so it's included.
 
 ## Bug reporting
 
@@ -282,10 +295,10 @@ import InternationalIcon from 'react-phone-number-input/international-icon'
   internationalIcon={InternationalIcon}/>
 ```
 
-All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then he can use the `/custom` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties. In this case all customization properties must be passed.
+All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then he can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties. In this case all customization properties must be passed.
 
 ```js
-import PhoneInput from 'react-phone-number-input/custom'
+import PhoneInput from 'react-phone-number-input/core'
 ```
 
 #### `countrySelectComponent`
@@ -336,12 +349,6 @@ import flags from 'react-phone-number-input/flags'
 
 <PhoneInput flags={flags} .../>
 ```
-
-## Reducing bundle size
-
-By default all countries are included which means that [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) loads the default metadata having the size of 75 kilobytes. This really isn't much but for those who still want to reduce that to a lesser size by generating their own reduced metadata set there is a possibility to pass custom `metadata` property to the `react-phone-number-input/custom` export. See the [Customizing](https://github.com/catamphetamine/react-phone-number-input#customizing) section for more details.
-
-For generating custom metadata see [the guide in `libphonenumber-js` repo](https://github.com/catamphetamine/libphonenumber-js#customizing-metadata).
 
 ## CDN
 

@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "react-phone-number-input-mobile",
+  "version": "1.0.0",
+  "main": "index.commonjs.js",
+  "module": "index.js",
+  "sideEffects": [
+    "*.css"
+  ]
+}

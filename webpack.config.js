@@ -1,6 +1,19 @@
-const inputFileName = process.env.WEBPACK_BUNDLE_TYPE
+let inputFileName
 const outputFileName = 'react-phone-number-input-' + process.env.WEBPACK_BUNDLE_TYPE
-const globalVariableName = process.env.WEBPACK_BUNDLE_TYPE === 'smart-input' ? 'react-phone-number-input-smart-input' : 'react-phone-number-input'
+let globalVariableName = 'react-phone-number-input'
+
+switch (process.env.WEBPACK_BUNDLE_TYPE) {
+  case 'native':
+    inputFileName = 'min/index.commonjs'
+    break
+  case 'react-responsive-ui':
+    inputFileName = 'react-responsive-ui/index.commonjs'
+    break
+  case 'smart-input':
+    inputFileName = 'smart-input/index.commonjs'
+    globalVariableName += '-smart-input'
+    break
+}
 
 module.exports =
 {

@@ -1,31 +1,28 @@
-import
-{
-	parseNumber,
-	formatNumber,
+import {
+	parsePhoneNumberFromString,
 	getCountryCallingCode,
 	AsYouType,
 	Metadata
-}
-from 'libphonenumber-js/custom'
+} from 'libphonenumber-js/core'
 
 /**
  * Decides which country should be pre-selected
  * when the phone number input component is first mounted.
- * @param  {object} parsedNumber - A parsed number object: `{ country, phone }`. Can be an empty object.
+ * @param  {object?} phoneNumber - An instance of `PhoneNumber` class.
  * @param  {string?} country - Pre-defined country (two-letter code).
  * @param  {string[]?} countries - A list of countries available.
  * @param  {boolean} includeInternationalOption - Whether "International" country option is available.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @return {string?}
  */
-export function getPreSelectedCountry(parsed_number, country, countries, includeInternationalOption, metadata)
+export function getPreSelectedCountry(phoneNumber, country, countries, includeInternationalOption, metadata)
 {
 	// If can get country from E.164 phone number
 	// then it overrides the `country` passed (or not passed).
-	if (parsed_number.country)
+	if (phoneNumber && phoneNumber.country)
 	{
 		// `country` will be left `undefined` in case of non-detection.
-		country = parsed_number.country
+		country = phoneNumber.country
 	}
 
 	// Only pre-select a country if it's in the available `countries` list.
@@ -78,42 +75,41 @@ export function getCountrySelectOptions(countries, country_names, includeInterna
 }
 
 /**
- * Parses a E.164 phone number to an object having shape `{ country : string, phone : string }`.
- * @param {string} value = E.164 phone number.
+ * Parses a E.164 phone number to an instance of `PhoneNumber` class.
+ * @param {string?} value = E.164 phone number.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @example
  * parsePhoneNumber('+78005553535')
- * // returns `{ country: 'RU', phone: '8005553535' }`
  */
 export function parsePhoneNumber(value, metadata)
 {
-	return parseNumber(value || '', metadata)
+	return parsePhoneNumberFromString(value || '', metadata)
 }
 
 /**
  * Generates national number digits for a parsed phone.
  * May prepend national prefix.
  * The phone number must be a complete and valid phone number.
- * @param  {object} parsedPhone - Object having shape `{ country : string, phone : string }`.
+ * @param  {object} phoneNumber - An instance of `PhoneNumber` class.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @return {string}
  * @example
  * getNationalNumberDigits({ country: 'RU', phone: '8005553535' })
  * // returns '88005553535'
  */
-export function generateNationalNumberDigits(parsed_phone, metadata)
+export function generateNationalNumberDigits(phoneNumber)
 {
-	return formatNumber(parsed_phone, 'National', metadata).replace(/\D/g, '')
+	return phoneNumber.formatNational().replace(/\D/g, '')
 }
 
 /**
- * Migrates `<input/>` parsed `value` for the newly selected `country`.
+ * Migrates parsed `<input/>` `value` for the newly selected `country`.
  * @param {string?} value - The `value` parsed from phone number `<input/>` (it's the `parsed_input` state property, not the `value` property).
  * @param {string?} previousCountry - Previously selected country.
  * @param {string?} newCountry - Newly selected country. Can't be same as previously selected country.
  * @param {object} metadata - `libphonenumber-js` metadata.
  * @param {boolean} preferNationalFormat - whether should attempt to convert from international to national number for the new country.
- * @return {string}
+ * @return {string?}
  */
 export function migrateParsedInputForNewCountry
 (
@@ -162,12 +158,12 @@ export function migrateParsedInputForNewCountry
 			// (that could also be the newly selected country phone code prefix as well)
 			// `value` doesn't neccessarily belong to `previous_country`.
 			// (e.g. if a user enters an international number
-			//  not belonging to any of the reduced `countries` list)
+			//  not belonging to any of the reduced `countries` list).
 			value = strip_country_calling_code(value, previous_country, metadata)
 
 			// Prepend country calling code prefix
 			// for the newly selected country.
-			return `+${getCountryCallingCode(new_country, metadata)}${value}`
+			return e164(value, new_country, metadata) || `+${getCountryCallingCode(new_country, metadata)}`
 		}
 	}
 	// If switching to "International" from a country.
@@ -181,8 +177,7 @@ export function migrateParsedInputForNewCountry
 			// the previously selected country phone prefix.
 			// Even if the phone number belongs to whole another country
 			// it will still be parsed into some national phone number.
-			const partial_national_significant_number = get_national_significant_number_part(value, previous_country, metadata)
-			return formatNumber(partial_national_significant_number, previous_country, 'E.164', metadata)
+			return e164(value, previous_country, metadata) || ''
 		}
 	}
 
@@ -223,7 +218,7 @@ export function e164(number, country, metadata)
 	const partial_national_significant_number = get_national_significant_number_part(number, country, metadata)
 
 	if (partial_national_significant_number) {
-		return formatNumber(partial_national_significant_number, country, 'E.164', metadata)
+		return `+${getCountryCallingCode(country, metadata)}${partial_national_significant_number}`
 	}
 }
 

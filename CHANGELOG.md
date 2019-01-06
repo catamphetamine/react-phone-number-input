@@ -1,3 +1,14 @@
+2.3.0 / 02.01.2019
+==================
+
+  * Migrated `input-control.js` to the latest `libphonenumber-js` API.
+
+  * Added `/min`, `/max`, `/mobile` and `/custom` subpackages pre-wired with different flavors of metadata. See the relevant readme section for more info.
+
+  <!-- * Removed `*DefaultMetadata.js` files. -->
+
+  * Deprecated importing from `react-phone-number-input/libphonenumber` sub-package (a workaround for ES6/CommonJS double import issue) because the ES6/CommonJS double import issue has been resolved.
+
 2.2.9 / 30.09.2018
 ==================
 

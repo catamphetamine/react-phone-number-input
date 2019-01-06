@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "2.2.21",
+  "version": "2.3.0",
   "description": "Telephone input for React",
   "main": "index.commonjs.js",
   "module": "index.js",
@@ -14,10 +14,10 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "input-format": "^0.2.2",
-    "libphonenumber-js": "^1.6.9",
+    "libphonenumber-js": "^1.7.4",
     "prop-types": "^15.5.6",
     "react-lifecycles-compat": "^3.0.4",
-    "react-responsive-ui": "^0.14.39"
+    "react-responsive-ui": "^0.14.103"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.4",

@@ -1,42 +1,50 @@
 import React, { Component } from 'react'
 import { ReactInput } from 'input-format'
-import { AsYouType } from 'libphonenumber-js/custom'
-
-import { parsePhoneNumberCharacter } from 'libphonenumber-js/custom'
+import { AsYouType, parsePhoneNumberCharacter } from 'libphonenumber-js/core'
 
 /**
  * This input uses `input-format` library
  * for "smart" caret positioning.
  */
-export default class InputSmart extends Component
+export function createInput(defaultMetadata)
 {
-	focus = () => this.input.focus()
-
-	storeInput = (ref) => this.input = ref
-
-	format = (value) =>
+	return class InputSmart extends Component
 	{
-		const { country, metadata } = this.props
+		static defaultProps =
+		{
+			metadata : defaultMetadata
+		}
 
-		// "As you type" formatter.
-		const formatter = new AsYouType(country, metadata)
+		focus = () => this.input.focus()
 
-		// Format the number.
-		const text = formatter.input(value)
+		storeInput = (ref) => this.input = ref
 
-		return { text, template: formatter.getTemplate() }
-	}
+		format = (value) =>
+		{
+			const { country, metadata } = this.props
 
-	render()
-	{
-		const { country, metadata, ...rest } = this.props
+			// "As you type" formatter.
+			const formatter = new AsYouType(country, metadata)
 
-		return (
-			<ReactInput
-				{...rest}
-				ref={this.storeInput}
-				parse={parsePhoneNumberCharacter}
-				format={this.format}/>
-		)
+			// Format the number.
+			const text = formatter.input(value)
+
+			return { text, template: formatter.getTemplate() }
+		}
+
+		render()
+		{
+			const { country, metadata, ...rest } = this.props
+
+			return (
+				<ReactInput
+					{...rest}
+					ref={this.storeInput}
+					parse={parsePhoneNumberCharacter}
+					format={this.format}/>
+			)
+		}
 	}
 }
+
+export default createInput()

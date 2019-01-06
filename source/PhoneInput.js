@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
-import { parseDigits } from 'libphonenumber-js/custom'
+import { parseDigits } from 'libphonenumber-js/core'
 
 // import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
@@ -471,11 +471,11 @@ export default class PhoneNumberInput extends PureComponent
 			validateCountryOptions(countryOptions, metadata)
 		}
 
-		const parsed_number = parsePhoneNumber(value, metadata)
+		const phoneNumber = parsePhoneNumber(value, metadata)
 
 		const pre_selected_country = getPreSelectedCountry
 		(
-			parsed_number,
+			phoneNumber,
 			country,
 			countries || getCountryCodes(labels),
 			international,
@@ -503,7 +503,7 @@ export default class PhoneNumberInput extends PureComponent
 			// then value is `+78005553535` and `parsed_input` is `88005553535`
 			// and if a user entered `+7 800 555 35 35`
 			// then value is `+78005553535` and `parsed_input` is `+78005553535`.
-			parsed_input : generateParsedInput(value, parsed_number, this.props),
+			parsed_input : generateParsedInput(value, phoneNumber, this.props),
 
 			// `value` property is duplicated in state.
 			// The reason is that `getDerivedStateFromProps()`
@@ -820,13 +820,13 @@ export default class PhoneNumberInput extends PureComponent
 		// then the country flag would reset on each input.
 		else if (new_value !== old_value && new_value !== value)
 		{
-			const parsed_number = parsePhoneNumber(new_value, metadata)
+			const phoneNumber = parsePhoneNumber(new_value, metadata)
 
 			return {
 				...new_state,
-				parsed_input : generateParsedInput(new_value, parsed_number, props),
+				parsed_input : generateParsedInput(new_value, phoneNumber, props),
 				value : new_value,
-				country : new_value ? ((!countries || countries.indexOf(parsed_number.country) >= 0) ? parsed_number.country : undefined) : country
+				country : new_value ? (phoneNumber && (!countries || countries.indexOf(phoneNumber.country) >= 0) ? phoneNumber.country : undefined) : country
 			}
 		}
 
@@ -1109,14 +1109,9 @@ function transformCountryOptions(options, transform)
 	return optionsOnTop.concat(options).concat(optionsOnBottom)
 }
 
-function generateParsedInput(value, parsed_number, props)
+function generateParsedInput(value, phoneNumber, props)
 {
-	const
-	{
-		displayInitialValueAsLocalNumber,
-		metadata
-	}
-	= props
+	const { displayInitialValueAsLocalNumber } = props
 
 	// If the `value` (E.164 phone number)
 	// belongs to the currently selected country
@@ -1124,9 +1119,8 @@ function generateParsedInput(value, parsed_number, props)
 	// then convert `value` (E.164 phone number)
 	// to a local phone number digits.
 	// E.g. '+78005553535' -> '88005553535'.
-	if (displayInitialValueAsLocalNumber && parsed_number.country)
-	{
-		return generateNationalNumberDigits(parsed_number, metadata)
+	if (displayInitialValueAsLocalNumber && phoneNumber && phoneNumber.country) {
+		return generateNationalNumberDigits(phoneNumber)
 	}
 
 	return value

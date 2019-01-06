@@ -99,25 +99,18 @@ describe('input-control', () =>
 
 	it('should parse phone numbers', () =>
 	{
-		parsePhoneNumber('+78005553535', metadata).should.deep.equal
-		({
-			country : 'RU',
-			phone   : '8005553535'
-		})
+		const phoneNumber = parsePhoneNumber('+78005553535', metadata)
+		phoneNumber.country.should.equal('RU')
+		phoneNumber.nationalNumber.should.equal('8005553535')
 
 		// No `value` passed.
-		parsePhoneNumber(null, metadata).should.deep.equal({})
+		expect(parsePhoneNumber(null, metadata)).to.equal.undefined
 	})
 
 	it('should generate national number digits', () =>
 	{
-		generateNationalNumberDigits
-		({
-			country : 'FR',
-			phone   : '509758351'
-		},
-		metadata)
-		.should.equal('0509758351')
+		const phoneNumber = parsePhoneNumber('+33509758351', metadata)
+		generateNationalNumberDigits(phoneNumber).should.equal('0509758351')
 	})
 
 	it('should migrate parsed input for new country', () =>
@@ -148,6 +141,9 @@ describe('input-control', () =>
 
 		// Switching to "International". National number.
 		migrateParsedInputForNewCountry('8800555', 'RU', null, metadata).should.equal('+7800555')
+
+		// Switching to "International". No national (significant) number digits entered.
+		migrateParsedInputForNewCountry('8', 'RU', null, metadata).should.equal('')
 
 		// Switching to "International". International number. No changes.
 		migrateParsedInputForNewCountry('+78005553535', 'RU', null, metadata).should.equal('+78005553535')
@@ -275,6 +271,10 @@ describe('input-control', () =>
 		// No national (significant) number digits.
 		get_national_significant_number_part('+', null, metadata).should.equal('')
 		get_national_significant_number_part('+7', null, metadata).should.equal('')
+
+		// Always returns a string.
+		get_national_significant_number_part('', null, metadata).should.equal('')
+		get_national_significant_number_part('', 'RU', metadata).should.equal('')
 	})
 
 	it('should determine of a number could belong to a country', () =>

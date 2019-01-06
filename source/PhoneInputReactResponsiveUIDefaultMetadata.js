@@ -1,36 +1,9 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// Deprecated.
+// This is a file used in legacy `/index.js` export entry.
+// In some next major version this file will be removed
+// and `/index.js` will be redirected to `/min/index.js`.
+
 import metadata from 'libphonenumber-js/metadata.min.json'
+import { createPhoneInput } from './PhoneInputReactResponsiveUIDefaults'
 
-import labels from '../locale/default.json'
-import internationalIcon from './InternationalIcon'
-
-import
-{
-	metadata as metadataPropType,
-	labels as labelsPropType
-}
-from './PropTypes'
-
-import PhoneInput from './PhoneInputReactResponsiveUI'
-
-export default class PhoneInputReactResponsiveUIDefaultMetadata extends Component
-{
-	static propTypes =
-	{
-		metadata : metadataPropType.isRequired,
-		labels : labelsPropType.isRequired,
-		internationalIcon : PropTypes.func.isRequired
-	}
-
-	static defaultProps =
-	{
-		metadata,
-		labels,
-		internationalIcon
-	}
-
-	storeInputRef = (ref) => this.input = ref
-	render = () => <PhoneInput ref={this.storeInputRef} {...this.props}/>
-	focus = () => this.input.focus()
-}
+export default createPhoneInput(metadata)
