@@ -317,7 +317,7 @@ export function parseInput(
 	metadata
 ) {
 	// Trim the input to not exceed the maximum possible number length.
-	if (country && limitMaxLength) {
+	if (input && country && limitMaxLength) {
 		input = trimNumber(input, country, metadata)
 	}
 

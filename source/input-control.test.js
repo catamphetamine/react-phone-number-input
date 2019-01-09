@@ -294,9 +294,9 @@ describe('input-control', () =>
 
 	it('should parse input', () =>
 	{
-		parseInput(undefined, undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput(undefined, 'RU', undefined, true, false, metadata).should.deep.equal({
 			input: undefined,
-			country: undefined,
+			country: 'RU',
 			value: undefined
 		})
 
