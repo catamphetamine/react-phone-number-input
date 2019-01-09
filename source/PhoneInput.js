@@ -639,6 +639,12 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= this.props
 
+		// If `_input` is an `event`
+		// then extract `event.target.value`.
+		if (_input && typeof _input.preventDefault === 'function') {
+			_input = _input.target.value
+		}
+
 		const
 		{
 			input,
