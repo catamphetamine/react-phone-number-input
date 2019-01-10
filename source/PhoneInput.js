@@ -294,7 +294,7 @@ export default class PhoneNumberInput extends PureComponent
 		 * Receives properties:
 		 *
 		 * * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
-		 * * `onChange(value : string)` — Updates the `value`.
+		 * * `onChange(value? : string)` — Updates the `value`.
 		 * * `onFocus()` — Is used to toggle the `--focus` CSS class.
 		 * * `onBlur()` — Is used to toggle the `--focus` CSS class.
 		 * * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
@@ -638,12 +638,6 @@ export default class PhoneNumberInput extends PureComponent
 			metadata
 		}
 		= this.props
-
-		// If `_input` is an `event`
-		// then extract `event.target.value`.
-		if (_input && typeof _input.preventDefault === 'function') {
-			_input = _input.target.value
-		}
 
 		const
 		{
