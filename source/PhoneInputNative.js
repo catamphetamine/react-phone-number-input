@@ -7,22 +7,29 @@ import CountrySelect from './CountrySelectNative'
 
 export default class PhoneInputNative extends Component
 {
-	static propTypes =
-	{
+	static propTypes = {
+		// (optional)
 		// Replaces the default country select arrow.
 		countrySelectArrowComponent : PropTypes.func
 	}
 
+	// These two country-select-related properties are
+	// implemented as `defaultProps` instead of passing them
+	// directly to the `<PhoneInput/>` because `<PhoneInputNative/>`
+	// is the default export of this library and therefore people pass
+	// `countrySelectComponent` property to this `<PhoneInputNative/>` component
+	// and when they don't see any changes they might get confused.
+	// https://github.com/catamphetamine/react-phone-number-input/issues/229
+	static defaultProps = {
+		countrySelectComponent: CountrySelect,
+		countrySelectProperties: COUNTRY_SELECT_PROPERTIES
+	}
+
 	storeInputRef = (ref) => this.input = ref
 
-	render()
-	{
+	render() {
 		return (
-			<PhoneInput
-				{ ...this.props }
-				ref={ this.storeInputRef }
-				countrySelectComponent={ CountrySelect }
-				countrySelectProperties={ countrySelectProperties }/>
+			<PhoneInput ref={this.storeInputRef} {...this.props}/>
 		)
 	}
 
@@ -30,7 +37,6 @@ export default class PhoneInputNative extends Component
 	focus = () => this.input.focus()
 }
 
-const countrySelectProperties =
-{
+const COUNTRY_SELECT_PROPERTIES = {
 	countrySelectArrowComponent : 'selectArrowComponent'
 }

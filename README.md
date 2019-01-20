@@ -157,7 +157,7 @@ Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["au
 
 ## Custom country `<select/>`
 
-One can supply their own country `<select/>` component in case the native one doesn't fit the app. See [`countrySelectComponent`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) property.
+One can supply their own country `<select/>` component in case the native one doesn't fit the app. See [`countrySelectComponent`](https://github.com/catamphetamine/react-phone-number-input#customizing) property.
 
 For example, one may choose [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/)'s [`<Select/>` component](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectReactResponsiveUI.js) over the [native country `<select/>`](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectNative.js).
 
@@ -284,7 +284,7 @@ The `<PhoneInput/>` component accepts some [customization properties](http://cat
 * `countrySelectComponent` — Custom country `<select/>` component.
 
 ```js
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from 'react-phone-number-input/core'
 
 import labels from 'react-phone-number-input/locale/ru'
 import metadata from 'libphonenumber-js/metadata.min.json'

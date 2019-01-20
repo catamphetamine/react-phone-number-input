@@ -31,31 +31,21 @@ export default class PhoneInputReactResponsiveUI extends Component
 		countrySelectMaxItems : PropTypes.number
 	}
 
-	storeInputRef = (ref) => this.input = ref
-
-	render()
-	{
-		return (
-			<PhoneInput
-				{ ...this.props }
-				ref={ this.storeInputRef }
-				getInputClassName={ this.getInputClassName }
-				countrySelectComponent={ CountrySelect }
-				countrySelectProperties={ countrySelectProperties }/>
-		)
+	// These two country-select-related properties are
+	// implemented as `defaultProps` instead of passing them
+	// directly to the `<PhoneInput/>` analogous to how it's
+	// implemented in `<PhoneInputNative/>` (see `./PhoneInputNative.js` notes).
+	static defaultProps = {
+		countrySelectComponent: CountrySelect,
+		countrySelectProperties: COUNTRY_SELECT_PROPERTIES,
+		getInputClassName
 	}
 
-	getInputClassName = ({ disabled, invalid }) =>
-	{
-		return classNames
-		(
-			'rrui__input',
-			'rrui__input-element',
-			'rrui__input-field',
-			{
-				'rrui__input-field--invalid'  : invalid,
-				'rrui__input-field--disabled' : disabled
-			}
+	storeInputRef = (ref) => this.input = ref
+
+	render() {
+		return (
+			<PhoneInput ref={this.storeInputRef} {...this.props}/>
 		)
 	}
 
@@ -63,11 +53,25 @@ export default class PhoneInputReactResponsiveUI extends Component
 	focus = () => this.input.focus()
 }
 
-const countrySelectProperties =
+const COUNTRY_SELECT_PROPERTIES =
 {
 	inputClassName               : 'inputClassName',
 	saveOnIcons                  : 'saveOnIcons',
 	countrySelectAriaLabel       : 'ariaLabel',
 	countrySelectCloseAriaLabel  : 'closeAriaLabel',
 	countrySelectMaxItems        : 'maxItems'
+}
+
+function getInputClassName({ disabled, invalid })
+{
+	return classNames
+	(
+		'rrui__input',
+		'rrui__input-element',
+		'rrui__input-field',
+		{
+			'rrui__input-field--invalid'  : invalid,
+			'rrui__input-field--disabled' : disabled
+		}
+	)
 }
