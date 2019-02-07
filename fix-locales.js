@@ -20,10 +20,20 @@ fs.readdirSync('locale').map((name) => {
 	// Re-sort locale data keys.
 	const newLocale = {}
 	for (const nonCountry of nonCountries) {
-		newLocale[nonCountry] = locale[nonCountry] || en[nonCountry]
+		if (locale[nonCountry]) {
+			newLocale[nonCountry] = locale[nonCountry]
+		} else {
+			console.log(`"${name}" was missing "${nonCountry}" key. Substituted with "${en[nonCountry]}".`)
+			newLocale[nonCountry] = en[nonCountry]
+		}
 	}
 	for (const country of countries) {
-		newLocale[country] = locale[country] || en[country]
+		if (locale[country]) {
+			newLocale[country] = locale[country]
+		} else {
+			console.log(`"${name}" was missing "${country}" country. Substituted with "${en[country]}".`)
+			newLocale[country] = en[country]
+		}
 	}
 	// Output locale data.
 	fs.writeFileSync(`locale/${name}`, JSON.stringify(newLocale, null, '\t'), 'utf-8')
