@@ -60,7 +60,8 @@
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",
     "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules browser-build build-styles",
     "build-styles": "babel-node build-bundle-styles",
-    "prepublish": "npm-run-all build test"
+    "fix-locales": "babel-node fix-locales",
+    "prepublish": "npm-run-all fix-locales build test"
   },
   "repository": {
     "type": "git",
