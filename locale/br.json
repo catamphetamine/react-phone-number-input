@@ -64,7 +64,7 @@
 	"DM": "Dominica",
 	"DO": "República Dominicana",
 	"DZ": "Argélia",
-	"CE": "Equador",
+	"EC": "Ecuador",
 	"EE": "Estónia",
 	"EG": "Egito",
 	"EH": "Sara Ocidental",
@@ -108,10 +108,10 @@
 	"IM": "Ilha de Man",
 	"IN": "Índia",
 	"IO": "Território Britânico do Oceano Índico",
-	"QI": "Iraque",
+	"IQ": "Iraque",
 	"IR": "Irã, República Islâmica do",
 	"IS": "Islândia",
-	"TI": "Itália",
+	"IT": "Itália",
 	"JE": "Jersey",
 	"JM": "Jamaica",
 	"JO": "Jordan",
@@ -252,8 +252,5 @@
 	"ZA": "África do Sul",
 	"ZM": "Zâmbia",
 	"ZW": "Zimbábue",
-	"ZZ": "Internacional",
-	"EC": "Ecuador",
-	"IQ": "Iraque",
-	"IT": "Itália"
+	"ZZ": "Internacional"
 }
