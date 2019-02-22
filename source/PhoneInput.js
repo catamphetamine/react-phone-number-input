@@ -475,7 +475,7 @@ export default class PhoneNumberInput extends PureComponent
 		(
 			phoneNumber,
 			country,
-			countries || getCountryCodes(labels),
+			countries || getCountryCodes(labels).filter(_ => _ === 'ZZ' || metadata.countries[_]),
 			international,
 			metadata
 		)
@@ -1016,7 +1016,8 @@ function generate_country_select_options(props)
 		countries,
 		labels,
 		international,
-		countryOptions
+		countryOptions,
+		metadata
 	}
 	= props
 
@@ -1024,7 +1025,7 @@ function generate_country_select_options(props)
 
 	return transformCountryOptions(getCountrySelectOptions
 	(
-		countries || getCountryCodes(labels),
+		countries || getCountryCodes(labels).filter(_ => _ === 'ZZ' || metadata.countries[_]),
 		labels,
 		international
 	)

@@ -14,7 +14,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "input-format": "^0.2.2",
-    "libphonenumber-js": "^1.7.5",
+    "libphonenumber-js": "^1.7.9",
     "prop-types": "^15.5.6",
     "react-lifecycles-compat": "^3.0.4",
     "react-responsive-ui": "^0.14.123"
@@ -32,7 +32,7 @@
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
     "cross-env": "^5.1.4",
-    "flag-icon-css": "^2.8.0",
+    "flag-icon-css": "^3.2.1",
     "json-loader": "^0.5.4",
     "mocha": "^5.2.0",
     "npm-run-all": "^1.4.0",
@@ -47,7 +47,7 @@
   },
   "scripts": {
     "generate-docs": "styleguidist build --config react-styleguidist.js",
-    "generate-countries": "babel-node runnable/generate-countries",
+    "generate-country-flags": "babel-node runnable/generate-country-flags",
     "test": "mocha --bail --require babel-core/register --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "test-coverage": "cross-env NODE_ENV=test nyc mocha --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",

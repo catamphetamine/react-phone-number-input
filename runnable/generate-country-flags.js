@@ -1,14 +1,15 @@
-import { getCountryCodes } from './countries'
+import { getCountryCodes } from '../source/countries'
 import defaultLabels from '../locale/default.json'
 
 import path from 'path'
 import fs from 'fs'
+import metadata from 'libphonenumber-js/metadata.min.json'
 
 fs.writeFileSync(path.join(__dirname, '../source/flags.js'), generate(true))
 
 function generate(flags)
 {
-	const countries = getCountryCodes(defaultLabels).map((code) =>
+	const countries = getCountryCodes(defaultLabels).filter(isSupportedByLibPhoneNumber).map((code) =>
 	{
 		const country =
 		{
@@ -53,21 +54,7 @@ function generate(flags)
 
 function get_country_flag(code)
 {
-	let flag_path
-
-	switch (code)
-	{
-		// // Kosovo (disputed territory).
-		// case 'xk':
-		// 	flag_path = 'resources/flags'
-		// 	break
-
-		// `flag-icon-css`
-		default:
-			flag_path = 'node_modules/flag-icon-css/flags/4x3'
-	}
-
-	return fs.readFileSync(path.join(__dirname, `../${flag_path}/${code}.svg`), 'utf8')
+	return fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${code.toLowerCase()}.svg`), 'utf8')
 }
 
 function reactify_svg(svg)
@@ -78,4 +65,9 @@ function reactify_svg(svg)
 		.replace(/ stroke-width="/g, ' strokeWidth="')
 		.replace(/ stroke-linejoin="/g, ' strokeLinejoin="')
 		.replace(/ stroke-linecap="/g, ' strokeLinecap="')
+}
+
+// Leave only those countries supported by `libphonenumber-js`.
+function isSupportedByLibPhoneNumber(country) {
+	return metadata.countries[country] || country === 'ZZ'
 }
