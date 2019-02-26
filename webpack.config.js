@@ -6,6 +6,12 @@ switch (process.env.WEBPACK_BUNDLE_TYPE) {
   case 'native':
     inputFileName = 'min/index.commonjs'
     break
+  case 'native-mobile':
+    inputFileName = 'mobile/index.commonjs'
+    break
+  case 'native-max':
+    inputFileName = 'max/index.commonjs'
+    break
   case 'react-responsive-ui':
     inputFileName = 'react-responsive-ui/index.commonjs'
     break
