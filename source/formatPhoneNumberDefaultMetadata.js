@@ -3,7 +3,7 @@
 // In some next major version this file will be removed
 // and `/index.js` will be redirected to `/min/index.js`.
 
-import { formatNumber } from 'libphonenumber-js/custom'
+import { formatNumber } from 'libphonenumber-js/core'
 import metadata from 'libphonenumber-js/metadata.min.json'
 
 export default function formatPhoneNumber(value, format = 'National')
