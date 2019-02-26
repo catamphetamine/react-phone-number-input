@@ -16,19 +16,16 @@ export const SKIP_COUNTRIES = [
 	// https://lipis.github.io/flag-icon-css/flags/4x3/ta.svg
 	'TA',
 
-	// `flag-icon-css` with "XK" territory flag hasn't been released.
-	// https://github.com/lipis/flag-icon-css/pull/501#issuecomment-466359515
-	//
-	// "Kosovo".
-	// "XK" is not an officially assigned ISO 3166-1 alpha-2 country code.
-	// Kosovo is still a disputed and non-internationally-recognized territory,
-	// and the UN Resolution 1244 is still valid.
-	// https://en.wikipedia.org/wiki/United_Nations_Security_Council_Resolution_1244
-	//
-	// https://github.com/catamphetamine/react-phone-number-input/issues/153
-	// https://github.com/catamphetamine/react-phone-number-input/pull/155
-	//
-	'XK'
+	// // "Kosovo".
+	// // "XK" is not an officially assigned ISO 3166-1 alpha-2 country code.
+	// // Kosovo is still a disputed and non-internationally-recognized territory,
+	// // and the UN Resolution 1244 is still valid.
+	// // https://en.wikipedia.org/wiki/United_Nations_Security_Council_Resolution_1244
+	// //
+	// // https://github.com/catamphetamine/react-phone-number-input/issues/153
+	// // https://github.com/catamphetamine/react-phone-number-input/pull/155
+	// //
+	// 'XK'
 ]
 
 export function getCountryCodes(labels)

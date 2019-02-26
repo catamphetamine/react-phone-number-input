@@ -7,11 +7,9 @@ import classNames from 'classnames'
 // https://github.com/catamphetamine/react-phone-number-input/issues/111
 const FlagComponent = ({ country, flags, flagsPath, className }) =>
 {
-	if (flags && flags[country])
-	{
+	if (flags && flags[country]) {
 		return flags[country]()
 	}
-
 	return (
 		<img
 			alt={country}
