@@ -1,14 +1,16 @@
 // Deprecated.
-// This is a file used in legacy `/index.js` export entry.
+// This is a file used in the legacy root `/index.js` export file.
+// (importing directly from `react-phone-number-input` is currently deprecated)
 // In some next major version this file will be removed
-// and `/index.js` will be redirected to `/min/index.js`.
+// and `main` and `module` entries in `package.json` will be
+// redirected to `/min/index.js` and `/min/index.commonjs.js`
+// which don't import this file.
 
-import { isValidNumber } from 'libphonenumber-js/core'
+import isValidPhoneNumber_ from './isValidPhoneNumber'
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-export default function isValidPhoneNumber()
-{
+export default function isValidPhoneNumber() {
 	var parameters = Array.prototype.slice.call(arguments)
 	parameters.push(metadata)
-	return isValidNumber.apply(this, parameters)
+	return isValidPhoneNumber_.apply(this, parameters)
 }

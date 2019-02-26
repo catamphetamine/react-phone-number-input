@@ -1,7 +1,6 @@
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core'
 
-export default function formatPhoneNumber(value, format, metadata)
-{
+export default function formatPhoneNumber(value, format, metadata) {
 	if (!metadata) {
 		if (typeof format === 'object') {
 			metadata = format

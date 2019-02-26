@@ -1,7 +1,6 @@
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core'
 
-export default function isValidPhoneNumber(value, metadata)
-{
+export default function isValidPhoneNumber(value, metadata) {
 	if (!value) {
 		return false
 	}
