@@ -298,7 +298,7 @@ import InternationalIcon from 'react-phone-number-input/international-icon'
   internationalIcon={InternationalIcon}/>
 ```
 
-All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then he can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties. In this case all customization properties must be passed.
+All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties. In this case all customization properties must be passed.
 
 ```js
 import PhoneInput from 'react-phone-number-input/core'
