@@ -5,15 +5,17 @@ export const SKIP_COUNTRIES = [
 	'001',
 
 	// "Ascension Island".
-	// "AC" is not an officially assigned ISO 3166-1 alpha-2 country code.
-	// And there's no flag for it:
+	// The flag is missing for it:
 	// https://lipis.github.io/flag-icon-css/flags/4x3/ac.svg
+	// GitHub issue:
+	// https://github.com/lipis/flag-icon-css/issues/537
 	'AC',
 
 	// "Tristan da Cunha".
-	// "TA" is not an officially assigned ISO 3166-1 alpha-2 country code.
-	// And there's no flag for it:
+	// The flag is missing for it:
 	// https://lipis.github.io/flag-icon-css/flags/4x3/ta.svg
+	// GitHub issue:
+	// https://github.com/lipis/flag-icon-css/issues/537
 	'TA',
 
 	// // "Kosovo".
