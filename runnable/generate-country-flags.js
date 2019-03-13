@@ -1,4 +1,4 @@
-import { getCountryCodes } from '../source/countries'
+import { getCountryCodes, getCountryCodeForFlag } from '../source/countries'
 import defaultLabels from '../locale/default.json'
 
 import path from 'path'
@@ -20,7 +20,7 @@ export default {${countries.map((country) => {
 }
 
 function getCountryFlagSvgMarkup(country) {
-	return fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${country.toLowerCase()}.svg`), 'utf8')
+	return fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getCountryCodeForFlag(country).toLowerCase()}.svg`), 'utf8')
 }
 
 function filterSvgMarkup(svgMarkup) {

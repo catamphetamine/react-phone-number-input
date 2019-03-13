@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import { getCountryCodeForFlag } from './countries'
+
 // Default country flag icon.
 // `<img/>` is wrapped in a `<div/>` to prevent SVGs from exploding in size in IE 11.
 // https://github.com/catamphetamine/react-phone-number-input/issues/111
@@ -14,7 +16,7 @@ const FlagComponent = ({ country, flags, flagsPath, className }) =>
 		<img
 			alt={country}
 			className="react-phone-number-input__icon-image"
-			src={`${flagsPath}${country.toLowerCase()}.svg`}/>
+			src={`${flagsPath}${getCountryCodeForFlag(country).toLowerCase()}.svg`}/>
 	)
 }
 

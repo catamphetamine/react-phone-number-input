@@ -4,19 +4,19 @@ export const SKIP_COUNTRIES = [
 	// "001" means "Non-Geographical Entity" ("No country", "International").
 	'001',
 
-	// "Ascension Island".
-	// The flag is missing for it:
-	// https://lipis.github.io/flag-icon-css/flags/4x3/ac.svg
-	// GitHub issue:
-	// https://github.com/lipis/flag-icon-css/issues/537
-	'AC',
+	// // "Ascension Island".
+	// // The flag is missing for it:
+	// // https://lipis.github.io/flag-icon-css/flags/4x3/ac.svg
+	// // GitHub issue:
+	// // https://github.com/lipis/flag-icon-css/issues/537
+	// 'AC',
 
-	// "Tristan da Cunha".
-	// The flag is missing for it:
-	// https://lipis.github.io/flag-icon-css/flags/4x3/ta.svg
-	// GitHub issue:
-	// https://github.com/lipis/flag-icon-css/issues/537
-	'TA',
+	// // "Tristan da Cunha".
+	// // The flag is missing for it:
+	// // https://lipis.github.io/flag-icon-css/flags/4x3/ta.svg
+	// // GitHub issue:
+	// // https://github.com/lipis/flag-icon-css/issues/537
+	// 'TA',
 
 	// // "Kosovo".
 	// // "XK" is not an officially assigned ISO 3166-1 alpha-2 country code.
@@ -47,4 +47,31 @@ export function getCountryCodes(labels)
 	return Object.keys(labels).filter((key) => {
 		return key.length === 2 && key.toUpperCase() === key && key !== 'ZZ' && SKIP_COUNTRIES.indexOf(key) < 0
 	})
+}
+
+export function getCountryCodeForFlag(country) {
+	switch (country) {
+		// "Ascension Island".
+		// The flag is missing for it:
+		// https://lipis.github.io/flag-icon-css/flags/4x3/ac.svg
+		// GitHub issue:
+		// https://github.com/lipis/flag-icon-css/issues/537
+		// Using "SH" flag as a temporary substitute
+		// because previously "AC" and "TA" were parts of "SH".
+		case 'AC':
+			return 'SH'
+
+		// "Tristan da Cunha".
+		// The flag is missing for it:
+		// https://lipis.github.io/flag-icon-css/flags/4x3/ta.svg
+		// GitHub issue:
+		// https://github.com/lipis/flag-icon-css/issues/537
+		// Using "SH" flag as a temporary substitute
+		// because previously "AC" and "TA" were parts of "SH".
+		case 'TA':
+			return 'SH'
+
+		default:
+			return country
+	}
 }
