@@ -33,6 +33,7 @@ function filterSvgMarkup(svgMarkup) {
 		.replace(/ stroke-width="/g, ' strokeWidth="')
 		.replace(/ stroke-linejoin="/g, ' strokeLinejoin="')
 		.replace(/ stroke-linecap="/g, ' strokeLinecap="')
+		.replace(/ fill-rule="/g, ' fillRule="')
 }
 
 // Leave only those countries supported by `libphonenumber-js`.
