@@ -1,3 +1,14 @@
+2.3.8 / 15.03.2019
+==================
+
+  * Recently I removed some of the countries from the list of selectable countries because they weren't supported by Google's `libphonenumber`: previously I didn't check if all the selectable countries were supported (for some reason) so the list of countries contained some countries which weren't supported by `libphonenumber` which in turn would result in incorrect phone number parsing/formatting (countries like Abkhazia and South Osetia, for example).
+
+  * I also added Kosovo to the list. It's not a country but a "territory" instead. I imagine people from Kosovo might be looking for "Kosovo" in the list and they'd be confused if it was missing. Google supports `XK` territory code and the flag for `XK` has been recently added to the flags repo. Anyone using custom `flagsPath` should update their flag bundles accordingly.
+
+  * Also added `TA` and `AC` countries to the list but they're using `SH` flag for now, so no need to update flags for them yet. If the author of the flags repo adds the flags for `TA` and `AC` then the flags will have to be updated. See the [issue](https://github.com/lipis/flag-icon-css/issues/537) in the flags repo for more info.
+
+  * Also note that when supplying custom `flagsPath` those custom-hosted flags might go out of sync with the list of countries. For example, there could be people hosting their own copy of flags, and then `XK` flag is added to the flags repo and I add "Kosovo" territory to the list and now `XK` flag is missing from all custom-hosted flag bundles and if those people update this library to the latest version without updating their custom-hosted flag bundled they'd get an "Image not found" error when selecting "Kosovo" territory from the list.
+
 2.3.0 / 02.01.2019
 ==================
 

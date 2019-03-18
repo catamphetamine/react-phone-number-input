@@ -159,6 +159,13 @@ export default class PhoneNumberInput extends PureComponent
 		 * I imagine someone might want to download
 		 * those country flag icons and host them
 		 * on their own servers instead.
+		 * Warning: in future new countries can be added
+		 * to the country select which would result in
+		 * "Image not found" errors when using custom `flagsPath`
+		 * due to the custom-hosted flags bundle being outdated
+		 * and missing the new flags.
+		 * So if using custom `flagsPath` always check `CHANGELOG.md`
+		 * for new country announcements before updating this library.
 		 */
 		flagsPath : PropTypes.string.isRequired,
 
