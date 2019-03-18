@@ -23,17 +23,49 @@ function getCountryFlagSvgMarkup(country) {
 	return fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getCountryCodeForFlag(country).toLowerCase()}.svg`), 'utf8')
 }
 
+/**
+ * Replaces HTML-style attributes with camelCased React ones.
+ * The script used for checking:
+ * var src = `...`
+ * var attributes = [];
+ * for (const attribute of src.match(/[a-zA-Z]+-[a-zA-Z]+="/g)) {
+ *   if (!attributes.includes(attribute)){
+ *     attributes.push(attribute)
+ *   }
+ * }
+ * console.log(attributes.map(attribute => attribute.slice(0, attribute.length - '="'.length)).sort().join('\n'))
+ * @param  {string} svgMarkup
+ * @return {string}
+ */
 function filterSvgMarkup(svgMarkup) {
+	const SVG_ATTRIBUTES = [
+		'clip-path',
+		'fill-opacity',
+		'fill-rule',
+		'font-family',
+		'font-size',
+		'font-weight',
+		'letter-spacing',
+		'stop-color',
+		'stop-opacity',
+		'stroke-dashoffset',
+		'stroke-miterlimit',
+		'stroke-opacity',
+		'stroke-width',
+		'stroke-linejoin',
+		'stroke-linecap',
+		'text-anchor',
+		'word-spacing',
+		'xmlns:xlink',
+		'xlink:href'
+	]
+	for (const attribute of SVG_ATTRIBUTES) {
+		svgMarkup = svgMarkup.replace(new RegExp(` (${attribute})="`, 'g'), (_, match) => ` ${match.replace(/[-:]([a-z])/g, (_, letter) => letter.toUpperCase())}="`)
+	}
 	return svgMarkup
 		// Won't work for things like "<g clip-path="url(#a)">".
 		// // Remove `id`s.
 		// .replace(/ id=".+?"/g, '')
-		.replace(/ xmlns:xlink="/g, ' xmlnsXlink="')
-		.replace(/ xlink:href="/g, ' xlinkHref="')
-		.replace(/ stroke-width="/g, ' strokeWidth="')
-		.replace(/ stroke-linejoin="/g, ' strokeLinejoin="')
-		.replace(/ stroke-linecap="/g, ' strokeLinecap="')
-		.replace(/ fill-rule="/g, ' fillRule="')
 }
 
 // Leave only those countries supported by `libphonenumber-js`.
