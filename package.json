@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "description": "Telephone input for React",
   "main": "index.commonjs.js",
   "module": "index.js",
