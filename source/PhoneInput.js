@@ -450,36 +450,38 @@ export default class PhoneNumberInput extends PureComponent
 		limitMaxLength : false
 	}
 
-	constructor(props)
-	{
+	constructor(props) {
 		super(props)
 
-		const
-		{
+		const {
 			value,
-			country,
-			countries,
-			countryOptions,
 			labels,
 			international,
 			metadata
-		}
-		= this.props
+		} = this.props
 
+		let {
+			country,
+			countries,
+			countryOptions
+		} = this.props
+
+		// Validate `country`.
 		if (country) {
-			validateCountry(country, metadata)
+			if (!this.isCountrySupportedWithError(country)) {
+				country = undefined
+			}
 		}
-		if (countries) {
-			validateCountries(countries, metadata)
-		}
-		if (countryOptions) {
-			validateCountryOptions(countryOptions, metadata)
-		}
+
+		// Validate `countries`.
+		countries = filterCountries(countries, metadata)
+
+		// Validate `countryOptions`.
+		countryOptions = filterCountryOptions(countryOptions, metadata)
 
 		const phoneNumber = parsePhoneNumber(value, metadata)
 
-		const pre_selected_country = getPreSelectedCountry
-		(
+		const pre_selected_country = getPreSelectedCountry(
 			phoneNumber,
 			country,
 			countries || getCountryCodes(labels).filter(_ => _ === 'ZZ' || metadata.countries[_]),
@@ -495,8 +497,16 @@ export default class PhoneNumberInput extends PureComponent
 			// The country selected.
 			country : pre_selected_country,
 
+			// `countries` are stored in `this.state` because they're filtered.
+			// For example, a developer might theoretically pass some unsupported
+			// countries as part of the `countries` property, and because of that
+			// the component uses `this.state.countries` (which are filtered)
+			// instead of `this.props.countries`
+			// (which could potentially contain unsupported countries).
+			countries,
+
 			// Generate country `<select/>` options.
-			country_select_options : generate_country_select_options(this.props),
+			country_select_options : generateCountrySelectOptions(countries, countryOptions, this.props),
 
 			// `parsed_input` state property holds non-formatted user's input.
 			// The reason is that there's no way of finding out
@@ -522,36 +532,32 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	componentDidMount() {
-		const { country, onCountryChange } = this.props
+		const { onCountryChange } = this.props
+		let { country } = this.props
 		const { country: selectedCountry } = this.state
 
-		if (onCountryChange && selectedCountry !== country) {
-			onCountryChange(selectedCountry)
+		if (onCountryChange) {
+			if (!this.isCountrySupportedWithError(country)) {
+				country = undefined
+			}
+			if (selectedCountry !== country) {
+				onCountryChange(selectedCountry)
+			}
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const {
-			country,
-			countries,
-			countryOptions,
-			onCountryChange,
-			metadata
-		} = this.props
-
-		if (country && country !== prevProps.country) {
-			validateCountry(country, metadata)
-		}
-		if (countries && countries !== prevProps.countries) {
-			validateCountries(countries, metadata)
-		}
-		if (countryOptions && countryOptions !== prevProps.countryOptions) {
-			validateCountryOptions(countryOptions, metadata)
-		}
-
+		const { onCountryChange } = this.props
+		// Call `onCountryChange` when user selects another country.
 		if (onCountryChange && this.state.country !== prevState.country) {
 			onCountryChange(this.state.country)
 		}
+	}
+
+	// A shorthand for not passing `metadata` as a second argument.
+	isCountrySupportedWithError = (country) => {
+		const { metadata } = this.props
+		return isCountrySupportedWithError(country, metadata)
 	}
 
 	// Country `<select/>` `onChange` handler.
@@ -639,7 +645,6 @@ export default class PhoneNumberInput extends PureComponent
 		const
 		{
 			onChange,
-			countries,
 			international,
 			limitMaxLength,
 			metadata
@@ -656,7 +661,7 @@ export default class PhoneNumberInput extends PureComponent
 		(
 			_input,
 			this.state.country,
-			countries,
+			this.state.countries,
 			international,
 			limitMaxLength,
 			metadata
@@ -681,12 +686,9 @@ export default class PhoneNumberInput extends PureComponent
 	// Toggles the `--focus` CSS class.
 	_onBlur = () => this.setState({ isFocused: false })
 
-	onFocus = (event) =>
-	{
+	onFocus = (event) => {
 		const { onFocus } = this.props
-
 		this._onFocus()
-
 		if (onFocus) {
 			onFocus(event)
 		}
@@ -714,11 +716,9 @@ export default class PhoneNumberInput extends PureComponent
 
 		// `event` is React's `SyntheticEvent`.
 		// Its `.value` is read-only therefore cloning it.
-		const _event =
-		{
+		const _event = {
 			...event,
-			target:
-			{
+			target: {
 				...event.target,
 				value
 			}
@@ -733,8 +733,7 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	// When country `<select/>` is toggled.
-	hidePhoneInputField = (hide) =>
-	{
+	hidePhoneInputField = (hide) => {
 		this.setState({
 			hidePhoneInputField: hide
 		})
@@ -752,29 +751,23 @@ export default class PhoneNumberInput extends PureComponent
 	// * `value` — The currently entered phone number (E.164), e.g. `+78005553535`.
 	// * `parsed_input` — The parsed `<input/>` value, e.g. `8005553535`.
 	// (and a couple of other less significant properties)
-	static getDerivedStateFromProps(props, state)
-	{
-		const
-		{
+	static getDerivedStateFromProps(props, state) {
+		const {
 			country,
 			hasUserSelectedACountry,
 			value,
-			props:
-			{
+			props: {
 				country : old_default_country,
 				value   : old_value
 			}
-		}
-		= state
+		} = state
 
-		const
-		{
+		const {
 			metadata,
 			countries,
 			country : new_default_country,
 			value   : new_value
-		}
-		= props
+		} = props
 
 		const new_state = {
 			// Emulate `prevProps` via `state.props`.
@@ -790,9 +783,13 @@ export default class PhoneNumberInput extends PureComponent
 		// then re-generate country `<select/>` options.
 		if (props.countries !== state.props.countries ||
 			props.labels !== state.props.labels ||
-			props.international !== state.props.international)
-		{
-			new_state.country_select_options = generate_country_select_options(props)
+			props.international !== state.props.international) {
+			// Re-generate country select options.
+			new_state.country_select_options = generateCountrySelectOptions(
+				filterCountries(props.countries, metadata),
+				filterCountryOptions(props.countryOptions, metadata),
+				props
+			)
 		}
 
 		// If the default country changed.
@@ -803,11 +800,10 @@ export default class PhoneNumberInput extends PureComponent
 		// then he's okay with no country being selected at all ("International")
 		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
 		if (new_default_country !== old_default_country &&
-			!hasUserSelectedACountry && !value && !new_value)
-		{
+			!hasUserSelectedACountry && !value && !new_value) {
 			return {
 				...new_state,
-				country : new_default_country
+				country: isCountrySupportedWithError(new_default_country, metadata) ? new_default_country : old_default_country
 				// `value` is `undefined`.
 				// `parsed_input` is `undefined` because `value` is `undefined`.
 			}
@@ -823,15 +819,20 @@ export default class PhoneNumberInput extends PureComponent
 		// which happens in `this.onChange()` right after `this.setState()`.
 		// If this `getDerivedStateFromProps()` call isn't ignored
 		// then the country flag would reset on each input.
-		else if (new_value !== old_value && new_value !== value)
-		{
+		else if (new_value !== old_value && new_value !== value) {
 			const phoneNumber = parsePhoneNumber(new_value, metadata)
-
+			let parsedCountry
+			if (phoneNumber) {
+				const countries = filterCountries(props.countries, metadata)
+				if (!countries || countries.indexOf(phoneNumber.country) >= 0) {
+					parsedCountry = phoneNumber.country
+				}
+			}
 			return {
 				...new_state,
 				parsed_input : generateParsedInput(new_value, phoneNumber, props),
 				value : new_value,
-				country : new_value ? (phoneNumber && (!countries || countries.indexOf(phoneNumber.country) >= 0) ? phoneNumber.country : undefined) : country
+				country : new_value ? parsedCountry : country
 			}
 		}
 
@@ -869,10 +870,10 @@ export default class PhoneNumberInput extends PureComponent
 			ext,
 
 			// Extract `phoneNumberInputProps` via "object rest spread":
+			country : _,
 			countries,
 			countryOptions,
 			labels,
-			country : _,
 			flags,
 			flagComponent,
 			flagsPath,
@@ -1016,33 +1017,27 @@ export default class PhoneNumberInput extends PureComponent
 }
 
 // Generates country `<select/>` options.
-function generate_country_select_options(props)
-{
-	const
-	{
-		countries,
+function generateCountrySelectOptions(countries, countryOptions, props) {
+	const {
 		labels,
 		international,
-		countryOptions,
 		metadata
-	}
-	= props
+	} = props
 
 	const CountrySelectOptionIcon = createCountrySelectOptionIconComponent(props)
 
-	return transformCountryOptions(getCountrySelectOptions
-	(
-		countries || getCountryCodes(labels).filter(_ => _ === 'ZZ' || metadata.countries[_]),
-		labels,
-		international
+	return transformCountryOptions(
+		getCountrySelectOptions(
+			countries || getCountryCodes(labels).filter(country => country === 'ZZ' || isCountrySupported(country, metadata)),
+			labels,
+			international
+		).map(({ value, label }) => ({
+			value,
+			label,
+			icon: CountrySelectOptionIcon
+		})),
+		countryOptions
 	)
-	.map(({ value, label }) =>
-	({
-		value,
-		label,
-		icon : CountrySelectOptionIcon
-	})),
-	countryOptions)
 }
 
 function createCountrySelectOptionIconComponent(props)
@@ -1132,32 +1127,48 @@ function generateParsedInput(value, phoneNumber, props)
 	return value
 }
 
-function validateCountryOptions(countries, metadata) {
-	for (const country of countries) {
-		if (country && country !== '|' && country !== '...' && country !== '…') {
-			if (!metadata.countries[country]) {
-				throwCountryNotFound(country)
-			}
+function isCountrySupported(country, metadata) {
+	return metadata.countries.hasOwnProperty(country)
+}
+
+function isCountrySupportedWithError(country, metadata) {
+	if (isCountrySupported(country, metadata)) {
+		return true
+	} else {
+		console.error(`Country not found: ${country}`)
+		return false
+	}
+}
+
+function isCountryOptionSupportedWithError(countryOption, metadata) {
+	switch (countryOption) {
+		case '|':
+		case '...':
+		case '…':
+			return true
+		default:
+			return isCountrySupportedWithError(countryOption, metadata)
+	}
+}
+
+function filterCountries(countries, metadata) {
+	if (countries) {
+		countries = countries.filter(country => isCountrySupportedWithError(country, metadata))
+		if (countries.length === 0) {
+			countries = undefined
 		}
 	}
+	return countries
 }
 
-function validateCountries(countries, metadata) {
-	for (const country of countries) {
-		if (!metadata.countries[country]) {
-			throwCountryNotFound(country)
+function filterCountryOptions(countryOptions, metadata) {
+	if (countryOptions) {
+		countryOptions = countryOptions.filter(countryOption => isCountryOptionSupportedWithError(countryOption, metadata))
+		if (countryOptions.length === 0) {
+			countryOptions = undefined
 		}
 	}
-}
-
-function validateCountry(country, metadata) {
-	if (!metadata.countries[country]) {
-		throwCountryNotFound(country)
-	}
-}
-
-function throwCountryNotFound(country) {
-	throw new Error(`Country not found: ${country}`)
+	return countryOptions
 }
 
 function parseExtDigits(event) {
