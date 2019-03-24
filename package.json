@@ -4,6 +4,7 @@
   "description": "Telephone input for React",
   "main": "index.commonjs.js",
   "module": "index.js",
+  "types": "index.d.ts",
   "sideEffects": [
     "*.css"
   ],
@@ -20,6 +21,7 @@
     "react-responsive-ui": "^0.14.123"
   },
   "devDependencies": {
+    "@types/react": "^16.0.0",
     "autoprefixer": "^8.6.4",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.7.2",
