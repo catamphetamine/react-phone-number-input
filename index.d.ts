@@ -67,6 +67,7 @@ declare module "react-phone-number-input" {
         metadata?: object;
         placeholder?: string;
         onCountryChange?: (countryCode?: string) => void;
+        onKeyDown?: (event: React.KeyboardEvent<any>) => void;
         showCountrySelect?: boolean;
         style?: React.CSSProperties;
     }
