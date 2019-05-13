@@ -52,7 +52,7 @@ declare module "react-phone-number-input" {
         disabled?: boolean;
         displayInitialValueAsLocalNumber?: boolean;
         error?: string;
-        ext?: React.ReactElement,
+        ext?: React.ReactElement<string | number>,
         flagComponent?: React.Component<{ country: string, flagsPath: string, flags: FlagsMap }, object>;
         flags?: FlagsMap;
         flagsPath?: string;
