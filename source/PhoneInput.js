@@ -537,7 +537,7 @@ export default class PhoneNumberInput extends PureComponent
 		const { country: selectedCountry } = this.state
 
 		if (onCountryChange) {
-			if (!this.isCountrySupportedWithError(country)) {
+			if (!country || !this.isCountrySupportedWithError(country)) {
 				country = undefined
 			}
 			if (selectedCountry !== country) {
