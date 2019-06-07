@@ -205,7 +205,7 @@ export default class PhoneNumberInput extends PureComponent
 		 *
 		 * `<PhoneInput flags={flags} .../>`
 		 */
-		flags : PropTypes.objectOf(PropTypes.func),
+		flags : PropTypes.objectOf(PropTypes.elementType),
 
 		/**
 		 * Country flag icon component.
@@ -216,7 +216,7 @@ export default class PhoneNumberInput extends PureComponent
 		 * * flagsPath : string — The `flagsPath` property (see above).
 		 * * flags : object — The `flags` property (see above).
 		 */
-		flagComponent : PropTypes.func.isRequired,
+		flagComponent : PropTypes.elementType.isRequired,
 
 		/**
 		 * Set to `false` to drop the "International" option from country `<select/>`.
@@ -226,7 +226,7 @@ export default class PhoneNumberInput extends PureComponent
 		/**
 		 * Custom "International" country `<select/>` option icon.
 		 */
-		internationalIcon : PropTypes.func.isRequired,
+		internationalIcon : PropTypes.elementType.isRequired,
 
 		/**
 		 * Set to `false` to hide country `<select/>`.
@@ -293,7 +293,7 @@ export default class PhoneNumberInput extends PureComponent
 		// * `hidePhoneInputField(hide : boolean)` — Can be called to show/hide phone input field. Takes `hide : boolean` argument. E.g. `react-responsive-ui` `<Select/>` uses this to hide phone number input when country select is expanded.
 		// * `focusPhoneInputField()` — Can be called to manually focus phone input field. E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input after country selection in a timeout (after the phone input field is no longer hidden).
 		//
-		countrySelectComponent : PropTypes.func.isRequired,
+		countrySelectComponent : PropTypes.elementType.isRequired,
 
 		/**
 		 * Phone number `<input/>` component.
@@ -310,7 +310,7 @@ export default class PhoneNumberInput extends PureComponent
 		 *
 		 * Must also implement `.focus()` method.
 		 */
-		inputComponent : PropTypes.func.isRequired,
+		inputComponent : PropTypes.elementType.isRequired,
 
 		/**
 		 * Set to `false` to use `inputComponent={InputBasic}`
