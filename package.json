@@ -4,7 +4,6 @@
   "description": "Telephone input for React",
   "main": "index.commonjs.js",
   "module": "index.js",
-  "types": "index.d.ts",
   "sideEffects": [
     "*.css"
   ],
