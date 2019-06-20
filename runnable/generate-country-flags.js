@@ -3,6 +3,7 @@ import defaultLabels from '../locale/default.json'
 
 import path from 'path'
 import fs from 'fs'
+import svgr from '@svgr/core'
 import metadata from 'libphonenumber-js/metadata.min.json'
 
 fs.writeFileSync(path.join(__dirname, '../source/flags.js'), generateFlags())
@@ -20,7 +21,20 @@ export default {${countries.map((country) => {
 }
 
 function getCountryFlagSvgMarkup(country) {
-	return fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getCountryCodeForFlag(country).toLowerCase()}.svg`), 'utf8')
+	const svgCode = fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getCountryCodeForFlag(country).toLowerCase()}.svg`), 'utf8')
+	const code = svgr.sync(
+		svgCode,
+		{
+			plugins: [
+				'@svgr/plugin-svgo',
+				'@svgr/plugin-jsx',
+				'@svgr/plugin-prettier'
+			],
+		}
+	)
+	return code.replace('import React from "react";\n\nconst SvgComponent = props => (\n', '')
+		.replace(' {...props}', '')
+		.replace('\n);\n\nexport default SvgComponent;', '')
 }
 
 /**

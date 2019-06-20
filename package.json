@@ -20,6 +20,10 @@
     "react-responsive-ui": "^0.14.123"
   },
   "devDependencies": {
+    "@svgr/core": "^4.3.0",
+    "@svgr/plugin-jsx": "^4.3.0",
+    "@svgr/plugin-prettier": "^4.2.0",
+    "@svgr/plugin-svgo": "^4.2.0",
     "@types/react": "^16.0.0",
     "autoprefixer": "^8.6.4",
     "babel-cli": "^6.18.0",
