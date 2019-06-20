@@ -1,3 +1,10 @@
+2.3.18 / 21.06.2019
+===================
+
+  * Changed the "International" flag icon.
+
+  * [Fixed](https://github.com/catamphetamine/react-phone-number-input/issues/258) `react-phone-number-input/flags` import.
+
 2.3.8 / 15.03.2019
 ==================
 
