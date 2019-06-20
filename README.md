@@ -192,7 +192,7 @@ return (
 Some people requested an exported minimal phone number input component without country `<select/>`.
 
 ```js
-import PhoneInput from `react-phone-number-input/basic-input`
+import PhoneInput from 'react-phone-number-input/basic-input'
 
 class Example extends Component {
   state = {
