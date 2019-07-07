@@ -267,7 +267,7 @@ formatRFC3966({ number: '+12133734253', ext: '123' })
 // 'tel:+12133734253;ext=123'
 ```
 
-Use the accompanying `parsePhoneNumber()` function to convert an RFC3966 string into an object having shape `{ number, ext }`.
+Use the accompanying `parseRFC3966()` function to convert an RFC3966 string into an object having shape `{ number, ext }`.
 
 ```js
 import { parseRFC3966 } from 'react-phone-number-input'
