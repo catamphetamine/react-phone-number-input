@@ -66,7 +66,10 @@ To get `country` from `value` one can use `parsePhoneNumber(value)` function.
 ```js
 import { parsePhoneNumber } from 'react-phone-number-input'
 
-parsePhoneNumber('+12133734253').country === 'US'
+const phoneNumber = parsePhoneNumber('+12133734253')
+if (phoneNumber) {
+  phoneNumber.country === 'US'
+}
 ```
 
 <!--
