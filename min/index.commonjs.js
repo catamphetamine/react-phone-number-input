@@ -14,6 +14,10 @@ var PhoneInput = createPhoneInput(metadata)
 
 exports = module.exports = PhoneInput
 
+exports.parsePhoneNumber = function parsePhoneNumber() {
+	return call(core.parsePhoneNumber, arguments)
+}
+
 exports.formatPhoneNumber = function formatPhoneNumber() {
 	return call(core.formatPhoneNumber, arguments)
 }
@@ -25,5 +29,8 @@ exports.formatPhoneNumberIntl = function formatPhoneNumberIntl() {
 exports.isValidPhoneNumber = function isValidPhoneNumber() {
 	return call(core.isValidPhoneNumber, arguments)
 }
+
+exports.parseRFC3966 = core.parseRFC3966
+exports.formatRFC3966 = core.formatRFC3966
 
 exports['default'] = PhoneInput

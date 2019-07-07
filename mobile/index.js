@@ -1,6 +1,9 @@
 import metadata from 'libphonenumber-js/metadata.mobile.json'
 
+export { parseRFC3966, formatRFC3966 } from '../core/index'
+
 import {
+	parsePhoneNumber as _parsePhoneNumber,
 	formatPhoneNumber as _formatPhoneNumber,
 	formatPhoneNumberIntl as _formatPhoneNumberIntl,
 	isValidPhoneNumber as _isValidPhoneNumber
@@ -15,6 +18,10 @@ function call(func, _arguments) {
 }
 
 export default createPhoneInput(metadata)
+
+export function parsePhoneNumber() {
+	return call(_parsePhoneNumber, arguments)
+}
 
 export function formatPhoneNumber() {
 	return call(_formatPhoneNumber, arguments)

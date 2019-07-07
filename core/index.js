@@ -1,3 +1,5 @@
 export { default as default } from '../modules/PhoneInput'
+export { parseRFC3966, formatRFC3966 } from '../modules/libphonenumber/RFC3966'
+export { default as parsePhoneNumber } from '../modules/libphonenumber/parsePhoneNumber'
 export { default as formatPhoneNumber, formatPhoneNumberIntl } from '../modules/formatPhoneNumber'
 export { default as isValidPhoneNumber } from '../modules/isValidPhoneNumber'

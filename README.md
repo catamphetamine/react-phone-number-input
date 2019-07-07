@@ -53,13 +53,20 @@ See the [list of all available `props`](http://catamphetamine.github.io/react-ph
 
 To format `value` back to a human-readable phone number use `formatPhoneNumber(value)` and `formatPhoneNumberIntl(value)` functions.
 
-
 ```js
 import { formatPhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input'
 
 const value = '+12133734253'
 formatPhoneNumber(value) === '(213) 373-4253' // National format
 formatPhoneNumberIntl(value) === '+1 213 373 4253' // International format
+```
+
+To get `country` from `value` one can use `parsePhoneNumber(value)` function.
+
+```js
+import { parsePhoneNumber } from 'react-phone-number-input'
+
+parsePhoneNumber('+12133734253').country === 'US'
 ```
 
 <!--
@@ -254,16 +261,16 @@ Phone number extension input will appear to the right of the phone number input.
 `{ number, ext }` object can be converted to an [RFC3966](https://www.ietf.org/rfc/rfc3966.txt) string for storing it in a database.
 
 ```js
-import { formatRFC3966 } from 'react-phone-number-input/libphonenumber'
+import { formatRFC3966 } from 'react-phone-number-input'
 
 formatRFC3966({ number: '+12133734253', ext: '123' })
 // 'tel:+12133734253;ext=123'
 ```
 
-Use the accompanying `parseRFC3966()` function to convert an RFC3966 string into an object having shape `{ number, ext }`.
+Use the accompanying `parsePhoneNumber()` function to convert an RFC3966 string into an object having shape `{ number, ext }`.
 
 ```js
-import { parseRFC3966 } from 'react-phone-number-input/libphonenumber'
+import { parseRFC3966 } from 'react-phone-number-input'
 
 parseRFC3966('tel:+12133734253;ext=123')
 // { number: '+12133734253', ext: '123' }

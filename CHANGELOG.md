@@ -1,3 +1,10 @@
+2.3.19 / 07.07.2019
+===================
+
+  * Added an exported `parsePhoneNumber(value)` function because some people [requested](https://github.com/catamphetamine/react-phone-number-input/issues/268) a function to get `country` from `value`.
+
+  * Added `parseRFC3966()` and `formatRFC3966()` exports (phone number extensions).
+
 2.3.18 / 21.06.2019
 ===================
 
