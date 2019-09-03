@@ -1,5 +1,13 @@
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core'
 
+/**
+ * Formats a phone number.
+ * Is a proxy for `libphonenumber-js`'s `.format()` function of a parsed `PhoneNumber`.
+ * @param  {string} value
+ * @param  {string} [format]
+ * @param  {object} metadata
+ * @return {string}
+ */
 export default function formatPhoneNumber(value, format, metadata) {
 	if (!metadata) {
 		if (typeof format === 'object') {
