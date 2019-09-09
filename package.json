@@ -14,7 +14,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "input-format": "^0.2.2",
-    "libphonenumber-js": "^1.7.22",
+    "libphonenumber-js": "^1.7.24",
     "prop-types": "^15.7.2",
     "react-lifecycles-compat": "^3.0.4",
     "react-responsive-ui": "^0.14.123"
