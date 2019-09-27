@@ -6,7 +6,8 @@ import {
 	parsePhoneNumber as _parsePhoneNumber,
 	formatPhoneNumber as _formatPhoneNumber,
 	formatPhoneNumberIntl as _formatPhoneNumberIntl,
-	isValidPhoneNumber as _isValidPhoneNumber
+	isValidPhoneNumber as _isValidPhoneNumber,
+	getCountryCallingCode as _getCountryCallingCode
 } from '../core/index'
 
 import { createPhoneInput } from '../modules/PhoneInputNativeDefaults'
@@ -33,4 +34,8 @@ export function formatPhoneNumberIntl() {
 
 export function isValidPhoneNumber() {
 	return call(_isValidPhoneNumber, arguments)
+}
+
+export function getCountryCallingCode() {
+	return call(_getCountryCallingCode, arguments)
 }

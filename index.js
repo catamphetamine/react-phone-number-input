@@ -6,3 +6,6 @@ export { default as isValidPhoneNumber } from './modules/isValidPhoneNumberDefau
 // Deprecated export.
 // Use `import PhoneInput from 'react-phone-number-input/core'` instead.
 export { default as PhoneInput } from './modules/PhoneInput'
+// Just a re-export of `getCountryCallingCode()` because people keep asking for it.
+// https://github.com/catamphetamine/react-phone-number-input/issues/284
+export { getCountryCallingCode as getCountryCallingCode } from 'libphonenumber-js/min'

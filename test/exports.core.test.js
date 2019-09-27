@@ -4,7 +4,8 @@ import PhoneInput, {
 	parsePhoneNumber,
 	formatPhoneNumber,
 	formatPhoneNumberIntl,
-	isValidPhoneNumber
+	isValidPhoneNumber,
+	getCountryCallingCode
 } from '../core/index'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
@@ -18,6 +19,7 @@ describe('exports/core', () => {
 		formatPhoneNumber('+12133734253', metadata).should.equal('(213) 373-4253')
 		formatPhoneNumberIntl('+12133734253', metadata).should.equal('+1 213 373 4253')
 		isValidPhoneNumber('+12133734253', metadata).should.equal(true)
+		getCountryCallingCode('US', metadata).should.equal('1')
 	})
 
 	it('should export CommonJS', () => {
@@ -30,5 +32,6 @@ describe('exports/core', () => {
 		Library.formatPhoneNumber('+12133734253', metadata).should.equal('(213) 373-4253')
 		Library.formatPhoneNumberIntl('+12133734253', metadata).should.equal('+1 213 373 4253')
 		Library.isValidPhoneNumber('+12133734253', metadata).should.equal(true)
+		Library.getCountryCallingCode('US', metadata).should.equal('1')
 	})
 })

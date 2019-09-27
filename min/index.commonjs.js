@@ -30,6 +30,10 @@ exports.isValidPhoneNumber = function isValidPhoneNumber() {
 	return call(core.isValidPhoneNumber, arguments)
 }
 
+exports.getCountryCallingCode = function getCountryCallingCode() {
+	return call(core.getCountryCallingCode, arguments)
+}
+
 exports.parseRFC3966 = core.parseRFC3966
 exports.formatRFC3966 = core.formatRFC3966
 

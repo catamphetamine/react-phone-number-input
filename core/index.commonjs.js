@@ -8,5 +8,6 @@ exports.parsePhoneNumber = require('../commonjs/libphonenumber/parsePhoneNumber'
 exports.formatPhoneNumber = require('../commonjs/formatPhoneNumber').default
 exports.formatPhoneNumberIntl = require('../commonjs/formatPhoneNumber').formatPhoneNumberIntl
 exports.isValidPhoneNumber = require('../commonjs/isValidPhoneNumber').default
+exports.getCountryCallingCode = require('libphonenumber-js/core').getCountryCallingCode
 
 exports['default'] = require('../commonjs/PhoneInput').default

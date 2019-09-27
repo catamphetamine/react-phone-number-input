@@ -6,7 +6,8 @@ import PhoneInputDefault,
 	parsePhoneNumber,
 	formatPhoneNumber,
 	formatPhoneNumberIntl,
-	isValidPhoneNumber
+	isValidPhoneNumber,
+	getCountryCallingCode
 }
 from '../index'
 
@@ -22,6 +23,7 @@ describe(`exports`, function()
 		formatPhoneNumber('+78005553535').should.equal('8 (800) 555-35-35')
 		formatPhoneNumberIntl('+78005553535').should.equal('+7 800 555 35 35')
 		isValidPhoneNumber('+78005553535').should.equal(true)
+		getCountryCallingCode('RU').should.equal('7')
 	})
 
 	it(`should export CommonJS`, function()
@@ -36,6 +38,7 @@ describe(`exports`, function()
 		Library.formatPhoneNumber('+78005553535').should.equal('8 (800) 555-35-35')
 		Library.formatPhoneNumberIntl('+78005553535').should.equal('+7 800 555 35 35')
 		Library.isValidPhoneNumber('+78005553535').should.equal(true)
+		Library.getCountryCallingCode('RU').should.equal('7')
 
 		Custom.default.should.be.a('function')
 	})

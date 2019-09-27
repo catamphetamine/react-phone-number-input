@@ -7,4 +7,5 @@ exports.parsePhoneNumber = require('./commonjs/libphonenumber/parsePhoneNumberDe
 exports.formatPhoneNumber = require('./commonjs/formatPhoneNumberDefaultMetadata').default
 exports.formatPhoneNumberIntl = require('./commonjs/formatPhoneNumberDefaultMetadata').formatPhoneNumberIntl
 exports.isValidPhoneNumber = require('./commonjs/isValidPhoneNumberDefaultMetadata').default
+exports.getCountryCallingCode = require('libphonenumber-js/min').getCountryCallingCode
 exports['default'] = require('./commonjs/PhoneInputNativeDefaultMetadata').default

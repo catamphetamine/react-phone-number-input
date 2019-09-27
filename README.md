@@ -51,28 +51,7 @@ return (
 
 See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All other properties are passed through to the phone number `<input/>` component.
 
-To format `value` back to a human-readable phone number use `formatPhoneNumber(value)` and `formatPhoneNumberIntl(value)` functions.
-
-```js
-import { formatPhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input'
-
-const value = '+12133734253'
-formatPhoneNumber(value) === '(213) 373-4253' // National format
-formatPhoneNumberIntl(value) === '+1 213 373 4253' // International format
-```
-
-To get `country` from `value` one can use `parsePhoneNumber(value)` function.
-
-```js
-import { parsePhoneNumber } from 'react-phone-number-input'
-
-// `parsePhoneNumber()` is just a proxy for
-// `parsePhoneNumberFromString()` from `libphonenumber-js`.
-const phoneNumber = parsePhoneNumber('+12133734253')
-if (phoneNumber) {
-  phoneNumber.country === 'US'
-}
-```
+To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)` and `formatPhoneNumberIntl(value)`](#utility) functions.
 
 <!--
 The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) phone number parsing/formatting library. The [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function can be used to output the `value` in `"National"` or `"International"` format.
@@ -103,6 +82,62 @@ Get the `style.css` file from this package, optionally process it with a [CSS au
 ```
 
 Or include the `style.css` file directly from a [CDN](#cdn).
+
+## Utility
+
+This package exports several utility functions.
+
+### `formatPhoneNumber(value: string): string`
+
+Formats `value` as a "local" phone number.
+
+```js
+import { formatPhoneNumber } from 'react-phone-number-input'
+formatPhoneNumber('+12133734253') === '(213) 373-4253'
+```
+
+### `formatPhoneNumberIntl(value: string): string`
+
+Formats `value` as an "international" phone number.
+
+```js
+import { formatPhoneNumberIntl } from 'react-phone-number-input'
+formatPhoneNumberIntl('+12133734253') === '+1 213 373 4253'
+```
+
+### `isValidPhoneNumber(value: string): boolean`
+
+Validates a phone number `value`.
+
+```js
+import { isValidPhoneNumber } from 'react-phone-number-input'
+isValidPhoneNumber('+12133734253') === true
+```
+
+By default the component uses [`min`](#min-vs-max-vs-mobile) metadata which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
+
+I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation at all because telephone numbering plans constantly evolve and validation rules do change over time which means `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. Still, some people wanted this feature, so it's included.
+
+### `parsePhoneNumber(input: string): PhoneNumber?`
+
+Parses a [`PhoneNumber`](https://github.com/catamphetamine/libphonenumber-js#phonenumber) object from a `string`. This is simply an alias for [`parsePhoneNumberFromString()`](https://github.com/catamphetamine/libphonenumber-js#parsephonenumberfromstringstring-defaultcountry) from [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js). Can be used to get `country` from `value`.
+
+```js
+import { parsePhoneNumber } from 'react-phone-number-input'
+const phoneNumber = parsePhoneNumber('+12133734253')
+if (phoneNumber) {
+  phoneNumber.country === 'US'
+}
+```
+
+### `getCountryCallingCode(country: string): string`
+
+This is simply an alias for [`getCountryCallingCode()`](https://github.com/catamphetamine/libphonenumber-js#getcountrycallingcodecountry) from [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js).
+
+```js
+import { getCountryCallingCode } from 'react-phone-number-input'
+getCountryCallingCode('US') === '1'
+```
 
 ## Flags
 
@@ -145,22 +180,6 @@ import ru from 'react-phone-number-input/locale/ru'
 
 <PhoneInput ... labels={ru}/>
 ```
-
-## Validation
-
-To validate a phone number one can use `isValidPhoneNumber(value)` function:
-
-```js
-import { isValidPhoneNumber } from 'react-phone-number-input'
-
-if (value) {
-  isValidPhoneNumber(value) // Returns `true` or `false`
-}
-```
-
-By default the component uses [`min`](#min-vs-max-vs-mobile) metadata which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
-
-I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation in my projects because telephone numbering plans constantly evolve and validation rules do change over time which means `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. Still, some people want this feature, so it's included.
 
 ## `min` vs `max` vs `mobile`
 

@@ -4,7 +4,8 @@ import PhoneInput, {
 	parsePhoneNumber,
 	formatPhoneNumber,
 	formatPhoneNumberIntl,
-	isValidPhoneNumber
+	isValidPhoneNumber,
+	getCountryCallingCode
 } from '../max/index'
 
 describe('exports/max', () => {
@@ -16,6 +17,7 @@ describe('exports/max', () => {
 		formatPhoneNumber('+12133734253').should.equal('(213) 373-4253')
 		formatPhoneNumberIntl('+12133734253').should.equal('+1 213 373 4253')
 		isValidPhoneNumber('+12133734253').should.equal(true)
+		getCountryCallingCode('US').should.equal('1')
 	})
 
 	it('should export CommonJS', () => {
@@ -28,5 +30,6 @@ describe('exports/max', () => {
 		Library.formatPhoneNumber('+12133734253').should.equal('(213) 373-4253')
 		Library.formatPhoneNumberIntl('+12133734253').should.equal('+1 213 373 4253')
 		Library.isValidPhoneNumber('+12133734253').should.equal(true)
+		Library.getCountryCallingCode('US').should.equal('1')
 	})
 })
