@@ -914,6 +914,14 @@ export default class PhoneNumberInput extends PureComponent
 			}
 		}
 
+		// Could use something like `aria-label={labels.phone}` on the `<InputComponent/>`,
+		// however, some users may have already been using this component with one of:
+		// * `<label/>` container
+		// * `aria-labelledby`
+		// * `id` and `<label for/>`
+		// https://developers.google.com/web/fundamentals/accessibility/semantics-aria/aria-labels-and-relationships
+		// Maybe in some future major version update.
+
 		return (
 			<div
 				style={ style }

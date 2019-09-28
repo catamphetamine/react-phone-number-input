@@ -1,5 +1,4 @@
 {
-	"deprecated": "This `br.json` file was named incorrectly and will be removed in future. Use `pt.json` instead.",
 	"ext": "ext",
 	"country": "País",
 	"phone": "Telefone",
