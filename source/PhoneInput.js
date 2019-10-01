@@ -240,6 +240,13 @@ export default class PhoneNumberInput extends PureComponent
 		countrySelectTabIndex : PropTypes.number,
 
 		/**
+		 * HTML `aria-label` attribute for country `<select/>`.
+		 * The default is `.country` of the `labels` property
+		 * which is `"Country"` for the default `labels`.
+		 */
+		countrySelectAriaLabel : PropTypes.string,
+
+		/**
 		 * Can be used to place some countries on top of the list of country `<select/>` options.
 		 *
 		 * * `"|"` — inserts a separator.
@@ -859,6 +866,7 @@ export default class PhoneNumberInput extends PureComponent
 			className,
 			inputClassName,
 			getInputClassName,
+			countrySelectAriaLabel,
 			countrySelectProperties,
 
 			error,
@@ -950,7 +958,7 @@ export default class PhoneNumberInput extends PureComponent
 							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
 							focusPhoneInputField={ this.focus }
-							aria-label={ labels.country }
+							aria-label={ countrySelectAriaLabel || labels.country }
 							className="react-phone-number-input__country"/>
 					}
 

@@ -1,5 +1,12 @@
 <!-- Assign the default `aria-label` to the phone number `<input/>`. -->
 
+2.3.24 / 30.09.2019
+===================
+
+  * Added `countrySelectAriaLabel: string` property.
+
+  * Added `getCountryCallingCode(country: string): string` exported function.
+
 2.3.19 / 07.07.2019
 ===================
 

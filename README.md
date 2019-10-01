@@ -42,16 +42,20 @@ import PhoneInput from 'react-phone-number-input'
 return (
   <PhoneInput
     placeholder="Enter phone number"
-    value={ this.state.phone }
-    onChange={ phone => this.setState({ phone }) } />
+    value={ this.state.value }
+    onChange={ value => this.setState({ value }) } />
 )
 ```
 
-`value` will be the parsed phone number, e.g. if a user chooses "United States" and enters `(213) 373-4253` then `value` will be `+12133734253`.
+The `value` argument of `onChange(value)` function will be the parsed phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. For example, if a user chooses "United States" and enters `(213) 373-4253` in the input field then `onChange(value)` will be called with `value` being `"+12133734253"`.
 
-See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All other properties are passed through to the phone number `<input/>` component.
+See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All properties not listed there will be passed through to the phone number `<input/>` component.
 
-To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)` and `formatPhoneNumberIntl(value)`](#utility) functions.
+To set default country pass a `country` property. Example: `<PhoneInput country="US" .../>`.
+
+To get selected `country` pass an `onCountryChange(country)` property, or use [`parsePhoneNumber(value)`](#parsephonenumberinput-string-phonenumber) function. Example: `parsePhoneNumber(value) && parsePhoneNumber(value).country`.
+
+To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) and [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string) functions.
 
 <!--
 The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) phone number parsing/formatting library. The [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function can be used to output the `value` in `"National"` or `"International"` format.
@@ -173,13 +177,38 @@ import PhoneInput from 'react-phone-number-input'
 
 ## Localization
 
-Country names translation can be passed via the `labels` property. E.g. `labels={{ RU: 'Россия', US: 'США', ... }}`. This component comes pre-packaged with several [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new translations.
+Language translations can be applied using the `labels` property. This component comes pre-packaged with several [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale) (submit pull requests for adding new language translations).
+
+The `labels` format is:
+
+```js
+{
+  // Country `<select/>` `aria-label`.
+  "country": "Country",
+  // Phone number `<input/>` `aria-label`.
+  // (not set by default)
+  "phone": "Phone",
+  // Phone number "extension" `aria-label`.
+  // (not set by default)
+  "ext": "ext.",
+  // Country names.
+  "AB": "Abkhazia",
+  "AC": "Ascension Island",
+  ...,
+  "ZZ": "International"
+}
+```
+
+An example of using translated `labels`:
 
 ```js
 import ru from 'react-phone-number-input/locale/ru'
-
 <PhoneInput ... labels={ru}/>
 ```
+
+By default, the country `<select/>` has `aria-label` set to `labels.country` which is `"Country"` for the default `labels`. When passing `labels` for other languages the default `aria-label` of the country `<select/>` will be translated too. To set a custom `aria-label` on the country `<select/>` pass a `countrySelectAriaLabel` property to `<PhoneInput/>`.
+
+The phone `<input/>` `aria-label` is not set automatically to `labels.phone` for legacy reasons. To set it manually pass an `aria-label` property to `<PhoneInput/>`.
 
 ## `min` vs `max` vs `mobile`
 
