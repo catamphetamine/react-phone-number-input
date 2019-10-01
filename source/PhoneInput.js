@@ -363,11 +363,17 @@ export default class PhoneNumberInput extends PureComponent
 		metadata : metadataPropType.isRequired,
 
 		/**
-		 * A long time ago a person requested an `onCountryChange(country)` event listener.
-		 * No valid reason was given other than compliance with some legacy code
-		 * which stored both phone number and country in a database.
-		 * @see  https://github.com/catamphetamine/react-phone-number-input/issues/128
+		 * Is called every time the selected country changes:
+		 * either programmatically or when user selects it manually from the list.
 		 */
+		// People have been asking for a way to get the selected country.
+		// @see  https://github.com/catamphetamine/react-phone-number-input/issues/128
+		// For some it's just a "business requirement".
+		// I guess it's about gathering as much info on the user as a website can
+		// without introducing any addional fields that would complicate the form
+		// therefore reducing "conversion" (that's a marketing term).
+		// Assuming that the phone number's country is the user's country
+		// is not 100% correct but in most cases I guess it's valid.
 		onCountryChange : PropTypes.func,
 
 		/**
