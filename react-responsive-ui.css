@@ -15,6 +15,7 @@
           appearance: none;
   border: none;
   background: none;
+  color: inherit;
   cursor: pointer;
   font-size: inherit;
   font-family: inherit;
@@ -33,6 +34,14 @@
 .rrui__button-reset:not(.rrui__outline--default) {
   outline: none; }
 
+/* Firefox is being stubborn with outlines. */
+/* https://stackoverflow.com/questions/71074/how-to-remove-firefoxs-dotted-outline-on-buttons-as-well-as-links */
+/* Actually having tab-only outlines is good UX. */
+/*
+.rrui__button-reset:not(.rrui__outline--default)::-moz-focus-inner {
+	border: 0;
+}
+*/
 .rrui__button-reset--link:hover {
   text-decoration: none; }
 
@@ -106,7 +115,7 @@
 	At the same time `<Select/>` options should stretch themselves
 	horizontally to the width of the containing column (when using grid layout).
 	*/
-  width: calc(100% + (0.6rem * 1.5 - 0rem) * 2);
+  width: calc(100% + ((0.6rem * 1.5) - 0rem) * 2);
   /* Makes `border-bottom` visible on an iPhone */
   margin-top: 1px; }
 
@@ -143,7 +152,8 @@
   transition: background-color 30ms ease-out, color 30ms ease-out, border-color 30ms ease-out;
   background-color: transparent;
   color: #03b2cb;
-  border-radius: 0rem; }
+  border-radius: 0rem;
+  border: 0px solid #03b2cb; }
 
 .rrui__button:active {
   background-color: transparent;
@@ -239,6 +249,12 @@
           align-items: center; }
 
 .rrui__checkbox .rrui__input--multiline {
+  /* IE and Edge have a bug with `inline-flex`:
+	   the multiline content shrinks in width. */
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
@@ -331,11 +347,14 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  background: #ffffff;
+  background-color: #ffffff;
   border-radius: 10%;
   -webkit-transform: scale(0.9);
       -ms-transform: scale(0.9);
           transform: scale(0.9); }
+
+.rrui__checkbox--invalid .rrui__checkbox__box-background {
+  background-color: #ffffff; }
 
 /* Checkbox color (:invalid) */
 .rrui__checkbox--invalid .rrui__checkbox__box {
@@ -388,8 +407,8 @@
   stroke: currentColor; }
 
 .rrui__close {
-  padding: calc(0.6rem * 2 / 2);
-  margin: calc(0.6rem * 2 * -1 / 2); }
+  padding: calc((0.6rem * 2) / 2);
+  margin: calc((0.6rem * 2) * -1 / 2); }
 
 /* DayPicker styles (version 7.1.10) */
 .DayPicker {
@@ -409,6 +428,8 @@
       -ms-flex-pack: center;
           justify-content: center;
   padding: calc(0.6rem * 2);
+  /* A colored line at the bottom of the calendar
+	   to indicate that it's focused (when focused). */
   border-bottom: 0.1em solid transparent; }
 
 .DayPicker-wrapper:focus {
@@ -510,7 +531,7 @@
 /* .DayPicker:not(.DayPicker--interactionDisabled) ... */
 .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
   background-color: #F3F3F3;
-  color: currentColor; }
+  color: #000000; }
 
 .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):active {
   color: #ffffff;
@@ -562,7 +583,7 @@
 .rrui__date-picker .rrui__expandable {
   min-width: 100%;
   background-color: #ffffff;
-  color: currentColor; }
+  color: #000000; }
 
 .rrui__date-picker .rrui__expandable__content {
   /* For compatibility with older versions. */
@@ -583,7 +604,11 @@
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1; }
+  /* `z-index` could potentially cause a bug
+	   when the overlay would be above other content on a page
+	   resulting in it capturing events like "mousedown" or "click". */
+  /* z-index  : 1; */
+  outline: none; }
 
 .rrui__date-picker__close {
   /*
@@ -597,13 +622,16 @@
 
 .rrui__date-picker__icon {
   position: absolute;
-  top: calc((0.6rem * 3 - 0.6rem * 1.5) / 2);
+  top: calc(((0.6rem * 3) - 0.6rem * 1.5) / 2);
   right: calc(0.6rem / 2);
   width: calc(0.6rem * 1.5);
   height: calc(0.6rem * 1.5);
-  z-index: 1;
   opacity: 0.5;
-  color: #000000; }
+  color: #000000;
+  /* `z-index` could potentially cause a bug
+	   when the button would be above other content on a page
+	   resulting in it capturing events like "mousedown" or "click". */
+  /* z-index  : 1; */ }
 
 .rrui__date-picker__icon--hidden {
   display: none; }
@@ -700,7 +728,6 @@
   -webkit-transform-origin: 50% top 0px;
       -ms-transform-origin: 50% top 0px;
           transform-origin: 50% top 0px;
-  /* 250ms - too slow for short lists */
   -webkit-transition: all 150ms ease-out;
   -o-transition: all 150ms ease-out;
   transition: all 150ms ease-out;
@@ -715,12 +742,24 @@
   -webkit-transform: scaleY(1);
       -ms-transform: scaleY(1);
           transform: scaleY(1);
-  -webkit-transform-origin: 50% top 0px;
-      -ms-transform-origin: 50% top 0px;
-          transform-origin: 50% top 0px;
   -webkit-transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1);
   -o-transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1);
   transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1); }
+
+/* A small "hack" for "fade up" animation of `<ExpandableMenu/>`. */
+.rrui__expandable--fade-up {
+  -webkit-transform: translateY(0.5em);
+      -ms-transform: translateY(0.5em);
+          transform: translateY(0.5em);
+  -webkit-transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  -o-transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 150ms cubic-bezier(0.23, 1, 0.32, 1); }
+
+/* A small "hack" for "fade up" animation of `<ExpandableMenu/>`. */
+.rrui__expandable--expanded--fade-up {
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0); }
 
 .rrui__expandable--overlay {
   position: absolute;
@@ -739,6 +778,13 @@
   -o-transition: opacity 100ms ease-out;
   transition: opacity 100ms ease-out; }
 
+/* A small "hack" for "fade up" animation of `<ExpandableMenu/>`. */
+.rrui__expandable__content--fade-up {
+  opacity: 1;
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none; }
+
 .rrui__expandable__content--expanded {
   opacity: 1; }
 
@@ -756,13 +802,13 @@
 
 .rrui__expandable--upward {
   bottom: 100%;
+  -webkit-transform-origin: 50% bottom 0px;
+      -ms-transform-origin: 50% bottom 0px;
+          transform-origin: 50% bottom 0px;
   /* When an html page is overflown by a long list
 	   then this bottom margin helps to see that
 	   there's no more options left out being clipped or something */
-  margin-top: 1em;
-  -webkit-transform-origin: 50% bottom 0px;
-      -ms-transform-origin: 50% bottom 0px;
-          transform-origin: 50% bottom 0px; }
+  margin-top: 1em; }
 
 .rrui__expandable__close {
   /*
@@ -778,10 +824,10 @@
   right: 0; }
 
 .rrui__options-list--left-aligned {
-  left: calc((0.6rem * 1.5 - 0rem) * -1); }
+  left: calc(((0.6rem * 1.5) - 0rem) * -1); }
 
 .rrui__options-list--right-aligned {
-  right: calc((0.6rem * 1.5 - 0rem) * -1); }
+  right: calc(((0.6rem * 1.5) - 0rem) * -1); }
 
 /* Styles are from Material UI. */
 /* https://material-ui.com/demos/expansion-panels/ */
@@ -820,24 +866,26 @@
   font-weight: normal;
   text-align: left; }
 
-.rrui__expansion-panel--expanded .rrui__expansion-panel__header {
+.rrui__expansion-panel__header--expanded {
   height: calc(0.6rem * 5); }
 
-.rrui__expansion-panel--toggle-icon-end .rrui__expansion-panel__header {
+.rrui__expansion-panel__header--toggle-icon-end {
   background-color: #F3F3F3; }
 
-.rrui__expansion-panel--toggle-icon-end .rrui__expansion-panel__header:focus {
+.rrui__expansion-panel__header--toggle-icon-end:focus {
   -webkit-box-shadow: inset 0 0 0 1px #cacaca;
           box-shadow: inset 0 0 0 1px #cacaca; }
 
-.rrui__expansion-panel--toggle-icon-start .rrui__expansion-panel__header:focus .rrui__expansion-panel__heading {
+/* CSS select specificity is to support <Collapsible/>s inside <Collapsible/>s. */
+.rrui__expansion-panel__header--toggle-icon-start:focus > .rrui__expansion-panel__heading {
   padding-bottom: 0.15em;
   border-bottom: 1px solid #03b2cb; }
 
-.rrui__expansion-panel--toggle-icon-start .rrui__expansion-panel__header:active .rrui__expansion-panel__heading {
+/* CSS select specificity is to support <Collapsible/>s inside <Collapsible/>s. */
+.rrui__expansion-panel__header--toggle-icon-start:active > .rrui__expansion-panel__heading {
   border-bottom: 1px solid #2bd7f0; }
 
-.rrui__expansion-panel--toggle-icon-start.rrui__expansion-panel--expanded .rrui__expansion-panel__header {
+.rrui__expansion-panel__header--toggle-icon-start.rrui__expansion-panel__header--expanded {
   height: calc(0.6rem * 4); }
 
 .rrui__expansion-panel__content-wrapper {
@@ -871,7 +919,7 @@
       -ms-transform: translateY(-50%) rotate(0deg);
           transform: translateY(-50%) rotate(0deg); }
 
-.rrui__expansion-panel--expanded .rrui__expansion-panel__icon--end {
+.rrui__expansion-panel__icon--expanded.rrui__expansion-panel__icon--end {
   -webkit-transform: translateY(-50%) rotate(180deg);
       -ms-transform: translateY(-50%) rotate(180deg);
           transform: translateY(-50%) rotate(180deg); }
@@ -883,7 +931,7 @@
       -ms-transform: translateY(-50%) rotate(-90deg);
           transform: translateY(-50%) rotate(-90deg); }
 
-.rrui__expansion-panel--expanded .rrui__expansion-panel__icon--start {
+.rrui__expansion-panel__icon--expanded.rrui__expansion-panel__icon--start {
   -webkit-transform: translateY(-50%) rotate(0deg);
       -ms-transform: translateY(-50%) rotate(0deg);
           transform: translateY(-50%) rotate(0deg); }
@@ -892,7 +940,7 @@
   cursor: pointer; }
 
 .rrui__file-upload__area--disabled {
-  cursor: default; }
+  pointer-events: none; }
 
 .rrui__form {
   /* Chrome adds margin-bottom for all <form/>s for some weird reason */
@@ -963,19 +1011,32 @@ than 100% of the parent if the parent is small enough.
   border-radius: 0;
   /* Some web browsers add <input/> padding by default */
   padding: 0;
+  -moz-appearance: none;
+       appearance: none;
   -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
-  font-style: inherit; }
+  font-style: inherit;
+  color: #000000; }
 
-/* Overrides Chrome autofill yellow background color */
+/* Overrides Chrome autofill yellow background color. */
 .rrui__input-field:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
           box-shadow: 0 0 0 1000px #ffffff inset; }
 
+/* Overrides Chrome autofill yellow background color (when `<TextInput/>` is focused). */
+.rrui__input-field:focus:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+          box-shadow: 0 0 0 1000px #ffffff inset; }
+
+/* Overrides Chrome autofill yellow background color (when `<TextInput/>` is invalid). */
+.rrui__input-field--invalid:-webkit-autofill,
+.rrui__input-field--invalid:focus:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+          box-shadow: 0 0 0 1000px #ffffff inset; }
+
+/* For `<TextInput/>` and alike. */
 .rrui__input-field,
 .rrui__select__button {
   /* Stretches the inputs to full column width by default. */
@@ -986,30 +1047,34 @@ than 100% of the parent if the parent is small enough.
   background-color: #ffffff;
   border-radius: 0rem; }
 
+/* For `<TextInput/>` and alike. */
 .rrui__input-field,
 .rrui__select__button,
 .rrui__select__native {
-  border-width: 0;
+  border: 0px solid #cacaca;
   border-bottom-width: 1px;
-  border-style: solid;
-  border-color: #cacaca;
   -webkit-transition: border 0.1s;
   -o-transition: border 0.1s;
   transition: border 0.1s; }
 
+/* For `<TextInput/>` and alike. */
 .rrui__input-field:focus,
 .rrui__select__button:focus,
 .rrui__select__native:focus + .rrui__select__button,
 .rrui__select__native:focus {
-  border-color: #03b2cb; }
+  border-color: #03b2cb;
+  background-color: #ffffff; }
 
+/* For `<TextInput/>` and alike. */
 .rrui__input-field--invalid,
 .rrui__input-field--invalid:focus,
 .rrui__select__button--invalid,
 .rrui__select__button--invalid:focus,
+.rrui__select__native--invalid:focus + .rrui__select__button,
 .rrui__select__native--invalid,
-.rrui__select__native:focus + .rrui__select__button--invalid {
-  border-color: #d30f00; }
+.rrui__select__native--invalid:focus {
+  border-color: #d30f00;
+  background-color: #ffffff; }
 
 .rrui__input-field {
   height: 100%;
@@ -1022,13 +1087,59 @@ than 100% of the parent if the parent is small enough.
   height: auto;
   resize: none; }
 
-.rrui__input-field--invalid,
-.rrui__input-field--invalid:focus {
-  border-color: #d30f00; }
-
-.rrui__input-field--disabled {
-  cursor: default;
+/* For `<TextInput/>` and alike. */
+.rrui__input-field--disabled,
+.rrui__select__button--disabled {
+  /* "pointer-events" prevents "cursor: wait" from working. */
+  pointer-events: none;
+  /* cursor : default; */
   background-color: #ffffff; }
+
+.rrui__select__native[disabled] {
+  /* "pointer-events" prevents "cursor: wait" from working. */
+  pointer-events: none;
+  /* cursor : default; */ }
+
+.rrui__input-field__icon {
+  position: absolute;
+  top: calc(((0.6rem * 3) - ((0.6rem * 3) - 1.5 * 0.6rem)) / 2);
+  left: 0px;
+  width: calc((0.6rem * 3) - 1.5 * 0.6rem);
+  height: calc((0.6rem * 3) - 1.5 * 0.6rem);
+  pointer-events: none;
+  color: #888888; }
+
+.rrui__input-field--with-icon {
+  padding-left: calc(0px + ((0.6rem * 3) - 1.5 * 0.6rem) + (0.75 * 0.6rem)); }
+
+/* `<input/>` placeholder color. */
+/* https://www.w3schools.com/howto/howto_css_placeholder.asp */
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+/* Won't work for some reason if combined with the IE rules below. */
+.rrui__input-field::-webkit-input-placeholder {
+  color: #888888;
+  /* Firefox */
+  opacity: 1; }
+.rrui__input-field:-ms-input-placeholder {
+  color: #888888;
+  /* Firefox */
+  opacity: 1; }
+.rrui__input-field::-ms-input-placeholder {
+  color: #888888;
+  /* Firefox */
+  opacity: 1; }
+.rrui__input-field::placeholder {
+  color: #888888;
+  /* Firefox */
+  opacity: 1; }
+
+/* Internet Explorer 10-11 */
+.rrui__input-field:-ms-input-placeholder {
+  color: #888888; }
+
+/* Microsoft Edge */
+.rrui__input-field::-ms-input-placeholder {
+  color: #888888; }
 
 .rrui__input-label {
   position: absolute;
@@ -1082,7 +1193,7 @@ than 100% of the parent if the parent is small enough.
   padding-bottom: 0.6rem;
   overflow-y: auto;
   background-color: #ffffff;
-  color: currentColor;
+  color: #000000;
   list-style-type: none;
   overflow-x: hidden;
   -webkit-box-sizing: border-box;
@@ -1098,9 +1209,6 @@ than 100% of the parent if the parent is small enough.
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
   /*
 	This side padding is also connected to
 	`.rrui__select__options--left-aligned`'s `left`,
@@ -1112,12 +1220,11 @@ than 100% of the parent if the parent is small enough.
   color: inherit;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  text-align: left;
-  white-space: nowrap; }
+  text-align: left; }
 
 .rrui__list__item:hover {
   background-color: #F3F3F3;
-  color: currentColor; }
+  color: #000000; }
 
 .rrui__list__item:active {
   background-color: #03b2cb;
@@ -1135,7 +1242,7 @@ than 100% of the parent if the parent is small enough.
 
 .rrui__list__item--focus {
   background-color: #F3F3F3;
-  color: currentColor; }
+  color: #000000; }
 
 .rrui__list__item--selected,
 .rrui__list__item--selected:hover {
@@ -1176,8 +1283,8 @@ than 100% of the parent if the parent is small enough.
 .rrui__menu-button {
   position: relative;
   display: inline-block;
-  width: calc(0.6rem * 3 + 0.6rem);
-  height: calc(0.6rem * 3 + 0.6rem);
+  width: calc((0.6rem * 3) + 0.6rem);
+  height: calc((0.6rem * 3) + 0.6rem);
   padding: calc(0.6rem / 2);
   margin: calc(-1 * 0.6rem / 2);
   line-height: 0;
@@ -1192,63 +1299,60 @@ than 100% of the parent if the parent is small enough.
 	color : #03b2cb;
 }
 */
-/* https://codepen.io/bennettfeely/pen/twbyA */
 .rrui__menu-icon {
   position: relative;
   width: 100%;
   height: 100%; }
 
 .rrui__menu-icon__bar {
-  position: absolute;
-  left: 0;
-  top: calc((100% - 6%) / 2);
   width: 100%;
-  height: 6%;
-  background-color: currentColor; }
+  background-color: currentColor;
+  position: absolute;
+  height: 2px;
+  border-radius: 1px;
+  /* calc(2px / 2); */
+  -webkit-transform-origin: 50% 50%;
+      -ms-transform-origin: 50% 50%;
+          transform-origin: 50% 50%; }
 
-.rrui__menu-icon__bar--transition {
-  -webkit-transition: opacity 0.25s, -webkit-transform 0.25s;
-  transition: opacity 0.25s, -webkit-transform 0.25s;
-  -o-transition: transform 0.25s, opacity 0.25s;
-  transition: transform 0.25s, opacity 0.25s;
-  transition: transform 0.25s, opacity 0.25s, -webkit-transform 0.25s; }
+.rrui__menu-icon--expanded .rrui__menu-icon__bar {
+  width: 100%;
+  top: calc((100% - 2px) / 2);
+  -webkit-transition: width 125ms 0s, top 125ms 0s, -webkit-transform 125ms 125ms;
+  transition: width 125ms 0s, top 125ms 0s, -webkit-transform 125ms 125ms;
+  -o-transition: width 125ms 0s, top 125ms 0s, transform 125ms 125ms;
+  transition: width 125ms 0s, top 125ms 0s, transform 125ms 125ms;
+  transition: width 125ms 0s, top 125ms 0s, transform 125ms 125ms, -webkit-transform 125ms 125ms; }
 
-.rrui__menu-icon__bar:nth-child(1) {
-  -webkit-transform: translateY(-450%);
-      -ms-transform: translateY(-450%);
-          transform: translateY(-450%); }
+.rrui__menu-icon--expanded .rrui__menu-icon__bar:nth-child(1),
+.rrui__menu-icon--expanded .rrui__menu-icon__bar:nth-child(2) {
+  -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+          transform: rotate(-45deg); }
 
-.rrui__menu-icon__bar:nth-child(3) {
-  -webkit-transform: translateY(450%);
-      -ms-transform: translateY(450%);
-          transform: translateY(450%); }
+.rrui__menu-icon--expanded .rrui__menu-icon__bar:nth-child(3) {
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg); }
 
-/*
-.rrui__menu-icon:hover .rrui__menu-icon__bar:nth-child(1)
-{
-	transform : translateY(-550%);
-}
+.rrui__menu-icon--collapsed .rrui__menu-icon__bar {
+  -webkit-transition: top 125ms 125ms, width 125ms 125ms, -webkit-transform 125ms 0s;
+  transition: top 125ms 125ms, width 125ms 125ms, -webkit-transform 125ms 0s;
+  -o-transition: transform 125ms 0s, top 125ms 125ms, width 125ms 125ms;
+  transition: transform 125ms 0s, top 125ms 125ms, width 125ms 125ms;
+  transition: transform 125ms 0s, top 125ms 125ms, width 125ms 125ms, -webkit-transform 125ms 0s;
+  -webkit-transform: rotate(0);
+      -ms-transform: rotate(0);
+          transform: rotate(0); }
 
-.rrui__menu-icon:hover .rrui__menu-icon__bar:nth-child(3)
-{
-	transform : translateY(550%);
-}
-*/
-.rrui__menu-icon__bar--expanded:nth-child(2) {
-  opacity: 0;
-  -webkit-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-          transform: scale(0.9); }
+.rrui__menu-icon--collapsed .rrui__menu-icon__bar:nth-child(1) {
+  top: 17%; }
 
-.rrui__menu-icon__bar--expanded:nth-child(1) {
-  -webkit-transform: rotate(-45deg) scale(0.9);
-      -ms-transform: rotate(-45deg) scale(0.9);
-          transform: rotate(-45deg) scale(0.9); }
+.rrui__menu-icon--collapsed .rrui__menu-icon__bar:nth-child(2) {
+  top: calc((100% - 2px) / 2); }
 
-.rrui__menu-icon__bar--expanded:nth-child(3) {
-  -webkit-transform: rotate(45deg) scale(0.9);
-      -ms-transform: rotate(45deg) scale(0.9);
-          transform: rotate(45deg) scale(0.9); }
+.rrui__menu-icon--collapsed .rrui__menu-icon__bar:nth-child(3) {
+  top: calc(83% - 2px); }
 
 /*===========================================================
 = `react-modal`                                             =
@@ -1359,7 +1463,6 @@ but rather `width: auto` or `left: 0; right: 0;`.
 */
 .rrui__fixed-full-width {
   position: fixed;
-  top: 0;
   left: 0;
   right: 0;
   width: auto; }
@@ -1441,7 +1544,7 @@ but rather `width: auto` or `left: 0; right: 0;`.
           flex-basis: auto;
   border-radius: 0.2rem;
   background-color: #ffffff;
-  color: currentColor; }
+  color: #000000; }
 
 .rrui__modal__contents--fullscreen {
   /* Completely cover the screen */
@@ -1546,16 +1649,27 @@ but rather `width: auto` or `left: 0; right: 0;`.
       -ms-flex-pack: end;
           justify-content: flex-end; }
 
+/* Using `margin` instead of `padding` for "padding"
+   to leverage the "margin collapse" CSS feature. */
 .rrui__modal__title,
-.rrui__modal__actions,
+.rrui__modal__content,
+.rrui__modal__actions {
+  margin-left: calc(0.6rem * 3);
+  margin-right: calc(0.6rem * 3); }
+
+.rrui__modal__title {
+  margin-top: calc((0.6rem * 3) - 0.6rem * 0.5);
+  margin-bottom: 0; }
+
 .rrui__modal__content {
-  /* Using `margin` instead of `padding` here
-    to leverage the "margin collapse" CSS feature. */
-  margin: calc(0.6rem * 3); }
+  margin-top: calc((0.6rem * 3) - 0.6rem * 0.5);
+  margin-bottom: calc((0.6rem * 3) - 0.6rem * 0.5); }
 
 .rrui__modal__actions {
-  margin-top: calc(0.6rem * 2);
-  margin-bottom: calc(0.6rem * 2); }
+  margin-bottom: calc((0.6rem * 3) - 0.6rem * 0.5); }
+
+.rrui__modal__title + .rrui__modal__content {
+  margin-top: calc(((0.6rem * 3) - 0.6rem * 0.5) - 0.6rem * 0.5); }
 
 .rrui__modal__close {
   /* Prevents `<Modal.Title/>` overlapping with `<Close/>` padding. */
@@ -1598,37 +1712,34 @@ but rather `width: auto` or `left: 0; right: 0;`.
 	At the same time `<Select/>` options should stretch themselves
 	horizontally to the width of the containing column (when using grid layout).
 	*/
-  width: calc(100% + (0.6rem * 1.5 - 0rem) * 2);
+  width: calc(100% + ((0.6rem * 1.5) - 0rem) * 2);
   /*
 	`margin-top` is constituted by:
 	- `.rrui__select__options` `padding-top`.
 	- `.rrui__input` `height`.
 	- half of the difference between `.rrui__select__option`'s `height`/`line-height` and `.rrui__input` `height`.
 	*/
-  margin-top: calc(-1 * (0.6rem + 0.6rem * 3 + (0.6rem * 4 - 0.6rem * 3) / 2)); }
+  margin-top: calc(-1 * (0.6rem + (0.6rem * 3) + ((0.6rem * 4) - (0.6rem * 3)) / 2)); }
 
 .rrui__select__button {
   height: 100%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   color: inherit;
+  /* Because Chrome adds `text-align: center` for all buttons */
+  text-align: left;
   /* Not introducing an animation on `.rrui__select__option`
 	   because it would introduce a little clutter due to
 	   focused option animation in autocomplete mode */
   -webkit-transition: color 30ms ease-out;
   -o-transition: color 30ms ease-out;
-  transition: color 30ms ease-out;
-  /* Because Chrome adds `text-align: center` for all buttons */
-  text-align: left; }
+  transition: color 30ms ease-out; }
 
 .rrui__select__button--expanded {
   color: #03b2cb; }
 
 .rrui__select__button--empty .rrui__select__selected-label {
   color: #888888; }
-
-.rrui__select__button--invalid {
-  border-color: #d30f00; }
 
 /* For `<Select native={false}/>` (default). */
 .rrui__select__native:active + .rrui__select__button .rrui__select__selected-label,
@@ -1650,10 +1761,7 @@ but rather `width: auto` or `left: 0; right: 0;`.
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis; }
+          flex: 1 1 auto; }
 
 .rrui__select .rrui__ellipsis {
   position: absolute;
@@ -1685,11 +1793,6 @@ but rather `width: auto` or `left: 0; right: 0;`.
 .rrui__select--compact .rrui__expandable-list {
   width: auto; }
 
-.rrui__select__button--disabled {
-  /* "pointer-events" prevents "cursor: wait" from working */
-  pointer-events: none;
-  background-color: #ffffff; }
-
 /* Stretches the inputs to full column width by default. */
 /* Because everyone uses CSS grids today. */
 .rrui__select__button,
@@ -1710,7 +1813,14 @@ but rather `width: auto` or `left: 0; right: 0;`.
 /* opacity  : 0.001; */
 .rrui__select__native--overlay {
   position: absolute;
-  z-index: 1;
+  /* `z-index` caused a bug when select `<button/>`
+	    would be above other content on a page.
+	    For example, when there were two `<Select/>`s
+	    one below another then mouse down events
+	    from the options list of the top select
+	    would "go through" to the bottom select
+	    expanding it. */
+  /* z-index  : 1; */
   opacity: 0; }
 
 .rrui__select__toggler {
@@ -1819,9 +1929,8 @@ but rather `width: auto` or `left: 0; right: 0;`.
   display: block;
   height: calc(0.6rem * 4);
   line-height: calc(0.6rem * 4);
-  padding-left: calc(0.6rem * 2.5 * 1.5);
-  padding-right: calc(0.6rem * 2.5 * 1.5);
-  color: currentColor;
+  padding-left: calc((0.6rem * 2.5) * 1.5);
+  padding-right: calc((0.6rem * 2.5) * 1.5);
   opacity: 0;
   -webkit-transition: opacity calc(220ms / 2) ease-out;
   -o-transition: opacity calc(220ms / 2) ease-out;
@@ -1867,6 +1976,7 @@ but rather `width: auto` or `left: 0; right: 0;`.
   visibility: hidden; }
 
 .rrui__snackbar {
+  position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1885,10 +1995,88 @@ but rather `width: auto` or `left: 0; right: 0;`.
   border-radius: 0.1rem;
   padding-left: calc(0.6rem * 1.5);
   padding-right: calc(0.6rem * 1.5);
-  height: calc(0.6rem * 4); }
+  min-height: calc(0.6rem * 4); }
 
 .rrui__snackbar__text {
-  overflow: 'hidden'; }
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1; }
+
+.rrui__snackbar__count {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-width: 1.4em;
+  height: 1.4em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  -webkit-transform: translateX(50%) translateY(50%);
+      -ms-transform: translateX(50%) translateY(50%);
+          transform: translateX(50%) translateY(50%);
+  border: 1px solid #ffffff;
+  border-radius: calc(1.4em / 2);
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: lighter;
+  pointer-events: none; }
+
+.rrui__snackbar__actions {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.rrui__snackbar__action {
+  font-size: 95%;
+  border-radius: 0.5em;
+  text-transform: uppercase;
+  color: #03b2cb; }
+
+.rrui__snackbar__action:active {
+  color: #2bd7f0; }
+
+.rrui__snackbar__action,
+.rrui__snackbar__close {
+  margin-left: 0.6rem;
+  margin-right: -0.5em;
+  padding: 0.5em; }
+
+.rrui__snackbar__close {
+  border-radius: 50%;
+  color: inherit; }
+
+.rrui__snackbar__close:hover {
+  color: #F3F3F3; }
+
+.rrui__snackbar__close:active {
+  color: #cacaca; }
+
+.rrui__snackbar__close-icon {
+  width: 0.75em;
+  height: 0.75em; }
 
 .rrui__switch {
   display: -webkit-inline-box;
@@ -1899,6 +2087,11 @@ but rather `width: auto` or `left: 0; right: 0;`.
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  /* The label is `display: inline-flex`
+	   so it behaves like an "inline" element
+	   and so its width is not limited to `100%`
+	   when `overflow: hidden`. */
+  max-width: 100%;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -1937,10 +2130,10 @@ but rather `width: auto` or `left: 0; right: 0;`.
   line-height: 0; }
 
 .rrui__switch__input {
-  left: -30%;
-  right: -30%;
-  width: 160%;
-  height: 180%;
+  left: calc((0.6rem / 2) * -1);
+  right: calc((0.6rem / 2) * -1);
+  width: calc(100% + (0.6rem / 2) * 2);
+  height: calc(100% + (0.6rem / 2) * 2);
   cursor: pointer; }
 
 .rrui__switch__label--left {
@@ -1956,45 +2149,53 @@ but rather `width: auto` or `left: 0; right: 0;`.
   height: 1em;
   color: #03b2cb;
   background-color: #ffffff;
-  -webkit-box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16);
-          box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16);
-  border-radius: 0.5em;
-  -webkit-transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98);
-  -o-transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98);
-  transition: all 0.4s cubic-bezier(0.17, 0.67, 0.43, 0.98); }
+  /* Using `* 0.5` instead of `/ 2` because of an IE11 bug:
+	   https://stackblitz.com/edit/ie11-border-radius-calc-issue?file=style.css */
+  border-radius: calc(1em * 0.5);
+  border: 0.0625em solid rgba(0,0,0,0.16);
+  -webkit-transition: all 0.40s cubic-bezier(.17,.67,.43,.98);
+  -o-transition: all 0.40s cubic-bezier(.17,.67,.43,.98);
+  transition: all 0.40s cubic-bezier(.17,.67,.43,.98);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
 
 .rrui__switch__input:focus + .rrui__switch__groove {
-  -webkit-box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16), 0 0 0 0 transparent;
-          box-shadow: inset 0 0 0 0.0625em rgba(0, 0, 0, 0.16), 0 0 0 0 transparent; }
+  -webkit-box-shadow: 0 0 0 0 transparent;
+          box-shadow: 0 0 0 0 transparent; }
 
 .rrui__switch__groove--on {
-  -webkit-box-shadow: inset 0 0 0 0.73em currentColor;
-          box-shadow: inset 0 0 0 0.73em currentColor; }
-
-.rrui__switch__input:focus + .rrui__switch__groove--on {
-  -webkit-box-shadow: inset 0 0 0 0.73em currentColor, 0 0 0 0 transparent;
-          box-shadow: inset 0 0 0 0.73em currentColor, 0 0 0 0 transparent; }
+  border-color: currentColor;
+  background-color: currentColor; }
 
 .rrui__switch__knob {
   position: absolute;
   width: 0.875em;
   height: 0.875em;
-  border-radius: 0.4375em;
-  top: 0.0625em;
-  left: 0.0625em;
+  /* Using `* 0.5` instead of `/ 2` because of an IE11 bug:
+   https://stackblitz.com/edit/ie11-border-radius-calc-issue?file=style.css */
+  border-radius: calc(0.875em * 0.5);
+  top: calc((1em - 0.875em) / 2);
+  left: calc((1em - 0.875em) / 2);
   background-color: #ffffff;
-  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em transparent, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
-          box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em transparent, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
-  -webkit-transition: all 0.25s ease-out;
-  -o-transition: all 0.25s ease-out;
-  transition: all 0.25s ease-out; }
+  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0,0,0,0.3), 0 0 0.05em rgba(0,0,0,0.05), 0 0.1em 0.2em rgba(0,0,0,0.2);
+          box-shadow: inset 0 0 0 0.03em rgba(0,0,0,0.3), 0 0 0.05em rgba(0,0,0,0.05), 0 0.1em 0.2em rgba(0,0,0,0.2);
+  /* `transform` uses pre-calculated `translateX` because IE11
+	    doesn't know how to handle `calc()` inside `transofrm`. */
+  /* https://stackoverflow.com/questions/21469350/not-possible-to-use-css-calc-with-transformtranslatex-in-ie */
+  -webkit-transition: -webkit-transform 0.25s ease-out;
+  transition: -webkit-transform 0.25s ease-out;
+  -o-transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out; }
 
 .rrui__switch__input:focus + .rrui__switch__groove + .rrui__switch__knob {
-  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em #03b2cb, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
-          box-shadow: inset 0 0 0 0.03em rgba(0, 0, 0, 0.3), inset 0 0 0 0.03em #03b2cb, 0 0 0.05em rgba(0, 0, 0, 0.05), 0 0.1em 0.2em rgba(0, 0, 0, 0.2); }
+  -webkit-box-shadow: inset 0 0 0 0.03em rgba(0,0,0,0.3), 0 0 0.05em rgba(0,0,0,0.05), 0 0.1em 0.2em rgba(0,0,0,0.2), inset 0 0 0 0.03em #03b2cb;
+          box-shadow: inset 0 0 0 0.03em rgba(0,0,0,0.3), 0 0 0.05em rgba(0,0,0,0.05), 0 0.1em 0.2em rgba(0,0,0,0.2), inset 0 0 0 0.03em #03b2cb; }
 
 .rrui__switch__knob--on {
-  left: 0.7125em; }
+  -webkit-transform: translateX(0.65em);
+      -ms-transform: translateX(0.65em);
+          transform: translateX(0.65em); }
 
 .rrui__switcher {
   position: relative;
@@ -2065,11 +2266,12 @@ but rather `width: auto` or `left: 0; right: 0;`.
       -ms-transform: translateX(0rem) translateY(0) scale(1);
           transform: translateX(0rem) translateY(0) scale(1);
   /* Introducing a return animation delay */
-  /* Because when a user clicks/taps on an option */
-  /* Then the input loses focus */
-  /* Causing the return animation to start playing */
+  /* because when a user clicks/taps on an option in */
+  /* a <Select/> it loses :focus for a moment */
+  /* causing the return animation to start playing */
   /* and then revert back as the click finishes */
-  /* returning focus to the input. */
+  /* returning focus to the input, so there should be */
+  /* a slight delay to prevent visual jitter. */
   -webkit-transition-delay: 100ms;
        -o-transition-delay: 100ms;
           transition-delay: 100ms; }
@@ -2080,12 +2282,21 @@ but rather `width: auto` or `left: 0; right: 0;`.
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
   padding-left: 0rem;
-  padding-right: 0rem; }
+  padding-right: 0rem;
+  /* Fixes the spacing bug between `<textarea/>` and its container. */
+  /* https://stackoverflow.com/questions/35906806/how-to-remove-space-between-textarea-and-parent-div */
+  vertical-align: top; }
 
 /* Multiline `<TextInput/>`'s label positioning. */
 /* Must be same as `padding-top`/`padding-bottom`. */
 .rrui__text-input__label--multiline {
   top: 0.6rem; }
+
+.rrui__text-line {
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis; }
 
 .rrui__tooltip {
   display: -webkit-box;
@@ -2099,48 +2310,102 @@ but rather `width: auto` or `left: 0; right: 0;`.
   padding-left: calc(0.6rem * 1.5);
   padding-right: calc(0.6rem * 1.5);
   height: calc(0.6rem * 4);
-  margin-top: calc(0.6rem * -1);
   color: #ffffff;
   background-color: #000000;
   border-radius: 0.1rem;
-  opacity: 0;
-  -webkit-transform: translateY(0.3em) scale(0.95);
-      -ms-transform: translateY(0.3em) scale(0.95);
-          transform: translateY(0.3em) scale(0.95);
-  cursor: default; }
+  cursor: default;
+  outline: none; }
+
+.rrui__tooltip {
+  opacity: 0; }
 
 .rrui__tooltip--after-show {
-  opacity: 1;
-  /* transform : scale(1); */
-  -webkit-transform: translateY(0) scale(1);
-      -ms-transform: translateY(0) scale(1);
-          transform: translateY(0) scale(1); }
+  opacity: 1; }
 
+/* `--before-hide` must be placed after `--after-show`. */
 .rrui__tooltip--before-hide {
-  opacity: 0;
-  /* transform : scale(0.8); */
-  -webkit-transform: translateY(0.3em) scale(0.92);
-      -ms-transform: translateY(0.3em) scale(0.92);
-          transform: translateY(0.3em) scale(0.92); }
+  opacity: 0; }
 
-.rrui__tooltip--after-show {
-  -webkit-transition: opacity 90ms ease-out, -webkit-transform 120ms ease-out;
-  transition: opacity 90ms ease-out, -webkit-transform 120ms ease-out;
-  -o-transition: opacity 90ms ease-out, transform 120ms ease-out;
-  transition: opacity 90ms ease-out, transform 120ms ease-out;
-  transition: opacity 90ms ease-out, transform 120ms ease-out, -webkit-transform 120ms ease-out; }
+.rrui__tooltip--top {
+  -webkit-transform: translateY(calc(-1 * 0.5em));
+      -ms-transform: translateY(calc(-1 * 0.5em));
+          transform: translateY(calc(-1 * 0.5em)); }
 
+.rrui__tooltip--top.rrui__tooltip--after-show {
+  -webkit-transform: translateY(calc(-1 * 0.2em));
+      -ms-transform: translateY(calc(-1 * 0.2em));
+          transform: translateY(calc(-1 * 0.2em)); }
+
+/* `--before-hide` must be placed after `--after-show`. */
+.rrui__tooltip--top.rrui__tooltip--before-hide {
+  -webkit-transform: translateY(calc(-1 * 0.5em));
+      -ms-transform: translateY(calc(-1 * 0.5em));
+          transform: translateY(calc(-1 * 0.5em)); }
+
+.rrui__tooltip--left {
+  -webkit-transform: translateX(calc(-1 * 0.5em));
+      -ms-transform: translateX(calc(-1 * 0.5em));
+          transform: translateX(calc(-1 * 0.5em)); }
+
+.rrui__tooltip--left.rrui__tooltip--after-show {
+  -webkit-transform: translateX(calc(-1 * 0.2em));
+      -ms-transform: translateX(calc(-1 * 0.2em));
+          transform: translateX(calc(-1 * 0.2em)); }
+
+/* `--before-hide` must be placed after `--after-show`. */
+.rrui__tooltip--left.rrui__tooltip--before-hide {
+  -webkit-transform: translateX(calc(-1 * 0.5em));
+      -ms-transform: translateX(calc(-1 * 0.5em));
+          transform: translateX(calc(-1 * 0.5em)); }
+
+.rrui__tooltip--bottom {
+  -webkit-transform: translateY(0.5em);
+      -ms-transform: translateY(0.5em);
+          transform: translateY(0.5em); }
+
+.rrui__tooltip--bottom.rrui__tooltip--after-show {
+  -webkit-transform: translateY(0.2em);
+      -ms-transform: translateY(0.2em);
+          transform: translateY(0.2em); }
+
+/* `--before-hide` must be placed after `--after-show`. */
+.rrui__tooltip--bottom.rrui__tooltip--before-hide {
+  -webkit-transform: translateY(0.5em);
+      -ms-transform: translateY(0.5em);
+          transform: translateY(0.5em); }
+
+.rrui__tooltip--right {
+  -webkit-transform: translateX(0.5em);
+      -ms-transform: translateX(0.5em);
+          transform: translateX(0.5em); }
+
+.rrui__tooltip--right.rrui__tooltip--after-show {
+  -webkit-transform: translateX(0.2em);
+      -ms-transform: translateX(0.2em);
+          transform: translateX(0.2em); }
+
+/* `--before-hide` must be placed after `--after-show`. */
+.rrui__tooltip--right.rrui__tooltip--before-hide {
+  -webkit-transform: translateX(0.5em);
+      -ms-transform: translateX(0.5em);
+          transform: translateX(0.5em); }
+
+.rrui__tooltip--after-show,
 .rrui__tooltip--before-hide {
-  -webkit-transition: opacity 120ms ease-out, -webkit-transform 120ms ease-out;
-  transition: opacity 120ms ease-out, -webkit-transform 120ms ease-out;
-  -o-transition: opacity 120ms ease-out, transform 120ms ease-out;
-  transition: opacity 120ms ease-out, transform 120ms ease-out;
-  transition: opacity 120ms ease-out, transform 120ms ease-out, -webkit-transform 120ms ease-out; }
+  -webkit-transition: opacity 120ms, -webkit-transform 120ms;
+  transition: opacity 120ms, -webkit-transform 120ms;
+  -o-transition: opacity 120ms, transform 120ms;
+  transition: opacity 120ms, transform 120ms;
+  transition: opacity 120ms, transform 120ms, -webkit-transform 120ms; }
 
-/* Prevents entering text selection mode
-   on mobile devices when tapping down and holding */
 .rrui__tooltip__target {
+  /* Prevents entering text selection mode
+	   on mobile devices when tapping down and holding */
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
-          user-select: none; }
+          user-select: none;
+  /* Resets `cursor: pointer` set by `interactive={true}`'s `.rrui__button-reset`. */
+  cursor: inherit;
+  /* Resets `white-space : nowrap` set by `interactive={true}`'s `.rrui__button-reset`. */
+  white-space: initial; }
