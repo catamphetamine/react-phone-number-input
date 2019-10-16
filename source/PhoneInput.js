@@ -304,6 +304,11 @@ export default class PhoneNumberInput extends PureComponent
 
 		/**
 		 * Phone number `<input/>` component.
+		 */
+		numberInputComponent : PropTypes.elementType.isRequired,
+
+		/**
+		 * Phone number `<input/>` component (a higher-order one).
 		 *
 		 * Receives properties:
 		 *
@@ -313,9 +318,12 @@ export default class PhoneNumberInput extends PureComponent
 		 * * `onBlur()` — Is used to toggle the `--focus` CSS class.
 		 * * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
 		 * * `metadata : object` — `libphonenumber-js` metadata.
+		 * * `inputComponent : elementType` — Phone number `<input/>` component. This is basically the `numberInputComponent` property renamed to `inputComponent`.
 		 * * All other properties should be passed through to the underlying `<input/>`.
 		 *
-		 * Must also implement `.focus()` method.
+		 * Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
+		 *
+		 * @ignore
 		 */
 		inputComponent : PropTypes.elementType.isRequired,
 
@@ -424,6 +432,11 @@ export default class PhoneNumberInput extends PureComponent
 
 		/**
 		 * Phone number `<input/>` component.
+		 */
+		numberInputComponent: 'input',
+
+		/**
+		 * Phone number `<input/>` component (a higher-order one).
 		 */
 		inputComponent: InputBasic,
 
@@ -880,6 +893,7 @@ export default class PhoneNumberInput extends PureComponent
 
 			countrySelectComponent : CountrySelectComponent,
 			inputComponent : InputComponent,
+			numberInputComponent : inputComponent,
 			// smartCaret,
 			ext,
 
@@ -911,7 +925,7 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= this.state
 
-		// const InputComponent = inputComponent || (smartCaret ? InputSmart : InputBasic)
+		// const InputComponent = InputComponent || (smartCaret ? InputSmart : InputBasic)
 
 		// Extract `countrySelectProperties` from `this.props`
 		// also removing them from `phoneNumberInputProps`.
@@ -984,6 +998,7 @@ export default class PhoneNumberInput extends PureComponent
 							onKeyDown={ this.onPhoneNumberKeyDown }
 							disabled={ disabled || disablePhoneInput }
 							autoComplete={ autoComplete }
+							inputComponent={ inputComponent }
 							className={ classNames
 							(
 								'react-phone-number-input__input',

@@ -399,9 +399,26 @@ Receives properties:
 * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
 * `className : string` — CSS class name.
 
+#### `numberInputComponent`
+
+React component for the phone number input field. Is `"input"` by default meaning that it renders a standard DOM `<input/>`.
+
+Receives properties:
+
+* `value : string` — The formatted `value`.
+* `onChange(value : string)` — Updates the formatted `value`.
+* `onFocus()` — Is used to toggle the `--focus` CSS class.
+* `onBlur()` — Is used to toggle the `--focus` CSS class.
+* Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
+
+Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
+
+-->
+
+<!--
 #### `inputComponent`
 
-React component for the phone number input field. See [InputSmart](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/InputSmart.js) and [InputBasic](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/InputBasic.js) for an example.
+React component for the phone number input field (a higher-order one). See [InputSmart](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/InputSmart.js) and [InputBasic](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/InputBasic.js) for an example.
 
 Receives properties:
 
@@ -413,7 +430,8 @@ Receives properties:
 * `metadata : object` — `libphonenumber-js` metadata.
 * All other properties should be passed through to the underlying `<input/>`.
 
-Must also implement `.focus()` method.
+Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
+-->
 
 ## CDN
 

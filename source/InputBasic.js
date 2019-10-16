@@ -41,7 +41,10 @@ export function createInput(defaultMetadata)
 			country : PropTypes.string,
 
 			// `libphonenumber-js` metadata.
-			metadata : PropTypes.object.isRequired
+			metadata : PropTypes.object.isRequired,
+
+			// The `<input/>` component.
+			inputComponent : PropTypes.elementType.isRequired
 		}
 
 		static defaultProps =
@@ -148,6 +151,7 @@ export function createInput(defaultMetadata)
 				onFocus,
 				country,
 				metadata,
+				inputComponent: Input,
 				...rest
 			}
 			= this.props
@@ -158,9 +162,7 @@ export function createInput(defaultMetadata)
 			const { value } = this.state
 
 			return (
-				<input
-					type="tel"
-					autoComplete="tel"
+				<Input
 					{...rest}
 					ref={this.storeInput}
 					value={this.format(value)}

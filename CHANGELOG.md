@@ -1,5 +1,10 @@
 <!-- Assign the default `aria-label` to the phone number `<input/>`. -->
 
+2.3.25 / 16.10.2019
+===================
+
+  * Added `numberInputComponent` property which is supposed to replace `inputComponent` property for the end users: it turned out that passing custom `inputComponent` required also implementing (copy-pasting) phone number parsing and formatting logic. The new `numberInputComponent` customization property is different in this aspect: it's a customization property of `inputComponent` itself. By default `numberInputComponent` is `"input"` meaning that `inputComponent` renders a standard DOM `<input/>` by default. By passing a custom `numberInputComponent` this standard DOM `<input/>` can be replaced by such custom number input component (for example, when using UI libraries like "Material UI" or "Bootstrap"). The former `inputComponent` property still works, it's just now an undocumented one (too complex for the end users to implement). And it now also receives a new `inputComponent` property that is basically the new `numberInputComponent` property, just with a shorter name — this new property might result in an `"Unknown prop "inputComponent" on <input> tag"` React warning, but that's only in the cases when a custom `inputComponent` was passed earlier which is unlikely (it's unlikely that anyone actually passed their own `inputComponent`).
+
 2.3.24 / 30.09.2019
 ===================
 
