@@ -986,9 +986,9 @@ export default class PhoneNumberInput extends PureComponent
 					{ !hidePhoneInputField &&
 						<InputComponent
 							type="tel"
-							name={ name }
 							{ ...phoneNumberInputProps }
 							ref={ this.storePhoneNumberInputInstance }
+							name={ name }
 							metadata={ metadata }
 							country={ country }
 							value={ parsed_input || '' }
