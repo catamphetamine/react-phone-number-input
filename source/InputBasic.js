@@ -49,7 +49,8 @@ export function createInput(defaultMetadata)
 
 		static defaultProps =
 		{
-			metadata : defaultMetadata
+			metadata: defaultMetadata,
+			inputComponent: 'input'
 		}
 
 		// Prevents React from resetting the `<input/>` caret position.
