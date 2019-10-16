@@ -405,10 +405,10 @@ React component for the phone number input field. Is `"input"` by default meanin
 
 Receives properties:
 
-* `value : string` — The formatted `value`.
-* `onChange(value : string)` — Updates the formatted `value`.
+* `value: string` — The formatted `value`.
+* `onChange(event: Event)` — Updates the formatted `value` from `event.target.value`.
 * `onFocus()` — Is used to toggle the `--focus` CSS class.
-* `onBlur()` — Is used to toggle the `--focus` CSS class.
+* `onBlur(event: Event)` — Is used to toggle the `--focus` CSS class.
 * Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
 
 Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
