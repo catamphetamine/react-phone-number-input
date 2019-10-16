@@ -162,8 +162,16 @@ export function createInput(defaultMetadata)
 			// https://github.com/facebook/react/issues/955
 			const { value } = this.state
 
+			// `type="tel"` and `autoComplete="tel"` properties are here
+			// just for the "Without country select" component exported from
+			// `react-phone-number-input/basic-input` subpackage.
+			// These two properties will be overwritten by `<PhoneInput/>` properties
+			// when not used as a "Without country select" component.
+
 			return (
 				<Input
+					type="tel"
+					autoComplete="tel"
 					{...rest}
 					ref={this.storeInput}
 					value={this.format(value)}
