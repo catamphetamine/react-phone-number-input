@@ -413,8 +413,6 @@ Receives properties:
 
 Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
 
--->
-
 <!--
 #### `inputComponent`
 
