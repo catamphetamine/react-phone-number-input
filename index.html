@@ -532,13 +532,34 @@
 							</Highlight>
 
 							<div className="section">
-								If no <code>country</code> is specified then the phone number can only be input in international format.
+								<br/>
+								If no <code>country</code> is specified then the phone number can only be input in international format:
+								<br/>
+								<br/>
+							</div>
+
+							<form>
+								<Input
+									placeholder="Enter intl phone number"
+									value={this.state.value_no_country_select_international}
+									onChange={value => this.setState({ value_no_country_select_international: value })}/>
+							</form>
+
+							<div className="section">
+								Value: {this.state.value_no_country_select_international}
+							</div>
+
+							<div className="section">
+								<br/>
+								A custom <code>inputComponent</code> can be passed to render it instead of the standard DOM <code>&lt;input/&gt;</code>.
 							</div>
 
 							<h2>Custom country &lt;select/&gt;</h2>
 
 							<div className="section">
-								This is an example of using <a target="_blank" href="https://catamphetamine.github.io/react-responsive-ui/"><code>react-responsive-ui</code></a> <code>&lt;Select/&gt;</code> component for country <code>&lt;select/&gt;</code>.
+								This is an illustration of using <a target="_blank" href="https://catamphetamine.github.io/react-responsive-ui/"><code>react-responsive-ui</code></a> <code>&lt;Select/&gt;</code> component instead of the default country <code>&lt;select/&gt;</code>.
+								<br/>
+								Under the hood, it simply passes a custom <code>countrySelectComponent</code> property to the regular <code>&lt;PhoneInput/&gt;</code>.
 							</div>
 
 							<div className="section">
@@ -669,24 +690,24 @@ import ru from 'react-phone-number-input/locale/ru'
 							<form>
 								<PhoneInput
 									placeholder="Enter phone number"
-									value={this.state.value_validation}
-									onChange={value => this.setState({ value_validation: value })}/>
+									value={this.state.value_format}
+									onChange={value => this.setState({ value_format: value })}/>
 							</form>
 
 							<div className="section">
-								<code>value</code>: {this.state.value_validation}
+								<code>value</code>: {this.state.value_format}
 							</div>
 
 							<div className="section">
-								<code>"National"</code>: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'National')}
+								<code>"National"</code>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatNational()}
 							</div>
 
 							<div className="section">
-								<code>"International"</code>: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'International')}
+								<code>"International"</code>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatInternational()}
 							</div>
 
 							<Highlight lang="jsx">
-{`import PhoneInput, { formatPhoneNumber } from 'react-phone-number-input'
+{`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input'
 
 const { value } = this.state
 
@@ -695,8 +716,8 @@ const { value } = this.state
   value={ value }
   onChange={ value => this.setState({ value }) }/>
 
-National: { value && formatPhoneNumber(value, 'National') }
-International: { value && formatPhoneNumber(value, 'International') }
+National: { value && formatPhoneNumber(value) }
+International: { value && formatPhoneNumberIntl(value) }
 `}
 							</Highlight>
 
@@ -706,7 +727,7 @@ International: { value && formatPhoneNumber(value, 'International') }
 
 							<form>
 								<PhoneInput
-									error={this.state.value_validation ? (libphonenumber.isValidNumber(this.state.value_validation) ? undefined : 'Invalid phone number') : 'Phone number required'}
+									error={this.state.value_validation ? (libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? undefined : 'Invalid phone number') : 'Phone number required'}
 									placeholder="Enter phone number"
 									value={this.state.value_validation}
 									onChange={value => this.setState({ value_validation: value })}/>
@@ -717,19 +738,19 @@ International: { value && formatPhoneNumber(value, 'International') }
 							</div>
 
 							<div className="section">
-								Is valid: {this.state.value_validation && libphonenumber.isValidNumber(this.state.value_validation) ? 'true' : 'false'}
+								Is valid: {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? 'true' : 'false'}
 							</div>
 
 							<div className="section">
-								Local: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'National')}
+								Local: {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatNational()}
 							</div>
 
 							<div className="section">
-								International: {this.state.value_validation && libphonenumber.formatNumber(this.state.value_validation, 'International')}
+								International: {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatInternational()}
 							</div>
 
 							<Highlight lang="jsx">
-{`import PhoneInput, { formatPhoneNumber, isValidPhoneNumber } from 'react-phone-number-input'
+{`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
 
 const { value } = this.state
 
@@ -740,8 +761,8 @@ const { value } = this.state
   error={ value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required' }/>
 
 Is valid: { value && isValidPhoneNumber(value) ? 'true' : 'false' }
-National: { value && formatPhoneNumber(value, 'National') }
-International: { value && formatPhoneNumber(value, 'International') }
+National: { value && formatPhoneNumber(value) }
+International: { value && formatPhoneNumberIntl(value) }
 `}
 							</Highlight>
 
@@ -850,6 +871,16 @@ International: { value && formatPhoneNumber(value, 'International') }
 							*/}
 
 							<h2>Dynamic</h2>
+
+							<Input
+								placeholder="Without country select"
+								country={this.state.dynamic_country}
+								value={this.state.dynamic_value}
+								onChange={value => this.setState({ dynamic_value: value })}/>
+
+							<div>
+								<br/>
+							</div>
 
 							<PhoneInput
 								labels={this.state.dynamic_labels}
