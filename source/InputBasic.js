@@ -130,7 +130,10 @@ export function createInput(defaultMetadata) {
 
 	InputBasic.propTypes = {
 		// The parsed phone number.
-		// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
+		// "Parsed" not in a sense of "E.164"
+		// but rather in a sense of "having only
+		// digits and possibly a leading plus character".
+		// Examples: `""`, `"+"`, `"+123"`, `"123"`.
 		value : PropTypes.string.isRequired,
 
 		// Updates the `value`.
