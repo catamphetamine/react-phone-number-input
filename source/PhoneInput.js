@@ -304,6 +304,16 @@ export default class PhoneNumberInput extends PureComponent
 
 		/**
 		 * Phone number `<input/>` component.
+		 *
+		 * Receives properties:
+		 *
+		 * * `value: string` — The formatted `value`.
+		 * * `onChange(event: Event)` — Updates the formatted `value` from `event.target.value`.
+		 * * `onFocus()` — Is used to toggle the `--focus` CSS class.
+		 * * `onBlur(event: Event)` — Is used to toggle the `--focus` CSS class.
+		 * * Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
+		 *
+		 * Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 		 */
 		numberInputComponent : PropTypes.elementType.isRequired,
 
@@ -321,7 +331,7 @@ export default class PhoneNumberInput extends PureComponent
 		 * * `inputComponent : elementType` — Phone number `<input/>` component. This is basically the `numberInputComponent` property renamed to `inputComponent`.
 		 * * All other properties should be passed through to the underlying `<input/>`.
 		 *
-		 * Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
+		 * Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 		 *
 		 * @ignore
 		 */
@@ -330,8 +340,8 @@ export default class PhoneNumberInput extends PureComponent
 		/**
 		 * Set to `false` to use `inputComponent={InputBasic}`
 		 * instead of `input-format`'s `<ReactInput/>`.
-		 * Is `false` by default.
 		 */
+		// Is `false` by default.
 		// smartCaret : PropTypes.bool.isRequired,
 
 		/**
@@ -421,7 +431,7 @@ export default class PhoneNumberInput extends PureComponent
 		flagComponent: FlagComponent,
 
 		/**
-		 * By default use icons from `flag-icon-css` github repo.
+		 * By default, use icons from `flag-icon-css` github repo.
 		 */
 		flagsPath: 'https://lipis.github.io/flag-icon-css/flags/4x3/',
 
