@@ -9,18 +9,17 @@
 		-->
 
 		<!-- React 0.14.9 -->
-		<script src="./lib/react.14.js"></script>
-		<script src="./lib/react-dom.14.js"></script>
+		<!-- <script src="./lib/react.14.js"></script> -->
+		<!-- <script src="./lib/react-dom.14.js"></script> -->
 
 		<!-- React 15.6.2
 		<script src="./lib/react.15.js"></script>
 		<script src="./lib/react-dom.15.js"></script>
 		-->
 
-		<!-- React X
-		<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-		<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-		-->
+		<!-- React 16 -->
+		<script crossorigin src="https://unpkg.com/react@16.10.2/umd/react.production.min.js"></script>
+		<script crossorigin src="https://unpkg.com/react-dom@16.10.2/umd/react-dom.production.min.js"></script>
 
 		<!-- Babel 6 -->
 		<script src="./lib/babel.min.js"></script>
@@ -52,6 +51,12 @@
 
 		<script>
 			window.SmartInput = window['react-phone-number-input-smart-input']
+		</script>
+
+		<script src="./react-phone-number-input-no-country-select.js"></script>
+
+		<script>
+			window.Input = window['react-phone-number-input']
 		</script>
 
 		<script src="./libphonenumber-max.js"></script>
@@ -496,6 +501,39 @@
   onChange={ value => this.setState({ value }) }/>
 `}
 							</Highlight>
+
+							<h2>Without country &lt;select/&gt;</h2>
+
+							<div className="section">
+								&nbsp;
+							</div>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									country="US"
+									value={this.state.value_no_country_select}
+									onChange={value => this.setState({ value_no_country_select: value })}/>
+							</form>
+
+							<div className="section">
+								Value: {this.state.value_no_country_select}
+							</div>
+
+							<Highlight lang="jsx">
+{`import PhoneInput from 'react-phone-number-input/input'
+
+<PhoneInput
+  placeholder="Enter phone number"
+  country="US"
+  value={ this.state.value }
+  onChange={ value => this.setState({ value }) }/>
+`}
+							</Highlight>
+
+							<div className="section">
+								If no <code>country</code> is specified then the phone number can only be input in international format.
+							</div>
 
 							<h2>Custom country &lt;select/&gt;</h2>
 
