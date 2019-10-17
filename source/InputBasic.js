@@ -6,65 +6,24 @@ import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 // `PureComponent` is only available in React >= 15.3.0.
 const PureComponent = React.PureComponent || React.Component
 
-export function createInput(defaultMetadata)
-{
+export function createInput(defaultMetadata) {
 	/**
 	 * `InputBasic`'s caret is not as "smart" as the default `inputComponent`'s
 	 * but still works good enough. When erasing or inserting digits in the middle
 	 * of a phone number the caret usually jumps to the end: this is the expected
 	 * behaviour and it's the workaround for the [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
 	 */
-	class InputBasic extends PureComponent
-	{
-		static propTypes =
-		{
-			// The parsed phone number.
-			// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
-			value : PropTypes.string.isRequired,
-
-			// Updates the `value`.
-			onChange : PropTypes.func.isRequired,
-
-			// Toggles the `--focus` CSS class.
-			// https://github.com/catamphetamine/react-phone-number-input/issues/189
-			onFocus : PropTypes.func,
-
-			// `onBlur` workaround for `redux-form`'s bug.
-			onBlur : PropTypes.func,
-
-			// A two-letter country code for formatting `value`
-			// as a national phone number (e.g. `(800) 555 35 35`).
-			// E.g. "US", "RU", etc.
-			// If no `country` is passed then `value`
-			// is formatted as an international phone number.
-			// (e.g. `+7 800 555 35 35`)
-			country : PropTypes.string,
-
-			// `libphonenumber-js` metadata.
-			metadata : PropTypes.object.isRequired,
-
-			// The `<input/>` component.
-			inputComponent : PropTypes.elementType.isRequired
-		}
-
-		static defaultProps =
-		{
-			metadata: defaultMetadata,
-			inputComponent: 'input'
-		}
-
+	class InputBasic extends PureComponent {
 		// Prevents React from resetting the `<input/>` caret position.
 		// https://github.com/reactjs/react-redux/issues/525#issuecomment-254852039
 		// https://github.com/facebook/react/issues/955
-		static getDerivedStateFromProps({ value })
-		{
+		static getDerivedStateFromProps({ value }) {
 			return { value }
 		}
 
 		state = {}
 
-		onChange = (event) =>
-		{
+		onChange = (event) => {
 			const { onChange } = this.props
 			const { value } = this.state
 
@@ -77,10 +36,8 @@ export function createInput(defaultMetadata)
 			// which would then be formatted back to `"(123)"`
 			// and so a user wouldn't be able to erase the phone number.
 			// Working around this issue with this simple hack.
-			if (newValue === value)
-			{
-				if (this.format(newValue).indexOf(event.target.value) === 0)
-				{
+			if (newValue === value) {
+				if (this.format(newValue).indexOf(event.target.value) === 0) {
 					// Trim the last digit (or plus sign).
 					newValue = newValue.slice(0, -1)
 				}
@@ -105,38 +62,29 @@ export function createInput(defaultMetadata)
 		// Instead, `redux-form` passes `onBlur` to this component automatically
 		// and this component patches that `onBlur` handler (a hacky way but works).
 		//
-		onBlur = (event) =>
-		{
+		onBlur = (event) => {
 			const { onBlur } = this.props
 			const { value } = this.state
-
-			if (onBlur)
-			{
+			if (onBlur) {
 				// `event` is React's `SyntheticEvent`.
 				// Its `.value` is read-only therefore cloning it.
-				const _event =
-				{
+				const _event = {
 					...event,
-					target:
-					{
+					target: {
 						...event.target,
 						value
 					}
 				}
-
 				// Workaround for `redux-form` event detection.
 				// https://github.com/erikras/redux-form/blob/v5/src/events/isEvent.js
 				_event.stopPropagation = event.stopPropagation
 				_event.preventDefault  = event.preventDefault
-
 				return onBlur(_event)
 			}
 		}
 
-		format(value)
-		{
+		format(value) {
 			const { country, metadata } = this.props
-
 			return formatIncompletePhoneNumber(value, country, metadata)
 		}
 
@@ -144,24 +92,22 @@ export function createInput(defaultMetadata)
 
 		storeInput = (ref) => this.input = ref
 
-		render()
-		{
-			const
-			{
+		render() {
+			const {
 				onChange,
 				onFocus,
 				country,
 				metadata,
 				inputComponent: Input,
 				...rest
-			}
-			= this.props
+			} = this.props
 
 			// Prevents React from resetting the `<input/>` caret position.
 			// https://github.com/reactjs/react-redux/issues/525#issuecomment-254852039
 			// https://github.com/facebook/react/issues/955
 			const { value } = this.state
 
+			// Deprecated. Should be removed in a future major version release.
 			// `type="tel"` and `autoComplete="tel"` properties are here
 			// just for the "Without country select" component exported from
 			// `react-phone-number-input/basic-input` subpackage.
@@ -180,6 +126,41 @@ export function createInput(defaultMetadata)
 					onBlur={this.onBlur}/>
 			)
 		}
+	}
+
+	InputBasic.propTypes = {
+		// The parsed phone number.
+		// E.g.: `""`, `"+"`, `"+123"`, `"123"`.
+		value : PropTypes.string.isRequired,
+
+		// Updates the `value`.
+		onChange : PropTypes.func.isRequired,
+
+		// Toggles the `--focus` CSS class.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/189
+		onFocus : PropTypes.func,
+
+		// `onBlur` workaround for `redux-form`'s bug.
+		onBlur : PropTypes.func,
+
+		// A two-letter country code for formatting `value`
+		// as a national phone number (e.g. `(800) 555 35 35`).
+		// E.g. "US", "RU", etc.
+		// If no `country` is passed then `value`
+		// is formatted as an international phone number.
+		// (e.g. `+7 800 555 35 35`)
+		country : PropTypes.string,
+
+		// `libphonenumber-js` metadata.
+		metadata : PropTypes.object.isRequired,
+
+		// The `<input/>` component.
+		inputComponent : PropTypes.elementType.isRequired
+	}
+
+	InputBasic.defaultProps = {
+		metadata: defaultMetadata,
+		inputComponent: 'input'
 	}
 
 	return reactLifecyclesCompat(InputBasic)
