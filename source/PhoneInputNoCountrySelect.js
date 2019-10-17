@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { AsYouType } from 'libphonenumber-js/core'
 
 import InputBasic from './InputBasic'
 
@@ -8,34 +9,72 @@ export function createInput(defaultMetadata) {
 		country,
 		value,
 		onChange,
+		metadata,
 		...rest
 	}, ref) {
-		const onChangeHandler = useCallback((value) => {
+		const [prevCountry, setPrevCountry] = useState(country)
+		const [parsedInput, setParsedInput] = useState(getParsedInputForValue(value, country, metadata))
+		const [valueForParsedInput, setValueForParsedInput] = useState(value)
+		// If `value` property has been changed externally
+		// then re-initialize the component.
+		useEffect(() => {
+			if (value !== valueForParsedInput) {
+				setParsedInput(getParsedInputForValue(value, country, metadata))
+				setValueForParsedInput(value)
+			}
+		}, [value])
+		// If the `country` has been changed then re-initialize the component.
+		useEffect(() => {
+			if (country !== prevCountry) {
+				setPrevCountry(country)
+				setParsedInput(getParsedInputForValue(value, country, metadata))
+			}
+		}, [country])
+		// Call `onChange` after the new `valueForParsedInput` has been applied.
+		useEffect(() => {
+			if (valueForParsedInput !== value) {
+				onChange(valueForParsedInput)
+			}
+		}, [valueForParsedInput])
+		const onParsedInputChange = useCallback((parsedInput) => {
+			let value
 			if (country) {
-				// Force an absence of `+` in the beginning of a `value`
+				// Won't allow `+` in the beginning
 				// when a `country` has been specified.
-				if (value && value[0] === '+') {
-					value = value.slice(1)
+				if (parsedInput && parsedInput[0] === '+') {
+					parsedInput = parsedInput.slice(1)
+				}
+				// Convert `parsedInput` to `value`.
+				if (parsedInput) {
+					const asYouType = new AsYouType(country, metadata)
+					asYouType.input(parsedInput)
+					const phoneNumber = asYouType.getNumber()
+					if (phoneNumber) {
+						value = phoneNumber.number
+					}
 				}
 			} else {
 				// Force a `+` in the beginning of a `value`
 				// when no `country` has been specified.
-				if (value && value[0] !== '+') {
-					value = '+' + value
+				if (parsedInput && parsedInput[0] !== '+') {
+					parsedInput = '+' + parsedInput
+				}
+				// Convert `parsedInput` to `value`.
+				if (parsedInput) {
+					value = parsedInput
 				}
 			}
-			if (value === '') {
-				value = undefined
-			}
-			onChange(value)
-		}, [onChange, country])
+			setParsedInput(parsedInput)
+			setValueForParsedInput(value)
+		}, [country, metadata, setParsedInput, setValueForParsedInput])
 		return (
 			<InputBasic
 				{...rest}
 				ref={ref}
+				metadata={metadata}
 				country={country}
-				value={value || ''}
-				onChange={onChangeHandler} />
+				value={parsedInput}
+				onChange={onParsedInputChange} />
 		)
 	}
 
@@ -105,3 +144,27 @@ export function createInput(defaultMetadata) {
 }
 
 export default createInput()
+
+function getParsedInputForValue(value, country, metadata) {
+	if (!value) {
+		return ''
+	}
+	if (!country) {
+		return value
+	}
+	const asYouType = new AsYouType(country, metadata)
+	asYouType.input(value)
+	const phoneNumber = asYouType.getNumber()
+	if (phoneNumber) {
+		// Even if the actual country of the `value` being passed
+		// doesn't match the `country` property,
+		// still format the national number.
+		// This is some kind of an "error recovery" procedure.
+		if (phoneNumber.country && phoneNumber.country !== country) {
+			console.error(`[react-phone-number-input] Phone number ${value} corresponds to country ${phoneNumber.country} but ${country} was specified instead.`)
+		}
+		return phoneNumber.formatNational()
+	} else {
+		return ''
+	}
+}

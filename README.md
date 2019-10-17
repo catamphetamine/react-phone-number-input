@@ -57,6 +57,8 @@ To get selected `country` pass an `onCountryChange(country)` property, or use [`
 
 To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) and [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string) functions.
 
+There's also a ["without country select"](#without-country-select) component available.
+
 <!--
 The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) phone number parsing/formatting library. The [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function can be used to output the `value` in `"National"` or `"International"` format.
 -->
@@ -262,7 +264,7 @@ class Example extends Component {
 Receives properties:
 
 * `country: string?` — If no `country` is specified then the phone number can only be input in international format.
-* `value: string?` — The parsed phone number. Examples: `undefined`, `"+"`, `"+123"`, `"123"`.
+* `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
 * `onChange(value: string?)` — Updates the `value`.
 * `inputComponent: component?` — A custom `<input/>` component can be passed.
 
