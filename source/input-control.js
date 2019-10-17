@@ -143,14 +143,19 @@ export function migrateParsedInputForNewCountry
 			// then convert it to local if required.
 			if (preferNationalFormat)
 			{
-				// If a phone number is being input in international form
-				// and the country can already be derived from it,
-				// and if it is the new country, then format as a national number.
-				const derived_country = get_country_from_possibly_incomplete_international_phone_number(value, metadata)
-				if (derived_country === new_country)
-				{
-					return strip_country_calling_code(value, derived_country, metadata)
-				}
+				// // If a phone number is being input in international form
+				// // and the country can already be derived from it,
+				// // and if it is the new country, then format as a national number.
+				// const derived_country = get_country_from_possibly_incomplete_international_phone_number(value, metadata)
+				// if (derived_country === new_country)
+				// {
+				// 	return strip_country_calling_code(value, derived_country, metadata)
+				// }
+
+				// Simply strip the leading `+` character
+				// therefore simply converting all digits into a "local" phone number.
+				// https://github.com/catamphetamine/react-phone-number-input/issues/287
+				return value.slice(1)
 			}
 
 			// If the international phone number already contains
