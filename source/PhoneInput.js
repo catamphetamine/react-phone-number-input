@@ -303,6 +303,11 @@ export default class PhoneNumberInput extends PureComponent
 		countrySelectComponent : PropTypes.elementType.isRequired,
 
 		/**
+		 * Country `<select/>` component props.
+		 */
+		countrySelectProps: PropTypes.object,
+
+		/**
 		 * Phone number `<input/>` component.
 		 *
 		 * Receives properties:
@@ -316,6 +321,11 @@ export default class PhoneNumberInput extends PureComponent
 		 * Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 		 */
 		numberInputComponent : PropTypes.elementType.isRequired,
+
+		/**
+		 * Phone number `<input/>` component props.
+		 */
+		numberInputProps: PropTypes.object,
 
 		/**
 		 * Phone number `<input/>` component (a higher-order one).
@@ -901,9 +911,11 @@ export default class PhoneNumberInput extends PureComponent
 			error,
 			indicateInvalid,
 
-			countrySelectComponent : CountrySelectComponent,
-			inputComponent : InputComponent,
-			numberInputComponent : inputComponent,
+			countrySelectComponent: CountrySelectComponent,
+			countrySelectProps,
+			inputComponent: InputComponent,
+			numberInputComponent: inputComponent,
+			numberInputProps,
 			// smartCaret,
 			ext,
 
@@ -979,16 +991,17 @@ export default class PhoneNumberInput extends PureComponent
 							{..._countrySelectProps}
 							ref={ this.storeCountrySelectInstance }
 							name={ name ? `${name}__country` : undefined }
+							aria-label={ countrySelectAriaLabel || labels.country }
+							tabIndex={ countrySelectTabIndex }
+							{...countrySelectProps}
 							value={ country }
 							options={ country_select_options }
 							onChange={ this.onCountryChange }
 							onFocus={ this._onFocus }
 							onBlur={ this._onBlur }
 							disabled={ disabled }
-							tabIndex={ countrySelectTabIndex }
 							hidePhoneInputField={ this.hidePhoneInputField }
 							focusPhoneInputField={ this.focus }
-							aria-label={ countrySelectAriaLabel || labels.country }
 							className="react-phone-number-input__country"/>
 					}
 
@@ -996,7 +1009,9 @@ export default class PhoneNumberInput extends PureComponent
 					{ !hidePhoneInputField &&
 						<InputComponent
 							type="tel"
-							{ ...phoneNumberInputProps }
+							autoComplete={ autoComplete }
+							{...numberInputProps}
+							{...phoneNumberInputProps}
 							ref={ this.storePhoneNumberInputInstance }
 							name={ name }
 							metadata={ metadata }
@@ -1007,7 +1022,6 @@ export default class PhoneNumberInput extends PureComponent
 							onBlur={ this.onBlur }
 							onKeyDown={ this.onPhoneNumberKeyDown }
 							disabled={ disabled || disablePhoneInput }
-							autoComplete={ autoComplete }
 							inputComponent={ inputComponent }
 							className={ classNames
 							(
