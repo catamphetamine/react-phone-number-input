@@ -1,4 +1,31 @@
-<!-- Assign the default `aria-label` to the phone number `<input/>`. -->
+<!-- (breaking change) The phone number `<input/>` now has the default `aria-label` which is `labels.phone` and for the default `labels` that would be `"Phone"`. -->
+
+<!-- (breaking change) Those who're using "Without country select" input component imported from `/basic-input` or `/basic-input-custom` subpackage should replace the import path with the new `/input` or `/input-custom` subpackage. -->
+
+<!-- (breaking change) The component has been rewritten using React Hooks and requires React >= x.y.z now. -->
+
+<!-- (breaking change) Renamed `numberInputComponent` to `inputComponent` and `inputComponent` to `numberInputComponent`. -->
+
+<!-- (breaking change) Changed CDN build global variable names from having shape window['react-phone-number-input'] to `ReactPhoneNumberInput`. Renamed variables like `react-phone-number-input-smart-input` to `ReactPhoneNumberInputSmartInput`, etc. Moved from `webpack` to `rollup`. -->
+
+<!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
+
+<!-- Maybe add `selectComponent`: some developer may prefer implementing country select as some Material UI select or something like that. But those "custom" UI selects usually have a lot of spacing so I guess using the "native" OS `<select/>` for country selection is always better. -->
+
+2.4.0 / 17.10.2019
+===================
+
+  * The previous "patch" version bump that added `numberInputComponent` property should actually have been a "feature" version bump, so bumping "feature" version now.
+
+  * The country is now reset in cases when a user erases a phone number that has been input in international format. This fixes the cases when a user tries to input their local phone number when no country has been selected and ends up with an international phone number and a randomly selected country. Then such user erases the `<input/>` contents and tries inputting their local phone number again (now with the random country being selected) — this results in a seemingly-correct phone number but the reality is that the country of the phone number is completely unrelated (random). The change in this release fixes that: when a user erases all digits of an international number the random-selected country is reset.
+
+  * Added `numberInputProps` and `countrySelectProps`. If a custom `inputComponent` property has been specified then this new `numberInputProps` property might result in an `"Unknown prop "inputProps" on <input> tag"` React warning because this new `numberInputProps` property is most likely passed as `{...rest}` to the underlying `<input/>`. But such warning isn't considered a "breaking change", and it's unlikely that anyone actually passed their own `inputComponent` due to the complexity.
+
+  * Added an `/input` subpackage that exports the "Without country select" phone number input component. The previously proposed `/basic-input` subpackage is now deprecated.
+
+  * Added `prevInput` argument to `parseInput()` function of `input-control.js`. It's unlikely that anyone used it directly as `import { parseInput } from 'react-phone-number-input/commonjs/input-control'`. But if anyone did then such code would break because the function's arguments changed.
+
+  * (misc) Removed the unintuitive "magic" phone number digits conversion logic when a phone number in international format has been input and then the user decides to select another country: previously it replaced the "country calling code" of the previous country with the "country calling code" of the new country keeping the international format of the phone number. It has been noticed that selecting a country manually having an international phone number already typed in most likely corresponds to the cases when the user tried typing in a local phone number with no country selected resulting in an international number being input and a random country being selected. Then such user decides to select the correct country manually and expects his input to be corrected back to "local" format. See the [original issue](https://github.com/catamphetamine/react-phone-number-input/issues/273).
 
 2.3.25 / 16.10.2019
 ===================
