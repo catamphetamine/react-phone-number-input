@@ -294,43 +294,43 @@ describe('input-control', () =>
 
 	it('should parse input', () =>
 	{
-		parseInput(undefined, 'RU', undefined, true, false, metadata).should.deep.equal({
+		parseInput(undefined, undefined, 'RU', undefined, true, false, metadata).should.deep.equal({
 			input: undefined,
 			country: 'RU',
 			value: undefined
 		})
 
-		parseInput('', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('', undefined, undefined, undefined, true, false, metadata).should.deep.equal({
 			input: '',
 			country: undefined,
 			value: undefined
 		})
 
-		parseInput('+', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+', undefined, undefined, undefined, true, false, metadata).should.deep.equal({
 			input: '+',
 			country: undefined,
 			value: undefined
 		})
 
-		parseInput('1213', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('1213', undefined, undefined, undefined, true, false, metadata).should.deep.equal({
 			input: '+1213',
 			country: undefined,
 			value: '+1213'
 		})
 
-		parseInput('+1213', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+1213', undefined, undefined, undefined, true, false, metadata).should.deep.equal({
 			input: '+1213',
 			country: undefined,
 			value: '+1213'
 		})
 
-		parseInput('213', 'US', undefined, true, false, metadata).should.deep.equal({
+		parseInput('213', undefined, 'US', undefined, true, false, metadata).should.deep.equal({
 			input: '213',
 			country: 'US',
 			value: '+1213'
 		})
 
-		parseInput('+78005553535', 'US', undefined, true, false, metadata).should.deep.equal({
+		parseInput('+78005553535', undefined, 'US', undefined, true, false, metadata).should.deep.equal({
 			input: '+78005553535',
 			country: 'RU',
 			value: '+78005553535'
@@ -338,7 +338,7 @@ describe('input-control', () =>
 
 		// Won't reset an already selected country.
 
-		parseInput('+15555555555', 'US', undefined, true, false, metadata).should.deep.equal({
+		parseInput('+15555555555', undefined,'US', undefined, true, false, metadata).should.deep.equal({
 			input: '+15555555555',
 			country: 'US',
 			value: '+15555555555'
@@ -346,26 +346,44 @@ describe('input-control', () =>
 
 		// `limitMaxLength`.
 
-		parseInput('21337342530', 'US', undefined, true, true, metadata).should.deep.equal({
+		parseInput('21337342530', undefined, 'US', undefined, true, true, metadata).should.deep.equal({
 			input: '2133734253',
 			country: 'US',
 			value: '+12133734253'
 		})
 
-		parseInput('+121337342530', 'US', undefined, true, true, metadata).should.deep.equal({
+		parseInput('+121337342530', undefined, 'US', undefined, true, true, metadata).should.deep.equal({
 			input: '+12133734253',
 			country: 'US',
 			value: '+12133734253'
 		})
 
 		// This case is intentionally ignored to simplify the code.
-		parseInput('+121337342530', undefined, undefined, true, true, metadata).should.deep.equal({
+		parseInput('+121337342530', undefined, undefined, undefined, true, true, metadata).should.deep.equal({
 			// input: '+12133734253',
 			// country: 'US',
 			// value: '+12133734253'
 			input: '+121337342530',
 			country: undefined,
 			value: '+121337342530'
+		})
+
+		// Should reset the country if it has likely been automatically
+		// selected based on international phone number input
+		// and the user decides to erase all input.
+		parseInput('', '+78005553535', 'RU', undefined, true, false, metadata).should.deep.equal({
+			input: '',
+			country: undefined,
+			value: undefined
+		})
+
+		// Should reset the country if it has likely been automatically
+		// selected based on international phone number input
+		// and the user decides to erase all input up to the `+` sign.
+		parseInput('+', '+78005553535', 'RU', undefined, true, false, metadata).should.deep.equal({
+			input: '+',
+			country: undefined,
+			value: undefined
 		})
 	})
 })

@@ -706,6 +706,7 @@ export default class PhoneNumberInput extends PureComponent
 		= parseInput
 		(
 			_input,
+			this.state.parsed_input,
 			this.state.country,
 			this.state.countries,
 			international,

@@ -301,6 +301,7 @@ export function getCountryForPartialE164Number
 /**
  * Parses `<input/>` value. Derives `country` from `input`. Derives an E.164 `value`.
  * @param  {string?} input — Parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
+ * @param  {string?} prevInput — Previous parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
  * @param  {string?} country - Currently selected country.
  * @param  {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
  * @param  {boolean} includeInternationalOption - Whether "International" country option is available.
@@ -310,6 +311,7 @@ export function getCountryForPartialE164Number
  */
 export function parseInput(
 	input,
+	prevInput,
 	country,
 	countries,
 	includeInternationalOption,
@@ -327,6 +329,34 @@ export function parseInput(
 	// `<input/>` value isn't in international format.
 	if (input && !country && input[0] !== '+') {
 		input = '+' + input
+	}
+
+	// If the previously entered phone number
+	// has been entered in international format
+	// and the user decides to erase it,
+	// then also reset the `country`
+	// because it was most likely automatically selected
+	// while the user was typing in the phone number
+	// in international format.
+	// This fixes the issue when a user is presented
+	// with a phone number input with no country selected
+	// and then types in their local phone number
+	// then discovers that the input's messed up
+	// (a `+` has been prepended at the start of their input
+	//  and a random country has been selected),
+	// decides to undo it all by erasing everything
+	// and then types in their local phone number again
+	// resulting in a seemingly correct phone number
+	// but in reality that phone number has incorrect country.
+	// https://github.com/catamphetamine/react-phone-number-input/issues/273
+	if (!input && prevInput && prevInput[0] === '+') {
+		country = undefined
+	}
+	// Also resets such "randomly" selected country
+	// as soon as the user erases the number
+	// digit-by-digit up to the leading `+` sign.
+	if (input === '+' && prevInput && prevInput[0] === '+' && prevInput.length > '+'.length) {
+		country = undefined
 	}
 
 	// Generate the new `value` property.
