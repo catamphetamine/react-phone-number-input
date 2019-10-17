@@ -175,7 +175,7 @@ describe('input-control', () =>
 		// National number. With country. Just national prefix.
 		expect(e164('8', 'RU', metadata)).to.be.undefined
 
-		// National number. With country. Just national prefix.
+		// National number. With country.
 		e164('8800', 'RU', metadata).should.equal('+7800')
 	})
 
