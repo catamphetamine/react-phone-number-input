@@ -118,7 +118,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 isValidPhoneNumber('+12133734253') === true
 ```
 
-By default the component uses [`min`](#min-vs-max-vs-mobile) metadata which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
+By default the component uses [`min` "metadata"](#min-vs-max-vs-mobile) which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
 
 I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation at all because telephone numbering plans constantly evolve and validation rules do change over time which means `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. Still, some people wanted this feature, so it's included.
 
@@ -212,13 +212,13 @@ The phone `<input/>` `aria-label` is not set automatically to `labels.phone` for
 
 ## `min` vs `max` vs `mobile`
 
-This library comes pre-packaged with three flavors of [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) metadata:
+This component uses [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which requires choosing a "metadata" set to be used, "metadata" being a list of phone number parsing and formatting rules for all countries. The complete list of rules is huge, so `libphonenumber-js` provides a way to optimize bundle size by choosing between `max`, `min`, `mobile` and custom metadata:
 
 * `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`).
 
-* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Doesn't contain regular expressions for advanced phone number validation. Some simple phone number validation still works (basic length check, etc), it's just that it's loose compared to the "advanced" validation (not so strict).
+* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Doesn't contain regular expressions for advanced phone number validation. Some simple phone number validation still works (basic length check, etc), it's just that it's loose compared to the "advanced" validation (not so strict). Choose this when not using `isValidPhoneNumber(value)` function.
 
-* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `105 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`).
+* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `105 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`). Choose this when using `isValidPhoneNumber(value)` function, but only dealing with mobile phone numbers.
 
 To use a particular metadata set import the component from the relevant sub-package: `react-phone-number-input/max`, `react-phone-number-input/min` or `react-phone-number-input/mobile`.
 
@@ -352,32 +352,32 @@ parseRFC3966('tel:+12133734253;ext=123')
 
 The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput):
 
-* `metadata` — Custom `libphonenumber-js` metadata.
+* `metadata` — Custom `libphonenumber-js` ["metadata"](#min-vs-max-vs-mobile).
 
 * `labels` — Custom translation (including country names).
 
 * `internationalIcon` — Custom "International" icon.
 
-* `inputComponent` — Custom phone number `<input/>` component.
+* `numberInputComponent` — Custom phone number `<input/>` component.
 
 * `countrySelectComponent` — Custom country `<select/>` component.
 
 ```js
-import PhoneInput from 'react-phone-number-input/core'
+import PhoneInput from 'react-phone-number-input/min'
 
-import labels from 'react-phone-number-input/locale/ru'
 import metadata from 'libphonenumber-js/metadata.min.json'
+import labels from 'react-phone-number-input/locale/ru'
 import InternationalIcon from 'react-phone-number-input/international-icon'
 
 <PhoneInput
-  inputComponent={...}
+  numberInputComponent={...}
   countrySelectComponent={...}
   labels={labels}
   metadata={metadata}
   internationalIcon={InternationalIcon}/>
 ```
 
-All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties. In this case all customization properties must be passed.
+All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties: in this case all customization properties must be passed.
 
 ```js
 import PhoneInput from 'react-phone-number-input/core'
