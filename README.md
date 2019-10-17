@@ -234,6 +234,40 @@ If you think that the phone number parsing/formatting/validation engine malfunct
 
 Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
 
+## Without country select
+
+Some people prefer just a phone number input component without country `<select/>`.
+
+```js
+import PhoneInput from 'react-phone-number-input/input'
+
+class Example extends Component {
+  state = {
+    value: ''
+  }
+
+  render() {
+    // If `country` property is not passed
+    // then "International" format is used.
+    return (
+      <PhoneInput
+        country="US"
+        value={ this.state.value }
+        onChange={ value => this.setState({ value }) } />
+    )
+  }
+}
+```
+
+Receives properties:
+
+* `country: string?` — If no `country` is specified then the phone number can only be input in international format.
+* `value: string?` — The parsed phone number. Examples: `undefined`, `"+"`, `"+123"`, `"123"`.
+* `onChange(value: string?)` — Updates the `value`.
+* `inputComponent: component?` — A custom `<input/>` component can be passed.
+
+For those who want to pass custom `metadata` there's `react-phone-number-input/input-core` subpackage.
+
 ## Custom country `<select/>`
 
 One can supply their own country `<select/>` component in case the native one doesn't fit the app. See [`countrySelectComponent`](https://github.com/catamphetamine/react-phone-number-input#customizing) property.
@@ -264,31 +298,6 @@ return (
     value={ this.state.phone }
     onChange={ phone => this.setState({ phone }) } />
 )
-```
-
-## Without country select
-
-Some people requested an exported minimal phone number input component without country `<select/>`.
-
-```js
-import PhoneInput from 'react-phone-number-input/basic-input'
-
-class Example extends Component {
-  state = {
-    value: ''
-  }
-
-  render() {
-    // If `country` property is not passed
-    // then "International" format is used.
-    return (
-      <PhoneInput
-        country="US"
-        value={ this.state.value }
-        onChange={ value => this.setState({ value }) } />
-    )
-  }
-}
 ```
 
 ## Extensions
@@ -411,7 +420,7 @@ Receives properties:
 * `onBlur(event: Event)` — Is used to toggle the `--focus` CSS class.
 * Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
 
-Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
+Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 
 <!--
 #### `inputComponent`
@@ -428,7 +437,7 @@ Receives properties:
 * `metadata : object` — `libphonenumber-js` metadata.
 * All other properties should be passed through to the underlying `<input/>`.
 
-Must also either implement `.focus()` method or use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
+Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 -->
 
 ## CDN
@@ -450,6 +459,9 @@ One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdeliv
 
 <!-- Or `react-phone-number-input` with `react-responsive-ui` `<Select/>`. -->
 <script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-react-responsive-ui.js"></script>
+
+<!-- Or `react-phone-number-input` without country `<select/>`. -->
+<script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-no-country-select.js"></script>
 
 <!-- Styles for the component. -->
 <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@2.x/bundle/style.css"/>

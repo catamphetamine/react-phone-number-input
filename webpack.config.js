@@ -19,6 +19,9 @@ switch (process.env.WEBPACK_BUNDLE_TYPE) {
     inputFileName = 'smart-input/index.commonjs'
     globalVariableName += '-smart-input'
     break
+  case 'no-country-select':
+    inputFileName = 'input/index.commonjs'
+    break
 }
 
 module.exports =
