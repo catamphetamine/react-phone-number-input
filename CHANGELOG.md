@@ -8,6 +8,8 @@
 
 <!-- (breaking change) Changed CDN build global variable names from having shape window['react-phone-number-input'] to `ReactPhoneNumberInput`. Renamed variables like `react-phone-number-input-smart-input` to `ReactPhoneNumberInputSmartInput`, etc. Moved from `webpack` to `rollup`. -->
 
+<!-- (breaking change) Removed `locale/br.json`. Use `locale/pt.json` instead. -->
+
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
 <!-- Maybe add `selectComponent`: some developer may prefer implementing country select as some Material UI select or something like that. But those "custom" UI selects usually have a lot of spacing so I guess using the "native" OS `<select/>` for country selection is always better. -->
