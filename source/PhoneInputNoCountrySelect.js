@@ -115,7 +115,7 @@ export function createInput(defaultMetadata) {
 		/**
 		 * The `<input/>` component.
 		 */
-		inputComponent: PropTypes.elementType,
+		inputComponent: PropTypes.element,
 
 		/**
 		 * `libphonenumber-js` metadata.

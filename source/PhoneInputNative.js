@@ -10,7 +10,7 @@ export default class PhoneInputNative extends Component
 	static propTypes = {
 		// (optional)
 		// Replaces the default country select arrow.
-		countrySelectArrowComponent : PropTypes.elementType
+		countrySelectArrowComponent : PropTypes.element
 	}
 
 	// These two country-select-related properties are

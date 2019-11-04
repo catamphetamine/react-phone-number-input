@@ -19,7 +19,7 @@ export function createPhoneInput(defaultMetadata)
 		{
 			metadata : metadataPropType.isRequired,
 			labels : labelsPropType.isRequired,
-			internationalIcon : PropTypes.elementType.isRequired
+			internationalIcon : PropTypes.element.isRequired
 		}
 
 		static defaultProps =

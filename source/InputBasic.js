@@ -158,7 +158,7 @@ export function createInput(defaultMetadata) {
 		metadata : PropTypes.object.isRequired,
 
 		// The `<input/>` component.
-		inputComponent : PropTypes.elementType.isRequired
+		inputComponent : PropTypes.element.isRequired
 	}
 
 	InputBasic.defaultProps = {

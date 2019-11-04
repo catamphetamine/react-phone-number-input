@@ -30,7 +30,7 @@ export default class CountrySelectNative extends Component
 		tabIndex : PropTypes.number,
 
 		// Select arrow component.
-		selectArrowComponent : PropTypes.elementType.isRequired,
+		selectArrowComponent : PropTypes.element.isRequired,
 
 		// Toggles the `--focus` CSS class.
 		// https://github.com/catamphetamine/react-phone-number-input/issues/189

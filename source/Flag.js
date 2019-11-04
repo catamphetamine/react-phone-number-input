@@ -33,7 +33,7 @@ FlagComponent.propTypes =
 	// where having a large (3 megabyte) `<svg/>` flags
 	// bundle is more appropriate.
 	// `import flags from 'react-phone-number-input/flags'`.
-	flags : PropTypes.objectOf(PropTypes.elementType),
+	flags : PropTypes.objectOf(PropTypes.element),
 
 	// A base URL path for national flag SVG icons.
 	// By default it uses the ones from `flag-icon-css` github repo.
