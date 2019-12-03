@@ -133,7 +133,7 @@ isValidPhoneNumber('+19999999999') === false
 
 By default the component uses [`min` "metadata"](#min-vs-max-vs-mobile) which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
 
-I personally [wouldn't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation at all because telephone numbering plans constantly evolve and validation rules do change over time which means `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. Still, some people wanted this feature, so it's included.
+I personally [don't use](https://github.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation in my projects because telephone numbering plans sometimes change and so validation rules can change too which means that `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. If it was required to validate a phone number being input by a user, then I'd personally use something like `isPossiblePhoneNumber()` that just validates phone number length.
 
 ### `parsePhoneNumber(input: string): PhoneNumber?`
 
