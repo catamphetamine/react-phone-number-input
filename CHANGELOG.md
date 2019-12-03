@@ -41,7 +41,7 @@
 
   * Removed `redux-form` onBlur bug workaround from the recently introduced "without country select" component. If there're any `redux-form` bugs then the new versions of this library won't be fixing them. `redux-form` has been deprecated for a long time.
 
-  * Added [`reset: any`](https://github.com/catamphetamine/react-phone-number-input/issues/300) property that resets `value` and `country` whenever it's changed. It's not implemented as some instance `.reset()` method because `ref` is forwarded to `<input/>`.
+  * Added [`reset: any`](https://github.com/catamphetamine/react-phone-number-input/issues/300) property that resets `value` and `country` whenever it's changed. It's not implemented as some instance `.reset()` method because `ref` will likely be forwarded to `<input/>`.
 
 2.4.0 / 17.10.2019
 ===================

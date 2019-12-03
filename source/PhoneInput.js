@@ -264,7 +264,7 @@ export default class PhoneNumberInput extends PureComponent
 		 * Whenever `reset` property changes both number `<input/>`
 		 * and country `<select/>` are reset.
 		 * It's not implemented as some instance `.reset()` method
-		 * because `ref` is forwarded to `<input/>`.
+		 * because `ref` will likely be forwarded to `<input/>`.
 		 */
 		// https://github.com/catamphetamine/react-phone-number-input/issues/300
 		reset : PropTypes.any,
@@ -610,12 +610,13 @@ export default class PhoneNumberInput extends PureComponent
 		// Whenever `reset` property changes both number `<input/>`
 		// and country `<select/>` are reset.
 		// It's not implemented as some instance `.reset()` method
-		// because `ref` is forwarded to `<input/>`.
+		// because `ref` will likely be forwarded to `<input/>`
+		// in some next major version.
 		// https://github.com/catamphetamine/react-phone-number-input/issues/300
 		if (reset !== prevProps.reset) {
 			onChange()
 			if (onCountryChange) {
-				onCountryChange()
+				onCountryChange(this.state.country)
 			}
 		}
 	}
@@ -867,7 +868,7 @@ export default class PhoneNumberInput extends PureComponent
 		// Whenever `reset` property changes both number `<input/>`
 		// and country `<select/>` are reset.
 		// It's not implemented as some instance `.reset()` method
-		// because `ref` is forwarded to `<input/>`.
+		// because `ref` will likely be forwarded to `<input/>`.
 		// https://github.com/catamphetamine/react-phone-number-input/issues/300
 		if (new_reset !== old_reset) {
 			return {
