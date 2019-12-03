@@ -57,7 +57,7 @@ To get selected `country` pass an `onCountryChange(country)` property, or use [`
 
 To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) and [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string) functions.
 
-There's also a ["without country select"](#without-country-select) component available.
+There's also a ["without country select"](#without-country-select) phone number input component available.
 
 <!--
 The input is based on [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) phone number parsing/formatting library. The [`formatPhoneNumber(value, format)`](https://github.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function can be used to output the `value` in `"National"` or `"International"` format.
@@ -111,6 +111,16 @@ import { formatPhoneNumberIntl } from 'react-phone-number-input'
 formatPhoneNumberIntl('+12133734253') === '+1 213 373 4253'
 ```
 
+### `isPossiblePhoneNumber(value: string): boolean`
+
+Checks if the phone number is "possible". Only checks the phone number length, doesn't check the number digits against any regular expressions like `isValidPhoneNumber()` does.
+
+```js
+import { isPossiblePhoneNumber } from 'react-phone-number-input'
+isPossiblePhoneNumber('+12133734253') === true
+isPossiblePhoneNumber('+19999999999') === true
+```
+
 ### `isValidPhoneNumber(value: string): boolean`
 
 Validates a phone number `value`.
@@ -118,6 +128,7 @@ Validates a phone number `value`.
 ```js
 import { isValidPhoneNumber } from 'react-phone-number-input'
 isValidPhoneNumber('+12133734253') === true
+isValidPhoneNumber('+19999999999') === false
 ```
 
 By default the component uses [`min` "metadata"](#min-vs-max-vs-mobile) which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
@@ -144,6 +155,76 @@ This is simply an alias for [`getCountryCallingCode()`](https://github.com/catam
 import { getCountryCallingCode } from 'react-phone-number-input'
 getCountryCallingCode('US') === '1'
 ```
+
+## Without country select
+
+This is just a phone number input component without country `<select/>`.
+
+```js
+import PhoneInput from 'react-phone-number-input/input'
+
+function Example() {
+  // `value` will be the parsed phone number in E.164 format.
+  // Example: "+12133734253".
+  const [value, setValue] = useState()
+  // If `country` property is not passed
+  // then "International" format is used.
+  return (
+    <PhoneInput
+      country="US"
+      value={value}
+      onChange={setValue} />
+  )
+}
+```
+
+Receives properties:
+
+* `country: string?` — If `country` is specified then the phone number can only be input in "national" (not "international") format, and will be parsed as a phone number belonging to the `country`. Example: `country="US"`.
+
+* `international: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`, but without "country calling code" part. For example, if `country` is `"US"` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (`(213) 373-4253`). But if `country` is `"US"` and `international` property is `true` then the phone number will be input in the "international" format for `US` (`213 373 4253`) without "country calling code" part (`+1`). This could be used for implementing phone number input components that show "country calling code" part before the input field and then the user can fill in the rest of their phone number in the input field.
+
+* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Example: `defaultCountry="US"`.
+
+* If neither `country` nor `defaultCountry` are specified then the phone number can only be input in "international" format.
+
+* `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
+
+* `onChange(value: string?)` — Updates the `value`.
+
+* `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must be a `React.forwardRef()` to the actual `<input/>`.
+
+* `smartCaret: boolean?` — By default, the `<input/>` uses "smart" caret positioning. To turn that behavior off one can pass `smartCaret={false}` property.
+
+* `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
+
+See the [demo](http://catamphetamine.github.io/react-phone-number-input/) for the examples.
+
+For those who want to pass custom `metadata` there's `react-phone-number-input/input-core` subpackage.
+
+#### Creating custom country `<select/>`
+
+This library also exports `getCountries()` and `getCountryCallingCode(country)` functions so that a developer could construct their own custom country select. Such custom country `<select/>` could be used in conjunction with "without country select" input described above.
+
+```js
+import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+import en from 'react-phone-number-input/locale/en.json'
+
+<select
+  value={country}
+  onChange={event => setCountry(event.target.value || undefined)}>
+  <option value="">
+    {en['ZZ']}
+  </option>
+  {getCountries().map((country) => (
+    <option key={country} value={country}>
+      {en[country]} +{getCountryCallingCode(country)}
+    </option>
+  ))}
+</select>
+```
+
+See the [demo](http://catamphetamine.github.io/react-phone-number-input/) for the example.
 
 ## Flags
 
@@ -216,11 +297,11 @@ The phone `<input/>` `aria-label` is not set automatically to `labels.phone` for
 
 This component uses [`libphonenumber-js`](https://github.com/catamphetamine/libphonenumber-js) which requires choosing a "metadata" set to be used, "metadata" being a list of phone number parsing and formatting rules for all countries. The complete list of rules is huge, so `libphonenumber-js` provides a way to optimize bundle size by choosing between `max`, `min`, `mobile` and custom metadata:
 
-* `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`).
+* `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`). Choose this when you need a strict version of `isValidPhoneNumber(value)` function, or if you need to get phone number type (fixed line, mobile, etc).
 
-* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Doesn't contain regular expressions for advanced phone number validation. Some simple phone number validation still works (basic length check, etc), it's just that it's loose compared to the "advanced" validation (not so strict). Choose this when not using `isValidPhoneNumber(value)` function.
+* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Doesn't contain regular expressions for advanced phone number validation ([`.isValid()`](https://github.com/catamphetamine/libphonenumber-js#isvalid)) and determining phone number type ([`.getType()`](https://github.com/catamphetamine/libphonenumber-js#gettype)) for most countries. Some simple phone number validation via `.isValid()` still works (basic length check, etc), it's just that it's loose compared to the "advanced" validation (not so strict). Choose this by default: when you don't need to get phone number type (fixed line, mobile, etc), or when a non-strict version of `isValidPhoneNumber(value)` function is enough.
 
-* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `105 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`). Choose this when using `isValidPhoneNumber(value)` function, but only dealing with mobile phone numbers.
+* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `105 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`). Choose this when you _only_ work with mobile numbers and a strict version of `isValidPhoneNumber(value)` function is required for validating mobile numbers.
 
 To use a particular metadata set import the component from the relevant sub-package: `react-phone-number-input/max`, `react-phone-number-input/min` or `react-phone-number-input/mobile`.
 
@@ -236,41 +317,7 @@ If you think that the phone number parsing/formatting/validation engine malfunct
 
 Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
 
-## Without country select
-
-Some people prefer just a phone number input component without country `<select/>`.
-
-```js
-import PhoneInput from 'react-phone-number-input/input'
-
-class Example extends Component {
-  state = {
-    value: ''
-  }
-
-  render() {
-    // If `country` property is not passed
-    // then "International" format is used.
-    return (
-      <PhoneInput
-        country="US"
-        value={ this.state.value }
-        onChange={ value => this.setState({ value }) } />
-    )
-  }
-}
-```
-
-Receives properties:
-
-* `country: string?` — If no `country` is specified then the phone number can only be input in international format.
-* `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
-* `onChange(value: string?)` — Updates the `value`.
-* `inputComponent: component?` — A custom `<input/>` component can be passed.
-
-For those who want to pass custom `metadata` there's `react-phone-number-input/input-core` subpackage.
-
-## Custom country `<select/>`
+## With custom country `<select/>`
 
 One can supply their own country `<select/>` component in case the native one doesn't fit the app. See [`countrySelectComponent`](https://github.com/catamphetamine/react-phone-number-input#customizing) property.
 
@@ -304,11 +351,10 @@ return (
 
 ## Extensions
 
-There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple `<input type="number"/>`. Still, some users kept asking for a phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing `ext` property (a `React.Element`, see the demo).
+There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple `<input type="number"/>`. Still, some users kept asking for a phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing `ext` property (a `React.Element`, see the demo): in such case phone number extension input will appear to the right of the phone number input.
 
 ```js
 import React, { Component } from 'react'
-import { Field, reduxForm } from 'redux-form'
 import PhoneInput from 'react-phone-number-input'
 
 class Form extends Component {
@@ -337,11 +383,9 @@ class Form extends Component {
 }
 ```
 
-In a real-world application the `ext` property is most likely gonna be a "form field", e.g. an [`easy-react-form`](https://github.com/catamphetamine/basic-react-form) `<Field/>`, or a `redux-form` `<Field/>`, or a `react-final-form` `<Field/>`.
+<!-- When using libraries like `react-final-form` or `formik`, the `ext` element will be a `<Field/>`. -->
 
-Phone number extension input will appear to the right of the phone number input. One can always skip using the `ext` property and add a completely separate form field for phone number extension input instead.
-
-`{ number, ext }` object can be converted to an [RFC3966](https://www.ietf.org/rfc/rfc3966.txt) string for storing it in a database.
+Phone number extensions can be stored in a database separately from the phone number itself, or they can be combined with the phone number itself into a single string using [RFC3966](https://www.ietf.org/rfc/rfc3966.txt) format.
 
 ```js
 import { formatRFC3966 } from 'react-phone-number-input'
@@ -350,7 +394,7 @@ formatRFC3966({ number: '+12133734253', ext: '123' })
 // 'tel:+12133734253;ext=123'
 ```
 
-Use the accompanying `parseRFC3966()` function to convert an RFC3966 string into an object having shape `{ number, ext }`.
+The accompanying `parseRFC3966()` function can be used to convert an RFC3966 string into an object having shape `{ number, ext }`.
 
 ```js
 import { parseRFC3966 } from 'react-phone-number-input'

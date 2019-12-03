@@ -16,7 +16,7 @@ countries.sort()
 
 const nonCountries = Object.keys(en).filter(_ => countries.indexOf(_) < 0)
 
-// Check that some of the `libphonenumber-js` supported countries are not missing.
+// Check that all `libphonenumber-js` countries have labels.
 for (const country of Object.keys(metadata.countries)) {
 	if (!countries.includes(country) && !SKIP_COUNTRIES.includes(country)) {
 		throw new Error(`"${country}" country is missing from messages`)

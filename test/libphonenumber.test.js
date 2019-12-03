@@ -1,3 +1,6 @@
+// Deprecated.
+// `react-phone-number-input/libphonenumber` export is deprecated.
+
 import { parseNumber } from '../libphonenumber'
 
 describe(`"libphonenumber" export`, function()

@@ -8,13 +8,13 @@ import PhoneInput, {
 	isPossiblePhoneNumber,
 	getCountryCallingCode,
 	getCountries
-} from '../core/index'
+} from '../input-core/index'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-describe('exports/core', () => {
+describe('exports/input-core', () => {
 	it('should export ES6', () => {
-		PhoneInput.should.be.a('function')
+		PhoneInput.render.should.be.a('function')
 		parseRFC3966('tel:+12133734253;ext=123').ext.should.equal('123')
 		formatRFC3966({ number: '+12133734253', ext: '123' }).should.equal('tel:+12133734253;ext=123')
 		parsePhoneNumber('+78005553535', metadata).country.should.equal('RU')
@@ -27,9 +27,9 @@ describe('exports/core', () => {
 	})
 
 	it('should export CommonJS', () => {
-		const Library = require('../core/index.commonjs')
-		Library.should.be.a('function')
-		Library.default.should.be.a('function')
+		const Library = require('../input-core/index.commonjs')
+		Library.render.should.be.a('function')
+		Library.default.render.should.be.a('function')
 		Library.parseRFC3966('tel:+12133734253;ext=123').ext.should.equal('123')
 		Library.formatRFC3966({ number: '+12133734253', ext: '123' }).should.equal('tel:+12133734253;ext=123')
 		Library.parsePhoneNumber('+78005553535', metadata).country.should.equal('RU')

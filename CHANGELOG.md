@@ -14,6 +14,33 @@
 
 <!-- Maybe add `selectComponent`: some developer may prefer implementing country select as some Material UI select or something like that. But those "custom" UI selects usually have a lot of spacing so I guess using the "native" OS `<select/>` for country selection is always better. -->
 
+<!-- Maybe add "smart caret" code by default (both to the standard input and "without country select" input). https://github.com/text-mask/text-mask/blob/master/core/src/adjustCaretPosition.js https://github.com/text-mask/text-mask/pull/400/files https://github.com/text-mask/text-mask/blob/master/react/src/reactTextMask.js -->
+
+<!-- (breaking change) Removed `redux-form` onBlur bug workaround from the main component of the library. If there're any `redux-form` bugs then the new versions of this library won't be fixing them. `redux-form` has been deprecated for a long time. -->
+
+<!-- (breaking change) Removed `locale/default.json`. Use `locale/en.json` instead. -->
+
+<!-- (internal) (breaking change) Renamed the `country` property of `InputSmart`/`InputBasic` to `defaultCountry`. Most likely no one's gonna notice that. -->
+
+2.5.0 / 09.11.2019
+===================
+
+  * Temporarily reverted back to "smart input" instead of the "basic input" (with the `smartCaret` property now being `true` by default). The reason is that I've added a [potential workaround](https://github.com/catamphetamine/input-format/issues/2#issuecomment-552032606) for Android devices to `input-format` library ("smart caret" implementation). We'll see if anyone reports anything. There have been some minor complaints about "basic caret" not being "smart" enough by always jumping to the end of the input field.
+
+  * Added `isPossiblePhoneNumber(string): boolean` exported function: it checks if the phone number is "possible". Only checks the phone number length, doesn't check the number digits against any regular expressions like `isValidPhoneNumber()` does.
+
+  * Added `getCountries(): string[]` exported function (returns an array of all possible country codes).
+
+  * Added `international={true}` property to "without country select" input. If `country` property is passed along with `international={true}` property then the phone input will be input in "international" format for that `country` (without "country calling code"). For example, if `country="US"` property is passed to "without country select" input then the phone number will be input in the "national" format for `US` (`(213) 373-4253`). But if both `country="US"` and `international={true}` properties are passed then the phone number will be input in the "international" format for `US` (`213 373 4253`) (without "country calling code" `+1`). This
+
+  * Added `defaultCountry: string` and `useNationalFormatForDefaultCountryValue: boolean` properties to "without country select" input.
+
+  * Added `smartCaret` property to "without country select" input. It's the same one as the `smartCaret` property of the default ("with country select") phone number input. That also means that "without country select" input now defaults to "smart caret" mode rather than "basic caret" mode.
+
+  * Added `countryCallingCode` property to "without country select" input. When `country` property is passed along with `international={true}` property then by default the phone number will be input in the "international" format for `US` (`+1 213 373 4253`). However, if `countryCallingCode={false}` property is passed then the country calling code part (`+1`) will be omitted, and the phone number will be input in the "international" format for `US` without "country calling code" (`213 373 4253`).
+
+  * Removed `redux-form` onBlur bug workaround from the recently introduced "without country select" component. If there're any `redux-form` bugs then the new versions of this library won't be fixing them. `redux-form` has been deprecated for a long time.
+
 2.4.0 / 17.10.2019
 ===================
 

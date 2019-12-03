@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import labels from '../locale/default.json'
+import labels from '../locale/en.json'
 import internationalIcon from './InternationalIcon'
 
 import {

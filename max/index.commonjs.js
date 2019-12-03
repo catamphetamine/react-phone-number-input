@@ -30,6 +30,14 @@ exports.isValidPhoneNumber = function isValidPhoneNumber() {
 	return call(core.isValidPhoneNumber, arguments)
 }
 
+exports.isPossiblePhoneNumber = function isPossiblePhoneNumber() {
+	return call(core.isPossiblePhoneNumber, arguments)
+}
+
+exports.getCountries = function getCountries() {
+	return call(core.getCountries, arguments)
+}
+
 exports.getCountryCallingCode = function getCountryCallingCode() {
 	return call(core.getCountryCallingCode, arguments)
 }

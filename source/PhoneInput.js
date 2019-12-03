@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { polyfill as reactLifecyclesCompat } from 'react-lifecycles-compat'
 import { parseDigits } from 'libphonenumber-js/core'
 
-// import InputSmart from './InputSmart'
+import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
 
 import FlagComponent from './Flag'
@@ -345,14 +345,17 @@ export default class PhoneNumberInput extends PureComponent
 		 *
 		 * @ignore
 		 */
-		inputComponent : PropTypes.elementType.isRequired,
+		inputComponent : PropTypes.elementType,
 
 		/**
-		 * Set to `false` to use `inputComponent={InputBasic}`
-		 * instead of `input-format`'s `<ReactInput/>`.
+		 * By default, the caret position is being "intelligently" managed
+		 * while a user inputs a phone number.
+		 * This "smart" caret behavior can be turned off
+		 * by passing `smartCaret={false}` property.
+		 * This is just an "escape hatch" for any possible caret position issues.
 		 */
-		// Is `false` by default.
-		// smartCaret : PropTypes.bool.isRequired,
+		// Is `true` by default.
+		smartCaret : PropTypes.bool.isRequired,
 
 		/**
 		 * Phone number extension `<input/>` element.
@@ -456,11 +459,6 @@ export default class PhoneNumberInput extends PureComponent
 		numberInputComponent: 'input',
 
 		/**
-		 * Phone number `<input/>` component (a higher-order one).
-		 */
-		inputComponent: InputBasic,
-
-		/**
 		 * Show country `<select/>`.
 		 */
 		showCountrySelect: true,
@@ -477,11 +475,9 @@ export default class PhoneNumberInput extends PureComponent
 		displayInitialValueAsLocalNumber: false,
 
 		/**
-		 * Set to `false` to use `inputComponent={InputBasic}`
-		 * instead of `input-format`'s `<ReactInput/>`.
-		 * Is `false` by default.
+		 * Set to `false` to use "basic" caret instead of the "smart" one.
 		 */
-		// smartCaret : false,
+		smartCaret : true,
 
 		/**
 		 * Whether to add the "International" option
@@ -914,10 +910,10 @@ export default class PhoneNumberInput extends PureComponent
 
 			countrySelectComponent: CountrySelectComponent,
 			countrySelectProps,
-			inputComponent: InputComponent,
+			inputComponent: _InputComponent,
 			numberInputComponent: inputComponent,
 			numberInputProps,
-			// smartCaret,
+			smartCaret,
 			ext,
 
 			// Extract `phoneNumberInputProps` via "object rest spread":
@@ -948,7 +944,7 @@ export default class PhoneNumberInput extends PureComponent
 		}
 		= this.state
 
-		// const InputComponent = InputComponent || (smartCaret ? InputSmart : InputBasic)
+		let InputComponent = _InputComponent || (smartCaret ? InputSmart : InputBasic)
 
 		// Extract `countrySelectProperties` from `this.props`
 		// also removing them from `phoneNumberInputProps`.
