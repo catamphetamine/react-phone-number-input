@@ -259,6 +259,17 @@ export default class PhoneNumberInput extends PureComponent
 		countryOptions : PropTypes.arrayOf(PropTypes.string),
 
 		/**
+		 * Some users requested a way to reset the component:
+		 * both number `<input/>` and country `<select/>`.
+		 * Whenever `reset` property changes both number `<input/>`
+		 * and country `<select/>` are reset.
+		 * It's not implemented as some instance `.reset()` method
+		 * because `ref` is forwarded to `<input/>`.
+		 */
+		// https://github.com/catamphetamine/react-phone-number-input/issues/300
+		reset : PropTypes.any,
+
+		/**
 		 * `<Phone/>` component CSS style object.
 		 */
 		style : PropTypes.object,
@@ -589,10 +600,23 @@ export default class PhoneNumberInput extends PureComponent
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { onCountryChange } = this.props
+		const { onCountryChange, onChange, reset } = this.props
 		// Call `onCountryChange` when user selects another country.
 		if (onCountryChange && this.state.country !== prevState.country) {
 			onCountryChange(this.state.country)
+		}
+		// Some users requested a way to reset the component
+		// (both number `<input/>` and country `<select/>`).
+		// Whenever `reset` property changes both number `<input/>`
+		// and country `<select/>` are reset.
+		// It's not implemented as some instance `.reset()` method
+		// because `ref` is forwarded to `<input/>`.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/300
+		if (reset !== prevProps.reset) {
+			onChange()
+			if (onCountryChange) {
+				onCountryChange()
+			}
 		}
 	}
 
@@ -802,7 +826,8 @@ export default class PhoneNumberInput extends PureComponent
 			value,
 			props: {
 				country : old_default_country,
-				value   : old_value
+				value   : old_value,
+				reset   : old_reset
 			}
 		} = state
 
@@ -810,7 +835,8 @@ export default class PhoneNumberInput extends PureComponent
 			metadata,
 			countries,
 			country : new_default_country,
-			value   : new_value
+			value   : new_value,
+			reset   : new_reset
 		} = props
 
 		const new_state = {
@@ -834,6 +860,22 @@ export default class PhoneNumberInput extends PureComponent
 				filterCountryOptions(props.countryOptions, metadata),
 				props
 			)
+		}
+
+		// Some users requested a way to reset the component
+		// (both number `<input/>` and country `<select/>`).
+		// Whenever `reset` property changes both number `<input/>`
+		// and country `<select/>` are reset.
+		// It's not implemented as some instance `.reset()` method
+		// because `ref` is forwarded to `<input/>`.
+		// https://github.com/catamphetamine/react-phone-number-input/issues/300
+		if (new_reset !== old_reset) {
+			return {
+				...new_state,
+				parsed_input: undefined,
+				value: undefined,
+				country: new_default_country
+			}
 		}
 
 		// If the default country changed.
