@@ -628,7 +628,8 @@ export default class PhoneNumberInput extends PureComponent
 			old_country,
 			new_country,
 			metadata,
-			// Convert to "local" phone number format.
+			// Convert the phone number to "national" format
+			// when the user changes the selected country by hand.
 			true
 		)
 

@@ -152,10 +152,28 @@ export function migrateParsedInputForNewCountry
 				// 	return strip_country_calling_code(value, derived_country, metadata)
 				// }
 
-				// Simply strip the leading `+` character
-				// therefore simply converting all digits into a "local" phone number.
-				// https://github.com/catamphetamine/react-phone-number-input/issues/287
-				return value.slice(1)
+				// Actually, the two countries don't necessarily need to match:
+				// the condition could be looser here, because several countries
+				// might share the same international phone number format
+				// (for example, "NANPA" countries like US, Canada, etc).
+				// The looser condition would be just "same nternational phone number format"
+				// which would mean "same country calling code" in the context of `libphonenumber-js`.
+				if (value.indexOf('+' + getCountryCallingCode(new_country, metadata)) === 0)
+				{
+					return strip_country_calling_code(value, new_country, metadata)
+				}
+
+				// Simply discard the previously entered international phone number,
+				// because otherwise any "smart" transformation like getting the
+				// "national (significant) number" part and then prepending the
+				// newly selected country's "country calling code" to it
+				// would just be confusing for a user without being actually useful.
+				return ''
+
+				// // Simply strip the leading `+` character
+				// // therefore simply converting all digits into a "local" phone number.
+				// // https://github.com/catamphetamine/react-phone-number-input/issues/287
+				// return value.slice(1)
 			}
 
 			// If the international phone number already contains

@@ -148,14 +148,14 @@ describe('input-control', () =>
 		// Switching to "International". International number. No changes.
 		migrateParsedInputForNewCountry('+78005553535', 'RU', null, metadata).should.equal('+78005553535')
 
-		// // Prefer national format. Country matches.
-		// migrateParsedInputForNewCountry('+78005553535', null, 'RU', metadata, true).should.equal('8005553535')
+		// Prefer national format. Country matches. Leaves the "national (significant) number".
+		migrateParsedInputForNewCountry('+78005553535', null, 'RU', metadata, true).should.equal('8005553535')
 
-		// // Prefer national format. Country doesn't match.
-		// migrateParsedInputForNewCountry('+78005553535', null, 'US', metadata, true).should.equal('+18005553535')
+		// Prefer national format. Country doesn't match, but country calling code does. Leaves the "national (significant) number".
+		migrateParsedInputForNewCountry('+12133734253', null, 'CA', metadata, true).should.equal('2133734253')
 
-		// Prefer national format. Country doesn't match.
-		migrateParsedInputForNewCountry('+78005553535', null, 'US', metadata, true).should.equal('78005553535')
+		// Prefer national format. Country doesn't match, neither does country calling code. Clears the value.
+		migrateParsedInputForNewCountry('+78005553535', null, 'US', metadata, true).should.equal('')
 	})
 
 	it('should format phone number in e164', () =>
