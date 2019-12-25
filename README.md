@@ -262,6 +262,25 @@ import PhoneInput from 'react-phone-number-input'
 
 Language translations can be applied using the `labels` property. This component comes pre-packaged with several [translations](https://github.com/catamphetamine/react-phone-number-input/tree/master/locale) (submit pull requests for adding new language translations).
 
+<details>
+<summary>Where to get country names for any language.</summary>
+
+####
+
+Country names can be copy-pasted from [`github.com/umpirsky/country-list`](https://github.com/umpirsky/country-list/blob/master/data/).
+
+```js
+JSON.stringify(
+  countries.sort((a, b) => a.alpha2 > b.alpha2 ? 1 : -1)
+    .reduce((all, { name, alpha2 }) => ({ ...all, [alpha2.toUpperCase()]: name }), {}),
+  null,
+  '\t'
+)
+````
+</details>
+
+####
+
 The `labels` format is:
 
 ```js
