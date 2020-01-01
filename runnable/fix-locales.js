@@ -2,8 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import { getCountries, isSupportedCountry } from 'libphonenumber-js/min'
 
-import flags from './source/flags'
-import en from './locale/en.json'
+import flags from '../source/flags'
+import en from '../locale/en.json'
 
 // Leave only those countries supported by `libphonenumber-js`.
 function isSupportedByLibPhoneNumber(country) {
@@ -30,12 +30,12 @@ for (const country of countries.filter(isSupportedByLibPhoneNumber)) {
 }
 
 // For each locale.
-fs.readdirSync('locale').map((name) => {
+fs.readdirSync(path.resolve(__dirname, '../locale')).map((name) => {
 	if (name === 'en.json') {
 		return
 	}
 	// Read locale data.
-	const locale = require(`./locale/${name}`)
+	const locale = require(`../locale/${name}`)
 	// Add missing countries.
 	// Remove non-existing countries.
 	// Re-sort locale data keys.
@@ -57,5 +57,5 @@ fs.readdirSync('locale').map((name) => {
 		}
 	}
 	// Output locale data.
-	fs.writeFileSync(`locale/${name}`, JSON.stringify(newLocale, null, '\t'), 'utf-8')
+	fs.writeFileSync(path.resolve(__dirname, `../locale/${name}`), JSON.stringify(newLocale, null, '\t'), 'utf-8')
 })
