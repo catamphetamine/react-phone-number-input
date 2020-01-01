@@ -35,17 +35,18 @@ If you're not using a bundler then use a [standalone version from a CDN](https:/
 
 ## Use
 
-The component requires two properties to be passed: `value` and `onChange(value)`.
+The component requires two properties: `value` and `onChange(value)`.
 
 ```js
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
+const [value, setValue] = useState()
 return (
   <PhoneInput
     placeholder="Enter phone number"
-    value={ this.state.value }
-    onChange={ value => this.setState({ value }) } />
+    value={value}
+    onChange={setValue}/>
 )
 ```
 
@@ -53,13 +54,11 @@ The `value` argument of `onChange(value)` function will be the parsed phone numb
 
 See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) for `<PhoneInput/>`. All properties not listed there will be passed through to the phone number `<input/>` component.
 
-By default, there's some styling applied to the `<input/>` (for historical reasons). To prevent applying that styling to the `<input/>`, pass `inputStyleReset` property to the component.
+To set default country pass a `defaultCountry` property. Example: `<PhoneInput defaultCountry="US" .../>`.
 
-To set default country pass a `country` property. Example: `<PhoneInput country="US" .../>`.
+To get selected country pass an `onCountryChange(country)` property, or use [`parsePhoneNumber(value)`](#parsephonenumberinput-string-phonenumber) function to get `country` from `value`: `parsePhoneNumber(value) && parsePhoneNumber(value).country`.
 
-To get selected `country` pass an `onCountryChange(country)` property, or use [`parsePhoneNumber(value)`](#parsephonenumberinput-string-phonenumber) function. Example: `parsePhoneNumber(value) && parsePhoneNumber(value).country`.
-
-To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) and [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string) functions.
+To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) or [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string) functions.
 
 There's also a ["without country select"](#without-country-select) phone number input component available.
 
@@ -73,17 +72,21 @@ The phone number `<input/>` itself is implemented using [`input-format`](https:/
 
 ## CSS
 
+The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for easier styling. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
+
 #### When using Webpack
+
+Including styles on a page is simple:
 
 ```js
 import 'react-phone-number-input/style.css'
 ```
 
-It is also recommended to set up something like a [`postcss-loader`](https://github.com/postcss/postcss-loader) with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers.
+It is also recommended to set up something like a [`postcss-loader`](https://github.com/postcss/postcss-loader) with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) or [`postcss-custom-properties` transpiler](https://github.com/postcss/postcss-custom-properties) for supporting old web browsers.
 
 #### When not using Webpack
 
-Get the `style.css` file from this package, optionally process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) for supporting old web browsers, and then include the CSS file on a page.
+Get `style.css` file from this package, optionally process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) or [`postcss-custom-properties` transpiler](https://github.com/postcss/postcss-custom-properties) for supporting old web browsers, and then include the CSS file on a page.
 
 ```html
 <head>
@@ -344,32 +347,30 @@ Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["au
 
 The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry):
 
+* `inputComponent` — Custom phone number `<input/>` component.
+
+* `countrySelectComponent` — Custom country `<select/>` component.
+
 * `metadata` — Custom `libphonenumber-js` ["metadata"](#min-vs-max-vs-mobile).
 
 * `labels` — Custom translation (including country names).
 
 * `internationalIcon` — Custom "International" icon.
 
-* `numberInputComponent` — Custom phone number `<input/>` component.
-
-* `countrySelectComponent` — Custom country `<select/>` component.
-
 ```js
 import PhoneInput from 'react-phone-number-input/min'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
-import labels from 'react-phone-number-input/locale/ru'
-import InternationalIcon from 'react-phone-number-input/international-icon'
+import labels from 'react-phone-number-input/locale/en.json'
 
 <PhoneInput
-  numberInputComponent={...}
+  inputComponent={...}
   countrySelectComponent={...}
   labels={labels}
-  metadata={metadata}
-  internationalIcon={InternationalIcon}/>
+  metadata={metadata}/>
 ```
 
-All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties: in this case all customization properties must be passed.
+All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties: in this case all customization properties must be passed (except for `internationalIcon`).
 
 ```js
 import PhoneInput from 'react-phone-number-input/core'
@@ -377,21 +378,22 @@ import PhoneInput from 'react-phone-number-input/core'
 
 #### `countrySelectComponent`
 
-React component for the country select. See [CountrySelectNative](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectNative.js) and [CountrySelectReactResponsiveUI](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectReactResponsiveUI.js) for an example.
+React component for the country select. See [CountrySelect.js](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelect.js) for an example.
 
 Receives properties:
 
-* `name : string?` — HTML `name` attribute.
-* `value : string?` — The currently selected country code.
-* `onChange(value : string?)` — Updates the `value`.
+* `name: string?` — HTML `name` attribute.
+* `value: string?` — The currently selected country code.
+* `onChange(value: string?)` — Updates the `value`.
 * `onFocus()` — Is used to toggle the `--focus` CSS class.
 * `onBlur()` — Is used to toggle the `--focus` CSS class.
-* `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
-* `disabled : boolean?` — HTML `disabled` attribute.
-* `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
-* `className : string` — CSS class name.
+* `options: object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value: string?, label: string }`.
+* `iconComponent: PropTypes.elementType` — React component that renders a country icon: `<Icon country={value}/>`. If `country` is `undefined` then it renders an "International" icon.
+* `disabled: boolean?` — HTML `disabled` attribute.
+* `tabIndex: (number|string)?` — HTML `tabIndex` attribute.
+* `className: string` — CSS class name.
 
-#### `numberInputComponent`
+#### `inputComponent`
 
 React component for the phone number input field. Is `"input"` by default meaning that it renders a standard DOM `<input/>`.
 
@@ -403,7 +405,7 @@ Receives properties:
 * `onBlur(event: Event)` — Is used to toggle the `--focus` CSS class.
 * Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
 
-Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
+Must also use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
 
 <!--
 #### `inputComponent`
@@ -428,33 +430,32 @@ Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` o
 One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.net](https://jsdelivr.net)
 
 ```html
-<!-- `libphonenumber-js` (is used internally by `react-phone-number-input`). -->
-<script src="https://unpkg.com/libphonenumber-js@1.x/bundle/libphonenumber-js.min.js"></script>
+<!-- Default ("min" metadata). -->
+<script src="https://unpkg.com/react-phone-number-input@3.x/bundle/react-phone-number-input.js"></script>
 
-<!-- Either `react-phone-number-input` with "native" country `<select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-native.js"></script>
+<!-- Or "max" metadata. -->
+<script src="https://unpkg.com/react-phone-number-input@3.x/bundle/react-phone-number-input-max.js"></script>
 
-<!-- or `react-phone-number-input` with "native" country `<select/>` (with "max" metadata). -->
-<script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-native-max.js"></script>
-
-<!-- or `react-phone-number-input` with "native" country `<select/>` (with "mobile" metadata). -->
-<script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-native-mobile.js"></script>
-
-<!-- Or `react-phone-number-input` with `react-responsive-ui` `<Select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-react-responsive-ui.js"></script>
-
-<!-- Or `react-phone-number-input` without country `<select/>`. -->
-<script src="https://unpkg.com/react-phone-number-input@2.x/bundle/react-phone-number-input-no-country-select.js"></script>
+<!-- Or "mobile" metadata. -->
+<script src="https://unpkg.com/react-phone-number-input@3.x/bundle/react-phone-number-input-mobile.js"></script>
 
 <!-- Styles for the component. -->
-<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@2.x/bundle/style.css"/>
-
-<!-- Styles for `react-responsive-ui` `<Select/> -->
-<!-- (only if `react-responsive-ui` `<Select/>` is used). -->
-<link rel="stylesheet" href="https://unpkg.com/react-responsive-ui@^0.14.0/style.css"/>
+<!-- Internet Explorer requires transpiling CSS variables. -->
+<link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@3.x/bundle/style.css"/>
 
 <script>
-  var PhoneInput = window['react-phone-number-input']
+  var PhoneInput = window.PhoneInput.default
+</script>
+```
+
+Without country select:
+
+```html
+<!-- Without country `<select/>` ("min" metadata). -->
+<script src="https://unpkg.com/react-phone-number-input@3.x/bundle/react-phone-number-input-input.js"></script>
+
+<script>
+  var PhoneInput = window.PhoneInput.default
 </script>
 ```
 

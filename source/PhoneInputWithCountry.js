@@ -703,15 +703,16 @@ PhoneNumberInput.propTypes = {
 	 *
 	 * Receives properties:
 	 *
-	 * * `name : string?` — HTML `name` attribute.
-	 * * `value : string?` — The currently selected country code.
-	 * * `onChange(value : string?)` — Updates the `value`.
+	 * * `name: string?` — HTML `name` attribute.
+	 * * `value: string?` — The currently selected country code.
+	 * * `onChange(value: string?)` — Updates the `value`.
 	 * * `onFocus()` — Is used to toggle the `--focus` CSS class.
 	 * * `onBlur()` — Is used to toggle the `--focus` CSS class.
-	 * * `options : object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value : string?, label : string, icon : React.Component }`.
-	 * * `disabled : boolean?` — HTML `disabled` attribute.
-	 * * `tabIndex : (number|string)?` — HTML `tabIndex` attribute.
-	 * * `className : string` — CSS class name.
+	 * * `options: object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value: string?, label: string }`.
+	 * * `iconComponent: PropTypes.elementType` — React component that renders a country icon: `<Icon country={value}/>`. If `country` is `undefined` then it renders an "International" icon.
+	 * * `disabled: boolean?` — HTML `disabled` attribute.
+	 * * `tabIndex: (number|string)?` — HTML `tabIndex` attribute.
+	 * * `className: string` — CSS class name.
 	 */
 	countrySelectComponent: PropTypes.elementType.isRequired,
 
@@ -730,7 +731,7 @@ PhoneNumberInput.propTypes = {
 	 * * `value: string` — The formatted `value`.
 	 * * `onChange(event: Event)` — Updates the formatted `value` from `event.target.value`.
 	 * * `onFocus()` — Is used to toggle the `--focus` CSS class.
-	 * * `onBlur(event: Event)` — Is used to toggle the `--focus` CSS class.
+	 * * `onBlur()` — Is used to toggle the `--focus` CSS class.
 	 * * Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
 	 *
 	 * Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.

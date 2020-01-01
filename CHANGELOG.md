@@ -1,57 +1,7 @@
-<!-- (breaking change) The phone number `<input/>` now has the default `aria-label` which is `labels.phone` and for the default `labels` that would be `"Phone"`. -->
-
-<!-- (breaking change) Those who're using "Without country select" input component imported from `/basic-input` or `/basic-input-custom` subpackage should replace the import path with the new `/input` or `/input-custom` subpackage. -->
-
-<!-- (breaking change) The component has been rewritten using React Hooks and requires React >= x.y.z now. -->
-
-<!-- (breaking change) Renamed `numberInputComponent` to `inputComponent` and `inputComponent` to `numberInputComponent`. -->
-
-<!-- (breaking change) Changed CDN build global variable names from having shape window['react-phone-number-input'] to `ReactPhoneNumberInput`. Renamed variables like `react-phone-number-input-smart-input` to `ReactPhoneNumberInputSmartInput`, etc. Moved from `webpack` to `rollup`. -->
-
-<!-- (breaking change) Removed `locale/br.json`. Use `locale/pt.json` instead. -->
-
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
-
-<!-- Maybe add `selectComponent`: some developer may prefer implementing country select as some Material UI select or something like that. But those "custom" UI selects usually have a lot of spacing so I guess using the "native" OS `<select/>` for country selection is always better. -->
-
-<!-- Maybe add "smart caret" code by default (both to the standard input and "without country select" input). https://github.com/text-mask/text-mask/blob/master/core/src/adjustCaretPosition.js https://github.com/text-mask/text-mask/pull/400/files https://github.com/text-mask/text-mask/blob/master/react/src/reactTextMask.js -->
-
-<!-- (breaking change) Removed `redux-form` onBlur bug workaround from the main component of the library. If there're any `redux-form` bugs then the new versions of this library won't be fixing them. `redux-form` has been deprecated for a long time. -->
-
-<!-- (breaking change) Removed `locale/default.json`. Use `locale/en.json` instead. -->
-
-<!-- (internal) (breaking change) Renamed the `country` property of `InputSmart`/`InputBasic` to `defaultCountry`. Most likely no one's gonna notice that. -->
-
-<!-- (breaking change) Removed `reset` property. -->
-
-<!-- (breaking change) `<PhoneInput/>` is not a `React.forwardRef()`. React >= `16.8` is now required (React Hooks support). -->
-
-<!-- (breaking change) Removed input styling:
-* `.react-phone-number-input__input:-webkit-autofill`
-* `.react-phone-number-input__input--invalid`
-* `.react-phone-number-input__input--invalid:focus`
-* . -->
-
-<!-- (breaking change) Removed `indicateInvalid` property. -->
-
-<!-- Remove `_countrySelectProps`. -->
-
-<!-- (breaking change) Renamed `numberInputComponent` to `inputComponent` (and vice versa). -->
-
-<!-- (breaking change) Renamed `CountrySelectNative.js` to `CountrySelect.js`. -->
-
-<!-- (breaking change) Removed `inputStyleReset` property. -->
-
-<!-- (breaking change) Renamed `.react-phone-number-input__icon--international` -> `.react-phone-number-input__icon--square`. -->
 
 3.0.0 / 01.01.2020
 ===================
-
-  update generated docs
-
-
-
-
 
 Relevant changes:
 
@@ -103,6 +53,8 @@ Other changes (miscellaneous):
 * Removed `parseRFC3966()` and `formatRFC3966()` exported functions.
 
 * Country select doesn't receive `icon` property as part of `options` now. Instead, it receives `iconComponent` property, where `iconComponent` receives a `country` property (for example, `"US"`).
+
+* Removed `redux-form` `onBlur` workaround. `redux-form` is deprecated.
 
 2.5.2 / 31.12.2019
 ===================
