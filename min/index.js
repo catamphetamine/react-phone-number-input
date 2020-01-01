@@ -1,7 +1,5 @@
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-export { parseRFC3966, formatRFC3966 } from '../core/index'
-
 import {
 	parsePhoneNumber as _parsePhoneNumber,
 	formatPhoneNumber as _formatPhoneNumber,
@@ -12,7 +10,7 @@ import {
 	getCountryCallingCode as _getCountryCallingCode
 } from '../core/index'
 
-import { createPhoneInput } from '../modules/PhoneInputNativeDefaults'
+import { createPhoneInput } from '../modules/PhoneInputWithCountryDefault'
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)

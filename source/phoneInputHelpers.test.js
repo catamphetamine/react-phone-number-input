@@ -1,5 +1,4 @@
-import
-{
+import {
 	getPreSelectedCountry,
 	getCountrySelectOptions,
 	parsePhoneNumber,
@@ -8,7 +7,6 @@ import
 	e164,
 	getCountryForPartialE164Number,
 	parseInput,
-
 	// Private functions
 	get_country_from_possibly_incomplete_international_phone_number,
 	compare_strings,
@@ -16,12 +14,11 @@ import
 	get_national_significant_number_part,
 	could_number_belong_to_country,
 	trimNumber
-}
-from './input-control'
+} from './phoneInputHelpers'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-describe('input-control', () =>
+describe('phoneInputHelpers', () =>
 {
 	it('should get pre-selected country', () =>
 	{

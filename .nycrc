@@ -1,13 +1,13 @@
 {
   "require": [
-    "babel-register"
+    "@babel/register"
   ],
   "reporter": [
     "lcov",
     "text-summary"
   ],
   "include": [
-    "source/**/*.js"
+    "source/phoneInputHelpers.js"
   ],
   "exclude": [
     "**/*.test.js"

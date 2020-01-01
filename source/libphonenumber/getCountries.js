@@ -1,1 +1,0 @@
-export { getCountries as default } from 'libphonenumber-js/core'

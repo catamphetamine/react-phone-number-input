@@ -1,4 +1,5 @@
-import { getCountryCodes, getCountryCodeForFlag } from '../source/countries'
+import { getCountries } from 'libphonenumber-js/min'
+import getFlagCountryCode from '../source/getFlagCountryCode'
 import defaultLabels from '../locale/en.json'
 
 import path from 'path'
@@ -9,7 +10,7 @@ import metadata from 'libphonenumber-js/metadata.min.json'
 fs.writeFileSync(path.join(__dirname, '../source/flags.js'), generateFlags())
 
 function generateFlags() {
-	const countries = getCountryCodes(defaultLabels).filter(isSupportedByLibPhoneNumber)
+	const countries = getCountries()
 	return `
 import React from "react"
 
@@ -21,7 +22,7 @@ export default {${countries.map((country) => {
 }
 
 function getCountryFlagSvgMarkup(country) {
-	const svgCode = fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getCountryCodeForFlag(country).toLowerCase()}.svg`), 'utf8')
+	const svgCode = fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getFlagCountryCode(country).toLowerCase()}.svg`), 'utf8')
 	const code = svgr.sync(
 		svgCode,
 		{

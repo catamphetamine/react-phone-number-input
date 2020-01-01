@@ -44,11 +44,65 @@
 
 <!-- (breaking change) Renamed `.react-phone-number-input__icon--international` -> `.react-phone-number-input__icon--square`. -->
 
-<!-- (breaking change) Renamed `.react-phone-number-input` CSS class prefix to `.phone-number-input`. -->
+3.0.0 / 01.01.2020
+===================
 
-<!-- (breaking change) Removed phone number extension related stuff (the `ext` property). -->
+  update generated docs
 
-<!-- (breaking change) Removed `error` property. -->
+
+
+
+
+Relevant changes:
+
+* The component uses hooks now, so `react >= 16.8` is required.
+
+* `ref` is now forwarded to the `<input/>`.
+
+* [`style.css`](https://github.com/catamphetamine/react-phone-number-input/blob/master/style.css) now uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d). Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
+
+* Renamed CSS classes, and refactored styles.
+
+* Renamed CDN `bundle` files:
+
+1. `react-phone-number-input-native` -> `react-phone-number-input`.
+2. `react-phone-number-input-native-max` -> `react-phone-number-input-max`.
+3. `react-phone-number-input-native-mobile` -> `react-phone-number-input-mobile`.
+4. `react-phone-number-input-no-country-select` -> `react-phone-number-input-input`.
+5. Removed `-react-responsive-ui` and `-smart-input` versions from CDN `bundle`.
+
+* CDN `bundle` exported global variable is now called `window.PhoneInput.default` (used to be called `window['react-phone-number-input']`), and utility functions are accessible via `window.PhoneInput` variable.
+
+* Removed `locale/default.json` (use `en.json` instead) and `locale/br.json` (use `pt.json` instead).
+
+* Removed properties:
+
+1. `error`
+2. `disablePhoneInput`
+3. `inputClassName` (use `numberInputProps` instead)
+4. `countrySelectTabIndex` and `countrySelectAriaLabel` (use `countrySelectProps` instead)
+5. `showCountrySelect` (use `/input` subpackage instead to render a component without country select).
+6. `ext` (this component now doesn't deal with phone number extensions at all).
+
+* Removed the former `inputComponent` property, and renamed `numberInputComponent` property to `inputComponent`.
+
+* Renamed properties:
+
+1. `international` -> `addInternationalOption`
+2. `countryOptions` -> `countryOptionsOrder`
+3. `country` -> `defaultCountry`
+
+* Renamed `flagsPath` property to `flagUrl`, and it's now a full URL template having `{0}` in place of a country code in lower case.
+
+Other changes (miscellaneous):
+
+* Replaced `webpack` with `rollup` when generating CDN bundles.
+
+* Removed `/libphonenumber`, `/native`, `/custom`, `/native-custom`, `/react-responsive-ui`,  `/react-responsive-ui/custom`, `/basic-input`, `/basic-input-custom`, `/international-icon` exports.
+
+* Removed `parseRFC3966()` and `formatRFC3966()` exported functions.
+
+* Country select doesn't receive `icon` property as part of `options` now. Instead, it receives `iconComponent` property, where `iconComponent` receives a `country` property (for example, `"US"`).
 
 2.5.2 / 31.12.2019
 ===================

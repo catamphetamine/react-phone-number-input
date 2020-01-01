@@ -1,1 +1,0 @@
-export { parsePhoneNumberFromString as default } from 'libphonenumber-js/core'

@@ -2,7 +2,7 @@
 
 var metadata = require('libphonenumber-js/metadata.min.json')
 var core = require('../core/index.commonjs')
-var createInput = require('../commonjs/PhoneInputNoCountrySelect').createInput
+var createInput = require('../commonjs/PhoneInput').createInput
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)
@@ -41,8 +41,5 @@ exports.getCountries = function getCountries() {
 exports.getCountryCallingCode = function getCountryCallingCode() {
 	return call(core.getCountryCallingCode, arguments)
 }
-
-exports.parseRFC3966 = core.parseRFC3966
-exports.formatRFC3966 = core.formatRFC3966
 
 exports['default'] = PhoneInput

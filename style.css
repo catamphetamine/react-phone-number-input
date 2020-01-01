@@ -1,174 +1,103 @@
-.react-phone-number-input__row
-{
-	/* This is done to stretch the contents of this component */
-	display     : flex;
-	align-items : center;
+.PhoneInput {
+	/* This is done to stretch the contents of this component. */
+	display: flex;
+	align-items: center;
+	/* CSS variables. */
+	--CountryFlag-width: calc(0.31em * 4);
+	--CountryFlag-height: calc(var(--CountryFlag-width) * 3 / 4);
+	--CountryFlag-borderWidth: 1px;
+	--CountryFlag-borderColor: rgba(0, 0, 0, 0.5);
+	--CountrySelect-marginRight: 0.5em;
+	--CountrySelectArrow-marginLeft: 0.3em;
+	--CountrySelectArrow-marginTop: 0.2em;
+	--CountrySelectArrow-width: 0.4em;
+	--CountrySelectArrow-height: 0.35em;
+	--CountrySelectArrow-color: #cdd1d6;
+	--CountrySelectArrow-color--focus: #03b2cb;
 }
 
-.react-phone-number-input__phone
-{
+.PhoneInputInput {
 	/* The phone number input stretches to fill all empty space */
-	flex : 1;
-
+	flex: 1;
 	/* The phone number input should shrink
 	   to make room for the extension input */
-	min-width : 0;
+	min-width: 0;
 }
 
-.react-phone-number-input__icon
-{
+.PhoneInputCountryIcon {
 	/* The flag icon size is 4x3 hence the exact `width` and `height` values */
-	width      : calc(0.31em * 4);
-	height     : calc(0.31em * 3);
-
-	/* `1px` is still too much for a "retina" screen but there's no way in CSS to specify "hairline" border width. */
-	border     : 1px solid rgba(0, 0, 0, 0.5);
-
-	/* Makes sure `width`x`height` is exactly `4x3` and `border` width is not included in it */
-	box-sizing : content-box;
+	width: var(--CountryFlag-width);
+	height: var(--CountryFlag-height);
+	/* `1px` is still too much for a "retina" screen but there's
+	   no way in CSS to specify "hairline" border width. */
+	border: var(--CountryFlag-borderWidth) solid var(--CountryFlag-borderColor);
+	/* Makes sure `width`x`height` is exactly `4x3` and
+	   `border` width is not included in it */
+	box-sizing: content-box;
 }
 
-.react-phone-number-input__icon--international
-{
+.PhoneInputCountryIcon--square {
 	/* The international icon size is square */
 	/* and also has no border hence the `2 * 1px` `width` and `height` compensation */
-	width  : calc(0.31em * 3 + 2 * 1px);
-	height : calc(0.31em * 3 + 2 * 1px);
-
+	width: calc(var(--CountryFlag-height) + 2 * var(--CountryFlag-borderWidth));
+	height: calc(var(--CountryFlag-height) + 2 * var(--CountryFlag-borderWidth));
 	/* The international icon size is square, hence the exact `padding` value */
 	/* for precise alignment with `4x3` sized country flags. */
-	padding-left  : calc(0.31em / 2);
-	padding-right : calc(0.31em / 2);
-
-	border : none;
+	padding-left: calc((var(--CountryFlag-width) - var(--CountryFlag-height)) / 2);
+	padding-right: calc((var(--CountryFlag-width) - var(--CountryFlag-height)) / 2);
+	border: none;
 }
 
-.react-phone-number-input__error
-{
-	margin-left : calc(0.31em * 4 + 2 * 1px + 0.3em + 0.35em + 0.5em);
-	margin-top  : calc(0.3rem);
-	color       : #D30F00;
-}
-
-.react-phone-number-input__icon-image
-{
-	max-width  : 100%;
-	max-height : 100%;
-}
-
-/* Removes `<input type="number"/>` up/down arrows in Webkit browsers. */
-.react-phone-number-input__ext-input::-webkit-inner-spin-button,
-.react-phone-number-input__ext-input::-webkit-outer-spin-button
-{
-	margin             : 0 !important;
-	-webkit-appearance : none !important;
-	-moz-appearance    : textfield !important;
-}
-
-.react-phone-number-input__ext-input
-{
-	width : 3em;
-}
-
-.react-phone-number-input__ext
-{
-	white-space: nowrap;
-}
-
-.react-phone-number-input__ext,
-.react-phone-number-input__ext-input
-{
-	margin-left : 0.5em;
+.PhoneInputCountryIconImg {
+	max-width: 100%;
+	max-height: 100%;
 }
 
 /* Styling native country `<select/>`. */
 
-.react-phone-number-input__country--native
-{
-	position     : relative;
-	align-self   : stretch;
-	display      : flex;
-	align-items  : center;
-	margin-right : 0.5em;
+.PhoneInputCountry {
+	position: relative;
+	align-self: stretch;
+	display: flex;
+	align-items: center;
+	margin-right: var(--CountrySelect-marginRight);
 }
 
-.react-phone-number-input__country-select
-{
-	position : absolute;
-	top      : 0;
-	left     : 0;
-	height   : 100%;
-	width    : 100%;
-	z-index  : 1;
-	border   : 0;
-	opacity  : 0;
-	cursor   : pointer;
+.PhoneInputCountrySelect {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	border: 0;
+	opacity: 0;
+	cursor: pointer;
 }
 
-.react-phone-number-input__country-select-arrow
-{
-	display            : block;
-	content            : '';
-	width              : 0;
-	height             : 0;
-	margin-bottom      : 0.1em;
-	margin-top         : 0.3em;
-	margin-left        : 0.3em;
-	border-width       : 0.35em 0.2em 0 0.2em;
-	border-style       : solid;
-	border-left-color  : transparent;
-	border-right-color : transparent;
-	color              : #B8BDC4;
-	opacity            : 0.7;
-	transition         : color 0.1s;
+.PhoneInputCountrySelectArrow {
+	display: block;
+	content: '';
+	width: 0;
+	height: 0;
+	margin-top: var(--CountrySelectArrow-marginTop);
+	margin-left: var(--CountrySelectArrow-marginLeft);
+	border-top-width: var(--CountrySelectArrow-height);
+	border-bottom-width: 0;
+	border-left-width: calc(var(--CountrySelectArrow-width) / 2);
+	border-right-width: calc(var(--CountrySelectArrow-width) / 2);
+	border-style: solid;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	color: var(--CountrySelectArrow-color);
 }
 
 /* A "divider" `<option/>` for a native `<select/>`. */
-.react-phone-number-input__country-select-divider
-{
+.PhoneInputCountrySelectDivider {
 	font-size: 1px;
 	background: black;
 }
 
-.react-phone-number-input__country-select:focus + .react-phone-number-input__country-select-arrow,
-.react-phone-number-input__country.rrui__select--focus .rrui__select__arrow
-{
-	color : #03B2CB;
-}
-
-/* Styling phone number input */
-
-.react-phone-number-input__input--style {
-	height        : calc(0.3rem * 6);
-	outline       : none;
-	border-radius : 0;
-	padding       : 0;
-	appearance    : none;
-	border        : none;
-	border-bottom : 1px solid #C5D2E0;
-	transition    : border 0.1s;
-	font-size     : inherit;
-}
-
-.react-phone-number-input__input--style:focus {
-	border-color: #03B2CB;
-}
-
-.react-phone-number-input__input--style--disabled {
-	cursor: default;
-}
-
-.react-phone-number-input__input--style--invalid,
-.react-phone-number-input__input--style--invalid:focus {
-	border-color: #EB2010;
-}
-
-/* Overrides Chrome autofill yellow background color */
-.react-phone-number-input__input:-webkit-autofill {
-	box-shadow: 0 0 0 1000px white inset;
-}
-
-/* A small fix for `react-responsive-ui` */
-.react-phone-number-input__country .rrui__select__button {
-	border-bottom: none;
+.PhoneInputCountrySelect:focus + .PhoneInputCountrySelectArrow {
+	color: var(--CountrySelectArrow-color--focus);
 }

@@ -7,6 +7,8 @@ International phone number `<input/>` for React.
 
 [See Demo](http://catamphetamine.github.io/react-phone-number-input/)
 
+This is a readme for the latest version (`3.x`) of the library. The previous version (`2.x`) readme can be found [here](https://github.com/catamphetamine/react-phone-number-input/tree/2.x). For migrating from `2.x` to `3.x` see the [changelog](https://github.com/catamphetamine/react-phone-number-input/blob/master/CHANGELOG.md).
+
 ## Screenshots
 
 ### Phone number input
@@ -49,7 +51,7 @@ return (
 
 The `value` argument of `onChange(value)` function will be the parsed phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. For example, if a user chooses "United States" and enters `(213) 373-4253` in the input field then `onChange(value)` will be called with `value` being `"+12133734253"`.
 
-See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All properties not listed there will be passed through to the phone number `<input/>` component.
+See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) for `<PhoneInput/>`. All properties not listed there will be passed through to the phone number `<input/>` component.
 
 By default, there's some styling applied to the `<input/>` (for historical reasons). To prevent applying that styling to the `<input/>`, pass `inputStyleReset` property to the component.
 
@@ -230,7 +232,7 @@ See the [demo](http://catamphetamine.github.io/react-phone-number-input/) for th
 
 ## Flags
 
-Including all country flags in the code in SVG format would be the best way to go but turns out they take an extra 550 kB when gzipped. That's the reason why all country flags are included as `<img src="..."/>` from [`flag-icon-css`](http://flag-icon-css.lip.is/) repo GitHub pages (can be overridden via [`flagsPath`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) property).
+Including all country flags in the code in SVG format would be the best way to go but turns out they take an extra 550 kB when gzipped. That's the reason why all country flags are included as `<img src="..."/>` from [`flag-icon-css`](http://flag-icon-css.lip.is/) repo GitHub pages (can be overridden via [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property).
 
 To include all country flags in code in SVG format:
 
@@ -338,95 +340,9 @@ If you think that the phone number parsing/formatting/validation engine malfunct
 
 Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://github.com/catamphetamine/react-phone-number-input/issues/101).
 
-## With custom country `<select/>`
-
-One can supply their own country `<select/>` component in case the native one doesn't fit the app. See [`countrySelectComponent`](https://github.com/catamphetamine/react-phone-number-input#customizing) property.
-
-For example, one may choose [`react-responsive-ui`](https://catamphetamine.github.io/react-responsive-ui/)'s [`<Select/>` component](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectReactResponsiveUI.js) over the [native country `<select/>`](https://github.com/catamphetamine/react-phone-number-input/blob/master/source/CountrySelectNative.js).
-
-<!--
-// Or import styles individually to reduce bundle size for a little bit:
-// import 'react-responsive-ui/variables.css'
-// import 'react-responsive-ui/styles/Expandable.css'
-// ...
-// import 'react-responsive-ui/styles/Select.css'
--->
-
-```js
-import 'react-phone-number-input/style.css'
-
-// Requires "CSS custom properties" support.
-// For Internet Explorer use PostCSS with "CSS custom properties" plugin.
-import 'react-responsive-ui/style.css'
-
-// A `<PhoneInput/>` with custom `countrySelectComponent`.
-import PhoneInput from 'react-phone-number-input/react-responsive-ui'
-
-return (
-  <PhoneInput
-    placeholder="Enter phone number"
-    value={ this.state.phone }
-    onChange={ phone => this.setState({ phone }) } />
-)
-```
-
-## Extensions
-
-There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple `<input type="number"/>`. Still, some users kept asking for a phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing `ext` property (a `React.Element`, see the demo): in such case phone number extension input will appear to the right of the phone number input.
-
-```js
-import React, { Component } from 'react'
-import PhoneInput from 'react-phone-number-input'
-
-class Form extends Component {
-  render() {
-    const ext = (
-      <input
-        value={ ... }
-        onChange={ ... }
-        type="number"
-        noValidate />
-    )
-
-    return (
-      <form onSubmit={ ... }>
-        <PhoneInput
-          value={ ... }
-          onChange={ ... }
-          ext={ ext } />
-
-        <button type="submit">
-          Submit
-        </button>
-      </form>
-    );
-  }
-}
-```
-
-<!-- When using libraries like `react-final-form` or `formik`, the `ext` element will be a `<Field/>`. -->
-
-Phone number extensions can be stored in a database separately from the phone number itself, or they can be combined with the phone number itself into a single string using [RFC3966](https://www.ietf.org/rfc/rfc3966.txt) format.
-
-```js
-import { formatRFC3966 } from 'react-phone-number-input'
-
-formatRFC3966({ number: '+12133734253', ext: '123' })
-// 'tel:+12133734253;ext=123'
-```
-
-The accompanying `parseRFC3966()` function can be used to convert an RFC3966 string into an object having shape `{ number, ext }`.
-
-```js
-import { parseRFC3966 } from 'react-phone-number-input'
-
-parseRFC3966('tel:+12133734253;ext=123')
-// { number: '+12133734253', ext: '123' }
-```
-
 ## Customizing
 
-The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput):
+The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry):
 
 * `metadata` — Custom `libphonenumber-js` ["metadata"](#min-vs-max-vs-mobile).
 
