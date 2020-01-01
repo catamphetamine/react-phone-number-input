@@ -21,6 +21,9 @@
 		<script crossorigin src="https://unpkg.com/react@16.10.2/umd/react.production.min.js"></script>
 		<script crossorigin src="https://unpkg.com/react-dom@16.10.2/umd/react-dom.production.min.js"></script>
 
+		<!-- PropTypes -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.7.2/prop-types.min.js"></script>
+
 		<!-- Babel 6 -->
 		<script src="./lib/babel.min.js"></script>
 		<script src="./lib/babel-polyfill.min.js"></script>
@@ -35,33 +38,34 @@
 		-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-		<script src="./react-phone-number-input-react-responsive-ui.js"></script>
+		<!-- <script src="./react-phone-number-input-smart-input.js"></script> -->
+
+		<!--
+		<script>
+			window.SmartInput = window.PhoneInput
+		</script>
+	-->
+
+		<script src="./react-phone-number-input-input.js"></script>
 
 		<script>
-			window.PhoneInputReactResponsiveUI = window['react-phone-number-input']
+			window.Input = window.PhoneInput.default
 		</script>
 
-		<script src="./react-phone-number-input-native.js"></script>
-
 		<script>
-			window.PhoneInput = window['react-phone-number-input']
+			window.getCountryCallingCode = window.PhoneInput.getCountryCallingCode
+			window.getCountries = window.PhoneInput.getCountries
 		</script>
 
-		<script src="./react-phone-number-input-smart-input.js"></script>
+		<script src="./react-phone-number-input.js"></script>
 
 		<script>
-			window.SmartInput = window['react-phone-number-input-smart-input']
-		</script>
-
-		<script src="./react-phone-number-input-no-country-select.js"></script>
-
-		<script>
-			window.Input = window['react-phone-number-input']
+			window.PhoneInput = window.PhoneInput.default
 		</script>
 
 		<script src="./libphonenumber-max.js"></script>
 
-		<link rel="stylesheet" href="./react-responsive-ui.css"/>
+		<!-- <link rel="stylesheet" href="./react-responsive-ui.css"/> -->
 		<link rel="stylesheet" href="./style.css"/>
 	</head>
 
@@ -200,6 +204,13 @@
 		.rrui__input-field:-webkit-autofill:focus
 		{
 			box-shadow: 0 0 0 1000px white inset;
+		}
+		*/
+
+		/* Hide `react-responsive-ui` `<Button/>` bottom border. */
+		/*
+		.react-phone-number-input__country .rrui__select__button {
+			border-bottom: none;
 		}
 		*/
 
@@ -542,6 +553,7 @@
 
 								<form>
 									<PhoneInput
+										inputStyleReset
 										placeholder="Enter phone number"
 										value={this.state.value_native}
 										onChange={value => this.setState({ value_native: value })}/>
@@ -715,9 +727,9 @@
 									  <option value="">
 									    {PhoneInput.defaultProps.labels['ZZ']}
 									  </option>
-									  {Input.getCountries().map((country) => (
+									  {getCountries().map((country) => (
 									    <option key={country} value={country}>
-									      {PhoneInput.defaultProps.labels[country]} +{Input.getCountryCallingCode(country)}
+									      {PhoneInput.defaultProps.labels[country]} +{getCountryCallingCode(country)}
 									    </option>
 									  ))}
 									</select>
@@ -747,6 +759,7 @@ import en from 'react-phone-number-input/locale/en.json'
 								</Highlight>
 							</section>
 
+							{/*
 							<section>
 								<h1>
 									With custom country &lt;select/&gt;
@@ -777,9 +790,16 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 <PhoneInput
   placeholder="Enter phone number"
   value={value}
-  onChange={setValue}/>`}
+  onChange={setValue}/>
+
+<style>
+  .react-phone-number-input__country .rrui__select__button {
+    border-bottom: none;
+  }
+</style>`}
 								</Highlight>
 							</section>
+							*/}
 
 							<section>
 								<h1>
@@ -788,7 +808,7 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 
 								<form>
 									<PhoneInput
-										country="RU"
+										defaultCountry="RU"
 										placeholder="Enter phone number"
 										value={this.state.value_RU}
 										onChange={value => this.setState({ value_RU: value })}/>
@@ -800,7 +820,7 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 
 								<Highlight lang="jsx">
 {`<PhoneInput
-  country="RU"
+  defaultCountry="RU"
   placeholder="Enter phone number"
   value={value}
   onChange={setValue}/>
@@ -982,6 +1002,7 @@ International: {value && formatPhoneNumberIntl(value)}
 								</Highlight>
 							</section>
 
+							{/*
 							<section>
 								<h1>
 									Extension
@@ -1027,6 +1048,7 @@ International: {value && formatPhoneNumberIntl(value)}
 `}
 								</Highlight>
 							</section>
+							*/}
 
 							{/* this.render_smart_input() */}
 
@@ -1092,7 +1114,7 @@ International: {value && formatPhoneNumberIntl(value)}
 
 							<Input
 								placeholder="Without country select"
-								country={this.state.dynamic_country}
+								defaultCountry={this.state.dynamic_country}
 								value={this.state.dynamic_value}
 								onChange={value => this.setState({ dynamic_value: value })}/>
 
@@ -1100,7 +1122,7 @@ International: {value && formatPhoneNumberIntl(value)}
 
 							<PhoneInput
 								labels={this.state.dynamic_labels}
-								country={this.state.dynamic_country}
+								defaultCountry={this.state.dynamic_country}
 								value={this.state.dynamic_value}
 								onChange={value => this.setState({ dynamic_value: value })}/>
 
@@ -1110,7 +1132,7 @@ International: {value && formatPhoneNumberIntl(value)}
 
 							<PhoneInput
 								labels={this.state.dynamic_labels}
-								country={this.state.dynamic_country}
+								defaultCountry={this.state.dynamic_country}
 								value={this.state.dynamic_value}
 								onChange={value => this.setState({ dynamic_value: value })}
 								displayInitialValueAsLocalNumber/>
@@ -1136,6 +1158,22 @@ International: {value && formatPhoneNumberIntl(value)}
 									type="button"
 									onClick={() => this.setState({ dynamic_value: '+78005553535' })}>
 									Set value to '+78005553535'
+								</button>
+							</p>
+
+							<h1>Reset</h1>
+
+							<PhoneInput
+								reset={this.state.reset}
+								value={this.state.resetValue}
+								onCountryChange={country => console.log('On country change', country)}
+								onChange={value => this.setState({ resetValue: value })}/>
+
+							<p>
+								<button
+									type="button"
+									onClick={() => this.setState({ reset: this.state.reset ? this.state.reset + 1 : 1 })}>
+									Reset
 								</button>
 							</p>
 						</section>
