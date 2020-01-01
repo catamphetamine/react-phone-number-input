@@ -22,6 +22,39 @@
 
 <!-- (internal) (breaking change) Renamed the `country` property of `InputSmart`/`InputBasic` to `defaultCountry`. Most likely no one's gonna notice that. -->
 
+<!-- (breaking change) Removed `reset` property. -->
+
+<!-- (breaking change) `<PhoneInput/>` is not a `React.forwardRef()`. React >= `16.8` is now required (React Hooks support). -->
+
+<!-- (breaking change) Removed input styling:
+* `.react-phone-number-input__input:-webkit-autofill`
+* `.react-phone-number-input__input--invalid`
+* `.react-phone-number-input__input--invalid:focus`
+* . -->
+
+<!-- (breaking change) Removed `indicateInvalid` property. -->
+
+<!-- Remove `_countrySelectProps`. -->
+
+<!-- (breaking change) Renamed `numberInputComponent` to `inputComponent` (and vice versa). -->
+
+<!-- (breaking change) Renamed `CountrySelectNative.js` to `CountrySelect.js`. -->
+
+<!-- (breaking change) Removed `inputStyleReset` property. -->
+
+<!-- (breaking change) Renamed `.react-phone-number-input__icon--international` -> `.react-phone-number-input__icon--square`. -->
+
+<!-- (breaking change) Renamed `.react-phone-number-input` CSS class prefix to `.phone-number-input`. -->
+
+<!-- (breaking change) Removed phone number extension related stuff (the `ext` property). -->
+
+<!-- (breaking change) Removed `error` property. -->
+
+2.5.2 / 31.12.2019
+===================
+
+  * Added `inputStyleReset: boolean` property that can be set to `true` to prevent the library from applying decoration styles to the `<input/>`.
+
 2.5.0 / 09.11.2019
 ===================
 

@@ -51,6 +51,8 @@ The `value` argument of `onChange(value)` function will be the parsed phone numb
 
 See the [list of all available `props`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinput) for `<PhoneInput/>`. All properties not listed there will be passed through to the phone number `<input/>` component.
 
+By default, there's some styling applied to the `<input/>` (for historical reasons). To prevent applying that styling to the `<input/>`, pass `inputStyleReset` property to the component.
+
 To set default country pass a `country` property. Example: `<PhoneInput country="US" .../>`.
 
 To get selected `country` pass an `onCountryChange(country)` property, or use [`parsePhoneNumber(value)`](#parsephonenumberinput-string-phonenumber) function. Example: `parsePhoneNumber(value) && parsePhoneNumber(value).country`.
@@ -271,8 +273,8 @@ Country names can be copy-pasted from [`github.com/umpirsky/country-list`](https
 
 ```js
 JSON.stringify(
-  countries.sort((a, b) => a.alpha2 > b.alpha2 ? 1 : -1)
-    .reduce((all, { name, alpha2 }) => ({ ...all, [alpha2.toUpperCase()]: name }), {}),
+  Object.keys(countries).sort()
+    .reduce((all, country) => ({ ...all, [country]: countries[country] }), {}),
   null,
   '\t'
 )

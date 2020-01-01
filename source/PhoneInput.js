@@ -285,6 +285,11 @@ export default class PhoneNumberInput extends PureComponent
 		inputClassName : PropTypes.string,
 
 		/**
+		 * By default, there's some styling applied to the `<input/>` (for historical reasons). To prevent applying that styling to the `<input/>`, pass `inputStyleReset` property to the component.
+		 */
+		inputStyleReset : PropTypes.bool,
+
+		/**
 		 * Returns phone number `<input/>` CSS class string.
 		 * Receives an object of shape `{ disabled : boolean?, invalid : boolean? }`.
 		 * @ignore
@@ -312,6 +317,11 @@ export default class PhoneNumberInput extends PureComponent
 		// * `focusPhoneInputField()` — Can be called to manually focus phone input field. E.g. `react-responsive-ui` `<Select/>` uses this to focus phone number input after country selection in a timeout (after the phone input field is no longer hidden).
 		//
 		countrySelectComponent : PropTypes.elementType.isRequired,
+
+		/**
+		 * Country `<select/>` arrow component. Renders a CSS triangle by default.
+		 */
+		countrySelectArrowComponent : PropTypes.elementType,
 
 		/**
 		 * Country `<select/>` component props.
@@ -954,6 +964,7 @@ export default class PhoneNumberInput extends PureComponent
 
 			countrySelectComponent: CountrySelectComponent,
 			countrySelectProps,
+			inputStyleReset,
 			inputComponent: _InputComponent,
 			numberInputComponent: inputComponent,
 			numberInputProps,
@@ -993,12 +1004,9 @@ export default class PhoneNumberInput extends PureComponent
 		// Extract `countrySelectProperties` from `this.props`
 		// also removing them from `phoneNumberInputProps`.
 		const _countrySelectProps = {}
-		if (countrySelectProperties)
-		{
-			for (const key in countrySelectProperties)
-			{
-				if (this.props.hasOwnProperty(key))
-				{
+		if (countrySelectProperties) {
+			for (const key in countrySelectProperties) {
+				if (this.props.hasOwnProperty(key)) {
 					_countrySelectProps[countrySelectProperties[key]] = this.props[key]
 					delete phoneNumberInputProps[key]
 				}
@@ -1069,8 +1077,11 @@ export default class PhoneNumberInput extends PureComponent
 								'react-phone-number-input__input',
 								'react-phone-number-input__phone',
 								{
-									'react-phone-number-input__input--disabled' : disabled || disablePhoneInput,
-									'react-phone-number-input__input--invalid'  : error && indicateInvalid
+									'react-phone-number-input__input--style': !inputStyleReset,
+									'react-phone-number-input__input--disabled': disabled || disablePhoneInput,
+									'react-phone-number-input__input--style--disabled': (disabled || disablePhoneInput) && !inputStyleReset,
+									'react-phone-number-input__input--invalid': error && indicateInvalid,
+									'react-phone-number-input__input--style--invalid': (error && indicateInvalid) && !inputStyleReset,
 								},
 								inputClassName,
 								getInputClassName && getInputClassName({
