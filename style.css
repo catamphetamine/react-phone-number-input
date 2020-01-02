@@ -1,17 +1,19 @@
 /* CSS variables. */
 :root {
-	--PhoneInputCountryFlag-width: calc(0.4em * 4);
-	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 2 / 3);
-	--PhoneInputCountryFlag-borderWidth: 1px;
-	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
-	--PhoneInputCountryFlag-borderColor--focus: #03b2cb;
 	--PhoneInputCountrySelect-marginRight: 0.35em;
+	--PhoneInputCountrySelect-color--focus: #03b2cb;
 	--PhoneInputCountrySelectArrow-width: 0.4em;
 	--PhoneInputCountrySelectArrow-height: 0.35em;
 	--PhoneInputCountrySelectArrow-marginLeft: var(--PhoneInputCountrySelect-marginRight);
 	--PhoneInputCountrySelectArrow-marginTop: calc(var(--PhoneInputCountrySelectArrow-height) / 2);
 	--PhoneInputCountrySelectArrow-color: #cdd1d6;
-	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInputCountryFlag-borderColor--focus);
+	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInputCountrySelect-color--focus);
+	--PhoneInputCountryFlag-width: calc(0.4em * 4);
+	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 2 / 3);
+	--PhoneInputCountryFlag-borderWidth: 1px;
+	--PhoneInputCountryFlag-borderColor: rgba(0,0,0,0.5);
+	--PhoneInputCountryFlag-borderColor--focus: var(--PhoneInputCountrySelect-color--focus);
+	--PhoneInputCountryFlag-backgroundColor--loading: rgba(0,0,0,0.1);
 }
 
 .PhoneInput {
@@ -39,7 +41,7 @@
 	   it would show a dark gray rectangle. */
 	/* For some reason the `<img/>` is not stretched to 100% width and height
 	   and sometime there can be seen white pixels of the background at top and bottom. */
-	/*background-color: var(--PhoneInputCountryFlag-borderColor);*/
+	background-color: var(--PhoneInputCountryFlag-backgroundColor--loading);
 	/* Border is added via `box-shadow` because `border` interferes with `width`/`height`. */
 	/* For some reason the `<img/>` is not stretched to 100% width and height
 	   and sometime there can be seen white pixels of the background at top and bottom,
