@@ -8,6 +8,7 @@ export default function CountrySelect({
 	options,
 	className,
 	iconComponent: Icon,
+	getIconAspectRatio,
 	selectArrowComponent: SelectArrow,
 	...rest
 }) {
@@ -24,12 +25,10 @@ export default function CountrySelect({
 		}
 	}, [options, value])
 
+	// "ZZ" means "International".
+	// (HTML requires each `<option/>` have some string `value`).
 	return (
 		<div className="PhoneInputCountry">
-			{selectedOption &&
-				<Icon country={value}/>
-			}
-
 			<select
 				{...rest}
 				value={value || 'ZZ'}
@@ -45,6 +44,10 @@ export default function CountrySelect({
 					</option>
 				))}
 			</select>
+
+			<Icon
+				country={value}
+				label={selectedOption && selectedOption.label}/>
 
 			<SelectArrow/>
 		</div>
@@ -74,5 +77,6 @@ CountrySelect.propTypes = {
 }
 
 CountrySelect.defaultProps = {
+	// Is "International" icon square?
 	selectArrowComponent: () => <div className="PhoneInputCountrySelectArrow"/>
 }

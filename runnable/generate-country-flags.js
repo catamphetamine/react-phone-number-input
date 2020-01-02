@@ -1,5 +1,4 @@
 import { getCountries } from 'libphonenumber-js/min'
-import getFlagCountryCode from '../source/getFlagCountryCode'
 import defaultLabels from '../locale/en.json'
 
 import path from 'path'
@@ -22,7 +21,7 @@ export default {${countries.map((country) => {
 }
 
 function getCountryFlagSvgMarkup(country) {
-	const svgCode = fs.readFileSync(path.join(__dirname, `../node_modules/flag-icon-css/flags/4x3/${getFlagCountryCode(country).toLowerCase()}.svg`), 'utf8')
+	const svgCode = fs.readFileSync(path.join(__dirname, `../flags/3x2/${country.toLowerCase()}.svg`), 'utf8')
 	const code = svgr.sync(
 		svgCode,
 		{

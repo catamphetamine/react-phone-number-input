@@ -16,7 +16,7 @@ import {
 	getSupportedCountryOptions
 } from './countries'
 
-import createCountryIconComponent from './CountryIcon'
+import { createCountryIconComponent } from './CountryIcon'
 
 import {
 	metadata as metadataPropType,
@@ -607,7 +607,7 @@ PhoneNumberInput.propTypes = {
 	/**
 	 * A URL template of a country flag, where "{0}"
 	 * is a two-letter country code in lower case.
-	 * By default it points to `flag-icon-css` repo github pages website.
+	 * By default it points to this library's github pages website.
 	 * I imagine someone might want to download those country flag icons
 	 * and host them on their own servers instead.
 	 * There's a catch though: new countries may be added in future,
@@ -636,7 +636,7 @@ PhoneNumberInput.propTypes = {
 	 * Can also be used to bundle `<svg/>` flags instead of `<img/>`s:
 	 *
 	 * By default flag icons are inserted as `<img/>`s
-	 * with their `src` pointed to `flag-icon-css` repo github pages website.
+	 * with their `src` pointed to this library's github pages website.
 	 *
 	 * There might be some cases
 	 * (e.g. a standalone "native" app, or an "intranet" web application)
@@ -794,9 +794,10 @@ PhoneNumberInput.defaultProps = {
 	flagComponent: Flag,
 
 	/**
-	 * By default, use icons from `flag-icon-css` github repo.
+	 * By default, use icons from this library's github pages website.
 	 */
-	flagUrl: 'https://lipis.github.io/flag-icon-css/flags/4x3/{0}.svg',
+	// Must be equal to `flagUrl` in `./CountryIcon.js`.
+	flagUrl: 'https://catamphetamine.github.io/react-phone-number-input/flags/3x2/{0}.svg',
 
 	/**
 	 * Default "International" country `<select/>` option icon.

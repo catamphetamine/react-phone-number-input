@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function InternationalIcon() {
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-25 0 75 50">
 			<g stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round">
 				<path d="M8.45,13A21.44,21.44,0,1,1,37.08,41.56"/>
 				<path d="M19.36,35.47a36.9,36.9,0,0,1-2.28-13.24C17.08,10.39,21.88.85,27.8.85s10.72,9.54,10.72,21.38c0,6.48-1.44,12.28-3.71,16.21"/>

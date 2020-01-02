@@ -72,11 +72,13 @@ The phone number `<input/>` itself is implemented using [`input-format`](https:/
 
 ## CSS
 
+The styles for this component are in the [`style.css`](https://github.com/catamphetamine/react-phone-number-input/blob/master/style.css) file. CSS class names start with `.PhoneInput`, and for `:focus` state there's `.PhoneInput--focus` CSS class name.
+
 The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for easier styling. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
 
 #### When using Webpack
 
-Including styles on a page is simple:
+When using Webpack, include the stylesheet on a page via `import`:
 
 ```js
 import 'react-phone-number-input/style.css'
@@ -235,9 +237,9 @@ See the [demo](http://catamphetamine.github.io/react-phone-number-input/) for th
 
 ## Flags
 
-Including all country flags in the code in SVG format would be the best way to go but turns out they take an extra 550 kB when gzipped. That's the reason why all country flags are included as `<img src="..."/>` from [`flag-icon-css`](http://flag-icon-css.lip.is/) repo GitHub pages (can be overridden via [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property).
+Including all country flags in the code in SVG format would be the best way to go but turns out they take an extra 44 kB when gzipped. That's the reason why all country flags are included as `<img src="..."/>` from this library's GitHub pages (can be overridden via [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property) instead of inlining them directly as `<svg/>` elements.
 
-To include all country flags in code in SVG format:
+To include all country flags in code as `<svg/>`s instead of linking them as external `<img/>`s, pass the `flags` property:
 
 ```js
 import PhoneInput from 'react-phone-number-input'

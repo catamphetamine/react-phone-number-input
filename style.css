@@ -1,16 +1,17 @@
 /* CSS variables. */
 :root {
-	--PhoneInputCountryFlag-width: calc(0.31em * 4);
-	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 3 / 4);
+	--PhoneInputCountryFlag-width: calc(0.4em * 4);
+	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 2 / 3);
 	--PhoneInputCountryFlag-borderWidth: 1px;
-	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
-	--PhoneInputCountrySelect-marginRight: 0.5em;
-	--PhoneInputCountrySelectArrow-marginLeft: 0.3em;
-	--PhoneInputCountrySelectArrow-marginTop: 0.2em;
+	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.3);
+	--PhoneInputCountryFlag-borderColor--focus: #03b2cb;
+	--PhoneInputCountrySelect-marginRight: 0.35em;
 	--PhoneInputCountrySelectArrow-width: 0.4em;
 	--PhoneInputCountrySelectArrow-height: 0.35em;
+	--PhoneInputCountrySelectArrow-marginLeft: var(--PhoneInputCountrySelect-marginRight);
+	--PhoneInputCountrySelectArrow-marginTop: calc(var(--PhoneInputCountrySelectArrow-height) / 2);
 	--PhoneInputCountrySelectArrow-color: #cdd1d6;
-	--PhoneInputCountrySelectArrow-color--focus: #03b2cb;
+	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInputCountryFlag-borderColor--focus);
 }
 
 .PhoneInput {
@@ -31,24 +32,14 @@
 	/* The flag icon size is 4x3 hence the exact `width` and `height` values */
 	width: var(--PhoneInputCountryFlag-width);
 	height: var(--PhoneInputCountryFlag-height);
-	/* `1px` is still too much for a "retina" screen but there's
-	   no way in CSS to specify "hairline" border width. */
-	border: var(--PhoneInputCountryFlag-borderWidth) solid var(--PhoneInputCountryFlag-borderColor);
-	/* Makes sure `width`x`height` is exactly `4x3` and
-	   `border` width is not included in it */
-	box-sizing: content-box;
 }
 
-.PhoneInputCountryIcon--square {
-	/* The international icon size is square */
-	/* and also has no border hence the `2 * 1px` `width` and `height` compensation */
-	width: calc(var(--PhoneInputCountryFlag-height) + 2 * var(--PhoneInputCountryFlag-borderWidth));
-	height: calc(var(--PhoneInputCountryFlag-height) + 2 * var(--PhoneInputCountryFlag-borderWidth));
-	/* The international icon size is square, hence the exact `padding` value */
-	/* for precise alignment with `4x3` sized country flags. */
-	padding-left: calc((var(--PhoneInputCountryFlag-width) - var(--PhoneInputCountryFlag-height)) / 2);
-	padding-right: calc((var(--PhoneInputCountryFlag-width) - var(--PhoneInputCountryFlag-height)) / 2);
-	border: none;
+.PhoneInputCountryIcon--border {
+	/* For some reason the `<img/>` is not stretched to 100% width and height
+	   and sometime there can be seen white pixels of the background at top and bottom. */
+	background-color: var(--PhoneInputCountryFlag-borderColor);
+	/* Border is added via `box-shadow` because `border` interferes with `width`/`height`. */
+	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor);
 }
 
 .PhoneInputCountryIconImg {
@@ -101,6 +92,11 @@
 	background: black;
 }
 
-.PhoneInputCountrySelect:focus + .PhoneInputCountrySelectArrow {
+.PhoneInputCountrySelect:focus + .PhoneInputCountryIcon + .PhoneInputCountrySelectArrow {
 	color: var(--PhoneInputCountrySelectArrow-color--focus);
+}
+
+.PhoneInputCountrySelect:focus + .PhoneInputCountryIcon--border {
+	background-color: var(--PhoneInputCountryFlag-borderColor--focus);
+	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor--focus);
 }

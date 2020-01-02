@@ -13,6 +13,8 @@ Relevant changes:
 
 * Renamed CSS classes, and refactored styles.
 
+* Changed the flags: now they're simpler, smaller in disk size, and have `3x2` aspect ratio instead of `4x3`.
+
 * Renamed CDN `bundle` files:
 
 1. `react-phone-number-input-native` -> `react-phone-number-input`.
@@ -55,6 +57,10 @@ Other changes (miscellaneous):
 * Country select doesn't receive `icon` property as part of `options` now. Instead, it receives `iconComponent` property, where `iconComponent` receives a `country` property (for example, `"US"`).
 
 * Removed `redux-form` `onBlur` workaround. `redux-form` is deprecated.
+
+* `internationalIcon` is now 4x3, like the rest of the flags (used to be square).
+
+* Flags have been copied from `flag-icon-css` repo's github pages to this repo's github pages.
 
 2.5.2 / 31.12.2019
 ===================
