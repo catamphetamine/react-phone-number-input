@@ -59,6 +59,7 @@
   "scripts": {
     "generate-docs": "styleguidist build --config react-styleguidist.js",
     "generate-country-flags": "babel-node runnable/generate-country-flags",
+    "generate-country-flags-page": "babel-node runnable/generate-country-flags-page",
     "test": "mocha --bail --require @babel/register --require esm --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "test-coverage": "cross-env NODE_ENV=test nyc mocha --require esm --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",

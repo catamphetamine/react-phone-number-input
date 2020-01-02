@@ -1,37 +1,7 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 85.333 512 341.333" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-<rect y="85.337" style="fill:#0052B4;" width="512" height="341.326"/>
-<polygon style="fill:#D80027;" points="512,256 512,426.663 0,426.663 215.185,256 "/>
-<polygon style="fill:#FFFFFF;" points="512,85.337 512,256 215.185,256 0,85.337 "/>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 85.333 512 341.333">
+<rect y="85.337" fill="#0052B4" width="512" height="341.326"/>
+<polygon fill="#D80027" points="512,256 512,426.663 0,426.663 215.185,256 "/>
+<polygon fill="#FFFFFF" points="512,85.337 512,256 215.185,256 0,85.337 "/>
 </svg>

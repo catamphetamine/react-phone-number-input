@@ -13,7 +13,7 @@ export default function FlagComponent({
 	className
 }) {
 	if (flags && flags[country]) {
-		return flags[country]()
+		return flags[country]({ title: countryName })
 	}
 	return (
 		<img

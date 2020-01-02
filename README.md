@@ -237,9 +237,9 @@ See the [demo](http://catamphetamine.github.io/react-phone-number-input/) for th
 
 ## Flags
 
-Including all country flags in the code in SVG format would be the best way to go but turns out they take an extra 44 kB when gzipped. That's the reason why all country flags are included as `<img src="..."/>` from this library's GitHub pages (can be overridden via [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property) instead of inlining them directly as `<svg/>` elements.
+Including all country flags in the code in SVG format would be the best way to go but turns out they take an extra 44 kB when gzipped. For that reason, all country flags are included as `<img src="..."/>` from this library's [GitHub pages](http://catamphetamine.github.io/react-phone-number-input/flags/3x2) (can be overridden via [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property) instead of being inlined directly as `<svg/>` elements.
 
-To include all country flags in code as `<svg/>`s instead of linking them as external `<img/>`s, pass the `flags` property:
+If the bundle size is not an issue though, or if linking flags as external `<img/>`s is not an option (for example, for a standalone non-web application), then all country flags can be included by passing the `flags` property:
 
 ```js
 import PhoneInput from 'react-phone-number-input'

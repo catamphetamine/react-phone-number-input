@@ -14,7 +14,7 @@ function generateFlags() {
 import React from "react"
 
 export default {${countries.map((country) => {
-	return '\n\t' + country + ': () => (\n' + getCountryFlagSvgMarkup(country) + '\t)'
+	return '\n\t' + country + ': ({ title, ...rest }) => (\n' + getCountryFlagSvgMarkup(country) + '\t)'
 })}
 }
 	`.trim()
@@ -22,7 +22,7 @@ export default {${countries.map((country) => {
 
 function getCountryFlagSvgMarkup(country) {
 	const svgCode = fs.readFileSync(path.join(__dirname, `../flags/3x2/${country.toLowerCase()}.svg`), 'utf8')
-	const code = svgr.sync(
+	let code = svgr.sync(
 		svgCode,
 		{
 			plugins: [
@@ -32,8 +32,20 @@ function getCountryFlagSvgMarkup(country) {
 			],
 		}
 	)
+	const svgTagStartsAt = code.indexOf('<svg')
+	if (svgTagStartsAt < 0) {
+		throw new Error(`<svg/> tag not found in ${country} flag`)
+	}
+	const firstTagStarts = code.indexOf('<', svgTagStartsAt + 1)
+	if (firstTagStarts < 0) {
+		throw new Error(`First tag not found in ${country} flag`)
+	}
+	if (code.indexOf('<title') > 0) {
+		throw new Error(`<title/> already present in ${country} flag`)
+	}
+	code = code.slice(0, firstTagStarts) + '<title>{title}</title>' + '\n' + code.slice(firstTagStarts)
 	return code.replace('import React from "react";\n\nconst SvgComponent = props => (\n', '')
-		.replace(' {...props}', '')
+		.replace(' {...props}', ' {...rest}')
 		.replace('\n);\n\nexport default SvgComponent;', '')
 }
 

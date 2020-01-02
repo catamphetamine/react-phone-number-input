@@ -608,7 +608,8 @@ PhoneNumberInput.propTypes = {
 	 * is a two-letter country code in lower case.
 	 * By default it points to this library's github pages website.
 	 * I imagine someone might want to download those country flag icons
-	 * and host them on their own servers instead.
+	 * and host them on their own servers instead
+	 * (all flags are available in the `flags/3x2` folder).
 	 * There's a catch though: new countries may be added in future,
 	 * so when hosting country flag icons on your own server
 	 * one should check the `CHANGELOG.md` every time before updating this library,
@@ -795,7 +796,7 @@ PhoneNumberInput.defaultProps = {
 	flagComponent: Flag,
 
 	/**
-	 * By default, use icons from this library's github pages website.
+	 * By default, uses icons from this library's github pages website.
 	 */
 	// Must be equal to `flagUrl` in `./CountryIcon.js`.
 	flagUrl: 'https://catamphetamine.github.io/react-phone-number-input/flags/3x2/{0}.svg',
