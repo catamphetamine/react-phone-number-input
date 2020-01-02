@@ -1,14 +1,14 @@
 /* CSS variables. */
 :root {
-	--PhoneInputCountryFlag-width: calc(0.31em * 4);
-	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 3 / 4);
+	--PhoneInputCountryFlag-width: calc(0.3em * 4);
+	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 2 / 3);
 	--PhoneInputCountryFlag-borderWidth: 1px;
 	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
 	--PhoneInputCountrySelect-marginRight: 0.5em;
-	--PhoneInputCountrySelectArrow-marginLeft: 0.3em;
-	--PhoneInputCountrySelectArrow-marginTop: 0.2em;
 	--PhoneInputCountrySelectArrow-width: 0.4em;
 	--PhoneInputCountrySelectArrow-height: 0.35em;
+	--PhoneInputCountrySelectArrow-marginLeft: 0.3em;
+	--PhoneInputCountrySelectArrow-marginTop: calc(var(--PhoneInputCountrySelectArrow-height) / 2);
 	--PhoneInputCountrySelectArrow-color: #cdd1d6;
 	--PhoneInputCountrySelectArrow-color--focus: #03b2cb;
 }
@@ -29,33 +29,21 @@
 
 .PhoneInputCountryIcon {
 	/* The flag icon size is 4x3 hence the exact `width` and `height` values */
-	width: calc(0.31em * 4);
+	width: calc(0.3em * 4);
 	width: var(--PhoneInputCountryFlag-width);
-	height: calc(calc(0.31em * 4) * 3 / 4);
+	height: calc(calc(0.3em * 4) * 2 / 3);
 	height: var(--PhoneInputCountryFlag-height);
+}
+
+.PhoneInputCountryIcon--border {
 	/* `1px` is still too much for a "retina" screen but there's
 	   no way in CSS to specify "hairline" border width. */
 	border: 1px solid rgba(0, 0, 0, 0.5);
 	border: var(--PhoneInputCountryFlag-borderWidth) solid var(--PhoneInputCountryFlag-borderColor);
 	/* Makes sure `width`x`height` is exactly `4x3` and
-	   `border` width is not included in it */
+	   `border` width is not included in it.
+	   (sometimes there's a `* { box-sizing: border-box }` global CSS rule) */
 	box-sizing: content-box;
-}
-
-.PhoneInputCountryIcon--square {
-	/* The international icon size is square */
-	/* and also has no border hence the `2 * 1px` `width` and `height` compensation */
-	width: calc(calc(calc(0.31em * 4) * 3 / 4) + 2 * 1px);
-	width: calc(var(--PhoneInputCountryFlag-height) + 2 * var(--PhoneInputCountryFlag-borderWidth));
-	height: calc(calc(calc(0.31em * 4) * 3 / 4) + 2 * 1px);
-	height: calc(var(--PhoneInputCountryFlag-height) + 2 * var(--PhoneInputCountryFlag-borderWidth));
-	/* The international icon size is square, hence the exact `padding` value */
-	/* for precise alignment with `4x3` sized country flags. */
-	padding-left: calc((calc(0.31em * 4) - calc(calc(0.31em * 4) * 3 / 4)) / 2);
-	padding-left: calc((var(--PhoneInputCountryFlag-width) - var(--PhoneInputCountryFlag-height)) / 2);
-	padding-right: calc((calc(0.31em * 4) - calc(calc(0.31em * 4) * 3 / 4)) / 2);
-	padding-right: calc((var(--PhoneInputCountryFlag-width) - var(--PhoneInputCountryFlag-height)) / 2);
-	border: none;
 }
 
 .PhoneInputCountryIconImg {
@@ -91,7 +79,7 @@
 	content: '';
 	width: 0;
 	height: 0;
-	margin-top: 0.2em;
+	margin-top: calc(0.35em / 2);
 	margin-top: var(--PhoneInputCountrySelectArrow-marginTop);
 	margin-left: 0.3em;
 	margin-left: var(--PhoneInputCountrySelectArrow-marginLeft);
