@@ -721,8 +721,8 @@ PhoneNumberInput.propTypes = {
 
 	/**
 	 * Country `<select/>` component props.
-	 * Along with the usual DOM properties such as `tabIndex`,
-	 * a some custom properties are supported, such as `arrowComponent`.
+	 * Along with the usual DOM properties such as `aria-label` and `tabIndex`,
+	 * some custom properties are supported, such as `arrowComponent`.
 	 */
 	countrySelectProps: PropTypes.object,
 
