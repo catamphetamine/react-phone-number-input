@@ -671,7 +671,9 @@ PhoneNumberInput.propTypes = {
 	addInternationalOption: PropTypes.bool.isRequired,
 
 	/**
-	 * Custom "International" country `<select/>` option icon.
+	 * "International" icon component.
+	 * Should have `3:2` aspect ratio.
+	 * Receives `title: string` property.
 	 */
 	internationalIcon: PropTypes.elementType.isRequired,
 
