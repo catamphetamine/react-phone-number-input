@@ -294,13 +294,12 @@ The `labels` format is:
 
 ```js
 {
-  // Country `<select/>` `aria-label`.
+  // Can be used as a label for country input.
+  // Country `<select/>` uses this as its default `aria-label`.
   "country": "Country",
-  // Phone number `<input/>` `aria-label`.
-  // (not set by default)
+  // Can be used as a label for phone number input.
   "phone": "Phone",
-  // Phone number "extension" `aria-label`.
-  // (not set by default)
+  // Can be used as a label for phone number extension input.
   "ext": "ext.",
   // Country names.
   "AB": "Abkhazia",
