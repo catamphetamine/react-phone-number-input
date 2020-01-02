@@ -463,7 +463,6 @@ class PhoneNumberInput_ extends React.PureComponent {
 						ref={this.getInputRef()}
 						type="tel"
 						autoComplete={autoComplete}
-						aria-label={labels.phone}
 						{...numberInputProps}
 						{...rest}
 						name={name}
