@@ -3,7 +3,7 @@
 	--PhoneInputCountryFlag-width: calc(0.4em * 4);
 	--PhoneInputCountryFlag-height: calc(var(--PhoneInputCountryFlag-width) * 2 / 3);
 	--PhoneInputCountryFlag-borderWidth: 1px;
-	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.3);
+	--PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
 	--PhoneInputCountryFlag-borderColor--focus: #03b2cb;
 	--PhoneInputCountrySelect-marginRight: 0.35em;
 	--PhoneInputCountrySelectArrow-width: 0.4em;
@@ -37,13 +37,19 @@
 }
 
 .PhoneInputCountryIcon--border {
+	/* Removed `background-color` because when an `<img/>` was still loading
+	   it would show a dark gray rectangle. */
 	/* For some reason the `<img/>` is not stretched to 100% width and height
 	   and sometime there can be seen white pixels of the background at top and bottom. */
-	background-color: rgba(0, 0, 0, 0.3);
-	background-color: var(--PhoneInputCountryFlag-borderColor);
+	/*background-color: var(--PhoneInputCountryFlag-borderColor);*/
 	/* Border is added via `box-shadow` because `border` interferes with `width`/`height`. */
-	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor);
+	/* For some reason the `<img/>` is not stretched to 100% width and height
+	   and sometime there can be seen white pixels of the background at top and bottom,
+	   so an additional "inset" border is added. */
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5),
+		inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor),
+		inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor);
 }
 
 .PhoneInputCountryIconImg {
