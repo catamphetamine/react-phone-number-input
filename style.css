@@ -103,6 +103,6 @@
 }
 
 .PhoneInputCountrySelect:focus + .PhoneInputCountryIcon--border {
-	background-color: var(--PhoneInputCountryFlag-borderColor--focus);
-	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor--focus);
+	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor--focus),
+		inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor--focus);
 }
