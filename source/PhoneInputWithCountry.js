@@ -537,7 +537,8 @@ PhoneNumberInput.propTypes = {
 	 * and can also autofill the `<input/>`
 	 * with previously remembered phone numbers.
 	 *
-	 * https://developers.google.com/web/updates/2015/06/checkout-faster-with-autofill
+	 * https://developers.google.com
+	 * /web/updates/2015/06/checkout-faster-with-autofill
 	 *
 	 * For example, can be used to turn it off:
 	 *
