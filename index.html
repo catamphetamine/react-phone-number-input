@@ -846,10 +846,6 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 										onChange={value => this.setState({ value_RU: value })}/>
 								</form>
 
-								<p>
-									<code>value</code>: {this.state.value_RU && <code>{this.state.value_RU}</code>}
-								</p>
-
 								<Highlight lang="jsx">
 {`<PhoneInput
   defaultCountry="RU"
@@ -872,10 +868,6 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 										onChange={value => this.setState({ value_convert_to_national_false: value })}/>
 								</form>
 
-								<p>
-									<code>value</code>: {this.state.value_convert_to_national_false && <code>{this.state.value_convert_to_national_false}</code>}
-								</p>
-
 								<Highlight lang="jsx">
 {`<PhoneInput
   value={value}
@@ -896,10 +888,6 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 										onChange={value => this.setState({ value_convert_to_national_true: value })}
 										displayInitialValueAsLocalNumber/>
 								</form>
-
-								<p>
-									<code>value</code>: {this.state.value_convert_to_national_true && <code>{this.state.value_convert_to_national_true}</code>}
-								</p>
 
 								<Highlight lang="jsx">
 {`<PhoneInput
