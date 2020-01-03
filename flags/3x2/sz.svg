@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 viewBox="0 0 900 600" xml:space="preserve">
-<path fill="#3E5EB9" d="M0,0h900v600H0V0z"/>
-<path fill="#FFD900" d="M0,112.5h900v375H0V112.5z"/>
-<path fill="#B10C0C" d="M0,150h900v300H0V150z"/>
-<path fill="#FFFFFF" d="M664.3,300c-42.9,42.9-100,128.6-214.3,128.6c-100,0-171.4-85.7-214.3-128.6C278.6,257.1,350,171.4,450,171.4
-	C564.3,171.4,621.4,257.1,664.3,300z"/>
-</svg>

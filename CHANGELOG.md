@@ -27,6 +27,10 @@ Relevant changes:
 
 * Removed `locale/default.json` (use `en.json` instead) and `locale/br.json` (use `pt.json` instead).
 
+* Removed `/flags` export (use `country-flag-icons/react` instead).
+
+* Flags are now loaded from `country-flag-icons` library.
+
 * Removed properties:
 
 1. `error`
@@ -44,7 +48,7 @@ Relevant changes:
 2. `countryOptions` -> `countryOptionsOrder`
 3. `country` -> `defaultCountry`
 
-* Renamed `flagsPath` property to `flagUrl`, and it's now a full URL template having `{0}` in place of a country code in lower case.
+* Renamed `flagsPath` property to `flagUrl`, and it's now a full URL template having `{XX}` in place of a country code in upper case or `{xx}` in place of a country code in lower case.
 
 Other changes (miscellaneous):
 

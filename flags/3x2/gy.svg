@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 900 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-<path d="m0 0h900v600h-900z" fill="#009e49"/>
-<path d="m0 0 900 300-900 300z" fill="#ffffff"/>
-<path d="M 0,26.1 820.8,300 0,573.9 Z" fill="#fcd116"/>
-<path d="m0 0 450 300-450 300z" fill="#000000"/>
-<path d="M 0,35 397.52,300 0,565 Z" fill="#ce1126"/>
-</svg>

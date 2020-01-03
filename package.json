@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "country-flag-icons": "^1.0.1",
     "input-format": "^0.2.8",
     "libphonenumber-js": "^1.7.30",
     "prop-types": "^15.7.2",
@@ -29,11 +30,6 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@babel/register": "^7.7.7",
-    "@svgr/core": "^4.3.0",
-    "@svgr/plugin-jsx": "^4.3.0",
-    "@svgr/plugin-prettier": "^4.2.0",
-    "@svgr/plugin-svgo": "^4.2.0",
-    "@types/react": "^16.0.0",
     "autoprefixer": "^8.6.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-istanbul": "^6.0.0",
@@ -58,8 +54,6 @@
   },
   "scripts": {
     "generate-docs": "styleguidist build --config react-styleguidist.js",
-    "generate-country-flags": "babel-node runnable/generate-country-flags",
-    "generate-country-flags-page": "babel-node runnable/generate-country-flags-page",
     "test": "mocha --bail --require @babel/register --require esm --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "test-coverage": "cross-env NODE_ENV=test nyc mocha --require esm --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
@@ -67,7 +61,7 @@
     "clean-for-build": "rimraf ./commonjs/**/* ./modules/**/*",
     "build-commonjs-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps --ignore *.test.js",
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",
-    "build": "npm-run-all clean-for-build generate-country-flags build-commonjs-modules build-es6-modules browser-build build-styles generate-docs",
+    "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules browser-build build-styles generate-docs",
     "build-styles": "babel-node runnable/build-bundle-styles",
     "fix-locales": "babel-node runnable/fix-locales",
     "prepublish": "npm-run-all fix-locales build test"

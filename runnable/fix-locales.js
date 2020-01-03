@@ -5,7 +5,7 @@ import { getCountries, isSupportedCountry } from 'libphonenumber-js/min'
 import flags from '../source/flags'
 import en from '../locale/en.json'
 
-// Leave only those countries supported by `libphonenumber-js`.
+// Leave only the countries supported by `libphonenumber-js`.
 function isSupportedByLibPhoneNumber(country) {
 	return isSupportedCountry(country) || country === 'ZZ'
 }

@@ -605,12 +605,13 @@ PhoneNumberInput.propTypes = {
 	labels: labelsPropType.isRequired,
 
 	/**
-	 * A URL template of a country flag, where "{0}"
-	 * is a two-letter country code in lower case.
-	 * By default it points to this library's github pages website.
+	 * A URL template of a country flag, where
+	 * "{XX}" is a two-letter country code in upper case,
+	 * or where "{xx}" is a two-letter country code in lower case.
+	 * By default it points to `country-flag-icons` github pages website.
 	 * I imagine someone might want to download those country flag icons
 	 * and host them on their own servers instead
-	 * (all flags are available in the `flags/3x2` folder).
+	 * (all flags are available in the `country-flag-icons` library).
 	 * There's a catch though: new countries may be added in future,
 	 * so when hosting country flag icons on your own server
 	 * one should check the `CHANGELOG.md` every time before updating this library,
@@ -620,7 +621,8 @@ PhoneNumberInput.propTypes = {
 
 	/**
 	 * Custom country flag icon components.
-	 * These flags replace the default ones.
+	 * These flags will be used instead of the default ones.
+	 * The the "Flags" section of the readme for more info.
 	 *
 	 * The shape is an object where keys are country codes
 	 * and values are flag icon components.
@@ -629,26 +631,11 @@ PhoneNumberInput.propTypes = {
 	 *
 	 * Example:
 	 *
-	 * `{ "RU": () => <img src="..."/> }`
-	 *
-	 * Can be used to replace the default flags
-	 * with custom ones for certain (or all) countries.
-	 *
-	 * Can also be used to bundle `<svg/>` flags instead of `<img/>`s:
-	 *
-	 * By default flag icons are inserted as `<img/>`s
-	 * with their `src` pointed to this library's github pages website.
-	 *
-	 * There might be some cases
-	 * (e.g. a standalone "native" app, or an "intranet" web application)
-	 * when including the full set of `<svg/>` country flags (3 megabytes)
-	 * is more appropriate than downloading them individually at runtime only if needed.
+	 * `{ "RU": (props) => <img src="..."/> }`
 	 *
 	 * Example:
 	 *
-	 * `// Uses <svg/> flags (3 megabytes):`
-	 *
-	 * `import flags from 'react-phone-number-input/flags'`
+	 * `import flags from 'country-flag-icons/react/3x2'`
 	 *
 	 * `import PhoneInput from 'react-phone-number-input'`
 	 *
@@ -662,6 +649,7 @@ PhoneNumberInput.propTypes = {
 	 * Takes properties:
 	 *
 	 * * country: string — The country code.
+	 * * countryName: string — The country name.
 	 * * flagUrl: string — The `flagUrl` property (see above).
 	 * * flags: object — The `flags` property (see above).
 	 */
@@ -797,10 +785,10 @@ PhoneNumberInput.defaultProps = {
 	flagComponent: Flag,
 
 	/**
-	 * By default, uses icons from this library's github pages website.
+	 * By default, uses icons from `country-flag-icons` github pages website.
 	 */
 	// Must be equal to `flagUrl` in `./CountryIcon.js`.
-	flagUrl: 'https://catamphetamine.github.io/react-phone-number-input/flags/3x2/{0}.svg',
+	flagUrl: 'https://catamphetamine.github.io/country-flag-icons/3x2/{XX}.svg',
 
 	/**
 	 * Default "International" country `<select/>` option icon.
