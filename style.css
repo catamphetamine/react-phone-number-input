@@ -61,12 +61,6 @@
 		inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor);
 }
 
-.PhoneInputCountryIcon--unicode {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 .PhoneInputCountryIconImg {
 	max-width: 100%;
 	max-height: 100%;
