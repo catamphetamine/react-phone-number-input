@@ -470,9 +470,11 @@ Without country select:
 </script>
 ```
 
+<!--
 ## Advertisement
 
 [React Responsive UI](https://catamphetamine.github.io/react-responsive-ui/) component library.
+-->
 
 ## License
 

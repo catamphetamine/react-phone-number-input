@@ -13,11 +13,10 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "country-flag-icons": "^1.0.1",
+    "country-flag-icons": "^1.0.2",
     "input-format": "^0.2.8",
     "libphonenumber-js": "^1.7.30",
-    "prop-types": "^15.7.2",
-    "react-responsive-ui": "^0.14.177"
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
