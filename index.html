@@ -711,10 +711,12 @@
 									<br/>
 									It must behave as a standard DOM <code>&lt;input/&gt;</code>: accept a string <code>value</code> property and call <code>onChange(event)</code>.
 								</p>
+							</section>
 
-								<h2>
-									Create custom country <code className="default">select</code>
-								</h2>
+							<section>
+								<h1>
+									Custom country <code className="default">&lt;select/&gt;</code>
+								</h1>
 
 								<p>
 									This library exports <code>getCountries()</code> and <code>getCountryCallingCode(country)</code> functions so that a developer could construct their own custom country select.
@@ -800,6 +802,36 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 								</Highlight>
 							</section>
 							*/}
+
+							<section>
+								<h1>
+									Unicode flag icons
+								</h1>
+
+								<form>
+									<PhoneInput
+										countrySelectProps={{ unicodeFlags: true }}
+										placeholder="Enter phone number"
+										value={this.state.valueUnicode}
+										onChange={value => this.setState({ valueUnicode: value })}/>
+								</form>
+
+								<p>
+									Unicode flag icons ("Regional Indicator Symbols") were <a href="https://blog.emojipedia.org/emoji-flags-explained/" target="_blank">introduced</a> in 2010 in Unicode version 6.0.
+									<br/>
+									Older operating systems (having older system fonts) might not support Unicode flags, rendering "missing" (rectangle) characters instead.
+									<br/>
+									Windows 10 currently (01.01.2020) doesn't support Unicode country flags, and displays two-letter country codes instead of emoji flag images.
+								</p>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  countrySelectProps={{ unicodeFlags: true }}
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
 
 							<section>
 								<h1>
