@@ -64,6 +64,8 @@ Other changes (miscellaneous):
 
 * Flags have been copied from `flag-icon-css` repo's github pages to this repo's github pages.
 
+* Added `unicodeFlags` property of country select (the demo page has a showcase).
+
 2.5.2 / 31.12.2019
 ===================
 

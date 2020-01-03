@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 
 export default function CountrySelect({
 	value,
@@ -9,7 +10,8 @@ export default function CountrySelect({
 	className,
 	iconComponent: Icon,
 	getIconAspectRatio,
-	selectArrowComponent: SelectArrow,
+	arrowComponent: Arrow,
+	unicodeFlags,
 	...rest
 }) {
 	const onChange_ = useCallback((event) => {
@@ -45,11 +47,22 @@ export default function CountrySelect({
 				))}
 			</select>
 
-			<Icon
-				country={value}
-				label={selectedOption && selectedOption.label}/>
+			{/* Either a Unicode flag icon. */}
+			{(unicodeFlags && value) &&
+				<div className="PhoneInputCountryIcon PhoneInputCountryIcon--square PhoneInputCountryIcon--unicode">
+					{getUnicodeFlagIcon(value)}
+				</div>
+			}
 
-			<SelectArrow/>
+			{/* Or an SVG flag icon. */}
+			{!(unicodeFlags && value) &&
+				<Icon
+					country={value}
+					label={selectedOption && selectedOption.label}
+					aspectRatio={unicodeFlags ? 1 : undefined}/>
+			}
+
+			<Arrow/>
 		</div>
 	)
 }
@@ -73,10 +86,13 @@ CountrySelect.propTypes = {
 	iconComponent: PropTypes.elementType,
 
 	// Select arrow component.
-	selectArrowComponent: PropTypes.elementType.isRequired
+	arrowComponent: PropTypes.elementType.isRequired,
+
+	// Set to `true` to render Unicode flag icons instead of SVG images.
+	unicodeFlags: PropTypes.bool
 }
 
 CountrySelect.defaultProps = {
 	// Is "International" icon square?
-	selectArrowComponent: () => <div className="PhoneInputCountrySelectArrow"/>
+	arrowComponent: () => <div className="PhoneInputCountrySelectArrow"/>
 }

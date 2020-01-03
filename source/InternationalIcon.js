@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 
 // Using `<title/>` in `<svg/>`s:
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/title
-export default function InternationalIcon({ title, ...rest }) {
+export default function InternationalIcon({ title, aspectRatio, ...rest }) {
 	return (
-		<svg {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="-25 0 75 50">
+		<svg
+			{...rest}
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox={aspectRatio === 1 ? '0 0 50 50' : '-25 0 75 50'}>
 			<title>{title}</title>
 			<g stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round">
 				<path d="M8.45,13A21.44,21.44,0,1,1,37.08,41.56"/>
@@ -15,11 +18,16 @@ export default function InternationalIcon({ title, ...rest }) {
 				<line x1="27.8" y1="0.85" x2="27.8" y2="34.61"/>
 				<line x1="15.2" y1="22.23" x2="49.15" y2="22.23"/>
 			</g>
-			<path className="PhoneInputInternationalIconFocusColor" stroke="transparent" fill="currentColor" d="M9.42,26.64c2.22-2.22,4.15-3.59.22-8.49S3.08,17,.93,19.17c-2.49,2.48-.13,11.74,9,20.89s18.41,11.5,20.89,9c2.15-2.15,5.91-4.77,1-8.71s-6.27-2-8.49.22c-1.55,1.55-5.48-1.69-8.86-5.08S7.87,28.19,9.42,26.64Z"/>
+			<path
+				className="PhoneInputInternationalIconFocusColor"
+				stroke="transparent"
+				fill="currentColor"
+				d="M9.42,26.64c2.22-2.22,4.15-3.59.22-8.49S3.08,17,.93,19.17c-2.49,2.48-.13,11.74,9,20.89s18.41,11.5,20.89,9c2.15-2.15,5.91-4.77,1-8.71s-6.27-2-8.49.22c-1.55,1.55-5.48-1.69-8.86-5.08S7.87,28.19,9.42,26.64Z"/>
 		</svg>
 	)
 }
 
 InternationalIcon.propTypes = {
-	title: PropTypes.string.isRequired
+	title: PropTypes.string.isRequired,
+	aspectRatio: PropTypes.number
 }

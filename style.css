@@ -33,9 +33,12 @@
 }
 
 .PhoneInputCountryIcon {
-	/* The flag icon size is 4x3 hence the exact `width` and `height` values */
 	width: var(--PhoneInputCountryFlag-width);
 	height: var(--PhoneInputCountryFlag-height);
+}
+
+.PhoneInputCountryIcon--square {
+	width: var(--PhoneInputCountryFlag-height);
 }
 
 .PhoneInputCountryIcon--border {
@@ -50,6 +53,12 @@
 	   so an additional "inset" border is added. */
 	box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor),
 		inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor);
+}
+
+.PhoneInputCountryIcon--unicode {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .PhoneInputCountryIconImg {

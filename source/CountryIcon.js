@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import InternationalIcon from './InternationalIcon'
@@ -10,10 +11,15 @@ export function createCountryIconComponent({
 	flagComponent: FlagComponent,
 	internationalIcon: InternationalIcon
 }) {
-	return function CountryIcon({ country, label }) {
+	function CountryIcon({
+		country,
+		label,
+		aspectRatio
+	}) {
 		return (
 			<div
 				className={classNames('PhoneInputCountryIcon', {
+					'PhoneInputCountryIcon--square': aspectRatio === 1,
 					'PhoneInputCountryIcon--border': country
 				})}>
 				{
@@ -25,11 +31,21 @@ export function createCountryIconComponent({
 						flags={flags}
 						flagUrl={flagUrl}/>
 					:
-					<InternationalIcon title={label}/>
+					<InternationalIcon
+						title={label}
+						aspectRatio={aspectRatio}/>
 				}
 			</div>
 		)
 	}
+
+	CountryIcon.propTypes = {
+		country: PropTypes.string.isRequired,
+		label: PropTypes.string.isRequired,
+		aspectRatio: PropTypes.number
+	}
+
+	return CountryIcon
 }
 
 export default createCountryIconComponent({
