@@ -1,1 +1,1 @@
-module.exports = require('../commonjs/flags')
+module.exports = require('country-flag-icons/react/3x2')

@@ -21,8 +21,7 @@
 			"ignore": [
 				"bundle",
 				"modules",
-				"commonjs",
-				"source/flags.js"
+				"commonjs"
 			]
 		}
 	}

@@ -183,7 +183,7 @@ If the bundle size is not an issue (for example, for a standalone non-web applic
 
 ```js
 import PhoneInput from 'react-phone-number-input'
-import flags from 'country-flag-icons/react/3x2'
+import flags from 'react-phone-number-input/flags'
 
 <PhoneInput flags={flags} .../>
 ```

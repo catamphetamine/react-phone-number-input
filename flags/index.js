@@ -1,1 +1,1 @@
-export { default as default } from '../modules/flags'
+export { default as default } from 'country-flag-icons/react/3x2'
