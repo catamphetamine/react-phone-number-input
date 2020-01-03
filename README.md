@@ -179,7 +179,7 @@ By default, all flags are linked from [`country-flag-icons`](https://github.com/
 
 Linking flag icons as external `<img/>`s is only done to reduce the overall bundle size, because including all country flags in the code as inline `<svg/>`s would increase the bundle size by 44 kB (after gzip).
 
-If the bundle size is not an issue (for example, for a standalone non-web application, or an "intranet" application), then all country flags can be included directly in the code by passing the [`flags`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property:
+If bundle size is not an issue (for example, for a standalone non-web application, or an "intranet" application), then all country flags can be included directly in the code by passing the [`flags`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property:
 
 ```js
 import PhoneInput from 'react-phone-number-input'
@@ -190,7 +190,7 @@ import flags from 'react-phone-number-input/flags'
 
 ## Without country select
 
-This is just a phone number input component without country `<select/>`.
+To render just a phone number input component without country `<select/>`:
 
 ```js
 import PhoneInput from 'react-phone-number-input/input'
@@ -306,7 +306,7 @@ The `labels` format is:
 {
   // Can be used as a label for country input.
   // Country `<select/>` uses this as its default `aria-label`.
-  "country": "Country",
+  "country": "Phone number country",
   // Can be used as a label for phone number input.
   "phone": "Phone",
   // Can be used as a label for phone number extension input.
@@ -323,12 +323,9 @@ An example of using translated `labels`:
 
 ```js
 import ru from 'react-phone-number-input/locale/ru'
+
 <PhoneInput ... labels={ru}/>
 ```
-
-By default, the country `<select/>` has `aria-label` set to `labels.country` which is `"Country"` for the default `labels`. When passing `labels` for other languages the default `aria-label` of the country `<select/>` will be translated too. To set a custom `aria-label` on the country `<select/>` pass a `countrySelectAriaLabel` property to `<PhoneInput/>`.
-
-The phone `<input/>` `aria-label` is not set automatically to `labels.phone` for legacy reasons. To set it manually pass an `aria-label` property to `<PhoneInput/>`.
 
 ## `min` vs `max` vs `mobile`
 
