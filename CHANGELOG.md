@@ -27,9 +27,7 @@ Relevant changes:
 
 * Removed `locale/default.json` (use `en.json` instead) and `locale/br.json` (use `pt.json` instead).
 
-* Removed `/flags` export (use `country-flag-icons/react` instead).
-
-* Flags are now loaded from `country-flag-icons` library.
+* Flags are now loaded from [`country-flag-icons`](https://github.com/catamphetamine/country-flag-icons) library.
 
 * Removed properties:
 
