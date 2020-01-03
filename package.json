@@ -64,7 +64,8 @@
     "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules browser-build build-styles generate-docs",
     "build-styles": "babel-node runnable/build-bundle-styles",
     "fix-locales": "babel-node runnable/fix-locales",
-    "prepublish": "npm-run-all fix-locales build test"
+    "verify-flag-existence": "babel-node runnable/verify-flag-existence",
+    "prepublish": "npm-run-all fix-locales verify-flag-existence build test"
   },
   "repository": {
     "type": "git",
