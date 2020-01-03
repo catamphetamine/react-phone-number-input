@@ -1,17 +1,18 @@
 /* CSS variables. */
 :root {
 	--PhoneInput-color--focus: #03b2cb;
+	--PhoneInputInternationalIconGlobe-opacity: 0.7;
 	--PhoneInputCountrySelect-marginRight: 0.35em;
 	--PhoneInputCountrySelectArrow-width: 0.3em;
 	--PhoneInputCountrySelectArrow-marginLeft: var(--PhoneInputCountrySelect-marginRight);
 	--PhoneInputCountrySelectArrow-marginTop: calc(var(--PhoneInputCountrySelectArrow-height) / 2);
 	--PhoneInputCountrySelectArrow-borderWidth: 1px;
-	--PhoneInputCountrySelectArrow-opacity: 0.35;
+	--PhoneInputCountrySelectArrow-opacity: 0.45;
 	--PhoneInputCountrySelectArrow-color: inherit;
 	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInput-color--focus);
 	--PhoneInputCountrySelectArrow-transform: rotate(45deg);
 	--PhoneInputCountryFlag-width: calc(var(--PhoneInputCountryFlag-height) * 3 / 2);
-	--PhoneInputCountryFlag-height: calc(0.4em * 3);
+	--PhoneInputCountryFlag-height: 1em;
 	--PhoneInputCountryFlag-borderWidth: 1px;
 	--PhoneInputCountryFlag-borderColor: rgba(0,0,0,0.5);
 	--PhoneInputCountryFlag-borderColor--focus: var(--PhoneInput-color--focus);
@@ -33,14 +34,14 @@
 }
 
 .PhoneInputCountryIcon {
-	width: calc(calc(0.4em * 3) * 3 / 2);
+	width: calc(1em * 3 / 2);
 	width: var(--PhoneInputCountryFlag-width);
-	height: calc(0.4em * 3);
+	height: 1em;
 	height: var(--PhoneInputCountryFlag-height);
 }
 
 .PhoneInputCountryIcon--square {
-	width: calc(0.4em * 3);
+	width: 1em;
 	width: var(--PhoneInputCountryFlag-height);
 }
 
@@ -64,6 +65,11 @@
 .PhoneInputCountryIconImg {
 	max-width: 100%;
 	max-height: 100%;
+}
+
+.PhoneInputInternationalIconGlobe {
+	opacity: 0.7;
+	opacity: var(--PhoneInputInternationalIconGlobe-opacity);
 }
 
 /* Styling native country `<select/>`. */
@@ -113,7 +119,7 @@
 	-webkit-transform: var(--PhoneInputCountrySelectArrow-transform);
 	        transform: rotate(45deg);
 	        transform: var(--PhoneInputCountrySelectArrow-transform);
-	opacity: 0.35;
+	opacity: 0.45;
 	opacity: var(--PhoneInputCountrySelectArrow-opacity);
 }
 
@@ -136,7 +142,8 @@
 		inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor--focus);
 }
 
-.PhoneInputCountrySelect:focus + .PhoneInputCountryIcon .PhoneInputInternationalIconFocusColor {
+.PhoneInputCountrySelect:focus + .PhoneInputCountryIcon .PhoneInputInternationalIconGlobe {
+	opacity: 1;
 	color: #03b2cb;
 	color: var(--PhoneInputCountrySelectArrow-color--focus);
 }
