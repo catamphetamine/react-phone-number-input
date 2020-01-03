@@ -76,6 +76,14 @@ The styles for this component are in the [`style.css`](https://github.com/catamp
 
 The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for easier styling. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
 
+An example of CSS variables:
+
+* `--PhoneInputCountryFlag-height` — Flag icon height.
+* `--PhoneInputCountryFlag-borderColor` — Flag icon outline color.
+* `--PhoneInputCountrySelectArrow-color` — Country select arrow color.
+* `--PhoneInputCountrySelectArrow-opacity` — Country select arrow opacity (when not `:focus`ed).
+* `--PhoneInput-color--focus` — Flag icon `:focus` outline color, and also country select arrow `:focus` color.
+
 #### When using Webpack
 
 When using Webpack, include the stylesheet on a page via `import`:
