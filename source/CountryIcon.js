@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import InternationalIcon from './InternationalIcon'
+import DefaultInternationalIcon from './InternationalIcon'
 import Flag from './Flag'
 
 export function createCountryIconComponent({
@@ -33,7 +33,7 @@ export function createCountryIconComponent({
 					:
 					<InternationalIcon
 						title={label}
-						aspectRatio={aspectRatio}/>
+						aspectRatio={InternationalIcon === DefaultInternationalIcon ? aspectRatio : undefined}/>
 				}
 			</div>
 		)
@@ -52,5 +52,5 @@ export default createCountryIconComponent({
 	// Must be equal to `defaultProps.flagUrl` in `./PhoneInputWithCountry.js`.
 	flagUrl: 'https://catamphetamine.github.io/country-flag-icons/3x2/{XX}.svg',
 	flagComponent: Flag,
-	internationalIcon: InternationalIcon
+	internationalIcon: DefaultInternationalIcon
 })

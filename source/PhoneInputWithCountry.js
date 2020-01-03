@@ -648,10 +648,10 @@ PhoneNumberInput.propTypes = {
 	 *
 	 * Takes properties:
 	 *
-	 * * country: string — The country code.
-	 * * countryName: string — The country name.
-	 * * flagUrl: string — The `flagUrl` property (see above).
-	 * * flags: object — The `flags` property (see above).
+	 * * `country: string` — The country code.
+	 * * `countryName: string` — The country name.
+	 * * `flagUrl: string` — The `flagUrl` property (see above).
+	 * * `flags: object` — The `flags` property (see above).
 	 */
 	flagComponent: PropTypes.elementType.isRequired,
 
@@ -662,8 +662,11 @@ PhoneNumberInput.propTypes = {
 
 	/**
 	 * "International" icon component.
-	 * Should have `3:2` aspect ratio.
-	 * Receives `title: string` property.
+	 * Should have the same aspect ratio.
+	 *
+	 * Receives properties:
+	 *
+	 * * `title: string` — "International" country option label.
 	 */
 	internationalIcon: PropTypes.elementType.isRequired,
 

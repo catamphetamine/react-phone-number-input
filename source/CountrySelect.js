@@ -49,7 +49,7 @@ export default function CountrySelect({
 
 			{/* Either a Unicode flag icon. */}
 			{(unicodeFlags && value) &&
-				<div className="PhoneInputCountryIcon PhoneInputCountryIcon--square PhoneInputCountryIcon--unicode">
+				<div className="PhoneInputCountryIconUnicode">
 					{getUnicodeFlagIcon(value)}
 				</div>
 			}
