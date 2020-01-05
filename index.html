@@ -192,9 +192,9 @@
 			padding-right: 0.25em;
 		}
 
-		.react-phone-number-input
+		.PhoneInput
 		{
-			max-width : 13rem;
+			max-width: 14rem;
 		}
 
 		/* Overrides Chrome autofill yellow background color */
@@ -553,7 +553,6 @@
 
 								<form>
 									<PhoneInput
-										inputStyleReset
 										placeholder="Enter phone number"
 										value={this.state.value_native}
 										onChange={value => this.setState({ value_native: value })}/>
