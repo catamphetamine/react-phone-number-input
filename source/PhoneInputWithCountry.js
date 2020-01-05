@@ -442,44 +442,40 @@ class PhoneNumberInput_ extends React.PureComponent {
 					'PhoneInput--focus': isFocused
 				})}>
 
-				{/* Country `<select/>` and phone number `<input/>` */}
-				<div className="PhoneInput">
+				{/* Country `<select/>` */}
+				<CountrySelectComponent
+					name={name ? `${name}Country` : undefined}
+					aria-label={labels.country}
+					{...countrySelectProps}
+					value={country}
+					options={countrySelectOptions}
+					onChange={this.onCountryChange}
+					onFocus={this._onFocus}
+					onBlur={this._onBlur}
+					disabled={disabled}
+					iconComponent={this.CountryIcon}/>
 
-					{/* Country `<select/>` */}
-					<CountrySelectComponent
-						name={name ? `${name}Country` : undefined}
-						aria-label={labels.country}
-						{...countrySelectProps}
-						value={country}
-						options={countrySelectOptions}
-						onChange={this.onCountryChange}
-						onFocus={this._onFocus}
-						onBlur={this._onBlur}
-						disabled={disabled}
-						iconComponent={this.CountryIcon}/>
-
-					{/* Phone number `<input/>` */}
-					<InputComponent
-						ref={this.getInputRef()}
-						type="tel"
-						autoComplete={autoComplete}
-						{...numberInputProps}
-						{...rest}
-						name={name}
-						metadata={metadata}
-						country={country}
-						value={parsedInput || ''}
-						onChange={this.onChange}
-						onFocus={this.onFocus}
-						onBlur={this.onBlur}
-						disabled={disabled}
-						inputComponent={inputComponent}
-						className={classNames(
-							'PhoneInputInput',
-							numberInputProps && numberInputProps.className,
-							rest.className
-						)}/>
-				</div>
+				{/* Phone number `<input/>` */}
+				<InputComponent
+					ref={this.getInputRef()}
+					type="tel"
+					autoComplete={autoComplete}
+					{...numberInputProps}
+					{...rest}
+					name={name}
+					metadata={metadata}
+					country={country}
+					value={parsedInput || ''}
+					onChange={this.onChange}
+					onFocus={this.onFocus}
+					onBlur={this.onBlur}
+					disabled={disabled}
+					inputComponent={inputComponent}
+					className={classNames(
+						'PhoneInputInput',
+						numberInputProps && numberInputProps.className,
+						rest.className
+					)}/>
 			</div>
 		)
 	}
