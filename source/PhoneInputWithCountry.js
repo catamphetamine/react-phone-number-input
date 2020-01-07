@@ -206,6 +206,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 	 */
 	onChange = (_input) => {
 		const {
+			defaultCountry,
 			onChange,
 			addInternationalOption,
 			limitMaxLength,
@@ -220,6 +221,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			_input,
 			this.state.parsedInput,
 			this.state.country,
+			defaultCountry,
 			this.state.countries,
 			addInternationalOption,
 			limitMaxLength,
