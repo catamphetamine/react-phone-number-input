@@ -424,6 +424,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			displayInitialValueAsLocalNumber,
 			onCountryChange,
 			limitMaxLength,
+			reset,
 			metadata,
 			...rest
 		} = this.props
