@@ -44,7 +44,7 @@ export function createCountryIconComponent({
 	}
 
 	CountryIcon.propTypes = {
-		country: PropTypes.string.isRequired,
+		country: PropTypes.string,
 		label: PropTypes.string.isRequired,
 		aspectRatio: PropTypes.number
 	}
