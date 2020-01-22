@@ -58,8 +58,10 @@
 }
 
 .PhoneInputCountryIconImg {
-	max-width: 100%;
-	max-height: 100%;
+	/* 3rd party <SVG/> flag icons won't stretch if they have `width` and `height`.
+	   Also, if an <SVG/> icon's aspect ratio was different, it wouldn't fit too. */
+	width: 100%;
+	height: 100%;
 }
 
 .PhoneInputInternationalIconPhone {

@@ -10,15 +10,15 @@ export default function FlagComponent({
 	countryName,
 	flags,
 	flagUrl,
-	className
+	...rest
 }) {
 	if (flags && flags[country]) {
 		return flags[country]({ title: countryName })
 	}
 	return (
 		<img
+			{...rest}
 			alt={countryName}
-			className="PhoneInputCountryIconImg"
 			src={flagUrl.replace('{XX}', country).replace('{xx}', country.toLowerCase())}/>
 	)
 }

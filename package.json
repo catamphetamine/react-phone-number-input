@@ -15,7 +15,7 @@
     "classnames": "^2.2.5",
     "country-flag-icons": "^1.0.2",
     "input-format": "^0.2.8",
-    "libphonenumber-js": "^1.7.30",
+    "libphonenumber-js": "^1.7.31",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
@@ -35,6 +35,7 @@
     "chai": "^3.5.0",
     "cross-env": "^5.1.4",
     "esm": "^3.2.25",
+    "flagpack": "^1.0.4",
     "mocha": "^7.0.0",
     "npm-run-all": "^1.4.0",
     "nyc": "^15.0.0",

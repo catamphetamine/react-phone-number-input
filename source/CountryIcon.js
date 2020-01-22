@@ -33,11 +33,13 @@ export function createCountryIconComponent({
 						country={country}
 						countryName={label}
 						flags={flags}
-						flagUrl={flagUrl}/>
+						flagUrl={flagUrl}
+						className="PhoneInputCountryIconImg"/>
 					:
 					<InternationalIcon
 						title={label}
-						aspectRatio={_aspectRatio}/>
+						aspectRatio={_aspectRatio}
+						className="PhoneInputCountryIconImg"/>
 				}
 			</div>
 		)
