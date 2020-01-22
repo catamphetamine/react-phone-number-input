@@ -12,7 +12,7 @@
 	--PhoneInputCountrySelectArrow-color: inherit;
 	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInput-color--focus);
 	--PhoneInputCountrySelectArrow-transform: rotate(45deg);
-	--PhoneInputCountryFlag-width: calc(var(--PhoneInputCountryFlag-height) * 3 / 2);
+	--PhoneInputCountryFlag-aspectRatio: 1.5;
 	--PhoneInputCountryFlag-height: 1em;
 	--PhoneInputCountryFlag-borderWidth: 1px;
 	--PhoneInputCountryFlag-borderColor: rgba(0,0,0,0.5);
@@ -35,7 +35,7 @@
 }
 
 .PhoneInputCountryIcon {
-	width: var(--PhoneInputCountryFlag-width);
+	width: calc(var(--PhoneInputCountryFlag-height) * var(--PhoneInputCountryFlag-aspectRatio));
 	height: var(--PhoneInputCountryFlag-height);
 }
 

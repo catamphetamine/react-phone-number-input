@@ -1,5 +1,12 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.0.14 / 22.01.2020
+===================
+
+* Removed `--PhoneInputCountryFlag-width` CSS variable.
+
+* Added `--PhoneInputCountryFlag-aspectRatio` CSS variable.
+
 3.0.0 / 01.01.2020
 ===================
 
