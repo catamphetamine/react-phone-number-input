@@ -175,9 +175,9 @@ getCountryCallingCode('US') === '1'
 
 ## Flags
 
-By default, all flags are linked from [`country-flag-icons`](https://github.com/catamphetamine/country-flag-icons)'s (not [MIT Licence](https://en.wikipedia.org/wiki/MIT_License)) [GitHub pages](http://catamphetamine.github.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property (which is `"https://catamphetamine.github.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://github.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
+By default, all flags are linked from [`country-flag-icons`](https://github.com/catamphetamine/country-flag-icons)'s [GitHub pages](http://catamphetamine.github.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property (which is `"https://catamphetamine.github.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://github.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
 
-For example, using [`flagpack`](https://github.com/jackiboy/flagpack) [MIT Licenced](https://en.wikipedia.org/wiki/MIT_License) "4x3" flag icons would be as simple as:
+For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag icons would be as simple as:
 
 ```css
 :root {
