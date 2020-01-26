@@ -11,7 +11,7 @@ import {
 	get_country_from_possibly_incomplete_international_phone_number,
 	compare_strings,
 	strip_country_calling_code,
-	get_national_significant_number_part,
+	getNationalSignificantNumberDigits,
 	could_number_belong_to_country,
 	trimNumber
 } from './phoneInputHelpers'
@@ -262,19 +262,20 @@ describe('phoneInputHelpers', () =>
 	it('should get national significant number part', () =>
 	{
 		// International number.
-		get_national_significant_number_part('+7800555', null, metadata).should.equal('800555')
+		getNationalSignificantNumberDigits('+7800555', null, metadata).should.equal('800555')
+
+		// International number.
+		// No national (significant) number digits.
+		expect(getNationalSignificantNumberDigits('+', null, metadata)).to.be.undefined
+		expect(getNationalSignificantNumberDigits('+7', null, metadata)).to.be.undefined
 
 		// National number.
-		get_national_significant_number_part('8', 'RU', metadata).should.equal('')
-		get_national_significant_number_part('8800555', 'RU', metadata).should.equal('800555')
+		getNationalSignificantNumberDigits('8800555', 'RU', metadata).should.equal('800555')
 
+		// National number.
 		// No national (significant) number digits.
-		get_national_significant_number_part('+', null, metadata).should.equal('')
-		get_national_significant_number_part('+7', null, metadata).should.equal('')
-
-		// Always returns a string.
-		get_national_significant_number_part('', null, metadata).should.equal('')
-		get_national_significant_number_part('', 'RU', metadata).should.equal('')
+		expect(getNationalSignificantNumberDigits('8', 'RU', metadata)).to.be.undefined
+		expect(getNationalSignificantNumberDigits('', 'RU', metadata)).to.be.undefined
 	})
 
 	it('should determine of a number could belong to a country', () =>

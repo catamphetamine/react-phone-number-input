@@ -214,32 +214,25 @@ export function migrateParsedInputForNewCountry
  * @param  {[object} metadata - `libphonenumber-js` metadata.
  * @return {string?}
  */
-export function e164(number, country, metadata)
-{
+export function e164(number, country, metadata) {
 	if (!number) {
 		return
 	}
-
 	// If the phone number is being input in international format.
-	if (number[0] === '+')
-	{
+	if (number[0] === '+') {
 		// If it's just the `+` sign then return nothing.
 		if (number === '+') {
 			return
 		}
-
 		// If there are any digits then the `value` is returned as is.
 		return number
 	}
-
 	// For non-international phone numbers
 	// an accompanying country code is required.
 	if (!country) {
 		return
 	}
-
-	const partial_national_significant_number = get_national_significant_number_part(number, country, metadata)
-
+	const partial_national_significant_number = getNationalSignificantNumberDigits(number, country, metadata)
 	if (partial_national_significant_number) {
 		return `+${getCountryCallingCode(country, metadata)}${partial_national_significant_number}`
 	}
@@ -255,10 +248,12 @@ export function e164(number, country, metadata)
  */
 export function trimNumber(number, country, metadata)
 {
-	const nationalSignificantNumberPart = get_national_significant_number_part(number, country, metadata)
-	const overflowDigitsCount = nationalSignificantNumberPart.length - getMaxNumberLength(country, metadata)
-	if (overflowDigitsCount > 0) {
-		return number.slice(0, number.length - overflowDigitsCount)
+	const nationalSignificantNumberPart = getNationalSignificantNumberDigits(number, country, metadata)
+	if (nationalSignificantNumberPart) {
+		const overflowDigitsCount = nationalSignificantNumberPart.length - getMaxNumberLength(country, metadata)
+		if (overflowDigitsCount > 0) {
+			return number.slice(0, number.length - overflowDigitsCount)
+		}
 	}
 	return number
 }
@@ -502,18 +497,16 @@ export function strip_country_calling_code(number, country, metadata)
  * @param {string} number - National number digits. Or possibly incomplete E.164 phone number.
  * @param {string?} country
  * @param {object} metadata - `libphonenumber-js` metadata.
- * @return {string} Can be empty.
+ * @return {string} [result]
  */
-export function get_national_significant_number_part(number, country, metadata)
-{
+export function getNationalSignificantNumberDigits(number, country, metadata) {
 	// Create "as you type" formatter.
 	const formatter = new AsYouType(country, metadata)
-
 	// Input partial national phone number.
 	formatter.input(number)
-
 	// Return the parsed partial national phone number.
-	return formatter.getNationalNumber()
+	const phoneNumber = formatter.getNumber()
+	return phoneNumber && phoneNumber.nationalNumber
 }
 
 /**
