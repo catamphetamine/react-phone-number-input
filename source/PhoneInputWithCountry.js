@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { getCountries } from 'libphonenumber-js/core'
 
 import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
@@ -13,7 +12,8 @@ import {
 	sortCountryOptions,
 	isCountrySupportedWithError,
 	getSupportedCountries,
-	getSupportedCountryOptions
+	getSupportedCountryOptions,
+	getCountries
 } from './countries'
 
 import { createCountryIconComponent } from './CountryIcon'
@@ -87,13 +87,6 @@ class PhoneNumberInput_ extends React.PureComponent {
 			// instead of `this.props.countries`
 			// (which could potentially contain unsupported countries).
 			countries,
-
-			// Generate country `<select/>` options.
-			countrySelectOptions: generateCountrySelectOptions(
-				countries,
-				countryOptionsOrder,
-				this.props
-			),
 
 			// `parsedInput` state property holds non-formatted user's input.
 			// The reason is that there's no way of finding out
@@ -247,8 +240,8 @@ class PhoneNumberInput_ extends React.PureComponent {
 	_onBlur = () => this.setState({ isFocused: false })
 
 	onFocus = (event) => {
-		const { onFocus } = this.props
 		this._onFocus()
+		const { onFocus } = this.props
 		if (onFocus) {
 			onFocus(event)
 		}
@@ -259,6 +252,30 @@ class PhoneNumberInput_ extends React.PureComponent {
 		this._onBlur()
 		if (onBlur) {
 			onBlur(event)
+		}
+	}
+
+	onCountryFocus = (event) => {
+		this._onFocus()
+		// this.setState({ countrySelectFocused: true })
+		const { countrySelectProps } = this.props
+		if (countrySelectProps) {
+			const { onFocus } = countrySelectProps
+			if (onFocus) {
+				onFocus(event)
+			}
+		}
+	}
+
+	onCountryBlur = (event) => {
+		this._onBlur()
+		// this.setState({ countrySelectFocused: false })
+		const { countrySelectProps } = this.props
+		if (countrySelectProps) {
+			const { onBlur } = countrySelectProps
+			if (onBlur) {
+				onBlur(event)
+			}
 		}
 	}
 
@@ -323,19 +340,6 @@ class PhoneNumberInput_ extends React.PureComponent {
 			}
 		}
 
-		// If `countries` or `labels` or `addInternationalOption` changed
-		// then re-generate country `<select/>` options.
-		if (props.countries !== state.props.countries ||
-			props.labels !== state.props.labels ||
-			props.addInternationalOption !== state.props.addInternationalOption) {
-			// Re-generate country select options.
-			newState.countrySelectOptions = generateCountrySelectOptions(
-				getSupportedCountries(props.countries, metadata),
-				getSupportedCountryOptions(props.countryOptionsOrder, metadata),
-				props
-			)
-		}
-
 		// If the default country changed.
 		// (e.g. in case of ajax GeoIP detection after page loaded)
 		// then select it but only if the user hasn't already manually
@@ -387,8 +391,12 @@ class PhoneNumberInput_ extends React.PureComponent {
 		// `value` didn't change.
 		// `parsedInput` didn't change, because `value` didn't change.
 		//
-		// Maybe `newState.countrySelectOptions` changed.
-		// In any case, update `prevProps`.
+		// So no need to update state here really.
+		// Could as well return `null` explicitly
+		// to indicate that the `state` hasn't changed.
+		// But just in case, returns `newState`.
+		// (who knows if someone adds something
+		// changing `newState` above in some future)
 		return newState
 	}
 
@@ -431,12 +439,28 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		const {
 			country,
-			countrySelectOptions,
 			parsedInput,
 			isFocused
 		} = this.state
 
 		const InputComponent = smartCaret ? InputSmart : InputBasic
+
+		const countrySelectOptions = useMemoCountrySelectOptions(() => {
+			return sortCountryOptions(
+				getCountrySelectOptions(
+					countries || getCountries(metadata),
+					labels,
+					addInternationalOption
+				),
+				getSupportedCountryOptions(countryOptionsOrder, metadata)
+			)
+		}, [
+			countries,
+			countryOptionsOrder,
+			addInternationalOption,
+			labels,
+			metadata
+		])
 
 		return (
 			<div
@@ -453,8 +477,8 @@ class PhoneNumberInput_ extends React.PureComponent {
 					value={country}
 					options={countrySelectOptions}
 					onChange={this.onCountryChange}
-					onFocus={this._onFocus}
-					onBlur={this._onBlur}
+					onFocus={this.onCountryFocus}
+					onBlur={this.onCountryBlur}
 					disabled={disabled}
 					iconComponent={this.CountryIcon}/>
 
@@ -861,21 +885,27 @@ function generateParsedInput(value, phoneNumber, { displayInitialValueAsLocalNum
 	return value
 }
 
-function generateCountrySelectOptions(
-	countries,
-	countryOptionsOrder,
-	{
-		labels,
-		addInternationalOption,
-		metadata
+let countrySelectOptionsMemo
+let countrySelectOptionsMemoDependencies
+function useMemoCountrySelectOptions(generator, dependencies) {
+	if (!countrySelectOptionsMemoDependencies ||
+		!areEqualArrays(dependencies, countrySelectOptionsMemoDependencies)) {
+		countrySelectOptionsMemo = generator()
+		countrySelectOptionsMemoDependencies = dependencies
 	}
-) {
-	return sortCountryOptions(
-		getCountrySelectOptions(
-			countries || getCountries(metadata),
-			labels,
-			addInternationalOption
-		),
-		getSupportedCountryOptions(countryOptionsOrder, metadata)
-	)
+	return countrySelectOptionsMemo
+}
+
+function areEqualArrays(a, b) {
+	if (a.length !== b.length) {
+		return false
+	}
+	let i = 0
+	while (i < a.length) {
+		if (a[i] !== b[i]) {
+			return false
+		}
+		i++
+	}
+	return true
 }

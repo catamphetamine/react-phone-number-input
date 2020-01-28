@@ -7,11 +7,6 @@ export default function CountrySelect({
 	value,
 	onChange,
 	options,
-	className,
-	iconComponent: Icon,
-	getIconAspectRatio,
-	arrowComponent: Arrow,
-	unicodeFlags,
 	...rest
 }) {
 	const onChange_ = useCallback((event) => {
@@ -20,32 +15,76 @@ export default function CountrySelect({
 	}, [onChange])
 
 	const selectedOption = useMemo(() => {
-		for (const option of options) {
-			if (!option.divider && option.value === value) {
-				return option
-			}
-		}
+		return getSelectedOption(options, value)
 	}, [options, value])
 
 	// "ZZ" means "International".
 	// (HTML requires each `<option/>` have some string `value`).
 	return (
+		<select
+			{...rest}
+			value={value || 'ZZ'}
+			onChange={onChange_}>
+			{options.map(({ value, label, divider }) => (
+				<option
+					key={divider ? '|' : value || 'ZZ'}
+					value={divider ? '|' : value || 'ZZ'}
+					disabled={divider ? true : false}
+					style={divider ? DIVIDER_STYLE : undefined}>
+					{label}
+				</option>
+			))}
+		</select>
+	)
+}
+
+CountrySelect.propTypes = {
+	/**
+	 * A two-letter country code.
+	 * Example: "US", "RU", etc.
+	 */
+	value: PropTypes.string,
+
+	/**
+	 * Updates the `value`.
+	 */
+	onChange: PropTypes.func.isRequired,
+
+	// `<select/>` options.
+	options: PropTypes.arrayOf(PropTypes.shape({
+		value: PropTypes.string,
+		label: PropTypes.string,
+		divider: PropTypes.bool
+	})).isRequired
+}
+
+const DIVIDER_STYLE = {
+	fontSize: '1px',
+	backgroundColor: 'currentColor',
+	color: 'inherit'
+}
+
+export function CountrySelectWithIcon({
+	value,
+	options,
+	className,
+	iconComponent: Icon,
+	getIconAspectRatio,
+	arrowComponent: Arrow,
+	unicodeFlags,
+	...rest
+}) {
+	const selectedOption = useMemo(() => {
+		return getSelectedOption(options, value)
+	}, [options, value])
+
+	return (
 		<div className="PhoneInputCountry">
-			<select
+			<CountrySelect
 				{...rest}
-				value={value || 'ZZ'}
-				onChange={onChange_}
-				className="PhoneInputCountrySelect">
-				{options.map(({ value, label, divider }) => (
-					<option
-						key={divider ? '|' : value || 'ZZ'}
-						value={divider ? '|' : value || 'ZZ'}
-						disabled={divider ? true : false}
-						className={divider ? 'PhoneInputCountrySelectDivider' : undefined}>
-						{label}
-					</option>
-				))}
-			</select>
+				value={value}
+				options={options}
+				className={classNames('PhoneInputCountrySelect', className)}/>
 
 			{/* Either a Unicode flag icon. */}
 			{(unicodeFlags && value) &&
@@ -67,21 +106,7 @@ export default function CountrySelect({
 	)
 }
 
-CountrySelect.propTypes = {
-	// A two-letter country code.
-	// E.g. "US", "RU", etc.
-	value: PropTypes.string,
-
-	// Updates the `value`.
-	onChange: PropTypes.func.isRequired,
-
-	// `<select/>` options.
-	options: PropTypes.arrayOf(PropTypes.shape({
-		value: PropTypes.string,
-		label: PropTypes.string,
-		divider : PropTypes.bool
-	})).isRequired,
-
+CountrySelectWithIcon.propTypes = {
 	// Country flag component.
 	iconComponent: PropTypes.elementType,
 
@@ -92,7 +117,15 @@ CountrySelect.propTypes = {
 	unicodeFlags: PropTypes.bool
 }
 
-CountrySelect.defaultProps = {
+CountrySelectWithIcon.defaultProps = {
 	// Is "International" icon square?
 	arrowComponent: () => <div className="PhoneInputCountrySelectArrow"/>
+}
+
+function getSelectedOption(options, value) {
+	for (const option of options) {
+		if (!option.divider && option.value === value) {
+			return option
+		}
+	}
 }

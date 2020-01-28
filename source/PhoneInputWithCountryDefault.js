@@ -9,7 +9,7 @@ import {
 } from './PropTypes'
 
 import PhoneInput from './PhoneInputWithCountry'
-import CountrySelect from './CountrySelect'
+import { CountrySelectWithIcon as CountrySelect } from './CountrySelect'
 
 export function createPhoneInput(defaultMetadata) {
 	const PhoneInputDefault = React.forwardRef((props, ref) => (

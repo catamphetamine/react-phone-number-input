@@ -111,12 +111,6 @@
 	opacity: var(--PhoneInputCountrySelectArrow-opacity);
 }
 
-/* A "divider" `<option/>` for a native `<select/>`. */
-.PhoneInputCountrySelectDivider {
-	font-size: 1px;
-	background: black;
-}
-
 .PhoneInputCountrySelect:focus + .PhoneInputCountryIcon + .PhoneInputCountrySelectArrow {
 	opacity: 1;
 	color: var(--PhoneInputCountrySelectArrow-color--focus);

@@ -1,4 +1,5 @@
 import { isSupportedCountry } from 'libphonenumber-js/core'
+export { getCountries } from 'libphonenumber-js/core'
 
 /**
  * Sorts country `<select/>` options.
