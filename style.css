@@ -94,6 +94,10 @@
 	cursor: pointer;
 }
 
+.PhoneInputCountrySelect[disabled] {
+	cursor: default;
+}
+
 .PhoneInputCountrySelectArrow {
 	display: block;
 	content: '';

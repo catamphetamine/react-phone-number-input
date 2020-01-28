@@ -479,7 +479,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 					onChange={this.onCountryChange}
 					onFocus={this.onCountryFocus}
 					onBlur={this.onCountryBlur}
-					disabled={disabled}
+					disabled={disabled || (countrySelectProps && countrySelectProps.disabled)}
 					iconComponent={this.CountryIcon}/>
 
 				{/* Phone number `<input/>` */}
