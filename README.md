@@ -41,13 +41,15 @@ The component requires two properties: `value` and `onChange(value)`.
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
-const [value, setValue] = useState()
-return (
-  <PhoneInput
-    placeholder="Enter phone number"
-    value={value}
-    onChange={setValue}/>
-)
+function Example() {
+  const [value, setValue] = useState()
+  return (
+    <PhoneInput
+      placeholder="Enter phone number"
+      value={value}
+      onChange={setValue}/>
+  )
+}
 ```
 
 The `value` argument of `onChange(value)` function will be the parsed phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. For example, if a user chooses "United States" and enters `(213) 373-4253` in the input field then `onChange(value)` will be called with `value` being `"+12133734253"`.
