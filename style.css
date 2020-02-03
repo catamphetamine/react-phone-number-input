@@ -12,7 +12,7 @@
 	--PhoneInputCountrySelectArrow-color: inherit;
 	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInput-color--focus);
 	--PhoneInputCountrySelectArrow-transform: rotate(45deg);
-	--PhoneInputCountryFlag-width: calc(var(--PhoneInputCountryFlag-height) * 3 / 2);
+	--PhoneInputCountryFlag-aspectRatio: 1.5;
 	--PhoneInputCountryFlag-height: 1em;
 	--PhoneInputCountryFlag-borderWidth: 1px;
 	--PhoneInputCountryFlag-borderColor: rgba(0,0,0,0.5);
@@ -35,8 +35,8 @@
 }
 
 .PhoneInputCountryIcon {
-	width: calc(1em * 3 / 2);
-	width: var(--PhoneInputCountryFlag-width);
+	width: calc(1em * 1.5);
+	width: calc(var(--PhoneInputCountryFlag-height) * var(--PhoneInputCountryFlag-aspectRatio));
 	height: 1em;
 	height: var(--PhoneInputCountryFlag-height);
 }
@@ -64,8 +64,10 @@
 }
 
 .PhoneInputCountryIconImg {
-	max-width: 100%;
-	max-height: 100%;
+	/* 3rd party <SVG/> flag icons won't stretch if they have `width` and `height`.
+	   Also, if an <SVG/> icon's aspect ratio was different, it wouldn't fit too. */
+	width: 100%;
+	height: 100%;
 }
 
 .PhoneInputInternationalIconPhone {
@@ -101,6 +103,10 @@
 	cursor: pointer;
 }
 
+.PhoneInputCountrySelect[disabled] {
+	cursor: default;
+}
+
 .PhoneInputCountrySelectArrow {
 	display: block;
 	content: '';
@@ -127,12 +133,6 @@
 	        transform: var(--PhoneInputCountrySelectArrow-transform);
 	opacity: 0.45;
 	opacity: var(--PhoneInputCountrySelectArrow-opacity);
-}
-
-/* A "divider" `<option/>` for a native `<select/>`. */
-.PhoneInputCountrySelectDivider {
-	font-size: 1px;
-	background: black;
 }
 
 .PhoneInputCountrySelect:focus + .PhoneInputCountryIcon + .PhoneInputCountrySelectArrow {

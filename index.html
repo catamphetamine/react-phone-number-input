@@ -504,6 +504,12 @@
 	</script>
 
 	<body>
+		<style>
+			:root {
+				/*--PhoneInputCountryFlag-aspectRatio: 1.333;*/
+			}
+		</style>
+
 		<a target="_blank" class="main" href="https://github.com/catamphetamine/react-phone-number-input"><code class="default">react-phone-number-input</code></a>
 
 		<p class="main-description">
@@ -513,7 +519,9 @@
 		<div id="content"></div>
 
 		<script type="text/babel">
-			const debug = window.location.origin === 'file://'
+			// The second case is Firefox.
+			const debug = window.location.origin === 'file://' ||
+				window.location.href.indexOf('file://') === 0
 
 			function Highlight({ lang, style, children })
 			{
@@ -551,6 +559,9 @@
 									The default export of this package is a phone number <code>&lt;input/&gt;</code> with a country <code>&lt;select/&gt;</code>.
 								</p>
 
+								{/*
+											flagUrl="https://flag.pk/flags/4x3/{xx}.svg"
+								*/}
 								<form>
 									<PhoneInput
 										placeholder="Enter phone number"
@@ -1071,7 +1082,7 @@ International: {value && formatPhoneNumberIntl(value)}
 
 							{/* this.render_smart_input() */}
 
-							{ debug && this.render_debug() }
+							{ debug && this.renderDebug() }
 						</div>
 					)
 				}
@@ -1117,7 +1128,7 @@ International: {value && formatPhoneNumberIntl(value)}
 					)
 				}
 
-				render_debug() {
+				renderDebug() {
 					return (
 						<section>
 							{/*
@@ -1195,6 +1206,13 @@ International: {value && formatPhoneNumberIntl(value)}
 									Reset
 								</button>
 							</p>
+
+							<h1>countryOptionsOrder = ["US", "CA", "AU", "|", "..."]</h1>
+
+							<PhoneInput
+								value={this.state.countryOptionsOrder}
+								onChange={value => this.setState({ countryOptionsOrder: value })}
+								countryOptionsOrder={["US", "CA", "AU", "|", "..."]}/>
 						</section>
 					)
 				}
