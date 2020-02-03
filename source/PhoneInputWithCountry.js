@@ -109,6 +109,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			// in which case `parsedInput` and `country` should be updated.
 			value
 		}
+		console.log('3232')
 	}
 
 	componentDidMount() {
