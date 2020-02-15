@@ -438,7 +438,7 @@ export function compare_strings(a, b) {
   // `localeCompare()` is available in latest Node.js versions.
   /* istanbul ignore else */
   if (String.prototype.localeCompare) {
-    return a.localeCompare(b);
+    return (a || b) ? (!a ? 1 : !b ? -1 : a.localeCompare(b)) : 0;
   }
   /* istanbul ignore next */
   return a < b ? -1 : (a > b ? 1 : 0);

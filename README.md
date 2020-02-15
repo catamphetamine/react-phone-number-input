@@ -312,6 +312,10 @@ JSON.stringify(
   '\t'
 )
 ````
+
+Please note that these lists miss Ascension Island (`AC`) and Tristan da Cunha (`TA`).
+They will need to be added manually.
+
 </details>
 
 ####
