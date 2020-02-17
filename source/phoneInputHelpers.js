@@ -55,8 +55,14 @@ export function getCountrySelectOptions(countries, country_names, includeInterna
 	// Generates a `<Select/>` option for each country.
 	const country_select_options = countries.map((country) =>
 	({
-		value : country,
-		label : country_names[country]
+		value: country,
+		// All `locale` country names included in this library
+		// include all countries (this is checked at build time).
+		// The only case when a country name might be missing
+		// is when a developer supplies their own `labels` property.
+		// To guard against such cases, a missing country name
+		// is substituted by country code.
+		label: country_names[country] || country
 	}))
 
 	// Sort the list of countries alphabetically.

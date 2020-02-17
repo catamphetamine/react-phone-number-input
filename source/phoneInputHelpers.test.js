@@ -69,6 +69,16 @@ describe('phoneInputHelpers', () =>
 			label : 'United States'
 		}])
 
+		// Should substitute missing country names with country codes.
+		getCountrySelectOptions(['US', 'RU'], { ...defaultLabels, 'RU': undefined }, false).should.deep.equal
+		([{
+			value : 'RU',
+			label : 'RU'
+		}, {
+			value : 'US',
+			label : 'United States'
+		}])
+
 		// With "International" (without custom country names).
 		getCountrySelectOptions(['US', 'RU'], defaultLabels, true).should.deep.equal
 		([{
