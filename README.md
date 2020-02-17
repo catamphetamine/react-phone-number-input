@@ -312,6 +312,8 @@ JSON.stringify(
   '\t'
 )
 ````
+
+Also note that a country names list generated from `umpirsky/country-list` won't include Ascension Island (`AC`) and Tristan da Cunha (`TA`) — they will need to be added manually.
 </details>
 
 ####
