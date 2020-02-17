@@ -1191,6 +1191,8 @@ International: {value && formatPhoneNumberIntl(value)}
 								</button>
 							</p>
 
+							<br/>
+
 							<h1>Reset</h1>
 
 							<PhoneInput
@@ -1207,12 +1209,104 @@ International: {value && formatPhoneNumberIntl(value)}
 								</button>
 							</p>
 
+							<br/>
+
 							<h1>countryOptionsOrder = ["US", "CA", "AU", "|", "..."]</h1>
 
 							<PhoneInput
 								value={this.state.countryOptionsOrder}
 								onChange={value => this.setState({ countryOptionsOrder: value })}
 								countryOptionsOrder={["US", "CA", "AU", "|", "..."]}/>
+
+							<br/>
+							<br/>
+
+							<h1>
+								Set value externally
+							</h1>
+
+							"Without country select" phone number input.
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									country="US"
+									value={this.state.valueNoCountrySelectSetExternally}
+									onChange={value => this.setState({ valueNoCountrySelectSetExternally: value })}/>
+							</form>
+
+							<button
+								type="button"
+								onClick={() => this.setState({ valueNoCountrySelectSetExternally: '+1' + Math.random().toString().slice(2, 12) })}>
+								Set random value
+							</button>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectSetExternally && <code>{this.state.valueNoCountrySelectSetExternally}</code>}
+							</p>
+
+							<br/>
+
+							<h1>
+								limitMaxLength
+							</h1>
+
+							<code>country="US"</code>
+
+							<br/>
+							<br/>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									country="US"
+									limitMaxLength
+									value={this.state.valueNoCountrySelectLimitMaxLength}
+									onChange={value => this.setState({ valueNoCountrySelectLimitMaxLength: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLength && <code>{this.state.valueNoCountrySelectLimitMaxLength}</code>}
+							</p>
+
+							<br/>
+
+							<code>defaultCountry="US"</code>
+
+							<br/>
+							<br/>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									defaultCountry="US"
+									limitMaxLength
+									value={this.state.valueNoCountrySelectLimitMaxLengthDefaultCountry}
+									onChange={value => this.setState({ valueNoCountrySelectLimitMaxLengthDefaultCountry: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLengthDefaultCountry && <code>{this.state.valueNoCountrySelectLimitMaxLengthDefaultCountry}</code>}
+							</p>
+
+							<br/>
+
+							No <code>country</code> or <code>defaultCountry</code>
+
+							<br/>
+							<br/>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									limitMaxLength
+									value={this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry}
+									onChange={value => this.setState({ valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry && <code>{this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry}</code>}
+							</p>
 						</section>
 					)
 				}
