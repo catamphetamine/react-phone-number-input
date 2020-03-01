@@ -7,6 +7,7 @@ import {
 	e164,
 	getCountryForPartialE164Number,
 	parseInput,
+	getInitialParsedInput,
 	// Private functions
 	get_country_from_possibly_incomplete_international_phone_number,
 	compare_strings,
@@ -123,7 +124,7 @@ describe('phoneInputHelpers', () =>
 	it('should migrate parsed input for new country', () =>
 	{
 		// No input. Returns `undefined`.
-		migrateParsedInputForNewCountry('', 'RU', 'US', metadata).should.equal('')
+		migrateParsedInputForNewCountry('', 'RU', 'US', metadata, true).should.equal('')
 
 		// Switching from "International" to a country
 		// to which the phone number already belongs to.
@@ -133,11 +134,17 @@ describe('phoneInputHelpers', () =>
 		// Switching between countries. National number. No changes.
 		migrateParsedInputForNewCountry('8005553535', 'RU', 'US', metadata).should.equal('8005553535')
 
-		// Switching from "International" to a country.
-		migrateParsedInputForNewCountry('+78005553535', null, 'US', metadata).should.equal('+18005553535')
+		// Switching from "International" to a country. Calling code not matches. Resets parsed input.
+		migrateParsedInputForNewCountry('+78005553535', null, 'US', metadata).should.equal('+1')
 
-		// Switching countries. International number.
-		migrateParsedInputForNewCountry('+78005553535', 'RU', 'US', metadata).should.equal('+18005553535')
+		// Switching from "International" to a country. Calling code matches. Doesn't reset parsed input.
+		migrateParsedInputForNewCountry('+12223333333', null, 'US', metadata).should.equal('+12223333333')
+
+		// Switching countries. International number. Calling code doesn't match.
+		migrateParsedInputForNewCountry('+78005553535', 'RU', 'US', metadata).should.equal('+1')
+
+		// Switching countries. International number. Calling code matches.
+		migrateParsedInputForNewCountry('+18005553535', 'CA', 'US', metadata).should.equal('+18005553535')
 
 		// Switching countries. International number.
 		// Country calling code is longer than the amount of digits available.
@@ -163,6 +170,18 @@ describe('phoneInputHelpers', () =>
 
 		// Prefer national format. Country doesn't match, neither does country calling code. Clears the value.
 		migrateParsedInputForNewCountry('+78005553535', null, 'US', metadata, true).should.equal('')
+
+		// Force international format. `parsedInput` is empty. From no country to a country.
+		migrateParsedInputForNewCountry(undefined, null, 'US', metadata, false).should.equal('+1')
+
+		// Force international format. `parsedInput` is not empty. From a country to a country with the same calling code.
+		migrateParsedInputForNewCountry('+1222', 'CA', 'US', metadata, false).should.equal('+1222')
+
+		// Force international format. `parsedInput` is not empty. From a country to a country with another calling code.
+		migrateParsedInputForNewCountry('+1222', 'CA', 'RU', metadata, false).should.equal('+7')
+
+		// Force international format. `parsedInput` is not empty. From no country to a country.
+		migrateParsedInputForNewCountry('+1222', null, 'US', metadata, false).should.equal('+1222')
 	})
 
 	it('should format phone number in e164', () =>
@@ -234,8 +253,9 @@ describe('phoneInputHelpers', () =>
 
 	it('should get country from possibly incomplete international phone number', () =>
 	{
-		// `001` country calling code.
-		expect(get_country_from_possibly_incomplete_international_phone_number('+800', metadata)).to.be.undefined
+		// // `001` country calling code.
+		// // Non-geographic numbering plan.
+		// expect(get_country_from_possibly_incomplete_international_phone_number('+800', metadata)).to.be.undefined
 
 		// Country can be derived.
 		get_country_from_possibly_incomplete_international_phone_number('+33', metadata).should.equal('FR')
@@ -305,43 +325,43 @@ describe('phoneInputHelpers', () =>
 
 	it('should parse input', () =>
 	{
-		parseInput(undefined, undefined, 'RU', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput(undefined, undefined, 'RU', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: undefined,
 			country: 'RU',
 			value: undefined
 		})
 
-		parseInput('', undefined, undefined, undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('', undefined, undefined, undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '',
 			country: undefined,
 			value: undefined
 		})
 
-		parseInput('+', undefined, undefined, undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+', undefined, undefined, undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '+',
 			country: undefined,
 			value: undefined
 		})
 
-		parseInput('1213', undefined, undefined, undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('1213', undefined, undefined, undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '+1213',
 			country: undefined,
 			value: '+1213'
 		})
 
-		parseInput('+1213', undefined, undefined, undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+1213', undefined, undefined, undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '+1213',
 			country: undefined,
 			value: '+1213'
 		})
 
-		parseInput('213', undefined, 'US', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('213', undefined, 'US', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '213',
 			country: 'US',
 			value: '+1213'
 		})
 
-		parseInput('+78005553535', undefined, 'US', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+78005553535', undefined, 'US', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '+78005553535',
 			country: 'RU',
 			value: '+78005553535'
@@ -349,7 +369,7 @@ describe('phoneInputHelpers', () =>
 
 		// Won't reset an already selected country.
 
-		parseInput('+15555555555', undefined, 'US', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+15555555555', undefined, 'US', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '+15555555555',
 			country: 'US',
 			value: '+15555555555'
@@ -357,20 +377,20 @@ describe('phoneInputHelpers', () =>
 
 		// `limitMaxLength`.
 
-		parseInput('21337342530', undefined, 'US', undefined, undefined, true, true, metadata).should.deep.equal({
+		parseInput('21337342530', undefined, 'US', undefined, undefined, true, false, true, metadata).should.deep.equal({
 			input: '2133734253',
 			country: 'US',
 			value: '+12133734253'
 		})
 
-		parseInput('+121337342530', undefined, 'US', undefined, undefined, true, true, metadata).should.deep.equal({
+		parseInput('+121337342530', undefined, 'US', undefined, undefined, true, false, true, metadata).should.deep.equal({
 			input: '+12133734253',
 			country: 'US',
 			value: '+12133734253'
 		})
 
 		// This case is intentionally ignored to simplify the code.
-		parseInput('+121337342530', undefined, undefined, undefined, undefined, true, true, metadata).should.deep.equal({
+		parseInput('+121337342530', undefined, undefined, undefined, undefined, true, false, true, metadata).should.deep.equal({
 			// input: '+12133734253',
 			// country: 'US',
 			// value: '+12133734253'
@@ -382,7 +402,7 @@ describe('phoneInputHelpers', () =>
 		// Should reset the country if it has likely been automatically
 		// selected based on international phone number input
 		// and the user decides to erase all input.
-		parseInput('', '+78005553535', 'RU', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('', '+78005553535', 'RU', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '',
 			country: undefined,
 			value: undefined
@@ -392,7 +412,7 @@ describe('phoneInputHelpers', () =>
 		// selected based on international phone number input
 		// and the user decides to erase all input.
 		// Should reset to default country.
-		parseInput('', '+78005553535', 'RU', 'US', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('', '+78005553535', 'RU', 'US', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '',
 			country: 'US',
 			value: undefined
@@ -401,10 +421,25 @@ describe('phoneInputHelpers', () =>
 		// Should reset the country if it has likely been automatically
 		// selected based on international phone number input
 		// and the user decides to erase all input up to the `+` sign.
-		parseInput('+', '+78005553535', 'RU', undefined, undefined, true, false, metadata).should.deep.equal({
+		parseInput('+', '+78005553535', 'RU', undefined, undefined, true, false, false, metadata).should.deep.equal({
 			input: '+',
 			country: undefined,
 			value: undefined
 		})
+
+		// Should support forcing international phone number input format.
+		parseInput('2', '+78005553535', 'RU', undefined, undefined, true, true, false, metadata).should.deep.equal({
+			input: '+2',
+			country: undefined,
+			value: '+2'
+		})
+	})
+
+	it('should get initial parsed input', () => {
+		getInitialParsedInput('+78005553535', 'RU', false, metadata).should.equal('+78005553535')
+		getInitialParsedInput('+78005553535', 'RU', true, metadata).should.equal('+78005553535')
+		getInitialParsedInput(undefined, 'RU', true, metadata).should.equal('+7')
+		expect(getInitialParsedInput(undefined, 'RU', false, metadata)).to.be.undefined
+		expect(getInitialParsedInput(undefined, undefined, false, metadata)).to.be.undefined
 	})
 })

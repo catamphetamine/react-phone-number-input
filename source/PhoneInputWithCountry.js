@@ -30,6 +30,7 @@ import {
 	generateNationalNumberDigits,
 	migrateParsedInputForNewCountry,
 	getCountryForPartialE164Number,
+	getInitialParsedInput,
 	parseInput,
 	e164
 } from './phoneInputHelpers'
@@ -98,7 +99,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			// then value is `+78005553535` and `parsedInput` is `88005553535`
 			// and if a user entered `+7 800 555 35 35`
 			// then value is `+78005553535` and `parsedInput` is `+78005553535`.
-			parsedInput: generateParsedInput(value, phoneNumber, this.props),
+			parsedInput: generateInitialParsedInput(value, phoneNumber, this.props),
 
 			// `value` property is duplicated in state.
 			// The reason is that `getDerivedStateFromProps()`
@@ -145,6 +146,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 	// Country `<select/>` `onChange` handler.
 	onCountryChange = (newCountry) => {
 		const {
+			international,
 			metadata,
 			onChange
 		} = this.props
@@ -164,7 +166,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			metadata,
 			// Convert the phone number to "national" format
 			// when the user changes the selected country by hand.
-			true
+			international ? false : true
 		)
 
 		const newValue = e164(newParsedInput, newCountry, metadata)
@@ -202,6 +204,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			defaultCountry,
 			onChange,
 			addInternationalOption,
+			international,
 			limitMaxLength,
 			metadata
 		} = this.props
@@ -217,6 +220,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			defaultCountry,
 			this.state.countries,
 			addInternationalOption,
+			international,
 			limitMaxLength,
 			metadata
 		)
@@ -306,7 +310,8 @@ class PhoneNumberInput_ extends React.PureComponent {
 			countries,
 			defaultCountry: newDefaultCountry,
 			value: newValue,
-			reset: newReset
+			reset: newReset,
+			international
 		} = props
 
 		const newState = {
@@ -348,10 +353,20 @@ class PhoneNumberInput_ extends React.PureComponent {
 		// then he's okay with no country being selected at all ("International")
 		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
 		if (newDefaultCountry !== prevDefaultCountry &&
-			!hasUserSelectedACountry && !value && !newValue) {
+			!hasUserSelectedACountry && (
+				(!value && !newValue) ||
+				(international &&
+					value === getInitialParsedInput(undefined, prevDefaultCountry, international, metadata) &&
+					value === getInitialParsedInput(undefined, newDefaultCountry, international, metadata)
+				)
+			)
+		) {
 			return {
 				...newState,
-				country: isCountrySupportedWithError(newDefaultCountry, metadata) ? newDefaultCountry : prevDefaultCountry
+				country: isCountrySupportedWithError(newDefaultCountry, metadata) ? newDefaultCountry : prevDefaultCountry,
+				// If `parsedInput` is empty, then automatically select the new `country`
+				// and set `parsedInput` to `+{getCountryCallingCode(newCountry)}`.
+				parsedInput: generateInitialParsedInput(newValue, undefined, props)
 				// `value` is `undefined`.
 				// `parsedInput` is `undefined` because `value` is `undefined`.
 			}
@@ -381,7 +396,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			}
 			return {
 				...newState,
-				parsedInput: generateParsedInput(newValue, phoneNumber, props),
+				parsedInput: generateInitialParsedInput(newValue, phoneNumber, props),
 				value: newValue,
 				country: newValue ? parsedCountry : newDefaultCountry
 			}
@@ -434,6 +449,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			limitMaxLength,
 			reset,
 			metadata,
+			international,
 			...rest
 		} = this.props
 
@@ -771,7 +787,12 @@ PhoneNumberInput.propTypes = {
 	smartCaret: PropTypes.bool.isRequired,
 
 	/**
-	 * If set to `true` the phone number input will get trimmed
+	 * Set to `true` to force "international" phone number format.
+	 */
+	international: PropTypes.bool,
+
+	/**
+	 * If set to `true`, the phone number input will get trimmed
 	 * if it exceeds the maximum length for the country.
 	 */
 	limitMaxLength: PropTypes.bool.isRequired,
@@ -872,7 +893,22 @@ PhoneNumberInput.defaultProps = {
 
 export default PhoneNumberInput
 
-function generateParsedInput(value, phoneNumber, { displayInitialValueAsLocalNumber }) {
+/**
+ * Gets initial `parsedInput` value.
+ * @param  {string} [value]
+ * @param  {PhoneNumber} [phoneNumber]
+ * @param  {boolean} [options.international]
+ * @param  {string} [options.defaultCountry]
+ * @param  {boolean} options.displayInitialValueAsLocalNumber
+ * @param  {object} options.metadata
+ * @return {string} [parsedInput]
+ */
+function generateInitialParsedInput(value, phoneNumber, {
+	international,
+	defaultCountry,
+	metadata,
+	displayInitialValueAsLocalNumber
+}) {
 	// If the `value` (E.164 phone number)
 	// belongs to the currently selected country
 	// and `displayInitialValueAsLocalNumber` property is `true`
@@ -882,7 +918,7 @@ function generateParsedInput(value, phoneNumber, { displayInitialValueAsLocalNum
 	if (displayInitialValueAsLocalNumber && phoneNumber && phoneNumber.country) {
 		return generateNationalNumberDigits(phoneNumber)
 	}
-	return value
+	return getInitialParsedInput(value, defaultCountry, international, metadata)
 }
 
 let countrySelectOptionsMemo
