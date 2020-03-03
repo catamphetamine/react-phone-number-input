@@ -412,9 +412,18 @@ describe('phoneInputHelpers', () =>
 		// selected based on international phone number input
 		// and the user decides to erase all input.
 		// Should reset to default country.
-		parseInput('', '+78005553535', 'RU', 'US', undefined, undefined, true, false, false, metadata).should.deep.equal({
+		parseInput('', '+78005553535', 'RU', 'US', undefined, true, false, false, metadata).should.deep.equal({
 			input: '',
 			country: 'US',
+			value: undefined
+		})
+
+		// Shouldn't set `country` to `defaultCountry`
+		// when erasing parsed input starting with a `+`
+		// when `international` is `true`.
+		parseInput('', '+78005553535', 'RU', 'US', undefined, true, true, false, metadata).should.deep.equal({
+			input: '',
+			country: undefined,
 			value: undefined
 		})
 

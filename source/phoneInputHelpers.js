@@ -405,7 +405,11 @@ export function parseInput(
 	// but in reality that phone number has incorrect country.
 	// https://github.com/catamphetamine/react-phone-number-input/issues/273
 	if (!input && prevInput && prevInput[0] === '+') {
-		country = defaultCountry
+		if (international) {
+			country = undefined
+		} else {
+			country = defaultCountry
+		}
 	}
 	// Also resets such "randomly" selected country
 	// as soon as the user erases the number
