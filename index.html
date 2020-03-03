@@ -859,7 +859,30 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 								<Highlight lang="jsx">
 {`<PhoneInput
   defaultCountry="RU"
-  placeholder="Enter phone number"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Force international format
+								</h1>
+
+								<form>
+									<PhoneInput
+										international
+										defaultCountry="RU"
+										placeholder="Enter phone number"
+										value={this.state.valueForceInternational}
+										onChange={value => this.setState({ valueForceInternational: value })}/>
+								</form>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  international
+  defaultCountry="RU"
   value={value}
   onChange={setValue}/>
 `}
