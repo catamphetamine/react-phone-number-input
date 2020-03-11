@@ -175,7 +175,7 @@ import { getCountryCallingCode } from 'react-phone-number-input'
 getCountryCallingCode('US') === '1'
 ```
 
-## Flags
+## Flags URL
 
 By default, all flags are linked from [`country-flag-icons`](https://github.com/catamphetamine/country-flag-icons)'s [GitHub pages](http://catamphetamine.github.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](http://catamphetamine.github.io/react-phone-number-input/docs/styleguide/index.html#phoneinputwithcountry) property (which is `"https://catamphetamine.github.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://github.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
 
@@ -192,6 +192,8 @@ For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag
 ```
 
 A sidenote: `flagpack` [doesn't have](https://github.com/jackiboy/flagpack/issues/3) `AC` and `TA` flags, so the `flag.pk` website URL can't be used directly. Upvote the [pull request](https://github.com/jackiboy/flagpack/pull/4) that adds those two flags, or [copy](https://github.com/catamphetamine/flagpack) and host them yourself.
+
+## Include Flags
 
 Linking flag icons as external `<img/>`s is only done to reduce the overall bundle size, because including all country flags in the code as inline `<svg/>`s would increase the bundle size by 44 kB (after gzip).
 
