@@ -25,6 +25,7 @@ export default [
       name: 'PhoneInput',
       file: 'bundle/react-phone-number-input.js',
       sourcemap: true,
+      exports: 'named',
       globals: {
         'react': 'React',
         'prop-types': 'PropTypes'
@@ -48,6 +49,7 @@ export default [
       name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-mobile.js',
       sourcemap: true,
+      exports: 'named',
       globals: {
         'react': 'React',
         'prop-types': 'PropTypes'
@@ -71,6 +73,7 @@ export default [
       name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-max.js',
       sourcemap: true,
+      exports: 'named',
       globals: {
         'react': 'React',
         'prop-types': 'PropTypes'
@@ -94,6 +97,7 @@ export default [
       name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-input.js',
       sourcemap: true,
+      exports: 'named',
       globals: {
         'react': 'React',
         'prop-types': 'PropTypes'

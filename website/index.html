@@ -1,0 +1,1345 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>React Phone Number Input</title>
+
+		<!-- React 16.4.1
+		<script src="./lib/react.js"></script>
+		<script src="./lib/react-dom.js"></script>
+		-->
+
+		<!-- React 0.14.9 -->
+		<!-- <script src="./lib/react.14.js"></script> -->
+		<!-- <script src="./lib/react-dom.14.js"></script> -->
+
+		<!-- React 15.6.2
+		<script src="./lib/react.15.js"></script>
+		<script src="./lib/react-dom.15.js"></script>
+		-->
+
+		<!-- React 16 -->
+		<script crossorigin src="https://unpkg.com/react@16.10.2/umd/react.production.min.js"></script>
+		<script crossorigin src="https://unpkg.com/react-dom@16.10.2/umd/react-dom.production.min.js"></script>
+
+		<!-- PropTypes -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.7.2/prop-types.min.js"></script>
+
+		<!-- Babel 6 -->
+		<script src="./lib/babel.min.js"></script>
+		<script src="./lib/babel-polyfill.min.js"></script>
+
+		<!-- PrismJS -->
+		<link href="./lib/prism.css" rel="stylesheet" />
+		<script src="./lib/prism.js"></script>
+
+		<!--
+		This makes the page not scale down on mobile devices
+		and instead adapt to the screen width using `@media` queries.
+		-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+		<!-- <script src="./react-phone-number-input-smart-input.js"></script> -->
+
+		<!--
+		<script>
+			window.SmartInput = window.PhoneInput
+		</script>
+	-->
+
+		<script src="./react-phone-number-input-input.js"></script>
+
+		<script>
+			window.Input = window.PhoneInput.default
+		</script>
+
+		<script>
+			window.getCountryCallingCode = window.PhoneInput.getCountryCallingCode
+			window.getCountries = window.PhoneInput.getCountries
+		</script>
+
+		<script src="./react-phone-number-input.js"></script>
+
+		<script>
+			window.PhoneInput = window.PhoneInput.default
+		</script>
+
+		<script src="./lib/libphonenumber-max.js"></script>
+
+		<!-- <link rel="stylesheet" href="./react-responsive-ui.css"/> -->
+		<link rel="stylesheet" href="./style.css"/>
+	</head>
+
+	<style>
+		html, body, button, input, textarea, select
+		{
+			font-family : Arial, Helvetica;
+			font-size   : 20px;
+		}
+
+		html, body
+		{
+			-webkit-tap-highlight-color : transparent;
+		}
+
+		body
+		{
+			/* Disables "double tap to zoom in" on mobile devices. */
+			/* https://stackoverflow.com/questions/46167604/iphone-html-disable-double-tap-to-zoom */
+			touch-action: manipulation;
+		}
+
+		body
+		{
+			margin: 0;
+			padding: 40px;
+			background-color: #f3f3f3;
+		}
+
+		.main-description
+		{
+			margin-top: calc(0.3rem * 2);
+			margin-bottom: calc(0.3rem * 7);
+		}
+
+		pre
+		{
+			white-space: pre-wrap !important;
+			word-wrap: break-word !important;
+			border: 1px solid rgba(0, 0, 0, 0.05);
+		}
+
+		section
+		{
+			margin-top: 30px;
+			margin-bottom: 30px;
+			padding: 1.3em;
+			border-radius: 0.3em;
+			background-color: white;
+			box-shadow: 0 0 3px rgba(0,0,0,0.1);
+		}
+
+		section:last-child
+		{
+			margin-bottom: 0;
+		}
+
+		section > h1
+		{
+			margin-top: 0;
+			margin-bottom: 1em;
+			font-size: 125%;
+		}
+
+		section > h2
+		{
+			margin-top: 1em;
+			margin-bottom: 1em;
+			font-size: 125%;
+			font-weight: normal;
+		}
+
+		section > p
+		{
+			margin-top: 1em;
+			margin-bottom: 1em;
+			line-height: 1.45em;
+		}
+
+		section > *:last-child
+		{
+			margin-bottom: 0;
+		}
+
+		input:not(.react-phone-number-input__input)
+		{
+			padding-left: 0.4em;
+			padding-right: 0.4em;
+			padding-top: 0.3em;
+			padding-bottom: 0.3em;
+			border-radius: 0.2em;
+			border: 1px solid #cfcfcf;
+			background-color: #fcfcfc;
+			outline: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+		}
+
+		a
+		{
+			text-decoration: none;
+			color: #0093C4;
+		}
+
+		a:hover
+		{
+			text-decoration: underline;
+		}
+
+		a.main
+		{
+			display   : block;
+			font-size : 125%;
+		}
+
+		code:not(.default)
+		{
+			color: #b90000; /* #c92c2c; */
+			border-radius: 0.3em;
+			background-color: #fcfcfc;
+			border: 1px solid #f3f3f3;
+			padding-left: 0.25em;
+			padding-right: 0.25em;
+		}
+
+		.PhoneInput
+		{
+			max-width: 14rem;
+		}
+
+		/* Overrides Chrome autofill yellow background color */
+		/*
+		.rrui__input-field:-webkit-autofill,
+		.rrui__input-field:-webkit-autofill:hover,
+		.rrui__input-field:-webkit-autofill:focus
+		{
+			box-shadow: 0 0 0 1000px white inset;
+		}
+		*/
+
+		/* Hide `react-responsive-ui` `<Button/>` bottom border. */
+		/*
+		.react-phone-number-input__country .rrui__select__button {
+			border-bottom: none;
+		}
+		*/
+
+		@media (max-width: 720px)
+		{
+			body
+			{
+				padding: calc(0.3rem * 2);
+			}
+
+			.main-description
+			{
+				margin-bottom: calc(0.3rem * 3);
+			}
+
+			section
+			{
+				margin-top: calc(0.3rem * 3);
+				margin-bottom: calc(0.3rem * 3);
+				padding: calc(0.3rem * 3);
+			}
+
+			html, body, button, input, textarea, select
+			{
+				font-size: 16px;
+			}
+		}
+	</style>
+
+	<script>
+		var ru =
+		{
+			"ext": "доб.",
+			"country": "Страна",
+			"AB": "Абхазия",
+			"AC": "Остров Вознесения",
+			"AD": "Андорра",
+			"AE": "Объединенные Арабские Эмираты",
+			"AF": "Афганистан",
+			"AG": "Антигуа и Барбуда",
+			"AI": "Ангилья",
+			"AL": "Албания",
+			"AM": "Армения",
+			"AO": "Ангола",
+			"AQ": "Антарктида",
+			"AR": "Аргентина",
+			"AS": "Американское Самоа",
+			"AT": "Австрия",
+			"AU": "Австралия",
+			"AW": "Аруба",
+			"AX": "Эландские острова",
+			"AZ": "Азербайджан",
+			"BA": "Босния и Герцеговина",
+			"BB": "Барбадос",
+			"BD": "Бангладеш",
+			"BE": "Бельгия",
+			"BF": "Буркина-Фасо",
+			"BG": "Болгария",
+			"BH": "Бахрейн",
+			"BI": "Бурунди",
+			"BJ": "Бенин",
+			"BL": "Сен-Бартельми",
+			"BM": "Бермуды",
+			"BN": "Бруней-Даруссалам",
+			"BO": "Боливия, Многонациональное Государство",
+			"BQ": "Бонайре, Саба и Синт-Эстатиус",
+			"BR": "Бразилия",
+			"BS": "Багамы",
+			"BT": "Бутан",
+			"BV": "Остров Буве",
+			"BW": "Ботсвана",
+			"BY": "Беларусь",
+			"BZ": "Белиз",
+			"CA": "Канада",
+			"CC": "Кокосовые (Килинг) острова",
+			"CD": "Конго, Демократическая Республика",
+			"CF": "Центрально-Африканская Республика",
+			"CG": "Конго",
+			"CH": "Швейцария",
+			"CI": "Кот д'Ивуар",
+			"CK": "Острова Кука",
+			"CL": "Чили",
+			"CM": "Камерун",
+			"CN": "Китай",
+			"CO": "Колумбия",
+			"CR": "Коста-Рика",
+			"CU": "Куба",
+			"CV": "Кабо-Верде",
+			"CW": "Кюрасао",
+			"CX": "Остров Рождества",
+			"CY": "Кипр",
+			"CZ": "Чешская Республика",
+			"DE": "Германия",
+			"DJ": "Джибути",
+			"DK": "Дания",
+			"DM": "Доминика",
+			"DO": "Доминиканская Республика",
+			"DZ": "Алжир",
+			"EC": "Эквадор",
+			"EE": "Эстония",
+			"EG": "Египет",
+			"EH": "Западная Сахара",
+			"ER": "Эритрея",
+			"ES": "Испания",
+			"ET": "Эфиопия",
+			"FI": "Финляндия",
+			"FJ": "Фиджи",
+			"FK": "Фолклендские острова (Мальвинские)",
+			"FM": "Микронезия, Федеративные Штаты",
+			"FO": "Фарерские острова",
+			"FR": "Франция",
+			"GA": "Габон",
+			"GB": "Соединенное Королевство",
+			"GD": "Гренада",
+			"GE": "Грузия",
+			"GF": "Французская Гвиана",
+			"GG": "Гернси",
+			"GH": "Гана",
+			"GI": "Гибралтар",
+			"GL": "Гренландия",
+			"GM": "Гамбия",
+			"GN": "Гвинея",
+			"GP": "Гваделупа",
+			"GQ": "Экваториальная Гвинея",
+			"GR": "Греция",
+			"GS": "Южная Джорджия и Южные Сандвичевы острова",
+			"GT": "Гватемала",
+			"GU": "Гуам",
+			"GW": "Гвинея-Бисау",
+			"GY": "Гайана",
+			"HK": "Гонконг",
+			"HM": "Остров Херд и острова Макдональд",
+			"HN": "Гондурас",
+			"HR": "Хорватия",
+			"HT": "Гаити",
+			"HU": "Венгрия",
+			"ID": "Индонезия",
+			"IE": "Ирландия",
+			"IL": "Израиль",
+			"IM": "Остров Мэн",
+			"IN": "Индия",
+			"IO": "Британская территория в Индийском океане",
+			"IQ": "Ирак",
+			"IR": "Иран, Исламская Республика",
+			"IS": "Исландия",
+			"IT": "Италия",
+			"JE": "Джерси",
+			"JM": "Ямайка",
+			"JO": "Иордания",
+			"JP": "Япония",
+			"KE": "Кения",
+			"KG": "Киргизия",
+			"KH": "Камбоджа",
+			"KI": "Кирибати",
+			"KM": "Коморы",
+			"KN": "Сент-Китс и Невис",
+			"KP": "Корея, Народно-Демократическая Республика",
+			"KR": "Корея, Республика",
+			"KW": "Кувейт",
+			"KY": "Острова Кайман",
+			"KZ": "Казахстан",
+			"LA": "Лаос",
+			"LB": "Ливан",
+			"LC": "Сент-Люсия",
+			"LI": "Лихтенштейн",
+			"LK": "Шри-Ланка",
+			"LR": "Либерия",
+			"LS": "Лесото",
+			"LT": "Литва",
+			"LU": "Люксембург",
+			"LV": "Латвия",
+			"LY": "Ливийская Арабская Джамахирия",
+			"MA": "Марокко",
+			"MC": "Монако",
+			"MD": "Молдова, Республика",
+			"ME": "Черногория",
+			"MF": "Сен-Мартен",
+			"MG": "Мадагаскар",
+			"MH": "Маршалловы острова",
+			"MK": "Республика Македония",
+			"ML": "Мали",
+			"MM": "Мьянма",
+			"MN": "Монголия",
+			"MO": "Макао",
+			"MP": "Северные Марианские острова",
+			"MQ": "Мартиника",
+			"MR": "Мавритания",
+			"MS": "Монтсеррат",
+			"MT": "Мальта",
+			"MU": "Маврикий",
+			"MV": "Мальдивы",
+			"MW": "Малави",
+			"MX": "Мексика",
+			"MY": "Малайзия",
+			"MZ": "Мозамбик",
+			"NA": "Намибия",
+			"NC": "Новая Каледония",
+			"NE": "Нигер",
+			"NF": "Остров Норфолк",
+			"NG": "Нигерия",
+			"NI": "Никарагуа",
+			"NL": "Нидерланды",
+			"NO": "Норвегия",
+			"NP": "Непал",
+			"NR": "Науру",
+			"NU": "Ниуэ",
+			"NZ": "Новая Зеландия",
+			"OM": "Оман",
+			"OS": "Южная Осетия",
+			"PA": "Панама",
+			"PE": "Перу",
+			"PF": "Французская Полинезия",
+			"PG": "Папуа-Новая Гвинея",
+			"PH": "Филиппины",
+			"PK": "Пакистан",
+			"PL": "Польша",
+			"PM": "Сент-Пьер и Микелон",
+			"PN": "Питкерн",
+			"PR": "Пуэрто-Рико",
+			"PS": "Палестинская территория, оккупированная",
+			"PT": "Португалия",
+			"PW": "Палау",
+			"PY": "Парагвай",
+			"QA": "Катар",
+			"RE": "Реюньон",
+			"RO": "Румыния",
+			"RS": "Сербия",
+			"RU": "Россия",
+			"RW": "Руанда",
+			"SA": "Саудовская Аравия",
+			"SB": "Соломоновы острова",
+			"SC": "Сейшелы",
+			"SD": "Судан",
+			"SE": "Швеция",
+			"SG": "Сингапур",
+			"SH": "Святая Елена, Остров вознесения, Тристан-да-Кунья",
+			"SI": "Словения",
+			"SJ": "Шпицберген и Ян Майен",
+			"SK": "Словакия",
+			"SL": "Сьерра-Леоне",
+			"SM": "Сан-Марино",
+			"SN": "Сенегал",
+			"SO": "Сомали",
+			"SR": "Суринам",
+			"SS": "Южный Судан",
+			"ST": "Сан-Томе и Принсипи",
+			"SV": "Эль-Сальвадор",
+			"SX": "Синт-Мартен",
+			"SY": "Сирийская Арабская Республика",
+			"SZ": "Свазиленд",
+			"TA": "Тристан-да-Кунья",
+			"TC": "Острова Теркс и Кайкос",
+			"TD": "Чад",
+			"TF": "Французские Южные территории",
+			"TG": "Того",
+			"TH": "Таиланд",
+			"TJ": "Таджикистан",
+			"TK": "Токелау",
+			"TL": "Тимор-Лесте",
+			"TM": "Туркмения",
+			"TN": "Тунис",
+			"TO": "Тонга",
+			"TR": "Турция",
+			"TT": "Тринидад и Тобаго",
+			"TV": "Тувалу",
+			"TW": "Тайвань (Китай)",
+			"TZ": "Танзания, Объединенная Республика",
+			"UA": "Украина",
+			"UG": "Уганда",
+			"UM": "Малые Тихоокеанские отдаленные острова Соединенных Штатов",
+			"US": "Соединенные Штаты",
+			"UY": "Уругвай",
+			"UZ": "Узбекистан",
+			"VA": "Папский Престол (Государство &mdash; город Ватикан)",
+			"VC": "Сент-Винсент и Гренадины",
+			"VE": "Венесуэла Боливарианская Республика",
+			"VG": "Виргинские острова, Британские",
+			"VI": "Виргинские острова, США",
+			"VN": "Вьетнам",
+			"VU": "Вануату",
+			"WF": "Уоллис и Футуна",
+			"WS": "Самоа",
+			"XK": "Косово",
+			"YE": "Йемен",
+			"YT": "Майотта",
+			"ZA": "Южная Африка",
+			"ZM": "Замбия",
+			"ZW": "Зимбабве",
+			"ZZ": "Международный"
+		}
+	</script>
+
+	<body>
+		<style>
+			:root {
+				/*--PhoneInputCountryFlag-aspectRatio: 1.333;*/
+			}
+		</style>
+
+		<a target="_blank" class="main" href="https://gitlab.com/catamphetamine/react-phone-number-input"><code class="default">react-phone-number-input</code></a>
+
+		<p class="main-description">
+			An international phone number <code class="default">&lt;input/&gt;</code> for React
+		</p>
+
+		<div id="content"></div>
+
+		<script type="text/babel">
+			// The second case is Firefox.
+			const debug = window.location.origin === 'file://' ||
+				window.location.href.indexOf('file://') === 0
+
+			function Highlight({ lang, style, children })
+			{
+				return (
+					<pre style={style || { marginTop: '20px' }} className={`language-${lang}`}>
+						<code className="default" dangerouslySetInnerHTML={{__html: Prism.highlight(children.trim(), Prism.languages[lang], lang)}}/>
+					</pre>
+				)
+			}
+
+			class Content extends React.Component
+			{
+				constructor()
+				{
+					super()
+
+					this.state =
+					{
+						ext: '',
+						value_convert_to_national_false: '+78005553535',
+						value_convert_to_national_true: '+78005553535'
+					}
+				}
+
+				render()
+				{
+					return (
+						<div>
+							<section>
+								<h1>
+									With country &lt;select/&gt;
+								</h1>
+
+								<p>
+									The default export of this package is a phone number <code>&lt;input/&gt;</code> with a country <code>&lt;select/&gt;</code>.
+								</p>
+
+								{/*
+											flagUrl="https://flag.pk/flags/4x3/{xx}.svg"
+								*/}
+								<form>
+									<PhoneInput
+										placeholder="Enter phone number"
+										value={this.state.value_native}
+										onChange={value => this.setState({ value_native: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.value_native && <code>{this.state.value_native}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import PhoneInput from 'react-phone-number-input'
+
+<PhoneInput
+  placeholder="Enter phone number"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Without country &lt;select/&gt;
+								</h1>
+
+								"Without country select" phone number input component can be imported from <code>react-phone-number-input/input</code> subpackage.
+
+								<h2>
+									<code className="default">country="US"</code>
+								</h2>
+
+								<p>
+									If <code>country</code> is specified then the phone number can be input only in national format for that <code>country</code>.
+								</p>
+
+								<form>
+									<Input
+										placeholder="Enter phone number"
+										country="US"
+										value={this.state.value_no_country_select}
+										onChange={value => this.setState({ value_no_country_select: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.value_no_country_select && <code>{this.state.value_no_country_select}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  country="US"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+
+								<h2>
+									<code className="default">country="US"</code> and <code className="default">international</code>
+								</h2>
+
+								<p>
+									If both <code>country</code> and <code>international</code> are specified then the phone number can be input only in international format for that <code>country</code>, but without "country calling code" part.
+								</p>
+
+								<form>
+									<span>+1 </span>
+									<Input
+										country="US"
+										international
+										placeholder="Enter phone number"
+										value={this.state.valueCountryInternational}
+										onChange={value => this.setState({ valueCountryInternational: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.valueCountryInternational && <code>{this.state.valueCountryInternational}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
++1 <Input
+     country="US"
+     international
+     value={value}
+     onChange={setValue}/>
+`}
+								</Highlight>
+
+								<h2>
+									<code className="default">defaultCountry="US"</code>
+								</h2>
+
+								<p>
+									If <code>defaultCountry</code> is specified then the phone number can be input both in national format for <code>defaultCountry</code> and in international format for any country.
+								</p>
+
+								<form>
+									<Input
+										defaultCountry="US"
+										placeholder="Enter phone number"
+										value={this.state.valueDefaultCountry}
+										onChange={value => this.setState({ valueDefaultCountry: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.valueDefaultCountry && <code>{this.state.valueDefaultCountry}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  defaultCountry="US"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+
+								<h2>
+									No <code className="default">country</code>
+								</h2>
+
+								<p>
+									If no <code>country</code> or <code>defaultCountry</code> is specified then the phone number can only be input in international format.
+								</p>
+
+								<form>
+									<Input
+										placeholder="Enter phone number"
+										value={this.state.value_no_country_select_international}
+										onChange={value => this.setState({ value_no_country_select_international: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.value_no_country_select_international && <code>{this.state.value_no_country_select_international}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+
+								<h2>
+									Properties
+								</h2>
+
+								<p>
+									A custom <code>inputComponent</code> can be passed to render it instead of the standard DOM <code>&lt;input/&gt;</code>.
+									<br/>
+									It must behave as a standard DOM <code>&lt;input/&gt;</code>: accept a string <code>value</code> property and call <code>onChange(event)</code>.
+								</p>
+							</section>
+
+							<section>
+								<h1>
+									Custom country <code className="default">&lt;select/&gt;</code>
+								</h1>
+
+								<p>
+									This library exports <code>getCountries()</code> and <code>getCountryCallingCode(country)</code> functions so that a developer could construct their own custom country select.
+								</p>
+
+								<form>
+									<select
+									  value={this.state.customCountry}
+									  onChange={event => this.setState({ customCountry: event.target.value || undefined })}>
+									  <option value="">
+									    {PhoneInput.defaultProps.labels['ZZ']}
+									  </option>
+									  {getCountries().map((country) => (
+									    <option key={country} value={country}>
+									      {PhoneInput.defaultProps.labels[country]} +{getCountryCallingCode(country)}
+									    </option>
+									  ))}
+									</select>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.customCountry && <code>{this.state.customCountry}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+import en from 'react-phone-number-input/locale/en.json'
+
+<select
+  value={country}
+  onChange={event => setCountry(event.target.value || undefined)}>
+  <option value="">
+    {en['ZZ']}
+  </option>
+  {getCountries().map((country) => (
+    <option key={country} value={country}>
+      {en[country]} +{getCountryCallingCode(country)}
+    </option>
+  ))}
+</select>
+`}
+								</Highlight>
+							</section>
+
+							{/*
+							<section>
+								<h1>
+									With custom country &lt;select/&gt;
+								</h1>
+
+								<p>
+									This is an illustration of using <a target="_blank" href="https://catamphetamine.gitlab.io/react-responsive-ui/"><code>react-responsive-ui</code></a> <code>&lt;Select/&gt;</code> component instead of the default country <code>&lt;select/&gt;</code>.
+								</p>
+
+								<p>
+									Under the hood, it simply passes a custom <code>countrySelectComponent</code> property to the regular <code>&lt;PhoneInput/&gt;</code>.
+								</p>
+
+								<form>
+									<PhoneInputReactResponsiveUI
+										placeholder="Enter phone number"
+										value={this.state.value}
+										onChange={value => this.setState({ value: value })}/>
+								</form>
+
+								<Highlight lang="jsx">
+									{`// Requires "CSS custom properties" support.
+// For Internet Explorer use PostCSS with "CSS custom properties" plugin.
+import 'react-responsive-ui/style.css'
+
+import PhoneInput from 'react-phone-number-input/react-responsive-ui'
+
+<PhoneInput
+  placeholder="Enter phone number"
+  value={value}
+  onChange={setValue}/>
+
+<style>
+  .react-phone-number-input__country .rrui__select__button {
+    border-bottom: none;
+  }
+</style>`}
+								</Highlight>
+							</section>
+							*/}
+
+							<section>
+								<h1>
+									Unicode flag icons
+								</h1>
+
+								<form>
+									<PhoneInput
+										countrySelectProps={{ unicodeFlags: true }}
+										placeholder="Enter phone number"
+										value={this.state.valueUnicode}
+										onChange={value => this.setState({ valueUnicode: value })}/>
+								</form>
+
+								<p>
+									Unicode flag icons ("Regional Indicator Symbols") were <a href="https://blog.emojipedia.org/emoji-flags-explained/" target="_blank">introduced</a> in 2010 in Unicode version 6.0.
+									<br/>
+									Older operating systems (having older system fonts) might not support Unicode flags, rendering "missing" (rectangle) characters instead.
+									<br/>
+									Windows 10 currently (01.01.2020) doesn't support Unicode country flags, and displays two-letter country codes instead of emoji flag images.
+								</p>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  countrySelectProps={{ unicodeFlags: true }}
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Default country: Russia
+								</h1>
+
+								<form>
+									<PhoneInput
+										defaultCountry="RU"
+										placeholder="Enter phone number"
+										value={this.state.value_RU}
+										onChange={value => this.setState({ value_RU: value })}/>
+								</form>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  defaultCountry="RU"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Force international format
+								</h1>
+
+								<form>
+									<PhoneInput
+										international
+										defaultCountry="RU"
+										placeholder="Enter phone number"
+										value={this.state.valueForceInternational}
+										onChange={value => this.setState({ valueForceInternational: value })}/>
+								</form>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  international
+  defaultCountry="RU"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = false (default)
+								</h1>
+
+								<form>
+									<PhoneInput
+										placeholder="Enter phone number"
+										value={this.state.value_convert_to_national_false}
+										onChange={value => this.setState({ value_convert_to_national_false: value })}/>
+								</form>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = true
+								</h1>
+
+								<form>
+									<PhoneInput
+										placeholder="Enter phone number"
+										value={this.state.value_convert_to_national_true}
+										onChange={value => this.setState({ value_convert_to_national_true: value })}
+										displayInitialValueAsLocalNumber/>
+								</form>
+
+								<Highlight lang="jsx">
+{`<PhoneInput
+  displayInitialValueAsLocalNumber
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Internationalization
+								</h1>
+
+								<p>
+									Country names can be passed via the <code>labels</code> property.
+								</p>
+								<p>
+									E.g. <code>labels={'{{'} RU: "Россия", US: "США", ... {'}}'}</code>.
+								</p>
+								<p>
+									This component comes pre-packaged with a couple of ready-made <a target="_blank" href="https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale">translations</a>. Submit pull requests for adding new translations.
+								</p>
+
+								<form>
+									<PhoneInput
+										placeholder="Ваш телефон"
+										value={this.state.value}
+										onChange={value => this.setState({ value })}
+										labels={ru}/>
+								</form>
+
+								<Highlight lang="jsx">
+{`// Country names in Russian.
+import ru from 'react-phone-number-input/locale/ru'
+
+<PhoneInput
+  labels={ru}
+  placeholder="Ваш телефон"
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Format <code className="default">value</code>
+								</h1>
+
+								<p>
+									<code>value</code> can be saved in a database and later be output on a page using <code>formatPhoneNumber()</code> function.
+								</p>
+
+								<form>
+									<PhoneInput
+										placeholder="Enter phone number"
+										value={this.state.value_format}
+										onChange={value => this.setState({ value_format: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.value_format && <code>{this.state.value_format}</code>}
+									<br/>
+									<strong>National</strong>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatNational()}</code>}
+									<br/>
+									<strong>International</strong>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatInternational()}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input'
+
+<PhoneInput
+  placeholder="Enter phone number"
+  value={value}
+  onChange={setValue}/>
+
+National: {value && formatPhoneNumber(value)}
+International: {value && formatPhoneNumberIntl(value)}
+`}
+								</Highlight>
+							</section>
+
+							<section>
+								<h1>
+									Validation
+								</h1>
+
+								<p>
+									Note: I personally prefer not using strict phone number validation via <code>isValidPhoneNumber()</code> in my projects. <a target="_blank" href="https://gitlab.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.
+									<br/>
+									Instead I'd use <code>isPossiblePhoneNumber()</code> that just validates phone number length.
+								</p>
+
+								<form>
+									<PhoneInput
+										error={this.state.value_validation ? (libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? undefined : 'Invalid phone number') : 'Phone number required'}
+										placeholder="Enter phone number"
+										value={this.state.value_validation}
+										onChange={value => this.setState({ value_validation: value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.value_validation}
+								</p>
+
+								<p>
+									<strong>Is possible:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isPossible() ? 'true' : 'false'}</code>}
+									<br/>
+									<strong>Is valid:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? 'true' : 'false'}</code>}
+									<br/>
+									<strong>Local:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatNational()}</code>}
+									<br/>
+									<strong>International:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatInternational()}</code>}
+								</p>
+
+								<Highlight lang="jsx">
+{`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
+
+<PhoneInput
+  placeholder="Enter phone number"
+  value={value}
+  onChange={setValue}
+  error={value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required'}/>
+
+Is possible: {value && isPossiblePhoneNumber(value) ? 'true' : 'false'}
+Is valid: {value && isValidPhoneNumber(value) ? 'true' : 'false'}
+National: {value && formatPhoneNumber(value)}
+International: {value && formatPhoneNumberIntl(value)}
+`}
+								</Highlight>
+							</section>
+
+							{/*
+							<section>
+								<h1>
+									Extension
+								</h1>
+
+								<p>
+									There's nothing special about a phone number extension input: it doesn't need any formatting, it can just be a simple <code>&lt;input type="number"/&gt;</code>.
+								</p>
+
+								<p>
+									Still, some users kept asking for a phone number extension input feature. So I added a basic phone number extension input support. It can be activated by passing <code>ext</code> property.
+								</p>
+
+								<form>
+									<PhoneInput
+										ext={<input
+											value={this.state.ext}
+											onChange={event => this.setState({ ext: event.target.value })}/>
+										}
+										value={this.state.value}
+										onChange={value => this.setState({ value })}/>
+								</form>
+
+								<p>
+									<code>value</code>: {this.state.value}
+								</p>
+
+								<p>
+									<code>extValue</code>: {this.state.ext}
+								</p>
+
+								<Highlight lang="jsx">
+{`const ext = (
+  <input
+    value={extValue}
+    onChange={event => setExtValue(event.target.value)}/>
+)
+
+<PhoneInput
+  ext={ext}
+  value={value}
+  onChange={setValue}/>
+`}
+								</Highlight>
+							</section>
+							*/}
+
+							{/* this.render_smart_input() */}
+
+							{ debug && this.renderDebug() }
+						</div>
+					)
+				}
+
+				render_smart_input()
+				{
+					return (
+						<section>
+							<h1>
+								<code>Smart Caret</code>
+							</h1>
+
+							<p>
+								This component originally came with "Smart Caret" feature (based on <a target="_blank" href="https://gitlab.com/catamphetamine/input-format"><code className="color">input-format</code></a> library) where a user could edit the phone number somewhere in the middle and the caret wouldn't jump to the end. But then there have been <a target="_blank" href="https://github.com/catamphetamine/react-phone-number-input/issues/75">reports</a> of some Samsung Android phones not handling caret positioning properly (e.g. Samsung Galaxy S8+, Samsung Galaxy S7 Edge). So the "Smart Caret" feature was decided to be turned off. Still, it is possible to turn the "Smart Caret" feature on by supplying "smart-input" <code>inputComponent</code> property.
+							</p>
+
+							<form>
+								<PhoneInput
+									inputComponent={SmartInput}
+									placeholder="Enter phone number"
+									value={this.state.value}
+									onChange={value => this.setState({ value: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.value}
+							</p>
+
+							<Highlight lang="jsx">
+								{`<PhoneInput
+	smartCaret={false}
+	placeholder="Enter phone number"
+	value={value}
+	onChange={setValue}/>`}
+							</Highlight>
+
+							{/*
+							<p>
+								<code>{'smartCaret={false}'}</code> caret is not as "smart" as the default one but still works good enough (and has no issues on Samsung Android phones). When erasing or inserting digits in the middle of a phone number this caret jumps to the end: this is the expected behaviour because the "smart" caret positioning has been turned off specifically to fix this Samsung Android phones issue.
+							</p>
+							*/}
+						</section>
+					)
+				}
+
+				renderDebug() {
+					return (
+						<section>
+							{/*
+							<h1>All flags</h1>
+
+							<PhoneInput
+								value={this.state.value}
+								onChange={value => this.setState({ value })}
+								flags={library.flags}/>
+							*/}
+
+							<h1>Dynamic</h1>
+
+							<Input
+								placeholder="Without country select"
+								defaultCountry={this.state.dynamic_country}
+								value={this.state.dynamic_value}
+								onChange={value => this.setState({ dynamic_value: value })}/>
+
+							<p></p>
+
+							<PhoneInput
+								labels={this.state.dynamic_labels}
+								defaultCountry={this.state.dynamic_country}
+								value={this.state.dynamic_value}
+								onChange={value => this.setState({ dynamic_value: value })}/>
+
+							<p>
+								displayInitialValueAsLocalNumber:
+							</p>
+
+							<PhoneInput
+								labels={this.state.dynamic_labels}
+								defaultCountry={this.state.dynamic_country}
+								value={this.state.dynamic_value}
+								onChange={value => this.setState({ dynamic_value: value })}
+								displayInitialValueAsLocalNumber/>
+
+							<p>
+								<button
+									type="button"
+									onClick={() => this.setState({ dynamic_labels: ru })}>
+									Set labels to RU
+								</button>
+							</p>
+
+							<p>
+								<button
+									type="button"
+									onClick={() => this.setState({ dynamic_country: 'FR' })}>
+									Set country to 'FR'
+								</button>
+							</p>
+
+							<p>
+								<button
+									type="button"
+									onClick={() => this.setState({ dynamic_value: '+78005553535' })}>
+									Set value to '+78005553535'
+								</button>
+							</p>
+
+							<br/>
+
+							<h1>Reset</h1>
+
+							<PhoneInput
+								reset={this.state.reset}
+								value={this.state.resetValue}
+								onCountryChange={country => console.log('On country change', country)}
+								onChange={value => this.setState({ resetValue: value })}/>
+
+							<p>
+								<button
+									type="button"
+									onClick={() => this.setState({ reset: this.state.reset ? this.state.reset + 1 : 1 })}>
+									Reset
+								</button>
+							</p>
+
+							<br/>
+
+							<h1>countryOptionsOrder = ["US", "CA", "AU", "|", "..."]</h1>
+
+							<PhoneInput
+								value={this.state.countryOptionsOrder}
+								onChange={value => this.setState({ countryOptionsOrder: value })}
+								countryOptionsOrder={["US", "CA", "AU", "|", "..."]}/>
+
+							<br/>
+							<br/>
+
+							<h1>
+								Set value externally
+							</h1>
+
+							"Without country select" phone number input.
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									country="US"
+									value={this.state.valueNoCountrySelectSetExternally}
+									onChange={value => this.setState({ valueNoCountrySelectSetExternally: value })}/>
+							</form>
+
+							<button
+								type="button"
+								onClick={() => this.setState({ valueNoCountrySelectSetExternally: '+1' + Math.random().toString().slice(2, 12) })}>
+								Set random value
+							</button>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectSetExternally && <code>{this.state.valueNoCountrySelectSetExternally}</code>}
+							</p>
+
+							<br/>
+
+							<h1>
+								limitMaxLength
+							</h1>
+
+							<code>country="US"</code>
+
+							<br/>
+							<br/>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									country="US"
+									limitMaxLength
+									value={this.state.valueNoCountrySelectLimitMaxLength}
+									onChange={value => this.setState({ valueNoCountrySelectLimitMaxLength: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLength && <code>{this.state.valueNoCountrySelectLimitMaxLength}</code>}
+							</p>
+
+							<br/>
+
+							<code>defaultCountry="US"</code>
+
+							<br/>
+							<br/>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									defaultCountry="US"
+									limitMaxLength
+									value={this.state.valueNoCountrySelectLimitMaxLengthDefaultCountry}
+									onChange={value => this.setState({ valueNoCountrySelectLimitMaxLengthDefaultCountry: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLengthDefaultCountry && <code>{this.state.valueNoCountrySelectLimitMaxLengthDefaultCountry}</code>}
+							</p>
+
+							<br/>
+
+							No <code>country</code> or <code>defaultCountry</code>
+
+							<br/>
+							<br/>
+
+							<form>
+								<Input
+									placeholder="Enter phone number"
+									limitMaxLength
+									value={this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry}
+									onChange={value => this.setState({ valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry: value })}/>
+							</form>
+
+							<p>
+								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry && <code>{this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry}</code>}
+							</p>
+						</section>
+					)
+				}
+			}
+
+			ReactDOM.render
+			(
+				<Content />,
+				document.getElementById('content')
+			)
+		</script>
+	</body>
+</html>

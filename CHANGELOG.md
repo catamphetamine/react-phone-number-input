@@ -16,7 +16,7 @@ Relevant changes:
 
 * `ref` is now forwarded to the `<input/>`.
 
-* [`style.css`](https://github.com/catamphetamine/react-phone-number-input/blob/master/style.css) now uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d). Native CSS variables work in all modern browsers, but older ones like Internet Explorer [won't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
+* [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) now uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d). Native CSS variables work in all modern browsers, but older ones like Internet Explorer [won't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
 
 * Renamed CSS classes, and refactored styles.
 
@@ -34,7 +34,7 @@ Relevant changes:
 
 * Removed `locale/default.json` (use `en.json` instead) and `locale/br.json` (use `pt.json` instead).
 
-* Flags are now loaded from [`country-flag-icons`](https://github.com/catamphetamine/country-flag-icons) library.
+* Flags are now loaded from [`country-flag-icons`](https://gitlab.com/catamphetamine/country-flag-icons) library.
 
 * Removed properties:
 

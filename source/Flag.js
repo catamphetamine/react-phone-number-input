@@ -34,7 +34,7 @@ FlagComponent.propTypes = {
 
 	// Country flag icon components.
 	// By default flag icons are inserted as `<img/>`s
-	// with their `src` pointed to `country-flag-icons` github pages website.
+	// with their `src` pointed to `country-flag-icons` gitlab pages website.
 	// There might be cases (e.g. an offline application)
 	// where having a large (3 megabyte) `<svg/>` flags
 	// bundle is more appropriate.
@@ -42,6 +42,6 @@ FlagComponent.propTypes = {
 	flags: PropTypes.objectOf(PropTypes.elementType),
 
 	// A URL for a country flag icon.
-	// By default it points to `country-flag-icons` github pages website.
+	// By default it points to `country-flag-icons` gitlab pages website.
 	flagUrl: PropTypes.string.isRequired
 }

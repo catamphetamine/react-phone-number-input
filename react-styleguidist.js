@@ -1,6 +1,6 @@
 module.exports = {
 	components: "source/PhoneInputWithCountry.js",
-	styleguideDir: "bundle/docs/styleguide",
+	styleguideDir: "website/docs",
 	usageMode: "expand",
 	sortProps: props => props,
 	dangerouslyUpdateWebpackConfig(webpackConfig, env) {

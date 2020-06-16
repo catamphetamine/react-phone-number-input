@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "3.0.21",
+  "version": "3.0.23",
   "description": "Telephone number input React component",
   "main": "min/index.commonjs.js",
   "module": "min/index.js",
@@ -14,8 +14,8 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "country-flag-icons": "^1.0.2",
-    "input-format": "^0.2.8",
-    "libphonenumber-js": "^1.7.45",
+    "input-format": "^0.3.0",
+    "libphonenumber-js": "^1.7.52",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
     "clean-for-build": "rimraf ./commonjs/**/* ./modules/**/*",
     "build-commonjs-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps --ignore *.test.js",
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",
-    "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules browser-build build-styles generate-docs",
+    "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules browser-build build-styles",
     "build-styles": "babel-node runnable/build-bundle-styles",
     "fix-locales": "babel-node runnable/fix-locales",
     "verify-flag-existence": "babel-node runnable/verify-flag-existence",
@@ -69,7 +69,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/catamphetamine/react-phone-number-input.git"
+    "url": "git+https://gitlab.com/catamphetamine/react-phone-number-input.git"
   },
   "keywords": [
     "react",
@@ -82,7 +82,7 @@
   "author": "catamphetamine <purecatamphetamine@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/catamphetamine/react-phone-number-input/issues"
+    "url": "https://gitlab.com/catamphetamine/react-phone-number-input/issues"
   },
-  "homepage": "https://github.com/catamphetamine/react-phone-number-input#readme"
+  "homepage": "https://gitlab.com/catamphetamine/react-phone-number-input#readme"
 }

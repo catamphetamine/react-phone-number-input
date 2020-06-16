@@ -56,7 +56,7 @@ export function createCountryIconComponent({
 
 export default createCountryIconComponent({
 	// Must be equal to `defaultProps.flagUrl` in `./PhoneInputWithCountry.js`.
-	flagUrl: 'https://catamphetamine.github.io/country-flag-icons/3x2/{XX}.svg',
+	flagUrl: 'https://catamphetamine.gitlab.io/country-flag-icons/3x2/{XX}.svg',
 	flagComponent: Flag,
 	internationalIcon: DefaultInternationalIcon
 })

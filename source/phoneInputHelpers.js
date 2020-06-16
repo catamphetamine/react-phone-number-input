@@ -84,7 +84,7 @@ export function getCountrySelectOptions(countries, country_names, includeInterna
  * Parses a E.164 phone number to an instance of `PhoneNumber` class.
  * @param {string?} value = E.164 phone number.
  * @param  {object} metadata - `libphonenumber-js` metadata
- * @return {object} Object having shape `{ country: string?, countryCallingCode: string, number: string }`. `PhoneNumber`: https://github.com/catamphetamine/libphonenumber-js#phonenumber.
+ * @return {object} Object having shape `{ country: string?, countryCallingCode: string, number: string }`. `PhoneNumber`: https://gitlab.com/catamphetamine/libphonenumber-js#phonenumber.
  * @example
  * parsePhoneNumber('+78005553535')
  */
