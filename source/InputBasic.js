@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphonenumber-js/core'
 
-import { getInputValuePrefix, removeInputValuePrefix } from './inputValuePrefix'
+import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix'
 
 export function createInput(defaultMetadata) {
 	/**
@@ -16,11 +16,17 @@ export function createInput(defaultMetadata) {
 		onChange,
 		country,
 		international,
+		withCountryCallingCode,
 		metadata,
 		inputComponent: Input,
 		...rest
 	}, ref) {
-		const prefix = getInputValuePrefix(country, international, metadata)
+		const prefix = getInputValuePrefix({
+			country,
+			international,
+			withCountryCallingCode,
+			metadata
+		})
 
 		const _onChange = useCallback((event) => {
 			let newValue = parseIncompletePhoneNumber(event.target.value)
@@ -90,6 +96,14 @@ export function createInput(defaultMetadata) {
 		 * (without "country calling code" `+1`).
 		 */
 		international: PropTypes.bool,
+
+		/**
+		 * If `country` and `international` properties are set,
+		 * then by default it won't include "country calling code" in the input field.
+		 * To change that, pass `withCountryCallingCode` property,
+		 * and it will include "country calling code" in the input field.
+		 */
+		withCountryCallingCode: PropTypes.bool,
 
 		/**
 		 * `libphonenumber-js` metadata.

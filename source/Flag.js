@@ -19,7 +19,7 @@ export default function FlagComponent({
 		<img
 			{...rest}
 			alt={countryName}
-			role="presentation"
+			role={countryName ? undefined : "presentation"}
 			src={flagUrl.replace('{XX}', country).replace('{xx}', country.toLowerCase())}/>
 	)
 }

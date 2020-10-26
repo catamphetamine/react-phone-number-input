@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Input from 'input-format/react'
 import { AsYouType, parsePhoneNumberCharacter } from 'libphonenumber-js/core'
 
-import { getInputValuePrefix, removeInputValuePrefix } from './inputValuePrefix'
+import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix'
 
 /**
  * This input uses `input-format` library
@@ -14,13 +14,19 @@ export function createInput(defaultMetadata)
 	function InputSmart({
 		country,
 		international,
+		withCountryCallingCode,
 		metadata,
 		...rest
 	}, ref) {
 		const format = useCallback((value) => {
 			// "As you type" formatter.
 			const formatter = new AsYouType(country, metadata)
-			const prefix = getInputValuePrefix(country, international, metadata)
+			const prefix = getInputValuePrefix({
+				country,
+				international,
+				withCountryCallingCode,
+				metadata
+			})
 			// Format the number.
 			let text = formatter.input(prefix + value)
 			let template = formatter.getTemplate()
@@ -71,6 +77,14 @@ export function createInput(defaultMetadata)
 		 * (without "country calling code" `+1`).
 		 */
 		international: PropTypes.bool,
+
+		/**
+		 * If `country` and `international` properties are set,
+		 * then by default it won't include "country calling code" in the input field.
+		 * To change that, pass `withCountryCallingCode` property,
+		 * and it will include "country calling code" in the input field.
+		 */
+		withCountryCallingCode: PropTypes.bool,
 
 		/**
 		 * `libphonenumber-js` metadata.

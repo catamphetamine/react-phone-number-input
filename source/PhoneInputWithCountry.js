@@ -14,7 +14,7 @@ import {
 	getSupportedCountries,
 	getSupportedCountryOptions,
 	getCountries
-} from './countries'
+} from './helpers/countries'
 
 import { createCountryIconComponent } from './CountryIcon'
 
@@ -28,12 +28,13 @@ import {
 	getCountrySelectOptions,
 	parsePhoneNumber,
 	generateNationalNumberDigits,
-	migrateParsedInputForNewCountry,
-	getCountryForPartialE164Number,
-	getInitialParsedInput,
-	parseInput,
+	getPhoneDigitsForNewCountry,
+	getInitialPhoneDigits,
+	onPhoneDigitsChange,
 	e164
-} from './phoneInputHelpers'
+} from './helpers/phoneInputHelpers'
+
+import getPhoneInputWithCountryStateUpdateFromNewProps from './helpers/getPhoneInputWithCountryStateUpdateFromNewProps'
 
 class PhoneNumberInput_ extends React.PureComponent {
 	inputRef = React.createRef()
@@ -44,7 +45,12 @@ class PhoneNumberInput_ extends React.PureComponent {
 		const {
 			value,
 			labels,
+			international,
 			addInternationalOption,
+			// `displayInitialValueAsLocalNumber` property has been
+			// superceded by `initialValueFormat` property.
+			displayInitialValueAsLocalNumber,
+			initialValueFormat,
 			metadata,
 			countryOptionsOrder
 		} = this.props
@@ -73,13 +79,13 @@ class PhoneNumberInput_ extends React.PureComponent {
 			props: this.props,
 
 			// The country selected.
-			country: getPreSelectedCountry(
+			country: getPreSelectedCountry({
 				phoneNumber,
 				defaultCountry,
-				countries || getCountries(metadata),
-				addInternationalOption,
+				countries: countries || getCountries(metadata),
+				required: !addInternationalOption,
 				metadata
-			),
+			}),
 
 			// `countries` are stored in `this.state` because they're filtered.
 			// For example, a developer might theoretically pass some unsupported
@@ -89,25 +95,32 @@ class PhoneNumberInput_ extends React.PureComponent {
 			// (which could potentially contain unsupported countries).
 			countries,
 
-			// `parsedInput` state property holds non-formatted user's input.
+			// `phoneDigits` state property holds non-formatted user's input.
 			// The reason is that there's no way of finding out
 			// in which form should `value` be displayed: international or national.
 			// E.g. if `value` is `+78005553535` then it could be input
 			// by a user both as `8 (800) 555-35-35` and `+7 800 555 35 35`.
-			// Hence storing just `value`is not sufficient for correct formatting.
+			// Hence storing just `value` is not sufficient for correct formatting.
 			// E.g. if a user entered `8 (800) 555-35-35`
-			// then value is `+78005553535` and `parsedInput` is `88005553535`
+			// then value is `+78005553535` and `phoneDigits` are `88005553535`
 			// and if a user entered `+7 800 555 35 35`
-			// then value is `+78005553535` and `parsedInput` is `+78005553535`.
-			parsedInput: generateInitialParsedInput(value, phoneNumber, this.props),
+			// then value is `+78005553535` and `phoneDigits` are `+78005553535`.
+			phoneDigits: getInitialPhoneDigits({
+				value,
+				phoneNumber,
+				defaultCountry,
+				international,
+				useNationalFormat: displayInitialValueAsLocalNumber || initialValueFormat === 'national',
+				metadata
+			}),
 
 			// `value` property is duplicated in state.
 			// The reason is that `getDerivedStateFromProps()`
 			// needs this `value` to compare to the new `value` property
-			// to find out if `parsedInput` needs updating:
+			// to find out if `phoneDigits` needs updating:
 			// If the `value` property was changed externally
 			// then it won't be equal to `state.value`
-			// in which case `parsedInput` and `country` should be updated.
+			// in which case `phoneDigits` and `country` should be updated.
 			value
 		}
 	}
@@ -148,31 +161,33 @@ class PhoneNumberInput_ extends React.PureComponent {
 		const {
 			international,
 			metadata,
-			onChange
+			onChange,
+			focusInputOnCountrySelection
 		} = this.props
 
 		const {
-			parsedInput: prevParsedInput,
+			phoneDigits: prevPhoneDigits,
 			country: prevCountry
 		} = this.state
 
 		// After the new `country` has been selected,
 		// if the phone number `<input/>` holds any digits
 		// then migrate those digits for the new `country`.
-		const newParsedInput = migrateParsedInputForNewCountry(
-			prevParsedInput,
+		const newPhoneDigits = getPhoneDigitsForNewCountry(prevPhoneDigits, {
 			prevCountry,
 			newCountry,
 			metadata,
 			// Convert the phone number to "national" format
 			// when the user changes the selected country by hand.
-			international ? false : true
-		)
+			useNationalFormat: !international
+		})
 
-		const newValue = e164(newParsedInput, newCountry, metadata)
+		const newValue = e164(newPhoneDigits, newCountry, metadata)
 
 		// Focus phone number `<input/>` upon country selection.
-		this.getInputRef().current.focus()
+		if (focusInputOnCountrySelection) {
+			this.getInputRef().current.focus()
+		}
 
 		// If the user has already manually selected a country
 		// then don't override that already selected country
@@ -182,7 +197,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 		this.setState({
 			country: newCountry,
 			hasUserSelectedACountry: true,
-			parsedInput: newParsedInput,
+			phoneDigits: newPhoneDigits,
 			value: newValue
 		},
 		() => {
@@ -199,34 +214,40 @@ class PhoneNumberInput_ extends React.PureComponent {
 	 * Updates `value` property accordingly (so that they are kept in sync).
 	 * @param {string?} input — Either a parsed phone number or an empty string. Examples: `""`, `"+"`, `"+123"`, `"123"`.
 	 */
-	onChange = (_input) => {
+	onChange = (_phoneDigits) => {
 		const {
 			defaultCountry,
 			onChange,
 			addInternationalOption,
 			international,
 			limitMaxLength,
+			countryCallingCodeEditable,
 			metadata
 		} = this.props
 
 		const {
-			input,
+			countries,
+			phoneDigits: prevPhoneDigits,
+			country: currentlySelectedCountry
+		} = this.state
+
+		const {
+			phoneDigits,
 			country,
 			value
-		} = parseInput(
-			_input,
-			this.state.parsedInput,
-			this.state.country,
+		} = onPhoneDigitsChange(_phoneDigits, {
+			prevPhoneDigits,
+			country: currentlySelectedCountry,
 			defaultCountry,
-			this.state.countries,
-			addInternationalOption,
+			countries,
 			international,
 			limitMaxLength,
+			countryCallingCodeEditable,
 			metadata
-		)
+		})
 
 		this.setState({
-			parsedInput: input,
+			phoneDigits,
 			value,
 			country
 		},
@@ -291,128 +312,14 @@ class PhoneNumberInput_ extends React.PureComponent {
 	// `state` holds previous props as `props`, and also:
 	// * `country` — The currently selected country, e.g. `"RU"`.
 	// * `value` — The currently entered phone number (E.164), e.g. `+78005553535`.
-	// * `parsedInput` — The parsed `<input/>` value, e.g. `8005553535`.
+	// * `phoneDigits` — The parsed `<input/>` value, e.g. `8005553535`.
 	// (and a couple of other less significant properties)
 	static getDerivedStateFromProps(props, state) {
-		const {
-			country,
-			hasUserSelectedACountry,
-			value,
-			props: {
-				defaultCountry: prevDefaultCountry,
-				value: prevValue,
-				reset: prevReset
-			}
-		} = state
-
-		const {
-			metadata,
-			countries,
-			defaultCountry: newDefaultCountry,
-			value: newValue,
-			reset: newReset,
-			international
-		} = props
-
-		const newState = {
+		return {
 			// Emulate `prevProps` via `state.props`.
 			props,
-			// If the user has already manually selected a country
-			// then don't override that already selected country
-			// if the `defaultCountry` property changes.
-			// That's what `hasUserSelectedACountry` flag is for.
-			hasUserSelectedACountry
+			...getPhoneInputWithCountryStateUpdateFromNewProps(props, state.props, state)
 		}
-
-		// Some users requested a way to reset the component
-		// (both number `<input/>` and country `<select/>`).
-		// Whenever `reset` property changes both number `<input/>`
-		// and country `<select/>` are reset.
-		// It's not implemented as some instance `.reset()` method
-		// because `ref` is forwarded to `<input/>`.
-		// It's also not replaced with just resetting `country` on
-		// external `value` reset, because a user could select a country
-		// and then not input any `value`, and so the selected country
-		// would be "stuck", if not using this `reset` property.
-		// https://github.com/catamphetamine/react-phone-number-input/issues/300
-		if (newReset !== prevReset) {
-			return {
-				...newState,
-				parsedInput: undefined,
-				value: undefined,
-				country: newDefaultCountry,
-				hasUserSelectedACountry: undefined
-			}
-		}
-
-		// If the default country changed.
-		// (e.g. in case of ajax GeoIP detection after page loaded)
-		// then select it but only if the user hasn't already manually
-		// selected a country and no phone number has been entered so far.
-		// Because if the user has already started inputting a phone number
-		// then he's okay with no country being selected at all ("International")
-		// and doesn't want to be disturbed, doesn't want his input to be screwed, etc.
-		if (newDefaultCountry !== prevDefaultCountry &&
-			!hasUserSelectedACountry && (
-				(!value && !newValue) ||
-				(international &&
-					value === getInitialParsedInput(undefined, prevDefaultCountry, international, metadata) &&
-					value === getInitialParsedInput(undefined, newDefaultCountry, international, metadata)
-				)
-			)
-		) {
-			return {
-				...newState,
-				country: isCountrySupportedWithError(newDefaultCountry, metadata) ? newDefaultCountry : prevDefaultCountry,
-				// If `parsedInput` is empty, then automatically select the new `country`
-				// and set `parsedInput` to `+{getCountryCallingCode(newCountry)}`.
-				parsedInput: generateInitialParsedInput(newValue, undefined, props)
-				// `value` is `undefined`.
-				// `parsedInput` is `undefined` because `value` is `undefined`.
-			}
-		}
-		// If a new `value` is set externally.
-		// (e.g. as a result of an ajax API request
-		//  to get user's phone after page loaded)
-		// The first part — `newValue !== prevValue` —
-		// is basically `props.value !== prevProps.value`
-		// so it means "if value property was changed externally".
-		// The second part — `newValue !== value` —
-		// is for ignoring the `getDerivedStateFromProps()` call
-		// which happens in `this.onChange()` right after `this.setState()`.
-		// If this `getDerivedStateFromProps()` call isn't ignored
-		// then the country flag would reset on each input.
-		else if (newValue !== prevValue && newValue !== value) {
-			const phoneNumber = parsePhoneNumber(newValue, metadata)
-			let parsedCountry
-			if (phoneNumber) {
-				const countries = getSupportedCountries(props.countries, metadata)
-				if (!countries || countries.indexOf(phoneNumber.country) >= 0) {
-					parsedCountry = phoneNumber.country
-				}
-			}
-			if (!newValue) {
-				newState.hasUserSelectedACountry = undefined
-			}
-			return {
-				...newState,
-				parsedInput: generateInitialParsedInput(newValue, phoneNumber, props),
-				value: newValue,
-				country: newValue ? parsedCountry : newDefaultCountry
-			}
-		}
-
-		// `defaultCountry` didn't change.
-		// `value` didn't change.
-		// `parsedInput` didn't change, because `value` didn't change.
-		//
-		// So no need to update state here really.
-		// Could as well return `null` explicitly
-		// to indicate that the `state` hasn't changed.
-		// But just in case, returns `newState`.
-		// (who knows if someone adds something
-		// changing `newState` above in some future)
-		return newState
 	}
 
 	render() {
@@ -447,18 +354,24 @@ class PhoneNumberInput_ extends React.PureComponent {
 			flagUrl,
 			addInternationalOption,
 			internationalIcon,
+			// `displayInitialValueAsLocalNumber` property has been
+			// superceded by `initialValueFormat` property.
 			displayInitialValueAsLocalNumber,
+			initialValueFormat,
 			onCountryChange,
 			limitMaxLength,
+			countryCallingCodeEditable,
 			reset,
 			metadata,
 			international,
+			locales,
+			// compareStrings,
 			...rest
 		} = this.props
 
 		const {
 			country,
-			parsedInput,
+			phoneDigits,
 			isFocused
 		} = this.state
 
@@ -466,11 +379,13 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		const countrySelectOptions = useMemoCountrySelectOptions(() => {
 			return sortCountryOptions(
-				getCountrySelectOptions(
-					countries || getCountries(metadata),
-					labels,
-					addInternationalOption
-				),
+				getCountrySelectOptions({
+					countries: countries || getCountries(metadata),
+					countryNames: labels,
+					addInternationalOption,
+					compareStringsLocales: locales,
+					// compareStrings
+				}),
 				getSupportedCountryOptions(countryOptionsOrder, metadata)
 			)
 		}, [
@@ -511,7 +426,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 					name={name}
 					metadata={metadata}
 					country={country}
-					value={parsedInput || ''}
+					value={phoneDigits || ''}
 					onChange={this.onChange}
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
@@ -595,14 +510,14 @@ PhoneNumberInput.propTypes = {
 	autoComplete: PropTypes.string.isRequired,
 
 	/**
-	 * Set to `true` to show the initial `value` in
+	 * Set to `"national"` to show the initial `value` in
 	 * "national" format rather than "international".
 	 *
-	 * For example, if this flag is set to `true`
+	 * For example, if `initialValueFormat` is `"national"`
 	 * and the initial `value="+12133734253"` is passed
 	 * then the `<input/>` value will be `"(213) 373-4253"`.
 	 *
-	 * By default, this flag is set to `false`,
+	 * By default, `initialValueFormat` is `undefined`,
 	 * meaning that if the initial `value="+12133734253"` is passed
 	 * then the `<input/>` value will be `"+1 213 373 4253"`.
 	 *
@@ -613,8 +528,12 @@ PhoneNumberInput.propTypes = {
 	 * writing phone numbers in international format rather than in local format.
 	 * Future people won't be using "national" format, only "international".
 	 */
-	// (is `false` by default)
-	displayInitialValueAsLocalNumber: PropTypes.bool.isRequired,
+	// (is `undefined` by default)
+	initialValueFormat: PropTypes.oneOf(['national']),
+
+	// `displayInitialValueAsLocalNumber` property has been
+	// superceded by `initialValueFormat` property.
+	displayInitialValueAsLocalNumber: PropTypes.bool,
 
 	/**
 	 * The country to be selected by default.
@@ -645,6 +564,34 @@ PhoneNumberInput.propTypes = {
 	 * See the `locales` directory for examples.
 	 */
 	labels: labelsPropType.isRequired,
+
+	/**
+	 * Country `<select/>` options are sorted by their labels.
+	 * The default sorting function uses `a.localeCompare(b, locales)`,
+	 * and, if that's not available, falls back to simple `a > b` / `a < b`.
+	 * Some languages, like Chinese, support multiple sorting variants
+	 * (called "collations"), and the user might prefer one or another.
+	 * Also, sometimes the Operating System language is not always
+	 * the preferred language for a person using a website or an application,
+	 * so there should be a way to specify custom locale.
+	 * This `locales` property mimicks the `locales` argument of `Intl` constructors,
+	 * and can be either a Unicode BCP 47 locale identifier or an array of such locale identifiers.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument
+	 */
+	locales: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.arrayOf(PropTypes.string)
+	]),
+
+	/*
+	 * Custom country `<select/>` options sorting function.
+	 * The default one uses `a.localeCompare(b)`, and,
+	 * if that's not available, falls back to simple `a > b`/`a < b`.
+	 * There have been requests to add custom sorter for cases
+	 * like Chinese language and "pinyin" (non-default) sorting order.
+	 * https://stackoverflow.com/questions/22907288/chinese-sorting-by-pinyin-in-javascript-with-localecompare
+	compareStrings: PropTypes.func,
+	 */
 
 	/**
 	 * A URL template of a country flag, where
@@ -801,6 +748,8 @@ PhoneNumberInput.propTypes = {
 
 	/**
 	 * Set to `true` to force "international" phone number format.
+	 * Set to `false` to force "national" phone number format.
+	 * By default it's `undefined` meaning that it doesn't enforce any phone number format.
 	 */
 	international: PropTypes.bool,
 
@@ -809,6 +758,13 @@ PhoneNumberInput.propTypes = {
 	 * if it exceeds the maximum length for the country.
 	 */
 	limitMaxLength: PropTypes.bool.isRequired,
+
+	/**
+	 * If set to `false`, and `international` is `true`, then
+	 * users won't be able to erase the "country calling part"
+	 * of a phone number in the `<input/>`.
+	 */
+	countryCallingCodeEditable: PropTypes.bool.isRequired,
 
 	/**
 	 * `libphonenumber-js` metadata.
@@ -830,7 +786,18 @@ PhoneNumberInput.propTypes = {
 	// therefore reducing "conversion" (that's a marketing term).
 	// Assuming that the phone number's country is the user's country
 	// is not 100% correct but in most cases I guess it's valid.
-	onCountryChange: PropTypes.func
+	onCountryChange: PropTypes.func,
+
+	/**
+	 * If set to `false`, will not focus the `<input/>` component
+	 * when the user selects a country from the list of countries.
+	 * This can be used to conform to the Web Content Accessibility Guidelines (WCAG).
+	 * Quote:
+	 * "On input: Changing the setting of any user interface component
+	 *  does not automatically cause a change of context unless the user
+	 *  has been advised of the behaviour before using the component."
+	 */
+	focusInputOnCountrySelection: PropTypes.bool.isRequired
 }
 
 PhoneNumberInput.defaultProps = {
@@ -881,15 +848,8 @@ PhoneNumberInput.defaultProps = {
 	reset: PropTypes.any,
 
 	/**
-	 * Don't convert the initially passed phone number `value`
-	 * to a national phone number for its country.
-	 * The reason is that the newer generation grows up when
-	 * there are no stationary phones and therefore everyone inputs
-	 * phone numbers with a `+` in their smartphones
-	 * so phone numbers written in international form
-	 * are gradually being considered more natural than local ones.
+	 *
 	 */
-	displayInitialValueAsLocalNumber: false,
 
 	/**
 	 * Set to `false` to use "basic" caret instead of the "smart" one.
@@ -906,38 +866,28 @@ PhoneNumberInput.defaultProps = {
 	 * If set to `true` the phone number input will get trimmed
 	 * if it exceeds the maximum length for the country.
 	 */
-	limitMaxLength: false
+	limitMaxLength: false,
+
+	/**
+	 * If set to `false`, and `international` is `true`, then
+	 * users won't be able to erase the "country calling part"
+	 * of a phone number in the `<input/>`.
+	 */
+	countryCallingCodeEditable: true,
+
+	/**
+	 * If set to `false`, will not focus the `<input/>` component
+	 * when the user selects a country from the list of countries.
+	 * This can be used to conform to the Web Content Accessibility Guidelines (WCAG).
+	 * Quote:
+	 * "On input: Changing the setting of any user interface component
+	 *  does not automatically cause a change of context unless the user
+	 *  has been advised of the behaviour before using the component."
+	 */
+	focusInputOnCountrySelection: true
 }
 
 export default PhoneNumberInput
-
-/**
- * Gets initial `parsedInput` value.
- * @param  {string} [value]
- * @param  {PhoneNumber} [phoneNumber]
- * @param  {boolean} [options.international]
- * @param  {string} [options.defaultCountry]
- * @param  {boolean} options.displayInitialValueAsLocalNumber
- * @param  {object} options.metadata
- * @return {string} [parsedInput]
- */
-function generateInitialParsedInput(value, phoneNumber, {
-	international,
-	defaultCountry,
-	metadata,
-	displayInitialValueAsLocalNumber
-}) {
-	// If the `value` (E.164 phone number)
-	// belongs to the currently selected country
-	// and `displayInitialValueAsLocalNumber` property is `true`
-	// then convert `value` (E.164 phone number)
-	// to a local phone number digits.
-	// E.g. '+78005553535' -> '88005553535'.
-	if (displayInitialValueAsLocalNumber && phoneNumber && phoneNumber.country) {
-		return generateNationalNumberDigits(phoneNumber)
-	}
-	return getInitialParsedInput(value, defaultCountry, international, metadata)
-}
 
 let countrySelectOptionsMemo
 let countrySelectOptionsMemoDependencies

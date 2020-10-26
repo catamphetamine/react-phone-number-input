@@ -7,7 +7,7 @@
     "text-summary"
   ],
   "include": [
-    "source/phoneInputHelpers.js"
+    "source/helpers"
   ],
   "exclude": [
     "**/*.test.js"

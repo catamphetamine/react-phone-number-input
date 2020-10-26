@@ -1,5 +1,34 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.2 / 26.10.2020
+==================
+
+* `displayInitialValueAsLocalNumber={true}` property is deprecated: it has been replaced with `initialValueFormat="national"` property. The old property still works in version `3.x`.
+
+* [Added](https://github.com/catamphetamine/react-phone-number-input/issues/367) `countryCallingCodeEditable={false}` property on a "with country select" component: when `international` is `true`, then, by default, the "country calling code" part of a phone number is editable. Passing `countryCallingCodeEditable={false}` property makes it non-editable.
+
+3.1.1 / 24.10.2020
+==================
+
+* [Added](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/35) `focusInputOnCountrySelection: boolean` property. If set to `false`, will not focus the `<input/>` component when the user selects a country from the list of countries. This can be used to conform to the Web Content Accessibility Guidelines (WCAG). Quote: "On input: Changing the setting of any user interface component does not automatically cause a change of context unless the user has been advised of the behaviour before using the component".
+
+* [Added](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/36) `international: false` property that doesn't allow international phone number format during input. Some hypothetical people could hypothetically already be passing something like `international={condition ? true : false}` in their apps, meaning that this new version's behavior regarding `international={false}` could potentially come as a surprise for them, but that would be an indefinitely small minority, and it wouldn't strictly speaking break their apps because users would still be able to input their phone number.
+
+3.1.0 / 23.09.2020
+==================
+
+* Added `withCountryCallingCode` property on the `/input` component: when `country` is set and `international` is `true` and `withCountryCallingCode` is `true` then the "country calling code" part of the phone number will be included in the `<input/>` field.
+
+* Added an _experimental_ React Native exported component (see the README).
+
+* "With country select" component in "force international mode" now [appends "leading digits"](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/10) for some countries when pre-populating the initial phone number prefix.
+
+3.0.27 / 22.09.2020
+===================
+
+* Fixed a bug when resetting `defaultCountry` property of a "with country select" component produced an error.
+
+
 3.0.14 / 22.01.2020
 ===================
 

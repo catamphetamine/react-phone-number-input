@@ -6,7 +6,6 @@
 	--PhoneInputCountrySelect-marginRight: 0.35em;
 	--PhoneInputCountrySelectArrow-width: 0.3em;
 	--PhoneInputCountrySelectArrow-marginLeft: var(--PhoneInputCountrySelect-marginRight);
-	--PhoneInputCountrySelectArrow-marginTop: calc(var(--PhoneInputCountrySelectArrow-height) / 2);
 	--PhoneInputCountrySelectArrow-borderWidth: 1px;
 	--PhoneInputCountrySelectArrow-opacity: 0.45;
 	--PhoneInputCountrySelectArrow-color: inherit;
@@ -106,7 +105,6 @@
 	content: '';
 	width: var(--PhoneInputCountrySelectArrow-width);
 	height: var(--PhoneInputCountrySelectArrow-width);
-	margin-top: var(--PhoneInputCountrySelectArrow-marginTop);
 	margin-left: var(--PhoneInputCountrySelectArrow-marginLeft);
 	border-style: solid;
 	border-color: var(--PhoneInputCountrySelectArrow-color);

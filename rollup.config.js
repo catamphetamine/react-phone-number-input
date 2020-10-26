@@ -103,5 +103,53 @@ export default [
         'prop-types': 'PropTypes'
       }
     }
+  },
+  {
+    input: 'input-mobile/index.js',
+    plugins: [
+      resolveModules,
+      commonjs(),
+      json(),
+      terser()
+    ],
+    external: [
+      'react',
+      'prop-types'
+    ],
+    output: {
+      format: 'umd',
+      name: 'PhoneInput',
+      file: 'bundle/react-phone-number-input-input-mobile.js',
+      sourcemap: true,
+      exports: 'named',
+      globals: {
+        'react': 'React',
+        'prop-types': 'PropTypes'
+      }
+    }
+  },
+  {
+    input: 'input-max/index.js',
+    plugins: [
+      resolveModules,
+      commonjs(),
+      json(),
+      terser()
+    ],
+    external: [
+      'react',
+      'prop-types'
+    ],
+    output: {
+      format: 'umd',
+      name: 'PhoneInput',
+      file: 'bundle/react-phone-number-input-input-max.js',
+      sourcemap: true,
+      exports: 'named',
+      globals: {
+        'react': 'React',
+        'prop-types': 'PropTypes'
+      }
+    }
   }
 ]

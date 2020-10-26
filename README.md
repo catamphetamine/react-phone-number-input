@@ -5,10 +5,13 @@
 
 International phone number `<input/>` for React.
 
+[<img src="https://gitlab.com/catamphetamine/react-phone-number-input/-/raw/master/docs/images/first-glance-local.png" width="270" height="113"/>](http://catamphetamine.gitlab.io/react-phone-number-input/)
+
 [See Demo](http://catamphetamine.gitlab.io/react-phone-number-input/)
 
-This is a readme for the latest version (`3.x`) of the library. The previous version (`2.x`) readme could be found on [github](https://github.com/catamphetamine/react-phone-number-input/tree/2.x) until they removed it. For migrating from `2.x` to `3.x` see the [changelog](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/CHANGELOG.md).
+<!-- This is a readme for the latest version (`3.x`) of the library. The previous version (`2.x`) readme could be found on [github](https://github.com/catamphetamine/react-phone-number-input/tree/2.x) until they removed it. For migrating from `2.x` to `3.x` see the [changelog](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/CHANGELOG.md). -->
 
+<!--
 ## Screenshots
 
 ### Phone number input
@@ -24,10 +27,7 @@ This is a readme for the latest version (`3.x`) of the library. The previous ver
 ### Country selection on mobile
 
 <img src="https://gitlab.com/catamphetamine/react-phone-number-input/-/raw/master/docs/images/iphone-native-select.png" width="380" height="443"/>
-
-## GitHub
-
-On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3) my account (and all my libraries) without any notice. I opened a support ticked but they didn't answer. Because of that, I had to move all my libraries to [GitLab](https://gitlab.com/catamphetamine).
+-->
 
 ## Install
 
@@ -37,15 +37,23 @@ npm install react-phone-number-input --save
 
 If you're not using a bundler then use a [standalone version from a CDN](https://gitlab.com/catamphetamine/react-phone-number-input/#cdn).
 
+The component uses [`libphonenumber-js`](https://www.npmjs.com/package/libphonenumber-js) for phone number parsing and formatting.
+
 ## Use
 
-The component requires two properties: `value` and `onChange(value)`. [See the list of all available `props`](http://catamphetamine.gitlab.io/react-phone-number-input/docs/index.html#phoneinputwithcountry).
+The component comes in two variants: "with country select" and "without country select".
+
+## With country select
+
+"With country select" component requires two properties: `value` and `onChange(value)`. [See the list of all available `props`](http://catamphetamine.gitlab.io/react-phone-number-input/docs/index.html#phoneinputwithcountry).
 
 ```js
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
 function Example() {
+  // `value` will be the parsed phone number in E.164 format.
+  // Example: "+12133734253".
   const [value, setValue] = useState()
   return (
     <PhoneInput
@@ -60,13 +68,13 @@ The `value` argument of `onChange(value)` function will be the parsed phone numb
 
 All unknown properties will be passed through to the phone number `<input/>` component.
 
-To set default country pass a `defaultCountry` property. Example: `<PhoneInput defaultCountry="US" .../>`.
+To set a default country, pass a `defaultCountry` property. Example: `<PhoneInput defaultCountry="US" .../>`.
 
-To get selected country pass an `onCountryChange(country)` property, or use [`parsePhoneNumber(value)`](#parsephonenumberinput-string-phonenumber) function to get `country` from `value`: `parsePhoneNumber(value) && parsePhoneNumber(value).country`.
+To get the currently selected country, pass an `onCountryChange(country)` property.
 
-To format `value` back to a human-readable phone number use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) or [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string) functions.
+To get the country of a complete phone number, use [`parsePhoneNumber(value)`](#parsephonenumberinput-string-phonenumber): `parsePhoneNumber(value) && parsePhoneNumber(value).country`.
 
-There's also a ["without country select"](#without-country-select) phone number input component available.
+To format `value` back to a human-readable phone number, use [`formatPhoneNumber(value)`](#formatphonenumbervalue-string-string) or [`formatPhoneNumberIntl(value)`](#formatphonenumberintlvalue-string-string).
 
 <!--
 The input is based on [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js) phone number parsing/formatting library. The [`formatPhoneNumber(value, format)`](https://gitlab.com/catamphetamine/libphonenumber-js#formatnumbernumber-format-options) function can be used to output the `value` in `"National"` or `"International"` format.
@@ -76,21 +84,22 @@ The input is based on [`libphonenumber-js`](https://gitlab.com/catamphetamine/li
 The phone number `<input/>` itself is implemented using [`input-format`](https://catamphetamine.gitlab.io/input-format/) (which has an issue with some Samsung Android phones, [see the workaround](#android)).
 -->
 
-## CSS
+#### CSS
 
-The styles for this component are in the [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) file. CSS class names start with `.PhoneInput`, and for `:focus` state there's `.PhoneInput--focus` CSS class name.
+"With country select" component comes with a [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) stylesheet. All CSS class names start with `.PhoneInput`, and `:focus` state is styled via `.PhoneInput--focus` CSS class.
 
-The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for easier styling. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
+The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for convenience. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
 
-An example of CSS variables:
+Some of the CSS variables:
 
 * `--PhoneInputCountryFlag-height` — Flag icon height.
 * `--PhoneInputCountryFlag-borderColor` — Flag icon outline color.
 * `--PhoneInputCountrySelectArrow-color` — Country select arrow color.
 * `--PhoneInputCountrySelectArrow-opacity` — Country select arrow opacity (when not `:focus`ed).
 * `--PhoneInput-color--focus` — Flag icon `:focus` outline color, and also country select arrow `:focus` color.
+* …
 
-#### When using Webpack
+##### When using Webpack
 
 When using Webpack, include the stylesheet on a page via `import`:
 
@@ -98,11 +107,12 @@ When using Webpack, include the stylesheet on a page via `import`:
 import 'react-phone-number-input/style.css'
 ```
 
-It is also recommended to set up something like a [`postcss-loader`](https://github.com/postcss/postcss-loader) with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) or [`postcss-custom-properties` transpiler](https://github.com/postcss/postcss-custom-properties) for supporting old web browsers.
+For supporting old browsers like Internet Explorer, one could
+use [`postcss-loader`](https://github.com/postcss/postcss-loader) with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) and [`postcss-custom-properties` transpiler](https://github.com/postcss/postcss-custom-properties).
 
-#### When not using Webpack
+##### When not using Webpack
 
-Get `style.css` file from this package, optionally process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) or [`postcss-custom-properties` transpiler](https://github.com/postcss/postcss-custom-properties) for supporting old web browsers, and then include the CSS file on a page.
+Get `style.css` file from this package, optionally process it with a [CSS autoprefixer](https://github.com/postcss/autoprefixer) and [`postcss-custom-properties` transpiler](https://github.com/postcss/postcss-custom-properties) for supporting old web browsers, and then include the CSS file on a page.
 
 ```html
 <head>
@@ -110,7 +120,138 @@ Get `style.css` file from this package, optionally process it with a [CSS autopr
 </head>
 ```
 
-Or include the `style.css` file directly from a [CDN](#cdn).
+Or include the `style.css` file directly from a [CDN](#cdn) if you don't have to support Internet Explorer.
+
+## Without country select
+
+"Without country select" component is just a phone number `<input/>`.
+
+```js
+import PhoneInput from 'react-phone-number-input/input'
+
+function Example() {
+  // `value` will be the parsed phone number in E.164 format.
+  // Example: "+12133734253".
+  const [value, setValue] = useState()
+  // If `country` property is not passed
+  // then "International" format is used.
+  // Otherwise, "National" format is used.
+  return (
+    <PhoneInput
+      country="US"
+      value={value}
+      onChange={setValue} />
+  )
+}
+```
+
+Doesn't require any CSS.
+
+Receives properties:
+
+* `country: string?` — If `country` is specified then the phone number can only be input in "national" (not "international") format, and will be parsed as a phone number belonging to the `country`. Example: `country="US"`.
+
+* `international: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (`+1` when `country` is `US`) is not included in the input field: that could be changed by passing `withCountryCallingCode` property (see below). So, if `country` is `US` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (`(213) 373-4253`). But if `country` is `"US"` and `international` property is `true` then the phone number can only be input in the "international" format for `US` (`213 373 4253`) without the "country calling code" part (`+1`). This could be used for implementing phone number input components that show "country calling code" part before the input field and then the user can fill in the rest of their phone number digits in the input field.
+
+* `withCountryCallingCode: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (`+1` when `country` is `US`) is not included in the input field. To change that, pass `withCountryCallingCode` property, and it will include the "country calling code" part in the input field. See the demo for an example.
+
+* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Example: `defaultCountry="US"`.
+
+* If neither `country` nor `defaultCountry` are specified then the phone number can only be input in "international" format.
+
+* `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
+
+* `onChange(value: string?)` — Updates the `value`.
+
+* `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must be a `React.forwardRef()` to the actual `<input/>`.
+
+* `smartCaret: boolean?` — By default, the `<input/>` uses "smart" caret positioning. To turn that behavior off one can pass `smartCaret={false}` property.
+
+* `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
+
+See the [demo](http://catamphetamine.gitlab.io/react-phone-number-input/) for the examples.
+
+For those who want to pass custom `metadata` there's `react-phone-number-input/input-core` sub-package.
+
+This library also exports `getCountries()` and `getCountryCallingCode(country)` functions that a developer could use to construct their own custom country select. Such custom country `<select/>` could be used in conjunction with the "without country select" `<input/>` described above.
+
+<details>
+<summary>Creating a custom country <code>&lt;select/&gt;</code></summary>
+
+####
+
+```js
+import PropTypes from 'prop-types'
+import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+
+const CountrySelect = ({ value, onChange, labels, ...rest }) => (
+  <select
+    {...rest}
+    value={value}
+    onChange={event => onChange(event.target.value || undefined)}>
+    <option value="">
+      {labels['ZZ']}
+    </option>
+    {getCountries().map((country) => (
+      <option key={country} value={country}>
+        {labels[country]} +{getCountryCallingCode(country)}
+      </option>
+    ))}
+  </select>
+)
+
+CountrySelect.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  labels: PropTypes.objectOf(PropTypes.string).isRequired
+}
+```
+
+Use:
+
+```js
+import PhoneInput from 'react-phone-number-input/input'
+import en from 'react-phone-number-input/locale/en.json'
+import CountrySelect from './CountrySelect'
+
+function Example() {
+  const [country, setCountry] = useState('US')
+  const [value, setValue] = useState()
+  return (
+    <div>
+      <CountrySelect
+        labels={en}
+        value={country}
+        onChange={setCountry}/>
+      <PhoneInput
+        country={country}
+        value={value}
+        onChange={setValue}/>
+    </div>
+  )
+}
+```
+</details>
+
+## React Native
+
+This library is shipped with an _experimental_ React Native component. See the [feedback thread](https://github.com/catamphetamine/react-phone-number-input/issues/296).
+
+```js
+import React, { useState } from 'react'
+import PhoneInput from 'react-phone-number-input/react-native-input'
+
+function Example() {
+  const [value, setValue] = useState()
+  return (
+    <PhoneInput
+      style={...}
+      defaultCountry="US"
+      value={value}
+      onChange={setValue} />
+  )
+}
+```
 
 ## Utility
 
@@ -197,7 +338,7 @@ For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag
 
 A sidenote: `flagpack` [doesn't have](https://github.com/jackiboy/flagpack/issues/3) `AC` and `TA` flags, so the `flag.pk` website URL can't be used directly.
 
-## Include Flags
+## Including all flags
 
 Linking flag icons as external `<img/>`s is only done to reduce the overall bundle size, because including all country flags in the code as inline `<svg/>`s would increase the bundle size by 44 kB (after gzip).
 
@@ -209,76 +350,6 @@ import flags from 'react-phone-number-input/flags'
 
 <PhoneInput flags={flags} .../>
 ```
-
-## Without country select
-
-To render just a phone number input component without country `<select/>`:
-
-```js
-import PhoneInput from 'react-phone-number-input/input'
-
-function Example() {
-  // `value` will be the parsed phone number in E.164 format.
-  // Example: "+12133734253".
-  const [value, setValue] = useState()
-  // If `country` property is not passed
-  // then "International" format is used.
-  return (
-    <PhoneInput
-      country="US"
-      value={value}
-      onChange={setValue} />
-  )
-}
-```
-
-Receives properties:
-
-* `country: string?` — If `country` is specified then the phone number can only be input in "national" (not "international") format, and will be parsed as a phone number belonging to the `country`. Example: `country="US"`.
-
-* `international: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`, but without "country calling code" part. For example, if `country` is `"US"` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (`(213) 373-4253`). But if `country` is `"US"` and `international` property is `true` then the phone number will be input in the "international" format for `US` (`213 373 4253`) without "country calling code" part (`+1`). This could be used for implementing phone number input components that show "country calling code" part before the input field and then the user can fill in the rest of their phone number in the input field.
-
-* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Example: `defaultCountry="US"`.
-
-* If neither `country` nor `defaultCountry` are specified then the phone number can only be input in "international" format.
-
-* `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
-
-* `onChange(value: string?)` — Updates the `value`.
-
-* `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must be a `React.forwardRef()` to the actual `<input/>`.
-
-* `smartCaret: boolean?` — By default, the `<input/>` uses "smart" caret positioning. To turn that behavior off one can pass `smartCaret={false}` property.
-
-* `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
-
-See the [demo](http://catamphetamine.gitlab.io/react-phone-number-input/) for the examples.
-
-For those who want to pass custom `metadata` there's `react-phone-number-input/input-core` subpackage.
-
-#### Creating custom country `<select/>`
-
-This library also exports `getCountries()` and `getCountryCallingCode(country)` functions so that a developer could construct their own custom country select. Such custom country `<select/>` could be used in conjunction with "without country select" input described above.
-
-```js
-import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
-import en from 'react-phone-number-input/locale/en.json'
-
-<select
-  value={country}
-  onChange={event => setCountry(event.target.value || undefined)}>
-  <option value="">
-    {en['ZZ']}
-  </option>
-  {getCountries().map((country) => (
-    <option key={country} value={country}>
-      {en[country]} +{getCountryCallingCode(country)}
-    </option>
-  ))}
-</select>
-```
-
-See the [demo](http://catamphetamine.gitlab.io/react-phone-number-input/) for the example.
 
 <!--
 ## Android
@@ -301,7 +372,7 @@ import PhoneInput from 'react-phone-number-input'
 
 ## Localization
 
-Language translations can be applied using the `labels` property. This component comes pre-packaged with several [translations](https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale) (submit pull requests for adding new language translations).
+Language translations can be applied using the `labels` property. This component comes pre-packaged with several [translations](https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new language translations.
 
 <details>
 <summary>Where to get country names for any language.</summary>
@@ -353,19 +424,33 @@ import ru from 'react-phone-number-input/locale/ru'
 
 ## `min` vs `max` vs `mobile`
 
-This component uses [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js) which requires choosing a "metadata" set to be used, "metadata" being a list of phone number parsing and formatting rules for all countries. The complete list of rules is huge, so `libphonenumber-js` provides a way to optimize bundle size by choosing between `max`, `min`, `mobile` and custom metadata:
+This component uses [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js) which provides different "metadata" sets, "metadata" being a list of phone number parsing and formatting rules for all countries. The complete list of those rules is huge, so `libphonenumber-js` provides a way to optimize bundle size by choosing between `max`, `min`, `mobile` and "custom" metadata:
 
-* `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`). Choose this when you need a strict version of `isValidPhoneNumber(value)` function, or if you need to get phone number type (fixed line, mobile, etc).
+* `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`). Choose this when you need the most strict version of `isValid()`, or if you need to detect phone number type ("fixed line", "mobile", etc).
 
-* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Doesn't contain regular expressions for advanced phone number validation ([`.isValid()`](https://gitlab.com/catamphetamine/libphonenumber-js#isvalid)) and determining phone number type ([`.getType()`](https://gitlab.com/catamphetamine/libphonenumber-js#gettype)) for most countries. Some simple phone number validation via `.isValid()` still works (basic length check, etc), it's just that it's loose compared to the "advanced" validation (not so strict). Choose this by default: when you don't need to get phone number type (fixed line, mobile, etc), or when a non-strict version of `isValidPhoneNumber(value)` function is enough.
+* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Choose this by default: when you don't need to detect phone number type ("fixed line", "mobile", etc), or when a basic version of `isValid()` is enough. The `min` metadata set doesn't contain the regular expressions for phone number digits validation (via [`.isValid()`](#isvalid)) and detecting phone number type (via [`.getType()`](#gettype)) for most countries. In this case, `.isValid()` still performs some basic phone number validation (for example, checks phone number length), but it doesn't validate phone number digits themselves the way `max` metadata validation does.
 
-* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `105 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`). Choose this when you _only_ work with mobile numbers and a strict version of `isValidPhoneNumber(value)` function is required for validating mobile numbers.
+* `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `95 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`). Choose this when you need `max` metadata and when you _only_ accept mobile numbers. Other phone number types will still be parseable, but they won't be recognized as being "valid" (`isValidPhoneNumber()` will return `false`).
 
-To use a particular metadata set import the component from the relevant sub-package: `react-phone-number-input/max`, `react-phone-number-input/min` or `react-phone-number-input/mobile`.
+To use a particular metadata set, simply import functions from a relevant sub-package.
 
-Importing the component directly from `react-phone-number-input` results in using the `min` metadata which means loose (non-strict) phone number validation.
+For "with country select" component those're:
 
-Sometimes (rarely) not all countries are needed and in those cases the developers may want to [generate](https://gitlab.com/catamphetamine/libphonenumber-js#customizing-metadata) their own "custom" metadata set. For those cases there's `react-phone-number-input/core` sub-package which doesn't come pre-wired with any default metadata and instead accepts the metadata as a property.
+* `react-phone-number-input/max`
+* `react-phone-number-input/min`
+* `react-phone-number-input/mobile`
+
+Importing functions directly from `react-phone-number-input` effectively results in using the `min` metadata.
+
+For "without country select" component the sub-packages are:
+
+* `react-phone-number-input/input-max`
+* `react-phone-number-input/input` (for `min`)
+* `react-phone-number-input/input-mobile`
+
+Sometimes (rarely) not all countries are needed, and in those cases developers may want to [generate](#customizing-metadata) their own "custom" metadata set. For those cases, there's a `/core` sub-package that doesn't come pre-packaged with any default metadata set and instead accepts metadata as a component property and as the last argument of each exported function.
+
+For "with country select" component, the `/core` export is `react-phone-number-input/core`, and for "without country select" component, the `/core` export is `react-phone-number-input/input-core`.
 
 ## Bug reporting
 
@@ -391,24 +476,11 @@ The `<PhoneInput/>` component accepts some [customization properties](http://cat
 
 * `internationalIcon` — Custom "International" icon.
 
-```js
-import PhoneInput from 'react-phone-number-input/min'
+* `flagComponent` — Custom flag icon component.
 
-import metadata from 'libphonenumber-js/metadata.min.json'
-import labels from 'react-phone-number-input/locale/en.json'
+* `countrySelectProps.arrowComponent` — Custom arrow component of the default country `<select/>`.
 
-<PhoneInput
-  inputComponent={...}
-  countrySelectComponent={...}
-  labels={labels}
-  metadata={metadata}/>
-```
-
-All these customization properties have their default values. If some of those default values are not used, and the developer wants to reduce the bundle size a bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component which doesn't include any of the default customization properties: in this case all customization properties must be passed (except for `internationalIcon`).
-
-```js
-import PhoneInput from 'react-phone-number-input/core'
-```
+All these customization properties have their default values: `min` metadata, English labels, default country `<select/>` component. If some of those default values are not used, and the developer wants to reduce the bundle size a tiny bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component that doesn't include any of the aforementioned default properties.
 
 #### `countrySelectComponent`
 
@@ -509,6 +581,10 @@ Without country select:
 
 [React Responsive UI](https://catamphetamine.gitlab.io/react-responsive-ui/) component library.
 -->
+
+## GitHub
+
+On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3) my account (erasing all my repos, issues and comments) without any notice or explanation. Because of that, all source codes had to be promptly moved to [GitLab](https://gitlab.com/catamphetamine/react-phone-number-input). GitHub repo is now deprecated, and the latest source codes can be found on GitLab, which is also the place to report any issues.
 
 ## License
 

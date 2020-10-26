@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { AsYouType, getCountryCallingCode, parseDigits } from 'libphonenumber-js/core'
 
 import InputSmart from './InputSmart'
 import InputBasic from './InputBasic'
+import usePhoneDigits from './usePhoneDigits'
 
 export function createInput(defaultMetadata) {
 	function PhoneInput({
@@ -15,91 +15,23 @@ export function createInput(defaultMetadata) {
 		metadata,
 		smartCaret,
 		international,
+		withCountryCallingCode,
 		...rest
 	}, ref) {
-		const getInitialParsedInput = () => getParsedInputForValue(
+		// "Phone digits" includes not only "digits" but also a `+` sign.
+		const [
+			phoneDigits,
+			setPhoneDigits
+		] = usePhoneDigits({
 			value,
+			onChange,
 			country,
-			international,
 			defaultCountry,
+			international,
+			withCountryCallingCode,
 			useNationalFormatForDefaultCountryValue,
 			metadata
-		)
-		// This is only used to detect `country` property change.
-		const [prevCountry, setPrevCountry] = useState(country)
-		// This is only used to detect `defaultCountry` property change.
-		const [prevDefaultCountry, setPrevDefaultCountry] = useState(defaultCountry)
-		// `parsedInput` is the `value` passed to the `<input/>`.
-		const [parsedInput, setParsedInput] = useState(getInitialParsedInput())
-		// This is only used to detect `value` property changes.
-		const [valueForParsedInput, setValueForParsedInput] = useState(value)
-		// If `value` property has been changed externally
-		// then re-initialize the component.
-		useEffect(() => {
-			if (value !== valueForParsedInput) {
-				setValueForParsedInput(value)
-				setParsedInput(getInitialParsedInput())
-			}
-		}, [value])
-		// If the `country` has been changed then re-initialize the component.
-		useEffect(() => {
-			if (country !== prevCountry) {
-				setPrevCountry(country)
-				setParsedInput(getInitialParsedInput())
-			}
-		}, [country])
-		// If the `defaultCountry` has been changed then re-initialize the component.
-		useEffect(() => {
-			if (defaultCountry !== prevDefaultCountry) {
-				setPrevDefaultCountry(defaultCountry)
-				setParsedInput(getInitialParsedInput())
-			}
-		}, [defaultCountry])
-		// Update the `value` after `valueForParsedInput` has been updated.
-		useEffect(() => {
-			if (valueForParsedInput !== value) {
-				onChange(valueForParsedInput)
-			}
-		}, [valueForParsedInput])
-		const onParsedInputChange = useCallback((parsedInput) => {
-			let value
-			if (country) {
-				// Won't allow `+` in the beginning
-				// when a `country` has been specified.
-				if (parsedInput && parsedInput[0] === '+') {
-					parsedInput = parsedInput.slice(1)
-				}
-			} else if (!defaultCountry) {
-				// Force a `+` in the beginning of a `value`
-				// when no `country` and `defaultCountry` have been specified.
-				if (parsedInput && parsedInput[0] !== '+') {
-					parsedInput = '+' + parsedInput
-				}
-			}
-			// Convert `parsedInput` to `value`.
-			if (parsedInput) {
-				const asYouType = new AsYouType(country || defaultCountry, metadata)
-				asYouType.input(
-					country && international ?
-					`+${getCountryCallingCode(country, metadata)}${parsedInput}` :
-					parsedInput
-				)
-				const phoneNumber = asYouType.getNumber()
-				// If it's a "possible" incomplete phone number.
-				if (phoneNumber) {
-					value = phoneNumber.number
-				}
-			}
-			setParsedInput(parsedInput)
-			setValueForParsedInput(value)
-		}, [
-			country,
-			international,
-			defaultCountry,
-			metadata,
-			setParsedInput,
-			setValueForParsedInput
-		])
+		})
 		const InputComponent = smartCaret ? InputSmart : InputBasic
 		return (
 			<InputComponent
@@ -107,9 +39,10 @@ export function createInput(defaultMetadata) {
 				ref={ref}
 				metadata={metadata}
 				international={international}
+				withCountryCallingCode={withCountryCallingCode}
 				country={country || defaultCountry}
-				value={parsedInput}
-				onChange={onParsedInputChange} />
+				value={phoneDigits}
+				onChange={setPhoneDigits} />
 		)
 	}
 
@@ -169,6 +102,14 @@ export function createInput(defaultMetadata) {
 		 * (without "country calling code" `+1`).
 		 */
 		international: PropTypes.bool,
+
+		/**
+		 * If `country` and `international` properties are set,
+		 * then by default it won't include "country calling code" in the input field.
+		 * To change that, pass `withCountryCallingCode` property,
+		 * and it will include "country calling code" in the input field.
+		 */
+		withCountryCallingCode: PropTypes.bool,
 
 		/**
 		 * The `<input/>` component.
@@ -237,50 +178,3 @@ export function createInput(defaultMetadata) {
 }
 
 export default createInput()
-
-/**
- * Returns phone number input field value for a E.164 phone number `value`.
- * @param  {string} [value]
- * @param  {string} [country]
- * @param  {boolean} [international]
- * @param  {string} [defaultCountry]
- * @param  {boolean} [useNationalFormatForDefaultCountryValue]
- * @param  {object} metadata
- * @return {string}
- */
-function getParsedInputForValue(
-	value,
-	country,
-	international,
-	defaultCountry,
-	useNationalFormatForDefaultCountryValue,
-	metadata
-) {
-	if (!value) {
-		return ''
-	}
-	if (!country && !defaultCountry) {
-		return value
-	}
-	const asYouType = new AsYouType(undefined, metadata)
-	asYouType.input(value)
-	const phoneNumber = asYouType.getNumber()
-	if (phoneNumber) {
-		if (country) {
-			if (phoneNumber.country && phoneNumber.country !== country) {
-				console.error(`[react-phone-number-input] Phone number ${value} corresponds to country ${phoneNumber.country} but ${country} was specified instead.`)
-			}
-			if (international) {
-				return phoneNumber.nationalNumber
-			}
-			return parseDigits(phoneNumber.formatNational())
-		} else {
-			if (phoneNumber.country && phoneNumber.country === defaultCountry && useNationalFormatForDefaultCountryValue) {
-				return parseDigits(phoneNumber.formatNational())
-			}
-			return value
-		}
-	} else {
-		return ''
-	}
-}

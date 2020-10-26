@@ -1,7 +1,12 @@
 import { getCountryCallingCode } from 'libphonenumber-js/core'
 
-export function getInputValuePrefix(country, international, metadata) {
-	return country && international ?
+export function getInputValuePrefix({
+	country,
+	international,
+	withCountryCallingCode,
+	metadata
+}) {
+	return country && international && !withCountryCallingCode ?
 		`+${getCountryCallingCode(country, metadata)}` :
 		''
 }

@@ -108,7 +108,26 @@
 			border: 1px solid rgba(0, 0, 0, 0.05);
 		}
 
-		section
+		.main-section
+		{
+			margin-top: 1.5rem;
+		}
+
+		.main-section + .main-section
+		{
+			margin-top: 3rem;
+		}
+
+		.main-section > h1
+		{
+			margin-top: 0rem;
+			padding-top: 1rem;
+			margin-bottom: 0.5rem;
+			display: inline-block;
+			border-bottom: 1px solid currentColor;
+		}
+
+		.main-section > section
 		{
 			margin-top: 30px;
 			margin-bottom: 30px;
@@ -118,34 +137,34 @@
 			box-shadow: 0 0 3px rgba(0,0,0,0.1);
 		}
 
-		section:last-child
+		.main-section > section:last-child
 		{
 			margin-bottom: 0;
 		}
 
-		section > h1
+		.main-section > section > h1
 		{
 			margin-top: 0;
 			margin-bottom: 1em;
 			font-size: 125%;
 		}
 
-		section > h2
+		.main-section > section > h2
 		{
 			margin-top: 1em;
 			margin-bottom: 1em;
 			font-size: 125%;
-			font-weight: normal;
+			/*font-weight: normal;*/
 		}
 
-		section > p
+		.main-section > section > p
 		{
 			margin-top: 1em;
 			margin-bottom: 1em;
 			line-height: 1.45em;
 		}
 
-		section > *:last-child
+		.main-section > section > *:last-child
 		{
 			margin-bottom: 0;
 		}
@@ -197,6 +216,19 @@
 			max-width: 14rem;
 		}
 
+		.Arrow {
+			width: 0;
+			height: 0;
+			border-left: 6px solid transparent;
+			border-right: 6px solid transparent;
+			border-top: 6px solid currentColor;
+			margin-left: 8px;
+		}
+
+		.PhoneInput--focus .Arrow {
+			color: #03b2cb;
+		}
+
 		/* Overrides Chrome autofill yellow background color */
 		/*
 		.rrui__input-field:-webkit-autofill,
@@ -213,6 +245,22 @@
 			border-bottom: none;
 		}
 		*/
+
+		.heading-divider {
+			margin-left: 0.2em;
+			margin-right: 0.2em;
+			color: #c0c0c0;
+		}
+
+		hr.divider {
+			margin-top: 2em;
+			margin-bottom: 1.5em;
+			margin-left: -1.3em;
+			margin-right: -1.3em;
+			color: #c0c0c0;
+			border: none;
+			border-bottom: 1px solid currentColor;
+		}
 
 		@media (max-width: 720px)
 		{
@@ -532,6 +580,12 @@
 				)
 			}
 
+			class Arrow extends React.Component {
+				render() {
+					return <div className="Arrow"/>
+				}
+			}
+
 			class Content extends React.Component
 			{
 				constructor()
@@ -550,30 +604,39 @@
 				{
 					return (
 						<div>
-							<section>
-								<h1>
+							<p>
+								The phone number input component comes in two variants: "<a href="#with-country-select"><strong>with country select</strong></a>" and "<a href="#without-country-select"><strong>without country select</strong></a>".
+							</p>
+
+							<section className="main-section">
+								<h1 id="with-country-select">
 									With country &lt;select/&gt;
 								</h1>
 
-								<p>
-									The default export of this package is a phone number <code>&lt;input/&gt;</code> with a country <code>&lt;select/&gt;</code>.
-								</p>
+								<section>
+									<h1>
+										Summary
+									</h1>
 
-								{/*
-											flagUrl="https://flag.pk/flags/4x3/{xx}.svg"
-								*/}
-								<form>
-									<PhoneInput
-										placeholder="Enter phone number"
-										value={this.state.value_native}
-										onChange={value => this.setState({ value_native: value })}/>
-								</form>
+									<p>
+										The default component exported from this package is a phone number <code>&lt;input/&gt;</code> with a country <code>&lt;select/&gt;</code>:
+									</p>
 
-								<p>
-									<code>value</code>: {this.state.value_native && <code>{this.state.value_native}</code>}
-								</p>
+									{/*
+												flagUrl="https://flag.pk/flags/4x3/{xx}.svg"
+									*/}
+									<form>
+										<PhoneInput
+											placeholder="Enter phone number"
+											value={this.state.value_native}
+											onChange={value => this.setState({ value_native: value })}/>
+									</form>
 
-								<Highlight lang="jsx">
+									<p>
+										<code>value</code>: {this.state.value_native && <code>{this.state.value_native}</code>}
+									</p>
+
+									<Highlight lang="jsx">
 {`import PhoneInput from 'react-phone-number-input'
 
 <PhoneInput
@@ -581,219 +644,32 @@
   value={value}
   onChange={setValue}/>
 `}
-								</Highlight>
-							</section>
+									</Highlight>
+								</section>
 
-							<section>
-								<h1>
-									Without country &lt;select/&gt;
-								</h1>
+								{/*
+								<section>
+									<h1>
+										With custom country &lt;select/&gt;
+									</h1>
 
-								"Without country select" phone number input component can be imported from <code>react-phone-number-input/input</code> subpackage.
+									<p>
+										This is an illustration of using <a target="_blank" href="https://catamphetamine.gitlab.io/react-responsive-ui/"><code>react-responsive-ui</code></a> <code>&lt;Select/&gt;</code> component instead of the default country <code>&lt;select/&gt;</code>.
+									</p>
 
-								<h2>
-									<code className="default">country="US"</code>
-								</h2>
+									<p>
+										Under the hood, it simply passes a custom <code>countrySelectComponent</code> property to the regular <code>&lt;PhoneInput/&gt;</code>.
+									</p>
 
-								<p>
-									If <code>country</code> is specified then the phone number can be input only in national format for that <code>country</code>.
-								</p>
+									<form>
+										<PhoneInputReactResponsiveUI
+											placeholder="Enter phone number"
+											value={this.state.value}
+											onChange={value => this.setState({ value: value })}/>
+									</form>
 
-								<form>
-									<Input
-										placeholder="Enter phone number"
-										country="US"
-										value={this.state.value_no_country_select}
-										onChange={value => this.setState({ value_no_country_select: value })}/>
-								</form>
-
-								<p>
-									<code>value</code>: {this.state.value_no_country_select && <code>{this.state.value_no_country_select}</code>}
-								</p>
-
-								<Highlight lang="jsx">
-{`import Input from 'react-phone-number-input/input'
-
-<Input
-  country="US"
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-
-								<h2>
-									<code className="default">country="US"</code> and <code className="default">international</code>
-								</h2>
-
-								<p>
-									If both <code>country</code> and <code>international</code> are specified then the phone number can be input only in international format for that <code>country</code>, but without "country calling code" part.
-								</p>
-
-								<form>
-									<span>+1 </span>
-									<Input
-										country="US"
-										international
-										placeholder="Enter phone number"
-										value={this.state.valueCountryInternational}
-										onChange={value => this.setState({ valueCountryInternational: value })}/>
-								</form>
-
-								<p>
-									<code>value</code>: {this.state.valueCountryInternational && <code>{this.state.valueCountryInternational}</code>}
-								</p>
-
-								<Highlight lang="jsx">
-{`import Input from 'react-phone-number-input/input'
-
-+1 <Input
-     country="US"
-     international
-     value={value}
-     onChange={setValue}/>
-`}
-								</Highlight>
-
-								<h2>
-									<code className="default">defaultCountry="US"</code>
-								</h2>
-
-								<p>
-									If <code>defaultCountry</code> is specified then the phone number can be input both in national format for <code>defaultCountry</code> and in international format for any country.
-								</p>
-
-								<form>
-									<Input
-										defaultCountry="US"
-										placeholder="Enter phone number"
-										value={this.state.valueDefaultCountry}
-										onChange={value => this.setState({ valueDefaultCountry: value })}/>
-								</form>
-
-								<p>
-									<code>value</code>: {this.state.valueDefaultCountry && <code>{this.state.valueDefaultCountry}</code>}
-								</p>
-
-								<Highlight lang="jsx">
-{`import Input from 'react-phone-number-input/input'
-
-<Input
-  defaultCountry="US"
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-
-								<h2>
-									No <code className="default">country</code>
-								</h2>
-
-								<p>
-									If no <code>country</code> or <code>defaultCountry</code> is specified then the phone number can only be input in international format.
-								</p>
-
-								<form>
-									<Input
-										placeholder="Enter phone number"
-										value={this.state.value_no_country_select_international}
-										onChange={value => this.setState({ value_no_country_select_international: value })}/>
-								</form>
-
-								<p>
-									<code>value</code>: {this.state.value_no_country_select_international && <code>{this.state.value_no_country_select_international}</code>}
-								</p>
-
-								<Highlight lang="jsx">
-{`import Input from 'react-phone-number-input/input'
-
-<Input
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-
-								<h2>
-									Properties
-								</h2>
-
-								<p>
-									A custom <code>inputComponent</code> can be passed to render it instead of the standard DOM <code>&lt;input/&gt;</code>.
-									<br/>
-									It must behave as a standard DOM <code>&lt;input/&gt;</code>: accept a string <code>value</code> property and call <code>onChange(event)</code>.
-								</p>
-							</section>
-
-							<section>
-								<h1>
-									Custom country <code className="default">&lt;select/&gt;</code>
-								</h1>
-
-								<p>
-									This library exports <code>getCountries()</code> and <code>getCountryCallingCode(country)</code> functions so that a developer could construct their own custom country select.
-								</p>
-
-								<form>
-									<select
-									  value={this.state.customCountry}
-									  onChange={event => this.setState({ customCountry: event.target.value || undefined })}>
-									  <option value="">
-									    {PhoneInput.defaultProps.labels['ZZ']}
-									  </option>
-									  {getCountries().map((country) => (
-									    <option key={country} value={country}>
-									      {PhoneInput.defaultProps.labels[country]} +{getCountryCallingCode(country)}
-									    </option>
-									  ))}
-									</select>
-								</form>
-
-								<p>
-									<code>value</code>: {this.state.customCountry && <code>{this.state.customCountry}</code>}
-								</p>
-
-								<Highlight lang="jsx">
-{`import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
-import en from 'react-phone-number-input/locale/en.json'
-
-<select
-  value={country}
-  onChange={event => setCountry(event.target.value || undefined)}>
-  <option value="">
-    {en['ZZ']}
-  </option>
-  {getCountries().map((country) => (
-    <option key={country} value={country}>
-      {en[country]} +{getCountryCallingCode(country)}
-    </option>
-  ))}
-</select>
-`}
-								</Highlight>
-							</section>
-
-							{/*
-							<section>
-								<h1>
-									With custom country &lt;select/&gt;
-								</h1>
-
-								<p>
-									This is an illustration of using <a target="_blank" href="https://catamphetamine.gitlab.io/react-responsive-ui/"><code>react-responsive-ui</code></a> <code>&lt;Select/&gt;</code> component instead of the default country <code>&lt;select/&gt;</code>.
-								</p>
-
-								<p>
-									Under the hood, it simply passes a custom <code>countrySelectComponent</code> property to the regular <code>&lt;PhoneInput/&gt;</code>.
-								</p>
-
-								<form>
-									<PhoneInputReactResponsiveUI
-										placeholder="Enter phone number"
-										value={this.state.value}
-										onChange={value => this.setState({ value: value })}/>
-								</form>
-
-								<Highlight lang="jsx">
-									{`// Requires "CSS custom properties" support.
+									<Highlight lang="jsx">
+										{`// Requires "CSS custom properties" support.
 // For Internet Explorer use PostCSS with "CSS custom properties" plugin.
 import 'react-responsive-ui/style.css'
 
@@ -809,152 +685,64 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
     border-bottom: none;
   }
 </style>`}
-								</Highlight>
-							</section>
-							*/}
+									</Highlight>
+								</section>
+								*/}
 
-							<section>
-								<h1>
-									Unicode flag icons
-								</h1>
+								<section>
+									<h1>
+										Setting default country
+									</h1>
 
-								<form>
-									<PhoneInput
-										countrySelectProps={{ unicodeFlags: true }}
-										placeholder="Enter phone number"
-										value={this.state.valueUnicode}
-										onChange={value => this.setState({ valueUnicode: value })}/>
-								</form>
+									<p>
+										A <code>defaultCountry</code> property could be specified to pre-select a certain country. For example, the default country could be obtained via <a target="_blank" href="https://blog.api.rakuten.net/top-ip-geolocation-apis/">"IP Geolocation"</a>.
+									</p>
 
-								<p>
-									Unicode flag icons ("Regional Indicator Symbols") were <a href="https://blog.emojipedia.org/emoji-flags-explained/" target="_blank">introduced</a> in 2010 in Unicode version 6.0.
-									<br/>
-									Older operating systems (having older system fonts) might not support Unicode flags, rendering "missing" (rectangle) characters instead.
-									<br/>
-									Windows 10 currently (01.01.2020) doesn't support Unicode country flags, and displays two-letter country codes instead of emoji flag images.
-								</p>
+									<form>
+										<PhoneInput
+											defaultCountry="RU"
+											placeholder="Enter phone number"
+											value={this.state.value_RU}
+											onChange={value => this.setState({ value_RU: value })}/>
+									</form>
 
-								<Highlight lang="jsx">
-{`<PhoneInput
-  countrySelectProps={{ unicodeFlags: true }}
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-							</section>
-
-							<section>
-								<h1>
-									Default country: Russia
-								</h1>
-
-								<form>
-									<PhoneInput
-										defaultCountry="RU"
-										placeholder="Enter phone number"
-										value={this.state.value_RU}
-										onChange={value => this.setState({ value_RU: value })}/>
-								</form>
-
-								<Highlight lang="jsx">
+									<Highlight lang="jsx">
 {`<PhoneInput
   defaultCountry="RU"
   value={value}
   onChange={setValue}/>
 `}
-								</Highlight>
-							</section>
+									</Highlight>
+								</section>
 
-							<section>
-								<h1>
-									Force international format
-								</h1>
+								<section>
+									<h1>
+										Internationalization
+									</h1>
 
-								<form>
-									<PhoneInput
-										international
-										defaultCountry="RU"
-										placeholder="Enter phone number"
-										value={this.state.valueForceInternational}
-										onChange={value => this.setState({ valueForceInternational: value })}/>
-								</form>
+									<p>
+										The country names can be passed via the <code>labels</code> property:
+									</p>
+									<p>
+										<code>labels={'{{'} RU: "Россия", US: "США", ... {'}}'}</code>.
+									</p>
+									<p>
+										This component comes pre-packaged with a few <a target="_blank" href="https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale">translations</a> to another languages. Submit pull requests for adding translations to other languages.
+									</p>
 
-								<Highlight lang="jsx">
-{`<PhoneInput
-  international
-  defaultCountry="RU"
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-							</section>
+									<p>
+										Here's an example of using Russian <code>labels</code>.
+									</p>
 
-							<section>
-								<h1>
-									display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = false (default)
-								</h1>
+									<form>
+										<PhoneInput
+											placeholder="Ваш телефон"
+											value={this.state.value}
+											onChange={value => this.setState({ value })}
+											labels={ru}/>
+									</form>
 
-								<form>
-									<PhoneInput
-										placeholder="Enter phone number"
-										value={this.state.value_convert_to_national_false}
-										onChange={value => this.setState({ value_convert_to_national_false: value })}/>
-								</form>
-
-								<Highlight lang="jsx">
-{`<PhoneInput
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-							</section>
-
-							<section>
-								<h1>
-									display&#8203;Initial&#8203;Value&#8203;As&#8203;Local&#8203;Number = true
-								</h1>
-
-								<form>
-									<PhoneInput
-										placeholder="Enter phone number"
-										value={this.state.value_convert_to_national_true}
-										onChange={value => this.setState({ value_convert_to_national_true: value })}
-										displayInitialValueAsLocalNumber/>
-								</form>
-
-								<Highlight lang="jsx">
-{`<PhoneInput
-  displayInitialValueAsLocalNumber
-  value={value}
-  onChange={setValue}/>
-`}
-								</Highlight>
-							</section>
-
-							<section>
-								<h1>
-									Internationalization
-								</h1>
-
-								<p>
-									Country names can be passed via the <code>labels</code> property.
-								</p>
-								<p>
-									E.g. <code>labels={'{{'} RU: "Россия", US: "США", ... {'}}'}</code>.
-								</p>
-								<p>
-									This component comes pre-packaged with a couple of ready-made <a target="_blank" href="https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale">translations</a>. Submit pull requests for adding new translations.
-								</p>
-
-								<form>
-									<PhoneInput
-										placeholder="Ваш телефон"
-										value={this.state.value}
-										onChange={value => this.setState({ value })}
-										labels={ru}/>
-								</form>
-
-								<Highlight lang="jsx">
+									<Highlight lang="jsx">
 {`// Country names in Russian.
 import ru from 'react-phone-number-input/locale/ru'
 
@@ -964,34 +752,158 @@ import ru from 'react-phone-number-input/locale/ru'
   value={value}
   onChange={setValue}/>
 `}
-								</Highlight>
-							</section>
+									</Highlight>
+								</section>
 
-							<section>
-								<h1>
-									Format <code className="default">value</code>
-								</h1>
+								<section>
+									<h1>
+										Force international format
+									</h1>
 
-								<p>
-									<code>value</code> can be saved in a database and later be output on a page using <code>formatPhoneNumber()</code> function.
-								</p>
+									<p>
+										Pass <code>international</code> property to enforce international phone number format.
+									</p>
 
-								<form>
-									<PhoneInput
-										placeholder="Enter phone number"
-										value={this.state.value_format}
-										onChange={value => this.setState({ value_format: value })}/>
-								</form>
+									<form>
+										<PhoneInput
+											international
+											defaultCountry="RU"
+											placeholder="Enter phone number"
+											value={this.state.valueForceInternational}
+											onChange={value => this.setState({ valueForceInternational: value })}/>
+									</form>
 
-								<p>
-									<code>value</code>: {this.state.value_format && <code>{this.state.value_format}</code>}
-									<br/>
-									<strong>National</strong>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatNational()}</code>}
-									<br/>
-									<strong>International</strong>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatInternational()}</code>}
-								</p>
+									<Highlight lang="jsx">
+{`<PhoneInput
+  international
+  defaultCountry="RU"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
 
-								<Highlight lang="jsx">
+									<p>
+										In the example above, the "country calling code" part of a phone number is editable. To make it non-editable, pass <code>countryCallingCodeEditable={'{false}'}</code> property.
+									</p>
+
+									<form>
+										<PhoneInput
+											international
+											countryCallingCodeEditable={false}
+											defaultCountry="RU"
+											placeholder="Enter phone number"
+											value={this.state.valueForceInternationalAndCallingCodeNotEditable}
+											onChange={value => this.setState({ valueForceInternationalAndCallingCodeNotEditable: value })}/>
+									</form>
+
+									<Highlight lang="jsx">
+{`<PhoneInput
+  international
+  countryCallingCodeEditable={false}
+  defaultCountry="RU"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										Force national format
+									</h1>
+
+									<p>
+										Pass <code>international={'{false}'}</code> property to enforce national phone number format.
+									</p>
+
+									<form>
+										<PhoneInput
+											international={false}
+											defaultCountry="RU"
+											placeholder="Enter phone number"
+											value={this.state.valueForceNational}
+											onChange={value => this.setState({ valueForceNational: value })}/>
+									</form>
+
+									<Highlight lang="jsx">
+{`<PhoneInput
+  international={false}
+  defaultCountry="RU"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										<code className="default">initialValueFormat</code>
+									</h1>
+
+									<p>
+										If an initial <code>value</code> is passed, and <code>initialValueFormat</code> property is not set, then the initial <code>value</code> is formatted in international format.
+									</p>
+
+									<form>
+										<PhoneInput
+											placeholder="Enter phone number"
+											value={this.state.value_convert_to_national_true}
+											onChange={value => this.setState({ value_convert_to_national_true: value })}/>
+									</form>
+
+									<Highlight lang="jsx">
+{`<PhoneInput
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+
+									<p>
+										If an initial <code>value</code> is passed, and <code>initialValueFormat</code> is <code>"national"</code>, then the initial <code>value</code> is formatted in national format.
+									</p>
+
+									<form>
+										<PhoneInput
+											placeholder="Enter phone number"
+											value={this.state.value_convert_to_national_true}
+											onChange={value => this.setState({ value_convert_to_national_true: value })}
+											initialValueFormat="national"/>
+									</form>
+
+									<Highlight lang="jsx">
+{`<PhoneInput
+  initialValueFormat="national"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										Formatting <code className="default">value</code>
+									</h1>
+
+									<p>
+										<code>value</code> can be saved in a database and later be output on a page using <code>formatPhoneNumber()</code> function.
+									</p>
+
+									<form>
+										<PhoneInput
+											placeholder="Enter phone number"
+											value={this.state.value_format}
+											onChange={value => this.setState({ value_format: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.value_format && <code>{this.state.value_format}</code>}
+										<br/>
+										<strong>National</strong>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatNational()}</code>}
+										<br/>
+										<strong>International</strong>: {this.state.value_format && libphonenumber.parsePhoneNumberFromString(this.state.value_format) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_format).formatInternational()}</code>}
+									</p>
+
+									<Highlight lang="jsx">
 {`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl } from 'react-phone-number-input'
 
 <PhoneInput
@@ -1002,43 +914,43 @@ import ru from 'react-phone-number-input/locale/ru'
 National: {value && formatPhoneNumber(value)}
 International: {value && formatPhoneNumberIntl(value)}
 `}
-								</Highlight>
-							</section>
+									</Highlight>
+								</section>
 
-							<section>
-								<h1>
-									Validation
-								</h1>
+								<section>
+									<h1>
+										Validation
+									</h1>
 
-								<p>
-									Note: I personally prefer not using strict phone number validation via <code>isValidPhoneNumber()</code> in my projects. <a target="_blank" href="https://gitlab.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.
-									<br/>
-									Instead I'd use <code>isPossiblePhoneNumber()</code> that just validates phone number length.
-								</p>
+									<p>
+										Note: I personally prefer not using strict phone number validation via <code>isValidPhoneNumber()</code> in my projects. <a target="_blank" href="https://gitlab.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature">Read the rationale</a>.
+										<br/>
+										Instead I'd use <code>isPossiblePhoneNumber()</code> that just validates phone number length.
+									</p>
 
-								<form>
-									<PhoneInput
-										error={this.state.value_validation ? (libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? undefined : 'Invalid phone number') : 'Phone number required'}
-										placeholder="Enter phone number"
-										value={this.state.value_validation}
-										onChange={value => this.setState({ value_validation: value })}/>
-								</form>
+									<form>
+										<PhoneInput
+											error={this.state.value_validation ? (libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? undefined : 'Invalid phone number') : 'Phone number required'}
+											placeholder="Enter phone number"
+											value={this.state.value_validation}
+											onChange={value => this.setState({ value_validation: value })}/>
+									</form>
 
-								<p>
-									<code>value</code>: {this.state.value_validation}
-								</p>
+									<p>
+										<code>value</code>: {this.state.value_validation}
+									</p>
 
-								<p>
-									<strong>Is possible:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isPossible() ? 'true' : 'false'}</code>}
-									<br/>
-									<strong>Is valid:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? 'true' : 'false'}</code>}
-									<br/>
-									<strong>Local:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatNational()}</code>}
-									<br/>
-									<strong>International:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatInternational()}</code>}
-								</p>
+									<p>
+										<strong>Is possible:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isPossible() ? 'true' : 'false'}</code>}
+										<br/>
+										<strong>Is valid:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? 'true' : 'false'}</code>}
+										<br/>
+										<strong>Local:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatNational()}</code>}
+										<br/>
+										<strong>International:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatInternational()}</code>}
+									</p>
 
-								<Highlight lang="jsx">
+									<Highlight lang="jsx">
 {`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
 
 <PhoneInput
@@ -1052,7 +964,405 @@ Is valid: {value && isValidPhoneNumber(value) ? 'true' : 'false'}
 National: {value && formatPhoneNumber(value)}
 International: {value && formatPhoneNumberIntl(value)}
 `}
-								</Highlight>
+									</Highlight>
+								</section>
+
+{/*
+								<section>
+									<h1>
+										Country <code className="default">&lt;select/&gt;</code> custom arrow
+									</h1>
+
+									<p>
+										To display a custom country <code>&lt;select/&gt;</code> arrow, pass <code>arrowComponent</code> as part of <code>countrySelectProps</code>
+									</p>
+
+									<form>
+										<PhoneInput
+											countrySelectProps={{ arrowComponent: Arrow }}
+											placeholder="Enter phone number"
+											value={this.state.valueUnicode}
+											onChange={value => this.setState({ valueUnicode: value })}/>
+									</form>
+
+									<Highlight lang="jsx">
+{`const Arrow = () => <div className="Arrow"/>
+
+<PhoneInput
+  countrySelectProps={{ arrowComponent: Arrow }}
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+
+									<Highlight lang="css">
+{`.Arrow {
+  width: 0;
+  height: 0;
+  margin-left: 8px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid currentColor;
+}
+
+.PhoneInput--focus .Arrow {
+  color: var(--PhoneInputCountrySelectArrow-color--focus);
+}
+`}
+									</Highlight>
+								</section>
+*/}
+
+								<section>
+									<h1>
+										Unicode flag icons
+									</h1>
+
+									<form>
+										<PhoneInput
+											countrySelectProps={{ unicodeFlags: true }}
+											placeholder="Enter phone number"
+											value={this.state.valueUnicode}
+											onChange={value => this.setState({ valueUnicode: value })}/>
+									</form>
+
+									<p>
+										Unicode flag icons ("Regional Indicator Symbols") were <a href="https://blog.emojipedia.org/emoji-flags-explained/" target="_blank">introduced</a> in 2010 in Unicode version 6.0.
+										<br/>
+										Older operating systems (having older system fonts) might not support Unicode flags, rendering "missing" (rectangle) characters instead.
+										<br/>
+										Windows 10 currently (01.10.2020) doesn't support Unicode country flags, and displays two-letter country codes instead of emoji flag images.
+									</p>
+
+									<Highlight lang="jsx">
+{`<PhoneInput
+  countrySelectProps={{ unicodeFlags: true }}
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+							</section>
+
+							<section className="main-section">
+								<h1 id="without-country-select">
+									Without country &lt;select/&gt;
+								</h1>
+
+								<section>
+									<h1>
+										Summary
+									</h1>
+
+									<p>
+										"Without country select" component is just a phone number <code>&lt;input/&gt;</code>, without the accompanying country <code>&lt;select/&gt;</code>.
+									</p>
+
+									<p>
+										It can be imported from <code>react-phone-number-input/input</code> subpackage:
+									</p>
+
+									<form>
+										<Input
+											placeholder="Enter phone number"
+											value={this.state.valueWithoutCountrySelect}
+											onChange={value => this.setState({ valueWithoutCountrySelect: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.valueWithoutCountrySelect && <code>{this.state.valueWithoutCountrySelect}</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  placeholder="Enter phone number"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										<code className="default">country="US"</code>
+									</h1>
+
+									<p>
+										If <code>country</code> property is specified then the phone number can be input only in national format for that <code>country</code>.
+									</p>
+
+									<p>
+										Example for <code>country="US"</code>:
+									</p>
+
+									<form>
+										<Input
+											placeholder="Enter phone number"
+											country="US"
+											value={this.state.value_no_country_select}
+											onChange={value => this.setState({ value_no_country_select: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.value_no_country_select && <code>{this.state.value_no_country_select}</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  country="US"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										<code className="default">country="US"</code> <span className="heading-divider">/</span> <code className="default">international</code>
+									</h1>
+
+									<p>
+										If both <code>country</code> and <code>international</code> properties are specified then the phone number can be input only in international format for that <code>country</code>. By default, the "country calling code" part (<code>+1</code>) is not included in the <code>&lt;input/&gt;</code>.
+									</p>
+
+									<p>
+										Example for <code>country="US"</code> and <code>international</code>:
+									</p>
+
+									<form>
+										<span>+1 </span>
+										<Input
+											country="US"
+											international
+											placeholder="Enter phone number"
+											value={this.state.valueCountryInternationalWithoutCountryCallingCode}
+											onChange={value => this.setState({ valueCountryInternationalWithoutCountryCallingCode: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.valueCountryInternationalWithoutCountryCallingCode && <code>{this.state.valueCountryInternationalWithoutCountryCallingCode}</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
++1 <Input
+     country="US"
+     international
+     value={value}
+     onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										<code className="default">country="US"</code> <span className="heading-divider">/</span> <code className="default">international</code> <span className="heading-divider">/</span> <code className="default">withCountryCallingCode</code>
+									</h1>
+
+									<p>
+										The previous example for <code>country="US"</code> and <code>international</code> didn't include the "country calling code" part (<code>+1</code>) in the <code>&lt;input/&gt;</code>.
+									</p>
+
+									<p>
+										To include the "country calling code" part in the <code>&lt;input/&gt;</code>, pass <code>withCountryCallingCode</code> property.
+									</p>
+
+									<p>
+										Example for <code>country="US"</code> and <code>international</code> and <code>withCountryCallingCode</code>:
+									</p>
+
+									<form>
+										<Input
+											country="US"
+											international
+											withCountryCallingCode
+											placeholder="Enter phone number"
+											value={this.state.valueCountryInternational}
+											onChange={value => this.setState({ valueCountryInternational: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.valueCountryInternational && <code>{this.state.valueCountryInternational}</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  country="US"
+  international
+  withCountryCallingCode
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										<code className="default">defaultCountry="US"</code>
+									</h1>
+
+									<p>
+										If <code>defaultCountry</code> is specified then the phone number can be input both in national format for <code>defaultCountry</code> and in international format for any country.
+									</p>
+
+									<p>
+										Example for <code>defaultCountry="US"</code>:
+									</p>
+
+									<form>
+										<Input
+											defaultCountry="US"
+											placeholder="Enter phone number"
+											value={this.state.valueDefaultCountry}
+											onChange={value => this.setState({ valueDefaultCountry: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.valueDefaultCountry && <code>{this.state.valueDefaultCountry}</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  defaultCountry="US"
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										No <code className="default">country</code>
+									</h1>
+
+									<p>
+										If no <code>country</code> or <code>defaultCountry</code> are specified then the phone number can only be input in international format.
+									</p>
+
+									<form>
+										<Input
+											placeholder="Enter phone number"
+											value={this.state.value_no_country_select_international}
+											onChange={value => this.setState({ value_no_country_select_international: value })}/>
+									</form>
+
+									<p>
+										<code>value</code>: {this.state.value_no_country_select_international && <code>{this.state.value_no_country_select_international}</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  value={value}
+  onChange={setValue}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										Custom <code className="default">&lt;input/&gt;</code>
+									</h1>
+
+									<p>
+										A custom <code>inputComponent</code> can be passed to render it instead of the standard DOM <code>&lt;input/&gt;</code>.
+										<br/>
+										It must behave as a standard DOM <code>&lt;input/&gt;</code>: support <code>ref</code>, accept a string <code>value</code>, and call <code>onChange(event)</code> whenever it's changed.
+									</p>
+
+									<Highlight lang="jsx">
+{`import Input from 'react-phone-number-input/input'
+
+<Input
+  value={value}
+  onChange={setValue}
+  inputComponent={CustomInput}/>
+`}
+									</Highlight>
+								</section>
+
+								<section>
+									<h1>
+										Adding country <code className="default">&lt;select/&gt;</code>
+									</h1>
+
+									<p>
+										"Without country select" <code>&lt;input/&gt;</code> component will most likely be used in conjunction with some sort of a custom country <code>&lt;select/&gt;</code>.
+									</p>
+
+									<p>
+										This library exports <code>getCountries()</code> and <code>getCountryCallingCode(country)</code> functions that a developer could use to construct their own country <code>&lt;select/&gt;</code>.
+									</p>
+
+									<p>
+										Example:
+									</p>
+
+									<form>
+										<select
+										  value={this.state.customCountry}
+										  onChange={event => this.setState({ customCountry: event.target.value || undefined })}>
+										  <option value="">
+										    {PhoneInput.defaultProps.labels['ZZ']}
+										  </option>
+										  {getCountries().map((country) => (
+										    <option key={country} value={country}>
+										      {PhoneInput.defaultProps.labels[country]} +{getCountryCallingCode(country)}
+										    </option>
+										  ))}
+										</select>
+									</form>
+
+									<p>
+										Selected country: {this.state.customCountry ? <code>{this.state.customCountry}</code> : <code>undefined</code>}
+									</p>
+
+									<Highlight lang="jsx">
+{`import PropTypes from 'prop-types'
+import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+import en from 'react-phone-number-input/locale/en.json'
+
+const CountrySelect = ({ value, onChange, labels, ...rest }) => (
+  <select
+    {...rest}
+    value={value}
+    onChange={event => onChange(event.target.value || undefined)}>
+    <option value="">
+      {labels['ZZ']}
+    </option>
+    {getCountries().map((country) => (
+      <option key={country} value={country}>
+        {labels[country]} +{getCountryCallingCode(country)}
+      </option>
+    ))}
+  </select>
+)
+
+CountrySelect.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  labels: PropTypes.objectOf(PropTypes.string).isRequired
+}
+
+const [country, setCountry] = useState()
+
+<CountrySelect
+  labels={en}
+  value={country}
+  onChange={setCountry}/>
+`}
+									</Highlight>
+								</section>
 							</section>
 
 							{/*
@@ -1105,7 +1415,11 @@ International: {value && formatPhoneNumberIntl(value)}
 
 							{/* this.render_smart_input() */}
 
-							{ debug && this.renderDebug() }
+							{debug &&
+								<section className="main-section">
+									{this.renderDebug()}
+								</section>
+							}
 						</div>
 					)
 				}
@@ -1153,6 +1467,7 @@ International: {value && formatPhoneNumberIntl(value)}
 
 				renderDebug() {
 					return (
+						<React.Fragment>
 						<section>
 							{/*
 							<h1>All flags</h1>
@@ -1180,7 +1495,7 @@ International: {value && formatPhoneNumberIntl(value)}
 								onChange={value => this.setState({ dynamic_value: value })}/>
 
 							<p>
-								displayInitialValueAsLocalNumber:
+								<code>initialValueFormat="national"</code>
 							</p>
 
 							<PhoneInput
@@ -1188,7 +1503,7 @@ International: {value && formatPhoneNumberIntl(value)}
 								defaultCountry={this.state.dynamic_country}
 								value={this.state.dynamic_value}
 								onChange={value => this.setState({ dynamic_value: value })}
-								displayInitialValueAsLocalNumber/>
+								initialValueFormat="national"/>
 
 							<p>
 								<button
@@ -1267,11 +1582,11 @@ International: {value && formatPhoneNumberIntl(value)}
 							<p>
 								<code>value</code>: {this.state.valueNoCountrySelectSetExternally && <code>{this.state.valueNoCountrySelectSetExternally}</code>}
 							</p>
+						</section>
 
-							<br/>
-
+						<section>
 							<h1>
-								limitMaxLength
+								<code className="default">/input</code>
 							</h1>
 
 							<code>country="US"</code>
@@ -1331,6 +1646,7 @@ International: {value && formatPhoneNumberIntl(value)}
 								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry && <code>{this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry}</code>}
 							</p>
 						</section>
+						</React.Fragment>
 					)
 				}
 			}
