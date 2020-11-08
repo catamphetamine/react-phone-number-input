@@ -378,9 +378,9 @@ describe('phoneInputHelpers', () => {
 		trimNumber('880055535351', 'RU', metadata).should.equal('88005553535')
 
 		// International number. Doesn't exceed the maximum length.
-		trimNumber('+78005553535', 'RU', metadata).should.equal('+78005553535')
+		trimNumber('+12135553535', 'US', metadata).should.equal('+12135553535')
 		// International number. Exceeds the maximum length.
-		trimNumber('+780055535351', 'RU', metadata).should.equal('+78005553535')
+		trimNumber('+121355535351', 'US', metadata).should.equal('+12135553535')
 	})
 
 	it('should get country for partial E.164 number', () =>
@@ -766,10 +766,10 @@ describe('phoneInputHelpers', () => {
 
 		// `phoneDigits` in international format.
 		// Country calling code and first two digits.
-		onChange('+788', '', 'RU').should.deep.equal({
-			phoneDigits: '88',
-			country: 'RU',
-			value: '+788'
+		onChange('+121', '', 'US').should.deep.equal({
+			phoneDigits: '21',
+			country: 'US',
+			value: '+121'
 		})
 
 		// `phoneDigits` in international format.
@@ -846,10 +846,10 @@ describe('phoneInputHelpers', () => {
 
 		// `phoneDigits` in international format.
 		// Country calling code and first two digits.
-		onChange('+788').should.deep.equal({
-			phoneDigits: '88',
-			country: 'RU',
-			value: '+788'
+		onChange('+3311').should.deep.equal({
+			phoneDigits: '11',
+			country: 'FR',
+			value: '+3311'
 		})
 
 		// `phoneDigits` in international format.

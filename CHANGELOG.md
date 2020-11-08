@@ -1,5 +1,10 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.5 / 08.11.2020
+==================
+
+* [Fixed](https://github.com/catamphetamine/react-phone-number-input/issues/367) the ability to erase country calling code when `countryCallingCodeEditable={false}`.
+
 3.1.2 / 26.10.2020
 ==================
 

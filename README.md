@@ -322,7 +322,7 @@ getCountryCallingCode('US') === '1'
 
 ## Flags URL
 
-By default, all flags are linked from [`country-flag-icons`](https://gitlab.com/catamphetamine/country-flag-icons)'s [GitHub pages](http://catamphetamine.gitlab.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry) property (which is `"https://catamphetamine.gitlab.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
+By default, all flags are linked from [`country-flag-icons`](https://gitlab.com/catamphetamine/country-flag-icons)'s [GitHub pages](https://purecatamphetamine.github.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry) property (which is `"https://purecatamphetamine.github.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
 
 For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag icons would be as simple as:
 
@@ -335,8 +335,6 @@ For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag
 ```js
 <PhoneInput flagUrl="https://flag.pk/flags/4x3/{xx}.svg" .../>
 ```
-
-A sidenote: `flagpack` [doesn't have](https://github.com/jackiboy/flagpack/issues/3) `AC` and `TA` flags, so the `flag.pk` website URL can't be used directly.
 
 ## Including all flags
 
@@ -426,9 +424,9 @@ import ru from 'react-phone-number-input/locale/ru'
 
 This component uses [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js) which provides different "metadata" sets, "metadata" being a list of phone number parsing and formatting rules for all countries. The complete list of those rules is huge, so `libphonenumber-js` provides a way to optimize bundle size by choosing between `max`, `min`, `mobile` and "custom" metadata:
 
-* `max` — The complete metadata set, is about `140 kilobytes` in size (`libphonenumber-js/metadata.full.json`). Choose this when you need the most strict version of `isValid()`, or if you need to detect phone number type ("fixed line", "mobile", etc).
+* `max` — The complete metadata set, is about `145 kB` in size (`libphonenumber-js/metadata.full.json`). Choose this when you need the most strict version of `isValid()`, or if you need to detect phone number type ("fixed line", "mobile", etc).
 
-* `min` — (default) The smallest metadata set, is about `75 kilobytes` in size (`libphonenumber-js/metadata.min.json`). Choose this by default: when you don't need to detect phone number type ("fixed line", "mobile", etc), or when a basic version of `isValid()` is enough. The `min` metadata set doesn't contain the regular expressions for phone number digits validation (via [`.isValid()`](#isvalid)) and detecting phone number type (via [`.getType()`](#gettype)) for most countries. In this case, `.isValid()` still performs some basic phone number validation (for example, checks phone number length), but it doesn't validate phone number digits themselves the way `max` metadata validation does.
+* `min` — (default) The smallest metadata set, is about `80 kB` in size (`libphonenumber-js/metadata.min.json`). Choose this by default: when you don't need to detect phone number type ("fixed line", "mobile", etc), or when a basic version of `isValid()` is enough. The `min` metadata set doesn't contain the regular expressions for phone number digits validation (via [`.isValid()`](#isvalid)) and detecting phone number type (via [`.getType()`](#gettype)) for most countries. In this case, `.isValid()` still performs some basic phone number validation (for example, checks phone number length), but it doesn't validate phone number digits themselves the way `max` metadata validation does.
 
 * `mobile` — The complete metadata set for dealing with mobile numbers _only_, is about `95 kilobytes` in size (`libphonenumber-js/metadata.mobile.json`). Choose this when you need `max` metadata and when you _only_ accept mobile numbers. Other phone number types will still be parseable, but they won't be recognized as being "valid" (`isValidPhoneNumber()` will return `false`).
 

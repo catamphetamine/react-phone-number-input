@@ -246,16 +246,36 @@ class PhoneNumberInput_ extends React.PureComponent {
 			metadata
 		})
 
-		this.setState({
+		const stateUpdate = {
 			phoneDigits,
 			value,
 			country
-		},
-		// Update the new `value` property.
-		// Doing it after the `state` has been updated
-		// because `onChange()` will trigger `getDerivedStateFromProps()`
-		// with the new `value` which will be compared to `state.value` there.
-		() => onChange(value))
+		}
+
+		if (countryCallingCodeEditable === false) {
+			// If it simply did `setState({ phoneDigits: intlPrefix })` here,
+			// then it would have no effect when erasing an inital international prefix
+			// via Backspace, because `phoneDigits` in `state` wouldn't change
+			// as a result, because it was `prefix` and it became `prefix`,
+			// so the component wouldn't rerender, and the user would be able
+			// to erase the country calling code part, and that part is
+			// assumed to be non-eraseable. That's why the component is
+			// forcefully rerendered here.
+			// https://github.com/catamphetamine/react-phone-number-input/issues/367#issuecomment-721703501
+			if (!value && phoneDigits === this.state.phoneDigits) {
+				// Force a re-render of the `<input/>` in order to reset its value.
+				stateUpdate.forceRerender = {}
+			}
+		}
+
+		this.setState(
+			stateUpdate,
+			// Update the new `value` property.
+			// Doing it after the `state` has been updated
+			// because `onChange()` will trigger `getDerivedStateFromProps()`
+			// with the new `value` which will be compared to `state.value` there.
+			() => onChange(value)
+		)
 	}
 
 	// Toggles the `--focus` CSS class.
@@ -361,6 +381,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			onCountryChange,
 			limitMaxLength,
 			countryCallingCodeEditable,
+			focusInputOnCountrySelection,
 			reset,
 			metadata,
 			international,
@@ -815,7 +836,7 @@ PhoneNumberInput.defaultProps = {
 	 * By default, uses icons from `country-flag-icons` gitlab pages website.
 	 */
 	// Must be equal to `flagUrl` in `./CountryIcon.js`.
-	flagUrl: 'https://catamphetamine.gitlab.io/country-flag-icons/3x2/{XX}.svg',
+	flagUrl: 'https://purecatamphetamine.github.io/country-flag-icons/3x2/{XX}.svg',
 
 	/**
 	 * Default "International" country `<select/>` option icon.
