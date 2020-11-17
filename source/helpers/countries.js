@@ -22,8 +22,14 @@ export function sortCountryOptions(options, order) {
 		} else if (element === '...' || element === '…') {
 			appendTo = optionsOnBottom
 		} else {
+			let countryCode
+			if (element === '🌐') {
+				countryCode = undefined
+			} else {
+				countryCode = element
+			}
 			// Find the position of the option.
-			const index = options.indexOf(options.filter(option => option.value === element)[0])
+			const index = options.indexOf(options.filter(option => option.value === countryCode)[0])
 			// Get the option.
 			const option = options[index]
 			// Remove the option from its default position.
@@ -39,6 +45,7 @@ export function getSupportedCountryOptions(countryOptions, metadata) {
 	if (countryOptions) {
 		countryOptions = countryOptions.filter((option) => {
 			switch (option) {
+				case '🌐':
 				case '|':
 				case '...':
 				case '…':

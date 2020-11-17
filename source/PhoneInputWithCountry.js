@@ -51,8 +51,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			// superceded by `initialValueFormat` property.
 			displayInitialValueAsLocalNumber,
 			initialValueFormat,
-			metadata,
-			countryOptionsOrder
+			metadata
 		} = this.props
 
 		let {
@@ -403,7 +402,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 				getCountrySelectOptions({
 					countries: countries || getCountries(metadata),
 					countryNames: labels,
-					addInternationalOption,
+					addInternationalOption: (international && countryCallingCodeEditable === false) ? false : addInternationalOption,
 					compareStringsLocales: locales,
 					// compareStrings
 				}),
@@ -683,8 +682,10 @@ PhoneNumberInput.propTypes = {
 	/**
 	 * Can be used to place some countries on top of the list of country `<select/>` options.
 	 *
+	 * * `"XX"` — inserts an option for "XX" country.
+	 * * `"🌐"` — inserts "International" option.
 	 * * `"|"` — inserts a separator.
-	 * * `"..."` — means "the rest of the countries" (can be omitted, in which case it will automatically be added at the end).
+	 * * `"..."` — inserts options for the rest of the countries (can be omitted, in which case it will be automatically added at the end).
 	 *
 	 * Example:
 	 *

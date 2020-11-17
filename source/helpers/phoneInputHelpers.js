@@ -13,7 +13,6 @@ import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPref
  * @param  {object?} phoneNumber - An instance of `PhoneNumber` class.
  * @param  {string?} country - Pre-defined country (two-letter code).
  * @param  {string[]?} countries - A list of countries available.
- * @param  {boolean} includeInternationalOption - Whether "International" country option is available.
  * @param  {object} metadata - `libphonenumber-js` metadata
  * @return {string?}
  */
@@ -53,13 +52,13 @@ export function getPreSelectedCountry({
  * Generates a sorted list of country `<select/>` options.
  * @param  {string[]} countries - A list of two-letter ("ISO 3166-1 alpha-2") country codes.
  * @param  {object} labels - Custom country labels. E.g. `{ RU: 'Россия', US: 'США', ... }`.
- * @param  {boolean} includeInternationalOption - Whether should include "International" option at the top of the list.
+ * @param  {boolean} addInternationalOption - Whether should include "International" option at the top of the list.
  * @return {object[]} A list of objects having shape `{ value : string, label : string }`.
  */
 export function getCountrySelectOptions({
 	countries,
 	countryNames,
-	includeInternationalOption,
+	addInternationalOption,
 	// `locales` are only used in country name comparator:
 	// depending on locale, string sorting order could be different.
 	compareStringsLocales,
@@ -86,7 +85,7 @@ export function getCountrySelectOptions({
 	countrySelectOptions.sort((a, b) => _compareStrings(a.label, b.label, compareStringsLocales))
 
 	// Add the "International" option to the country list (if suitable)
-	if (includeInternationalOption) {
+	if (addInternationalOption) {
 		countrySelectOptions.unshift({
 			label: countryNames.ZZ
 		})
@@ -308,7 +307,6 @@ function getMaxNumberLength(country, metadata) {
  * @param {string} partialE164Number - A possibly incomplete E.164 phone number.
  * @param {string?} country - Currently selected country.
  * @param {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
- * @param {boolean} includeInternationalOption - Whether "International" country option is available.
  * @param  {object} metadata - `libphonenumber-js` metadata.
  * @return {string?}
  */
@@ -350,7 +348,6 @@ export function getCountryForPartialE164Number(partialE164Number, {
  * @param  {string?} prevPhoneDigits — Previous parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
  * @param  {string?} country - Currently selected country.
  * @param  {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
- * @param  {boolean} includeInternationalOption - Whether "International" country option is available.
  * @param  {boolean} international - Set to `true` to force international phone number format (leading `+`). Set to `false` to force "national" phone number format. Is `undefined` by default.
  * @param  {boolean} limitMaxLength — Whether to enable limiting phone number max length.
  * @param  {object} metadata - `libphonenumber-js` metadata.

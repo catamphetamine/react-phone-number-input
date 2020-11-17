@@ -1,5 +1,12 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.6 / 16.11.2020
+==================
+
+* Fixed "International" option not being added.
+
+* Added `"🌐"` ("International") option to `countryOptionsOrder`.
+
 3.1.5 / 08.11.2020
 ==================
 

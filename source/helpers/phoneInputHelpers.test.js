@@ -119,7 +119,7 @@ describe('phoneInputHelpers', () => {
 		getCountrySelectOptions({
 			countries: ['US', 'RU'],
 			countryNames: defaultLabels,
-			includeInternationalOption: true
+			addInternationalOption: true
 		}).should.deep.equal([{
 			label: 'International'
 		}, {
@@ -134,7 +134,7 @@ describe('phoneInputHelpers', () => {
 		getCountrySelectOptions({
 			countries: ['US', 'RU'],
 			countryNames: { ...defaultLabels, 'RU': 'Russia', ZZ: 'Intl' },
-			includeInternationalOption: true
+			addInternationalOption: true
 		}).should.deep.equal([{
 			label: 'Intl'
 		}, {

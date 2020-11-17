@@ -114,8 +114,40 @@ describe('helpers/countries', () => {
 		])
 	})
 
+	it('should sort country options (with "🌐")', () => {
+		sortCountryOptions(
+			[
+				{
+					value: 'RU',
+					label: 'Russia'
+				},
+				{
+					label: 'International'
+				},
+				{
+					value: 'US',
+					label: 'United States'
+				}
+			],
+			['US', '🌐', '…']
+		).should.deep.equal([
+			{
+				value: 'US',
+				label: 'United States'
+			},
+			{
+				label: 'International'
+			},
+			{
+				value: 'RU',
+				label: 'Russia'
+			}
+		])
+	})
+
 	it('should get supported country options', () => {
 		getSupportedCountryOptions([
+			'🌐',
 			'RU',
 			'XX',
 			'@',
@@ -124,6 +156,7 @@ describe('helpers/countries', () => {
 			'...',
 			'.'
 		], metadata).should.deep.equal([
+			'🌐',
 			'RU',
 			'|',
 			'…',
