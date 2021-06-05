@@ -73,18 +73,22 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		this.CountryIcon = createCountryIconComponent(this.props)
 
+		const preSelectedCountry = getPreSelectedCountry({
+			value,
+			phoneNumber,
+			defaultCountry,
+			required: !addInternationalOption,
+			countries: countries || getCountries(metadata),
+			getAnyCountry: () => this.getFirstSupportedCountry({ countries }),
+			metadata
+		})
+
 		this.state = {
 			// Workaround for `this.props` inside `getDerivedStateFromProps()`.
 			props: this.props,
 
 			// The country selected.
-			country: getPreSelectedCountry({
-				phoneNumber,
-				defaultCountry,
-				countries: countries || getCountries(metadata),
-				required: !addInternationalOption,
-				metadata
-			}),
+			country: preSelectedCountry,
 
 			// `countries` are stored in `this.state` because they're filtered.
 			// For example, a developer might theoretically pass some unsupported
@@ -149,6 +153,53 @@ class PhoneNumberInput_ extends React.PureComponent {
 		}
 	}
 
+	setInputRef = (instance) => {
+		this.inputRef.current = instance
+		const { inputRef: ref } = this.props
+		if (ref) {
+			if (typeof ref === 'function') {
+				ref(instance)
+			} else {
+				ref.current = instance
+			}
+		}
+	}
+
+	getCountrySelectOptions({ countries }) {
+		const {
+			international,
+			countryCallingCodeEditable,
+			countryOptionsOrder,
+			addInternationalOption,
+			labels,
+			locales,
+			metadata
+		} = this.props
+		return useMemoCountrySelectOptions(() => {
+			return sortCountryOptions(
+				getCountrySelectOptions({
+					countries: countries || getCountries(metadata),
+					countryNames: labels,
+					addInternationalOption: (international && countryCallingCodeEditable === false) ? false : addInternationalOption,
+					compareStringsLocales: locales,
+					// compareStrings
+				}),
+				getSupportedCountryOptions(countryOptionsOrder, metadata)
+			)
+		}, [
+			countries,
+			countryOptionsOrder,
+			addInternationalOption,
+			labels,
+			metadata
+		])
+	}
+
+	getFirstSupportedCountry({ countries }) {
+		const countryOptions = this.getCountrySelectOptions({ countries })
+		return countryOptions[0].value
+	}
+
 	// A shorthand for not passing `metadata` as a second argument.
 	isCountrySupportedWithError = (country) => {
 		const { metadata } = this.props
@@ -185,7 +236,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		// Focus phone number `<input/>` upon country selection.
 		if (focusInputOnCountrySelection) {
-			this.getInputRef().current.focus()
+			this.inputRef.current.focus()
 		}
 
 		// If the user has already manually selected a country
@@ -237,7 +288,9 @@ class PhoneNumberInput_ extends React.PureComponent {
 		} = onPhoneDigitsChange(_phoneDigits, {
 			prevPhoneDigits,
 			country: currentlySelectedCountry,
+			countryRequired: !addInternationalOption,
 			defaultCountry,
+			getAnyCountry: () => this.getFirstSupportedCountry({ countries }),
 			countries,
 			international,
 			limitMaxLength,
@@ -323,11 +376,6 @@ class PhoneNumberInput_ extends React.PureComponent {
 		}
 	}
 
-	getInputRef() {
-		const { inputRef } = this.props
-		return inputRef || this.inputRef
-	}
-
 	// `state` holds previous props as `props`, and also:
 	// * `country` — The currently selected country, e.g. `"RU"`.
 	// * `value` — The currently entered phone number (E.164), e.g. `+78005553535`.
@@ -365,7 +413,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 			// Get "rest" properties (passed through to number `<input/>`).
 			defaultCountry,
-			countries,
+			countries: countriesProperty,
 			countryOptionsOrder,
 			labels,
 			flags,
@@ -391,30 +439,14 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		const {
 			country,
+			countries,
 			phoneDigits,
 			isFocused
 		} = this.state
 
 		const InputComponent = smartCaret ? InputSmart : InputBasic
 
-		const countrySelectOptions = useMemoCountrySelectOptions(() => {
-			return sortCountryOptions(
-				getCountrySelectOptions({
-					countries: countries || getCountries(metadata),
-					countryNames: labels,
-					addInternationalOption: (international && countryCallingCodeEditable === false) ? false : addInternationalOption,
-					compareStringsLocales: locales,
-					// compareStrings
-				}),
-				getSupportedCountryOptions(countryOptionsOrder, metadata)
-			)
-		}, [
-			countries,
-			countryOptionsOrder,
-			addInternationalOption,
-			labels,
-			metadata
-		])
+		const countrySelectOptions = this.getCountrySelectOptions({ countries })
 
 		return (
 			<ContainerComponent
@@ -438,7 +470,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 				{/* Phone number `<input/>` */}
 				<InputComponent
-					ref={this.getInputRef()}
+					ref={this.setInputRef}
 					type="tel"
 					autoComplete={autoComplete}
 					{...numberInputProps}

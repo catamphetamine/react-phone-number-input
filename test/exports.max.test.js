@@ -5,7 +5,8 @@ import PhoneInput, {
 	isValidPhoneNumber,
 	isPossiblePhoneNumber,
 	getCountryCallingCode,
-	getCountries
+	getCountries,
+	isSupportedCountry
 } from '../max/index'
 
 describe('exports/max', () => {
@@ -18,6 +19,7 @@ describe('exports/max', () => {
 		isPossiblePhoneNumber('+19999999999').should.equal(true)
 		getCountryCallingCode('US').should.equal('1')
 		getCountries()[0].length.should.equal(2)
+		isSupportedCountry('XX').should.equal(false)
 	})
 
 	it('should export CommonJS', () => {
@@ -31,5 +33,6 @@ describe('exports/max', () => {
 		Library.isPossiblePhoneNumber('+19999999999').should.equal(true)
 		Library.getCountryCallingCode('US').should.equal('1')
 		Library.getCountries()[0].length.should.equal(2)
+		Library.isSupportedCountry('XX').should.equal(false)
 	})
 })

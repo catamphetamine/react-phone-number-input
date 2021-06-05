@@ -68,7 +68,7 @@ The `value` argument of `onChange(value)` function will be the parsed phone numb
 
 All unknown properties will be passed through to the phone number `<input/>` component.
 
-To set a default country, pass a `defaultCountry` property. Example: `<PhoneInput defaultCountry="US" .../>`.
+To set a default country, pass a `defaultCountry` property (must be a supported [country code](#country-code)). Example: `<PhoneInput defaultCountry="US" .../>`.
 
 To get the currently selected country, pass an `onCountryChange(country)` property.
 
@@ -149,13 +149,13 @@ Doesn't require any CSS.
 
 Receives properties:
 
-* `country: string?` — If `country` is specified then the phone number can only be input in "national" (not "international") format, and will be parsed as a phone number belonging to the `country`. Example: `country="US"`.
+* `country: string?` — If `country` is specified then the phone number can only be input in "national" (not "international") format, and will be parsed as a phone number belonging to the `country`. Must be a supported [country code](#country-code). Example: `country="US"`.
 
 * `international: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (`+1` when `country` is `US`) is not included in the input field: that could be changed by passing `withCountryCallingCode` property (see below). So, if `country` is `US` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (`(213) 373-4253`). But if `country` is `"US"` and `international` property is `true` then the phone number can only be input in the "international" format for `US` (`213 373 4253`) without the "country calling code" part (`+1`). This could be used for implementing phone number input components that show "country calling code" part before the input field and then the user can fill in the rest of their phone number digits in the input field.
 
 * `withCountryCallingCode: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (`+1` when `country` is `US`) is not included in the input field. To change that, pass `withCountryCallingCode` property, and it will include the "country calling code" part in the input field. See the demo for an example.
 
-* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Example: `defaultCountry="US"`.
+* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Must be a supported [country code](#country-code). Example: `defaultCountry="US"`.
 
 * If neither `country` nor `defaultCountry` are specified then the phone number can only be input in "international" format.
 
@@ -277,27 +277,28 @@ formatPhoneNumberIntl('+12133734253') === '+1 213 373 4253'
 
 ### `isPossiblePhoneNumber(value: string): boolean`
 
-Checks if the phone number is "possible". Only checks the phone number length, doesn't check the number digits against any regular expressions like `isValidPhoneNumber()` does.
+Checks if a phone number `value` is a "possible" phone number. A phone number is "possible" when it has valid length. The actual phone number digits aren't validated.
 
 ```js
 import { isPossiblePhoneNumber } from 'react-phone-number-input'
-isPossiblePhoneNumber('+12133734253') === true
-isPossiblePhoneNumber('+19999999999') === true
+isPossiblePhoneNumber('+12223333333') === true
 ```
 
 ### `isValidPhoneNumber(value: string): boolean`
 
-Validates a phone number `value`.
+Checks if a phone number `value` is a "valid" phone number. A phone number is "valid" when it has valid length, and the actual phone number digits match the regular expressions for that country.
 
 ```js
 import { isValidPhoneNumber } from 'react-phone-number-input'
+isValidPhoneNumber('+12223333333') === false
 isValidPhoneNumber('+12133734253') === true
-isValidPhoneNumber('+19999999999') === false
 ```
 
 By default the component uses [`min` "metadata"](#min-vs-max-vs-mobile) which results in less strict validation compared to [`max`](#min-vs-max-vs-mobile) or [`mobile`](#min-vs-max-vs-mobile).
 
-I personally [don't use](https://gitlab.com/catamphetamine/libphonenumber-js#using-phone-number-validation-feature) strict phone number validation in my projects because telephone numbering plans sometimes change and so validation rules can change too which means that `isValidPhoneNumber()` function may become outdated if a website isn't re-deployed regularly. If it was required to validate a phone number being input by a user, then I'd personally use something like `isPossiblePhoneNumber()` that just validates phone number length.
+I personally don't use `isValidPhoneNumber()` for phone number validation in my projects. The rationale is that telephone numbering plans can and sometimes do change, meaning that `isValidPhoneNumber()`function may one day become outdated on a website that isn't actively maintained anymore. Imagine a "promo-site" or a "personal website" being deployed once and then running for years without any maintenance, where a client may be unable to submit a simple "Contact Us" form just because this newly allocated pool of mobile phone numbers wasn't present in that old version of `libphonenumber-js` bundled in it.
+
+Whenever there's a "business requirement" to validate a phone number that's being input by a user, I prefer using `isPossiblePhoneNumber()` instead of `isValidPhoneNumber()`, so that it just validates the phone number length, and doesn't validate the actual phone number digits. But it doesn't mean that you shouldn't use `isValidPhoneNumber()` — maybe in your case it would make sense.
 
 ### `parsePhoneNumber(input: string): PhoneNumber?`
 
@@ -313,11 +314,24 @@ if (phoneNumber) {
 
 ### `getCountryCallingCode(country: string): string`
 
+Returns the ["country calling code"](https://gitlab.com/catamphetamine/libphonenumber-js#country-calling-code) of a `country`. The `country` argument must be a supported [country code](#country-code).
+
 This is simply an alias for [`getCountryCallingCode()`](https://gitlab.com/catamphetamine/libphonenumber-js#getcountrycallingcodecountry) from [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js).
 
 ```js
 import { getCountryCallingCode } from 'react-phone-number-input'
 getCountryCallingCode('US') === '1'
+```
+
+### `isSupportedCountry(country: string): boolean`
+
+Checks if a [country](#country-code) is supported by this library.
+
+This is simply an alias for [`isSupportedCountry()`](https://gitlab.com/catamphetamine/libphonenumber-js#issupportedcountrycountry-string-boolean) from [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js).
+
+```js
+import { isSupportedCountry } from 'react-phone-number-input'
+isSupportedCountry('US') === true
 ```
 
 ## Flags URL
@@ -458,6 +472,24 @@ If you think that the phone number parsing/formatting/validation engine malfunct
 
 Make sure to put a `<PhoneInput/>` into a `<form/>` otherwise web-browser's ["autocomplete"](https://www.w3schools.com/tags/att_input_autocomplete.asp) feature may not be working: a user will be selecting his phone number from the list but [nothing will be happening](https://gitlab.com/catamphetamine/react-phone-number-input/issues/101).
 
+## `react-hook-form`
+
+To use this component with [`react-hook-form`](https://react-hook-form.com), use one of the four exported components:
+
+```js
+// "Without country select" component.
+import PhoneInput from 'react-phone-number-input/react-hook-form-input'
+
+// "Without country select" component (to pass custom `metadata` property).
+import PhoneInput from 'react-phone-number-input/react-hook-form-input-core'
+
+// "With country select" component.
+import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form'
+
+// "With country select" component (to pass custom `metadata` property).
+import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form-core'
+```
+
 ## Customizing
 
 The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry):
@@ -579,6 +611,14 @@ Without country select:
 
 [React Responsive UI](https://catamphetamine.gitlab.io/react-responsive-ui/) component library.
 -->
+
+## Country code
+
+A "country code" is a [two-letter ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) (like `US`).
+
+This library supports all [officially assigned](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) ISO alpha-2 country codes, plus a few extra ones like: `AC` ([Ascension Island](https://en.wikipedia.org/wiki/Ascension_Island)), `TA` ([Tristan da Cunha](https://en.wikipedia.org/wiki/Tristan_da_Cunha)), `XK` ([Kosovo](https://en.wikipedia.org/wiki/Kosovo)).
+
+To check whether a country code is supported, use [`isSupportedCountry()`](#issupportedcountrycountry-string-boolean) function.
 
 ## GitHub
 

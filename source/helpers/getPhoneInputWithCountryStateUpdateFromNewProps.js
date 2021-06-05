@@ -1,5 +1,6 @@
 import {
 	getInitialPhoneDigits,
+	getCountryForPartialE164Number,
 	parsePhoneNumber
 } from './phoneInputHelpers'
 
@@ -80,12 +81,9 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 	// Because if the user has already started inputting a phone number
 	// then they're okay with no country being selected at all ("International")
 	// and they don't want to be disturbed, don't want their input to be screwed, etc.
-	if (newDefaultCountry !== prevDefaultCountry &&
-		isCountrySupportedWithError(newDefaultCountry, metadata) &&
-		!hasUserSelectedACountry &&
-		// The `!newValue` check is added here to restrict the dynamically updated
-		// `country` property to cases when no `value` property has been set.
-		!newValue && (
+	if (newDefaultCountry !== prevDefaultCountry) {
+		const isNewDefaultCountrySupported = !newDefaultCountry || isCountrySupportedWithError(newDefaultCountry, metadata)
+		const noValueHasBeenEnteredByTheUser = (
 			// By default, "no value has been entered" means `value` is `undefined`.
 			!value ||
 			// When `international` is `true`, and some country has been pre-selected,
@@ -97,22 +95,27 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 				defaultCountry: prevDefaultCountry
 			}))
 		)
-	) {
-		return {
-			country: newDefaultCountry,
-			// If `phoneDigits` is empty, then automatically select the new `country`
-			// and set `phoneDigits` to `+{getCountryCallingCode(newCountry)}`.
-			// The code assumes that "no phone number has been entered by the user",
-			// and no `value` property has been passed, so the `phoneNumber` parameter
-			// of `_getInitialPhoneDigits({ value, phoneNumber, ... })` is `undefined`.
-			phoneDigits: _getInitialPhoneDigits({
-				value: newValue,
-				defaultCountry: newDefaultCountry
-			})
-			// `value` is `undefined`.
-			// `phoneDigits` is `undefined` because `value` is `undefined`.
+		// Only update the `defaultCountry` property if no phone number
+		// has been entered by the user or pre-set by the application.
+		const noValueHasBeenEntered = !newValue && noValueHasBeenEnteredByTheUser
+		if (!hasUserSelectedACountry && isNewDefaultCountrySupported && noValueHasBeenEntered) {
+			return {
+				country: newDefaultCountry,
+				// If `phoneDigits` is empty, then automatically select the new `country`
+				// and set `phoneDigits` to `+{getCountryCallingCode(newCountry)}`.
+				// The code assumes that "no phone number has been entered by the user",
+				// and no `value` property has been passed, so the `phoneNumber` parameter
+				// of `_getInitialPhoneDigits({ value, phoneNumber, ... })` is `undefined`.
+				phoneDigits: _getInitialPhoneDigits({
+					value: undefined,
+					defaultCountry: newDefaultCountry
+				}),
+				// `value` is `undefined` and it stays so.
+				value: undefined
+			}
 		}
 	}
+
 	// If a new `value` is set externally.
 	// (e.g. as a result of an ajax API request
 	//  to get user's phone after page loaded)
@@ -124,15 +127,24 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 	// which happens in `this.onChange()` right after `this.setState()`.
 	// If this `getDerivedStateFromProps()` call isn't ignored
 	// then the country flag would reset on each input.
-	else if (newValue !== prevValue && newValue !== value) {
-		const phoneNumber = parsePhoneNumber(newValue, metadata)
+	if (newValue !== prevValue && newValue !== value) {
+		let phoneNumber
 		let parsedCountry
-		if (phoneNumber) {
+		if (newValue) {
+			phoneNumber = parsePhoneNumber(newValue, metadata)
 			const supportedCountries = getSupportedCountries(countries, metadata)
-			// Ignore `else` because all countries are supported in metadata.
-			/* istanbul ignore next */
-			if (!supportedCountries || supportedCountries.indexOf(phoneNumber.country) >= 0) {
-				parsedCountry = phoneNumber.country
+			if (phoneNumber && phoneNumber.country) {
+				// Ignore `else` because all countries are supported in metadata.
+				/* istanbul ignore next */
+				if (!supportedCountries || supportedCountries.indexOf(phoneNumber.country) >= 0) {
+					parsedCountry = phoneNumber.country
+				}
+			} else {
+				parsedCountry = getCountryForPartialE164Number(newValue, {
+					country: undefined,
+					countries: supportedCountries,
+					metadata
+				})
 			}
 		}
 		let hasUserSelectedACountryUpdate

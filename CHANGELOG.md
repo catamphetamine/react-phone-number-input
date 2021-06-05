@@ -1,5 +1,40 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.23 / 27.05.2021
+==================
+
+* [Fixed](https://github.com/catamphetamine/react-phone-number-input/issues/296#issuecomment-849248267) React Native `{...rest}` props passthrough.
+
+3.1.20 / 26.04.2021
+==================
+
+* [Fixed](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/38) `addInternationalOption={false}` React warning.
+
+3.1.19 / 13.04.2021
+==================
+
+* Added [`react-hook-form@7` support](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/57).
+
+3.1.18 / 23.03.2021
+==================
+
+* Fixed a [minor small bug](https://github.com/catamphetamine/react-phone-number-input/issues/378) when `defaultCountry` is selected as the country even when the initial `value` couldn't possibly belong to that country.
+
+3.1.10 / 18.01.2021
+==================
+
+* Added `react-hook-form` components.
+
+3.1.9 / 07.01.2021
+==================
+
+* [Fixed](https://github.com/catamphetamine/react-phone-number-input/issues/377) determining the `country` for a very incomplete `value` when `value` is set externally.
+
+3.1.8 / 09.12.2020
+==================
+
+* [Fixed](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43) entering phone number digits in "force international" mode when the prefix is selected.
+
 3.1.6 / 16.11.2020
 ==================
 

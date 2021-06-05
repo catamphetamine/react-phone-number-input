@@ -17,19 +17,25 @@ import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPref
  * @return {string?}
  */
 export function getPreSelectedCountry({
+	value,
 	phoneNumber,
 	defaultCountry,
+	getAnyCountry,
 	countries,
 	required,
 	metadata
 }) {
-	let country = defaultCountry
+	let country
 
 	// If can get country from E.164 phone number
 	// then it overrides the `country` passed (or not passed).
 	if (phoneNumber && phoneNumber.country) {
 		// `country` will be left `undefined` in case of non-detection.
 		country = phoneNumber.country
+	} else if (defaultCountry) {
+		if (!value || couldNumberBelongToCountry(value, defaultCountry, metadata)) {
+			country = defaultCountry
+		}
 	}
 
 	// Only pre-select a country if it's in the available `countries` list.
@@ -42,7 +48,8 @@ export function getPreSelectedCountry({
 	// It will still be the wrong country though.
 	// But still country `<select/>` can't be left in a broken state.
 	if (!country && required && countries && countries.length > 0) {
-		country = countries[0]
+		country = getAnyCountry()
+		// noCountryMatchesTheNumber = true
 	}
 
 	return country
@@ -347,6 +354,8 @@ export function getCountryForPartialE164Number(partialE164Number, {
  * @param  {string?} phoneDigits — Parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
  * @param  {string?} prevPhoneDigits — Previous parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
  * @param  {string?} country - Currently selected country.
+ * @param  {boolean} countryRequired - Is selecting some country required.
+ * @param  {function} getAnyCountry - Can be used to get any country when selecting some country required.
  * @param  {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
  * @param  {boolean} international - Set to `true` to force international phone number format (leading `+`). Set to `false` to force "national" phone number format. Is `undefined` by default.
  * @param  {boolean} limitMaxLength — Whether to enable limiting phone number max length.
@@ -357,6 +366,8 @@ export function onPhoneDigitsChange(phoneDigits, {
 	prevPhoneDigits,
 	country,
 	defaultCountry,
+	countryRequired,
+	getAnyCountry,
 	countries,
 	international,
 	limitMaxLength,
@@ -367,9 +378,29 @@ export function onPhoneDigitsChange(phoneDigits, {
 		const prefix = getInternationalPhoneNumberPrefix(country, metadata)
 		// The `<input/>` value must start with the country calling code.
 		if (phoneDigits.indexOf(prefix) !== 0) {
+			let value
+			// If a phone number input is declared as
+			// `international` and `withCountryCallingCode`,
+			// then it's gonna be non-empty even before the user
+			// has input anything in it.
+			// This will result in its contents (the country calling code part)
+			// being selected when the user tabs into such field.
+			// If the user then starts inputting the national part digits,
+			// then `<input/>` value changes from `+xxx` to `y`
+			// because inputting anything while having the `<input/>` value
+			// selected results in erasing the `<input/>` value
+			// So, the component handles such case by restoring
+			// the intended `<input/>`` value: `+xxxy`.
+			// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43
+			if (phoneDigits && phoneDigits[0] !== '+') {
+				phoneDigits = prefix + phoneDigits
+				value = phoneDigits
+			} else {
+				phoneDigits = prefix
+			}
 			return {
-				phoneDigits: prefix,
-				value: undefined,
+				phoneDigits,
+				value,
 				country
 			}
 		}
@@ -468,6 +499,10 @@ export function onPhoneDigitsChange(phoneDigits, {
 		}
 	}
 
+	if (!country && countryRequired) {
+		country = defaultCountry || getAnyCountry()
+	}
+
 	return {
 		phoneDigits,
 		country,
@@ -509,10 +544,10 @@ export function getCountryFromPossiblyIncompleteInternationalPhoneNumber(number,
 	formatter.input(number)
 	// // `001` is a special "non-geograpical entity" code
 	// // in Google's `libphonenumber` library.
-	// if (formatter.country === '001') {
+	// if (formatter.getCountry() === '001') {
 	// 	return
 	// }
-	return formatter.country
+	return formatter.getCountry()
 }
 
 /**

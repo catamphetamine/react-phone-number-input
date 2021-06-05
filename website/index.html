@@ -1509,7 +1509,7 @@ const [country, setCountry] = useState()
 								<button
 									type="button"
 									onClick={() => this.setState({ dynamic_labels: ru })}>
-									Set labels to RU
+									Set "labels" to Russian
 								</button>
 							</p>
 
@@ -1517,7 +1517,15 @@ const [country, setCountry] = useState()
 								<button
 									type="button"
 									onClick={() => this.setState({ dynamic_country: 'FR' })}>
-									Set country to 'FR'
+									Set "defaultCountry" to "FR"
+								</button>
+							</p>
+
+							<p>
+								<button
+									type="button"
+									onClick={() => this.setState({ dynamic_country: undefined })}>
+									Set "defaultCountry" to "undefined"
 								</button>
 							</p>
 
@@ -1525,7 +1533,7 @@ const [country, setCountry] = useState()
 								<button
 									type="button"
 									onClick={() => this.setState({ dynamic_value: '+78005553535' })}>
-									Set value to '+78005553535'
+									Set "value" to "+78005553535"
 								</button>
 							</p>
 

@@ -7,7 +7,8 @@ import {
 	isValidPhoneNumber as _isValidPhoneNumber,
 	isPossiblePhoneNumber as _isPossiblePhoneNumber,
 	getCountries as _getCountries,
-	getCountryCallingCode as _getCountryCallingCode
+	getCountryCallingCode as _getCountryCallingCode,
+	isSupportedCountry as _isSupportedCountry
 } from '../core/index'
 
 import { createPhoneInput } from '../modules/PhoneInputWithCountryDefault'
@@ -46,4 +47,8 @@ export function getCountries() {
 
 export function getCountryCallingCode() {
 	return call(_getCountryCallingCode, arguments)
+}
+
+export function isSupportedCountry() {
+	return call(_isSupportedCountry, arguments)
 }

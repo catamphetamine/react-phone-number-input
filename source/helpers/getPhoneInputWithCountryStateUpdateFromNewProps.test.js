@@ -73,7 +73,8 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			{}
 		).should.deep.equal({
 			country: 'RU',
-			phoneDigits: undefined
+			phoneDigits: undefined,
+			value: undefined
 		})
 	})
 
@@ -104,7 +105,8 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			}
 		).should.deep.equal({
 			country: 'CA',
-			phoneDigits: '+1'
+			phoneDigits: '+1',
+			value: undefined
 		})
 	})
 
@@ -120,6 +122,24 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			},
 			{}
 		)).to.be.undefined
+	})
+
+	it('should get state update from new props (default country changed to `undefined`) (has `value`)', () => {
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
+			{
+				value: undefined,
+				defaultCountry: 'FR'
+			},
+			{
+				value: undefined,
+				defaultCountry: undefined
+			},
+			{}
+		)).to.deep.equal({
+			country: 'FR',
+			phoneDigits: undefined,
+			value: undefined
+		})
 	})
 
 	it('should get state update from new props (`value` changed: undefined -> value)', () => {
@@ -156,6 +176,19 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			phoneDigits: undefined,
 			value: undefined,
 			hasUserSelectedACountry: undefined
+		})
+	})
+
+	// https://github.com/catamphetamine/react-phone-number-input/issues/377
+	it('should get state update from new props (`value` changed: undefined -> +78)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+78' },
+			{},
+			{}
+		).should.deep.equal({
+			country: 'RU',
+			phoneDigits: '+78',
+			value: '+78'
 		})
 	})
 

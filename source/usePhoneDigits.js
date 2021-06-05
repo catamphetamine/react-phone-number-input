@@ -78,27 +78,36 @@ export default function usePhoneDigits({
 				// The `<input/>` value must start with the country calling code.
 				const prefix = getInternationalPhoneNumberPrefix(country, metadata)
 				if (phoneDigits.indexOf(prefix) !== 0) {
-					// // Reset phone digits if they don't start with the correct prefix.
-					// // Undo the `<input/>` value change if it doesn't.
-					if (countryMismatchDetected.current) {
-						// In case of a `country`/`value` mismatch,
-						// if it performed an "undo" here, then
-						// it wouldn't let a user edit their phone number at all,
-						// so this special case at least allows phone number editing
-						// when `value` already doesn't match the `country`.
+					// If a user tabs into a phone number input field
+					// that is `international` and `withCountryCallingCode`,
+					// and then starts inputting local phone number digits,
+					// the first digit would get "swallowed" if the fix below wasn't implemented.
+					// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43
+					if (phoneDigits && phoneDigits[0] !== '+') {
+						phoneDigits = prefix + phoneDigits
 					} else {
-						// If it simply did `phoneDigits = prefix` here,
-						// then it could have no effect when erasing phone number
-						// via Backspace, because `phoneDigits` in `state` wouldn't change
-						// as a result, because it was `prefix` and it became `prefix`,
-						// so the component wouldn't rerender, and the user would be able
-						// to erase the country calling code part, and that part is
-						// assumed to be non-eraseable. That's why the component is
-						// forcefully rerendered here.
-						setPhoneDigits(prefix)
-						setValueForPhoneDigits(undefined)
-						// Force a re-render of the `<input/>` with previous `phoneDigits` value.
-						return rerender()
+						// // Reset phone digits if they don't start with the correct prefix.
+						// // Undo the `<input/>` value change if it doesn't.
+						if (countryMismatchDetected.current) {
+							// In case of a `country`/`value` mismatch,
+							// if it performed an "undo" here, then
+							// it wouldn't let a user edit their phone number at all,
+							// so this special case at least allows phone number editing
+							// when `value` already doesn't match the `country`.
+						} else {
+							// If it simply did `phoneDigits = prefix` here,
+							// then it could have no effect when erasing phone number
+							// via Backspace, because `phoneDigits` in `state` wouldn't change
+							// as a result, because it was `prefix` and it became `prefix`,
+							// so the component wouldn't rerender, and the user would be able
+							// to erase the country calling code part, and that part is
+							// assumed to be non-eraseable. That's why the component is
+							// forcefully rerendered here.
+							setPhoneDigits(prefix)
+							setValueForPhoneDigits(undefined)
+							// Force a re-render of the `<input/>` with previous `phoneDigits` value.
+							return rerender()
+						}
 					}
 				}
 			} else {
@@ -204,7 +213,27 @@ function getPhoneDigitsForValue(
 			}
 			return parseDigits(phoneNumber.formatNational())
 		} else {
-			if (phoneNumber.country && phoneNumber.country === defaultCountry && useNationalFormatForDefaultCountryValue) {
+			// `phoneNumber.countryCallingCode` is compared here  instead of
+			// `phoneNumber.country`, because, for example, a person could have
+			// previously input a phone number (in "national" format) that isn't
+			// 100% valid for the `defaultCountry`, and if `phoneNumber.country`
+			// was compared, then it wouldn't match, and such phone number
+			// wouldn't be formatted as a "national" one, and instead would be
+			// formatted as an "international" one, confusing the user.
+			// Comparing `phoneNumber.countryCallingCode` works around such issues.
+			//
+			// Example: `defaultCountry="US"` and the `<input/>` is empty.
+			// The user inputs: "222 333 4444", which gets formatted to "(222) 333-4444".
+			// The user then clicks "Save", the page is refreshed, and the user sees
+			// that the `<input/>` value is now "+1 222 333 4444" which confuses the user:
+			// the user expected the `<input/>` value to be "(222) 333-4444", same as it
+			// was when they've just typed it in. The cause of the issue is that "222 333 4444"
+			// is not a valid national number for US, and `phoneNumber.country` is compared
+			// instead of `phoneNumber.countryCallingCode`. After the `phoneNumber.country`
+			// comparison is replaced with `phoneNumber.countryCallingCode` one, the issue
+			// is no longer the case.
+			//
+			if (phoneNumber.countryCallingCode && phoneNumber.countryCallingCode === getCountryCallingCode(defaultCountry, metadata) && useNationalFormatForDefaultCountryValue) {
 				return parseDigits(phoneNumber.formatNational())
 			}
 			return value

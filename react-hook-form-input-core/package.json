@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "react-phone-number-input/react-native-input",
+  "name": "react-phone-number-input/react-hook-form-input-core",
   "version": "1.0.0",
   "main": "index.commonjs.js",
   "module": "index.js",

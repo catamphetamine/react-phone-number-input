@@ -42,4 +42,8 @@ exports.getCountryCallingCode = function getCountryCallingCode() {
 	return call(core.getCountryCallingCode, arguments)
 }
 
+exports.isSupportedCountry = function isSupportedCountry() {
+	return call(core.isSupportedCountry, arguments)
+}
+
 exports['default'] = PhoneInput

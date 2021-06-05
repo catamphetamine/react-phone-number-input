@@ -1,0 +1,1 @@
+export { default } from '../modules/react-hook-form/PhoneInputWithCountry'

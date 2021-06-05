@@ -5,7 +5,8 @@ import PhoneInput, {
 	isValidPhoneNumber,
 	isPossiblePhoneNumber,
 	getCountryCallingCode,
-	getCountries
+	getCountries,
+	isSupportedCountry
 } from '../input-core/index'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
@@ -20,6 +21,7 @@ describe('exports/input-core', () => {
 		isPossiblePhoneNumber('+19999999999', metadata).should.equal(true)
 		getCountryCallingCode('US', metadata).should.equal('1')
 		getCountries(metadata)[0].length.should.equal(2)
+		isSupportedCountry('XX', metadata).should.equal(false)
 	})
 
 	it('should export CommonJS', () => {
@@ -33,5 +35,6 @@ describe('exports/input-core', () => {
 		Library.isPossiblePhoneNumber('+19999999999', metadata).should.equal(true)
 		Library.getCountryCallingCode('US', metadata).should.equal('1')
 		Library.getCountries(metadata)[0].length.should.equal(2)
+		Library.isSupportedCountry('XX', metadata).should.equal(false)
 	})
 })

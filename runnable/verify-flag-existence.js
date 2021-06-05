@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { hasFlag } from 'country-flag-icons'
-import { getCountries } from '..'
+import { getCountries } from 'libphonenumber-js'
 
 // Validate `country-flag-icons`.
 for (const country of getCountries()) {

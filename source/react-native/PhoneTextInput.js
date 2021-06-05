@@ -7,11 +7,9 @@ import { TextInput } from 'react-native'
  * Feedback thread: https://github.com/catamphetamine/react-phone-number-input/issues/296
  */
 function PhoneTextInput({
-  placeholder,
   autoComplete,
-  autoFocus,
-  value,
-  onChange
+  onChange,
+  ...rest
 }, ref) {
   // Instead of `onChangeText` it could use `onChange` and get `value` from `nativeEvent.text`.
   const onChangeText = useCallback((value) => {
@@ -20,24 +18,25 @@ function PhoneTextInput({
       target: { value }
     })
   }, [onChange])
+  // React Native `<TextInput/>` supports properties:
+  // * `placeholder: string?`
+  // * `autoFocus: boolean?`
+  // * `value: string?`
+  // plus the ones mentioned below:
   return (
     <TextInput
       ref={ref}
-      placeholder={placeholder}
-      autoFocus={autoFocus}
-      autoCompleteType={autoComplete}
       keyboardType="phone-pad"
+      autoCompleteType={autoComplete}
       onChangeText={onChangeText}
-      value={value}/>
+      {...rest}/>
   )
 }
 
 PhoneTextInput = React.forwardRef(PhoneTextInput)
 
 PhoneTextInput.propTypes = {
-  placeholder: PropTypes.string,
   autoComplete: PropTypes.string,
-  autoFocus: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired
 }
