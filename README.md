@@ -66,6 +66,8 @@ function Example() {
 
 The `value` argument of `onChange(value)` function will be the parsed phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. For example, if a user chooses "United States" and enters `(213) 373-4253` in the input field then `onChange(value)` will be called with `value` being `"+12133734253"`.
 
+Note: Don't pass an empty string `value`, pass `undefined` instead. Same's true for the `value` argument of `onChange` — when `value` is empty, it is `undefined`, not an empty string.
+
 All unknown properties will be passed through to the phone number `<input/>` component.
 
 To set a default country, pass a `defaultCountry` property (must be a supported [country code](#country-code)). Example: `<PhoneInput defaultCountry="US" .../>`.
