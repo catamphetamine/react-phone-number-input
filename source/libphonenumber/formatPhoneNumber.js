@@ -1,4 +1,4 @@
-import { parsePhoneNumberFromString } from 'libphonenumber-js/core'
+import parsePhoneNumber from 'libphonenumber-js/core'
 
 /**
  * Formats a phone number.
@@ -18,7 +18,7 @@ export default function formatPhoneNumber(value, format, metadata) {
 	if (!value) {
 		return ''
 	}
-	const phoneNumber = parsePhoneNumberFromString(value, metadata)
+	const phoneNumber = parsePhoneNumber(value, metadata)
 	if (!phoneNumber) {
 		return ''
 	}

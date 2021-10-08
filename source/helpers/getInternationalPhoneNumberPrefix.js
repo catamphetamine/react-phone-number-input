@@ -10,7 +10,7 @@ export default function getInternationalPhoneNumberPrefix(country, metadata) {
 	// Get "leading digits" for a phone number of the country.
 	// If there're "leading digits" then they can be part of the prefix too.
 	metadata = new Metadata(metadata)
-	metadata.country(country)
+	metadata.selectNumberingPlan(country)
 	if (metadata.numberingPlan.leadingDigits() && ONLY_DIGITS_REGEXP.test(metadata.numberingPlan.leadingDigits())) {
 		prefix += metadata.numberingPlan.leadingDigits()
 	}

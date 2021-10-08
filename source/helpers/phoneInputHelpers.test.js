@@ -411,9 +411,9 @@ describe('phoneInputHelpers', () => {
 		// trimNumber('880055535351', null).should.equal('880055535351')
 
 		// National number. Doesn't exceed the maximum length.
-		trimNumber('88005553535', 'RU', metadata).should.equal('88005553535')
+		trimNumber('2135553535', 'US', metadata).should.equal('2135553535')
 		// National number. Exceeds the maximum length.
-		trimNumber('880055535351', 'RU', metadata).should.equal('88005553535')
+		trimNumber('21355535351', 'US', metadata).should.equal('2135553535')
 
 		// International number. Doesn't exceed the maximum length.
 		trimNumber('+12135553535', 'US', metadata).should.equal('+12135553535')

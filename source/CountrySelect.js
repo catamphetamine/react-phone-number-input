@@ -46,7 +46,8 @@ CountrySelect.propTypes = {
 	value: PropTypes.string,
 
 	/**
-	 * Updates the `value`.
+	 * A function of `value: string`.
+	 * Updates the `value` property.
 	 */
 	onChange: PropTypes.func.isRequired,
 

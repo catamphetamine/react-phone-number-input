@@ -5,12 +5,15 @@ import { AsYouType, parsePhoneNumberCharacter } from 'libphonenumber-js/core'
 
 import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix'
 
-/**
- * This input uses `input-format` library
- * for "smart" caret positioning.
- */
 export function createInput(defaultMetadata)
 {
+	/**
+	 * `InputSmart` is a "smarter" implementation of a `Component`
+	 * that can be passed to `<PhoneInput/>`. It parses and formats
+	 * the user's and maintains the caret's position in the process.
+	 * The caret positioning is maintained using `input-format` library.
+	 * Relies on being run in a DOM environment for calling caret positioning functions.
+	 */
 	function InputSmart({
 		country,
 		international,
@@ -54,6 +57,21 @@ export function createInput(defaultMetadata)
 	InputSmart = React.forwardRef(InputSmart)
 
 	InputSmart.propTypes = {
+		/**
+		 * The parsed phone number.
+		 * "Parsed" not in a sense of "E.164"
+		 * but rather in a sense of "having only
+		 * digits and possibly a leading plus character".
+		 * Examples: `""`, `"+"`, `"+123"`, `"123"`.
+		 */
+		value: PropTypes.string.isRequired,
+
+		/**
+		 * A function of `value: string`.
+		 * Updates the `value` property.
+		 */
+		onChange: PropTypes.func.isRequired,
+
 		/**
 		 * A two-letter country code for formatting `value`
 		 * as a national phone number (e.g. `(800) 555 35 35`).

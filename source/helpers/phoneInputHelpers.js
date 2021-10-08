@@ -1,5 +1,4 @@
-import {
-	parsePhoneNumberFromString,
+import parsePhoneNumber_, {
 	getCountryCallingCode,
 	AsYouType,
 	Metadata
@@ -110,7 +109,7 @@ export function getCountrySelectOptions({
  * parsePhoneNumber('+78005553535')
  */
 export function parsePhoneNumber(value, metadata) {
-	return parsePhoneNumberFromString(value || '', metadata)
+	return parsePhoneNumber_(value || '', metadata)
 }
 
 /**
@@ -302,7 +301,7 @@ export function trimNumber(number, country, metadata) {
 function getMaxNumberLength(country, metadata) {
 	// Get "possible lengths" for a phone number of the country.
 	metadata = new Metadata(metadata)
-	metadata.country(country)
+	metadata.selectNumberingPlan(country)
 	// Return the last "possible length".
 	return metadata.numberingPlan.possibleLengths()[metadata.numberingPlan.possibleLengths().length - 1]
 }

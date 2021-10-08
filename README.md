@@ -165,7 +165,7 @@ Receives properties:
 
 * `onChange(value: string?)` — Updates the `value`.
 
-* `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must be a `React.forwardRef()` to the actual `<input/>`.
+* `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must do `React.forwardRef()` to the actual `<input/>` DOM element. Receives properties: `value: string`, `onChange(event: Event)`, and all the "rest" of the properties that're not handled by this library, like `type="tel"`, `autoComplete="tel"`, etc. Is a generic DOM `<input/>` by default.
 
 * `smartCaret: boolean?` — By default, the `<input/>` uses "smart" caret positioning. To turn that behavior off one can pass `smartCaret={false}` property.
 
@@ -184,7 +184,7 @@ This library also exports `getCountries()` and `getCountryCallingCode(country)` 
 
 ```js
 import PropTypes from 'prop-types'
-import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+import { getCountries, getCountryCallingCode } from 'react-phone-number-input'
 
 const CountrySelect = ({ value, onChange, labels, ...rest }) => (
   <select
@@ -237,7 +237,7 @@ function Example() {
 
 ## React Native
 
-This library is shipped with an _experimental_ React Native component. See the [feedback thread](https://github.com/catamphetamine/react-phone-number-input/issues/296).
+This library also includes a React Native version of a "without country select" component. Post bug reports and suggestions in the [feedback thread](https://github.com/catamphetamine/react-phone-number-input/issues/296).
 
 ```js
 import React, { useState } from 'react'
@@ -254,6 +254,12 @@ function Example() {
   )
 }
 ```
+
+Accepts the same properties as the web version of "without country select" component, with the following differences:
+
+* `smartCaret: boolean?` property is not accepted because "smart caret" positioning feature is not implemented in the React Native component.
+
+* `inputComponent: component?` — A custom input field component can be passed. In that case, it must do `React.forwardRef()` to the actual input field. Receives properties: `value: string`, `onChangeText(value: string)`, and all the "rest" of the properties that're not handled by this library, like `keyboardType="phone-pad"`, `autoCompleteType="tel"`, etc. Is a generic `<TextInput/>` by default.
 
 ## Utility
 
@@ -304,7 +310,7 @@ Whenever there's a "business requirement" to validate a phone number that's bein
 
 ### `parsePhoneNumber(input: string): PhoneNumber?`
 
-Parses a [`PhoneNumber`](https://gitlab.com/catamphetamine/libphonenumber-js#phonenumber) object from a `string`. This is simply an alias for [`parsePhoneNumberFromString()`](https://gitlab.com/catamphetamine/libphonenumber-js#parsephonenumberfromstringstring-defaultcountry) from [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js). Can be used to get `country` from `value`.
+Parses a [`PhoneNumber`](https://gitlab.com/catamphetamine/libphonenumber-js#phonenumber) object from a `string`. This is simply an alias for [`parsePhoneNumber()`](https://gitlab.com/catamphetamine/libphonenumber-js#parsephonenumberstring-options-or-defaultcountry-phonenumber) from [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js). Can be used to get `country` from `value`.
 
 ```js
 import { parsePhoneNumber } from 'react-phone-number-input'
@@ -431,7 +437,7 @@ The `labels` format is:
 An example of using translated `labels`:
 
 ```js
-import ru from 'react-phone-number-input/locale/ru'
+import ru from 'react-phone-number-input/locale/ru.json'
 
 <PhoneInput ... labels={ru}/>
 ```
@@ -492,13 +498,56 @@ import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form'
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form-core'
 ```
 
+[Example](https://codesandbox.io/s/recursing-brook-kmtjw):
+
+```js
+// "Without country select" component.
+import PhoneInput from "react-phone-number-input/react-hook-form-input"
+
+// "With country select" component.
+import PhoneInputWithCountry from "react-phone-number-input/react-hook-form"
+
+import { useForm } from "react-hook-form"
+
+export default function Form() {
+  const { control, handleSubmit } = useForm()
+  return (
+    <form onSubmit={handleSubmit(...)}>
+      <PhoneInput
+        name="phoneInput"
+        control={control}
+        rules={{ required: true }} />
+
+      <PhoneInputWithCountry
+        name="phoneInputWithCountrySelect"
+        control={control}
+        rules={{ required: true }} />
+
+      <button type="submit">
+        Submit
+      </button>
+    </form>
+  )
+}
+```
+
+Both components accept properties:
+
+* `name` — (required) Form field name.
+
+* `control` — (required) The `control` object returned from `useForm()`.
+
+* `rules` — (optional) Validation rules in the same format as for `register()`. Example: `{{ required: true, validate: isPossiblePhoneNumber }}`.
+
+* `defaultValue` — (optional) A default value could be passed directly to the component, or as part of the `defaultValues` parameter of `useForm()`.
+
+<!-- * `shouldUnregister` — (optional) (advanced) Same as `shouldUnregister` parameter of `register()` (see `react-hook-form` docs for more info). Pass `true` to clear the value from form values on input component unmount: for example, when showing or hiding phone input field. `shouldUnregister` can also be set globally for all fields when passed as a parameter to `useForm()`. -->
+
 ## Customizing
 
-The `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry):
+"With country select" `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry):
 
 * `inputComponent` — Custom phone number `<input/>` component.
-
-* `countrySelectComponent` — Custom country `<select/>` component.
 
 <!-- * `containerComponent` — Custom wrapping `<div/>` component. -->
 
@@ -510,9 +559,19 @@ The `<PhoneInput/>` component accepts some [customization properties](http://cat
 
 * `flagComponent` — Custom flag icon component.
 
+* `countrySelectComponent` — Custom country `<select/>` component.
+
 * `countrySelectProps.arrowComponent` — Custom arrow component of the default country `<select/>`.
 
-All these customization properties have their default values: `min` metadata, English labels, default country `<select/>` component. If some of those default values are not used, and the developer wants to reduce the bundle size a tiny bit, then they can use the `/core` export instead of the default export to import a `<PhoneInput/>` component that doesn't include any of the aforementioned default properties.
+### `react-phone-number-input/core`
+
+"With country select" component imported from `react-phone-number-input/core` subpackage doesn't have default values for the following properties:
+
+* `metadata`
+
+* `labels`
+
+It could be used by developers who'd like to provide their own custom-generated metadata that supports a smaller set of countries.
 
 #### `countrySelectComponent`
 
@@ -621,6 +680,10 @@ A "country code" is a [two-letter ISO country code](https://en.wikipedia.org/wik
 This library supports all [officially assigned](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) ISO alpha-2 country codes, plus a few extra ones like: `AC` ([Ascension Island](https://en.wikipedia.org/wiki/Ascension_Island)), `TA` ([Tristan da Cunha](https://en.wikipedia.org/wiki/Tristan_da_Cunha)), `XK` ([Kosovo](https://en.wikipedia.org/wiki/Kosovo)).
 
 To check whether a country code is supported, use [`isSupportedCountry()`](#issupportedcountrycountry-string-boolean) function.
+
+## TypeScript
+
+This library comes with TypeScript "typings". If you happen to find any bugs in those, create an issue.
 
 ## GitHub
 

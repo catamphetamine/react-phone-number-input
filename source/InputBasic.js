@@ -6,10 +6,15 @@ import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValu
 
 export function createInput(defaultMetadata) {
 	/**
-	 * `InputBasic`'s caret is not as "smart" as the default `inputComponent`'s
-	 * but still works good enough. When erasing or inserting digits in the middle
-	 * of a phone number the caret usually jumps to the end: this is the expected
-	 * behaviour and it's the workaround for the [Samsung Galaxy smart caret positioning bug](https://github.com/catamphetamine/react-phone-number-input/issues/75).
+	 * `InputBasic` is the most basic implementation of a `Component`
+	 * that can be passed to `<PhoneInput/>`. It parses and formats
+	 * the user's input but doesn't control the caret in the process:
+	 * when erasing or inserting digits in the middle of a phone number
+	 * the caret usually jumps to the end (this is the expected behavior).
+	 * Why does `InputBasic` exist when there's `InputSmart`?
+	 * One reason is working around the [Samsung Galaxy smart caret positioning bug]
+	 * (https://github.com/catamphetamine/react-phone-number-input/issues/75).
+	 * Another reason is that, unlike `InputSmart`, it doesn't require DOM environment.
 	 */
 	function InputBasic({
 		value,
@@ -45,7 +50,13 @@ export function createInput(defaultMetadata) {
 				}
 			}
 			onChange(newValue)
-		}, [prefix, value, onChange, country, metadata])
+		}, [
+			prefix,
+			value,
+			onChange,
+			country,
+			metadata
+		])
 
 		return (
 			<Input
@@ -69,7 +80,8 @@ export function createInput(defaultMetadata) {
 		value: PropTypes.string.isRequired,
 
 		/**
-		 * Updates the `value`.
+		 * A function of `value: string`.
+		 * Updates the `value` property.
 		 */
 		onChange: PropTypes.func.isRequired,
 

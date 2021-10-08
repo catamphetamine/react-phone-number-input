@@ -9,7 +9,6 @@ import {
 } from './PropTypes'
 
 import PhoneInput from './PhoneInputWithCountry'
-import { CountrySelectWithIcon as CountrySelect } from './CountrySelect'
 
 export function createPhoneInput(defaultMetadata) {
 	const PhoneInputDefault = React.forwardRef((props, ref) => (
@@ -18,14 +17,12 @@ export function createPhoneInput(defaultMetadata) {
 
 	PhoneInputDefault.propTypes = {
 		metadata: metadataPropType.isRequired,
-		labels: labelsPropType.isRequired,
-		countrySelectComponent: PropTypes.elementType.isRequired
+		labels: labelsPropType.isRequired
 	}
 
 	PhoneInputDefault.defaultProps = {
 		metadata: defaultMetadata,
-		labels,
-		countrySelectComponent: CountrySelect
+		labels
 	}
 
 	return PhoneInputDefault

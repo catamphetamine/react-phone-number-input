@@ -11,7 +11,7 @@ import {
 	isSupportedCountry as _isSupportedCountry
 } from '../core/index'
 
-import { createInput } from '../modules/PhoneInput'
+import { createInput } from '../modules/PhoneInputBrowser'
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)

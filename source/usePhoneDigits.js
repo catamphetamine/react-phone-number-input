@@ -22,16 +22,25 @@ export default function usePhoneDigits({
 		console.error(`[react-phone-number-input] Expected phone number ${value} to correspond to country ${country} but ${actualCountry ? 'in reality it corresponds to country ' + actualCountry : 'it doesn\'t'}.`)
 		countryMismatchDetected.current = true
 	}
-	const getInitialPhoneDigits = () => getPhoneDigitsForValue(
-		value,
-		country,
-		international,
-		withCountryCallingCode,
-		defaultCountry,
-		useNationalFormatForDefaultCountryValue,
-		metadata,
-		onCountryMismatch
-	)
+
+	const getInitialPhoneDigits = (options) => {
+		return getPhoneDigitsForValue(
+			value,
+			country,
+			international,
+			withCountryCallingCode,
+			defaultCountry,
+			useNationalFormatForDefaultCountryValue,
+			metadata,
+			(...args) => {
+				if (options && options.onCountryMismatch) {
+					options.onCountryMismatch()
+				}
+				onCountryMismatch.apply(this, args)
+			}
+		)
+	}
+
 	// This is only used to detect `country` property change.
 	const [prevCountry, setPrevCountry] = useState(country)
 	// This is only used to detect `defaultCountry` property change.
@@ -40,9 +49,25 @@ export default function usePhoneDigits({
 	const [phoneDigits, setPhoneDigits] = useState(getInitialPhoneDigits())
 	// This is only used to detect `value` property changes.
 	const [valueForPhoneDigits, setValueForPhoneDigits] = useState(value)
+
 	// Rerender hack.
 	const [rerenderTrigger, setRerenderTrigger] = useState()
 	const rerender = useCallback(() => setRerenderTrigger({}), [setRerenderTrigger])
+
+	function getValueForPhoneDigits(phoneDigits) {
+		const asYouType = new AsYouType(country || defaultCountry, metadata)
+		asYouType.input(
+			country && international && !withCountryCallingCode ?
+			`+${getCountryCallingCode(country, metadata)}${phoneDigits}` :
+			phoneDigits
+		)
+		const phoneNumber = asYouType.getNumber()
+		// If it's a "possible" incomplete phone number.
+		if (phoneNumber) {
+			return phoneNumber.number
+		}
+	}
+
 	// If `value` property has been changed externally
 	// then re-initialize the component.
 	useEffect(() => {
@@ -51,13 +76,24 @@ export default function usePhoneDigits({
 			setPhoneDigits(getInitialPhoneDigits())
 		}
 	}, [value])
+
 	// If the `country` has been changed then re-initialize the component.
 	useEffect(() => {
 		if (country !== prevCountry) {
 			setPrevCountry(country)
-			setPhoneDigits(getInitialPhoneDigits())
+			let countryMismatchDetected
+			const phoneDigits = getInitialPhoneDigits({
+				onCountryMismatch() {
+					countryMismatchDetected = true
+				}
+			})
+			setPhoneDigits(phoneDigits)
+			if (countryMismatchDetected) {
+				setValueForPhoneDigits(getValueForPhoneDigits(phoneDigits))
+			}
 		}
 	}, [country])
+
 	// If the `defaultCountry` has been changed then re-initialize the component.
 	useEffect(() => {
 		if (defaultCountry !== prevDefaultCountry) {
@@ -65,12 +101,14 @@ export default function usePhoneDigits({
 			setPhoneDigits(getInitialPhoneDigits())
 		}
 	}, [defaultCountry])
+
 	// Update the `value` after `valueForPhoneDigits` has been updated.
 	useEffect(() => {
 		if (valueForPhoneDigits !== value) {
 			onChange(valueForPhoneDigits)
 		}
 	}, [valueForPhoneDigits])
+
 	const onSetPhoneDigits = useCallback((phoneDigits) => {
 		let value
 		if (country) {
@@ -130,17 +168,7 @@ export default function usePhoneDigits({
 		}
 		// Convert `phoneDigits` to `value`.
 		if (phoneDigits) {
-			const asYouType = new AsYouType(country || defaultCountry, metadata)
-			asYouType.input(
-				country && international && !withCountryCallingCode ?
-				`+${getCountryCallingCode(country, metadata)}${phoneDigits}` :
-				phoneDigits
-			)
-			const phoneNumber = asYouType.getNumber()
-			// If it's a "possible" incomplete phone number.
-			if (phoneNumber) {
-				value = phoneNumber.number
-			}
+			value = getValueForPhoneDigits(phoneDigits)
 		}
 		setPhoneDigits(phoneDigits)
 		setValueForPhoneDigits(value)
@@ -155,6 +183,7 @@ export default function usePhoneDigits({
 		rerender,
 		countryMismatchDetected
 	])
+
 	return [
 		phoneDigits,
 		onSetPhoneDigits

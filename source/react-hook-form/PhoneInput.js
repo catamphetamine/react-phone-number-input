@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ReactHookFormInput from './ReactHookFormInput'
-import PhoneInput_ from '../PhoneInput'
+import PhoneInput_ from '../PhoneInputBrowser'
 
 import { metadata as metadataType } from '../PropTypes'
 

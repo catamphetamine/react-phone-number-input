@@ -2,7 +2,7 @@
 
 var metadata = require('libphonenumber-js/metadata.min.json')
 var core = require('../core/index.commonjs')
-var createInput = require('../commonjs/PhoneInput').createInput
+var createInput = require('../commonjs/PhoneInputBrowser').createInput
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)

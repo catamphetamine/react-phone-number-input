@@ -1,5 +1,22 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.32 / 07.10.2021
+==================
+
+* Added TypeScript "typings".
+
+* The `/core` "with country select" component now doesn't require a `countrySelectComponent` property because it now has a default value.
+
+3.1.31 / 03.10.2021
+==================
+
+* Added `inputComponent` property on a React Native "without country select" component.
+
+3.1.28 / 08.09.2021
+==================
+
+* Fixed a [small bug](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/82) in a "without country select" input: when setting a `country` that doesn't correspond to the current `value` property it now changes the `value` property accordingly.
+
 3.1.23 / 27.05.2021
 ==================
 
