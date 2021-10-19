@@ -4,7 +4,7 @@
 import * as React from 'react';
 
 import {
-	Country,
+	CountryCode,
 	E164Number,
 	MetadataJson
 } from 'libphonenumber-js/core';
@@ -12,6 +12,8 @@ import {
 export type Metadata = MetadataJson;
 
 export type Value = E164Number;
+
+type Country = CountryCode;
 
 type Locale = string;
 
