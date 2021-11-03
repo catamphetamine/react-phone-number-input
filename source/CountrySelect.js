@@ -119,7 +119,6 @@ CountrySelectWithIcon.propTypes = {
 }
 
 CountrySelectWithIcon.defaultProps = {
-	// Is "International" icon square?
 	arrowComponent: () => <div className="PhoneInputCountrySelectArrow"/>
 }
 

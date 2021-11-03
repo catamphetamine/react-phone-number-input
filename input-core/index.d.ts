@@ -29,5 +29,7 @@ export {
 	isPossiblePhoneNumber,
 	getCountryCallingCode,
 	getCountries,
-	isSupportedCountry
+	isSupportedCountry,
+	Country,
+	Value
 } from '../core/index.d';

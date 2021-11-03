@@ -11,6 +11,11 @@ import {
   Props as BaseProps
 } from '../input/index.d';
 
+export {
+	Country,
+	Value
+} from '../input/index.d';
+
 interface ReactHookFormComponentPropsOnChangeEvent extends ReactHookFormComponentProps {
   onChange?(event: React.ChangeEvent<HTMLInputElement>): void;
   onBlur?(event: React.FocusEvent<HTMLInputElement>): void;

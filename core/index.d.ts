@@ -26,5 +26,7 @@ export {
 	isPossiblePhoneNumber,
 	getCountryCallingCode,
 	getCountries,
-	isSupportedCountry
+	isSupportedCountry,
+	Country,
+	Value
 } from 'libphonenumber-js/core';

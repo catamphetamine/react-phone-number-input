@@ -11,6 +11,11 @@ import {
   Props as BaseProps
 } from '../index.d';
 
+export {
+  Country,
+  Value
+} from '../index.d';
+
 export interface ReactHookFormComponentProps {
   name: string;
   defaultValue?: Value;

@@ -13,7 +13,8 @@ export type Metadata = MetadataJson;
 
 export type Value = E164Number;
 
-type Country = CountryCode;
+// `Country` type could be used in the application's code.
+export type Country = CountryCode;
 
 type Locale = string;
 
@@ -21,9 +22,8 @@ type LocaleProperty = Locale | Locale[];
 
 type CountryOption = 'XX' | '🌐' | '|' | '...' | '…' | Country;
 
-export interface Flags {
-	[country: Country]: EmbeddedFlag;
-}
+// `Flags` are imported in `flags/index.d.ts`.
+export type Flags = Partial<Record<Country, EmbeddedFlag>>;
 
 interface EmbeddedFlagProps {
 	title: string;
@@ -41,13 +41,14 @@ interface FlagProps {
 type Flag = (props: FlagProps) => JSX.Element;
 
 // `Labels` are imported in `/core/index.d.ts`.
-export type Labels = {
-	ext: string;
-	country: string;
-	phone: string;
-	[country in Country]: string;
-	ZZ: string;
-}
+export type Labels = Partial<Record<Country | 'ZZ' | 'ext' | 'country' | 'phone', string>>;
+
+// export type Labels = Partial<Record<Country, string>> & {
+//   ZZ: string?,
+//   ext: string?,
+//   country: string?,
+//   phone: string?,
+// }
 
 // `Props` are imported in `/react-hook-form/index.d.ts`
 // and in `/core/index.d.ts`.

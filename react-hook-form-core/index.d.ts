@@ -8,6 +8,11 @@ import {
   Labels
 } from '../index.d';
 
+export {
+	Country,
+	Value
+} from '../index.d';
+
 import {
 	Props as BaseProps
 } from '../react-hook-form/index.d';

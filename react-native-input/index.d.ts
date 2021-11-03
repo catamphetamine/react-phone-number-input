@@ -9,6 +9,11 @@ import {
 	Metadata
 } from '../index.d';
 
+export {
+	Country,
+	Value
+} from '../index.d';
+
 import {
 	PropsWithoutSmartCaret
 } from '../input/index.d';
