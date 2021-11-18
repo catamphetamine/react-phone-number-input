@@ -14,7 +14,7 @@ import { metadata as metadataType } from '../PropTypes'
 export function createPhoneInput(defaultMetadata) {
 	let PhoneInput = ({ inputComponent, ...rest }, ref) => (
 		<PhoneInput_
-			{...props}
+			{...rest}
 			ref={ref}
 			Component={InputBasic}
 			inputComponent={PhoneTextInput}
