@@ -2,6 +2,6 @@ import {
 	Flags
 } from '../index.d';
 
-const flags: Flags;
+declare const flags: Flags;
 
 export default flags;
