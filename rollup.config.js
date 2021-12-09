@@ -7,149 +7,79 @@ const resolveModules = resolve({
 //   only: ['lodash']
 })
 
+const COMMON_PLUGINS = [
+  resolveModules,
+  commonjs(),
+  json(),
+  terser()
+];
+
+const COMMON_OUTPUT = {
+  format: 'umd',
+  name: 'PhoneInput',
+  sourcemap: true,
+  exports: 'named',
+  globals: {
+    'react': 'React',
+    'prop-types': 'PropTypes'
+  }
+};
+
+const COMMON_EXTERNAL = ['react', 'prop-types']
+
 export default [
   {
     input: 'min/index.js',
-    plugins: [
-      resolveModules,
-      commonjs(),
-      json(),
-      terser()
-    ],
-    external: [
-      'react',
-      'prop-types'
-    ],
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
     output: {
-      format: 'umd',
-      name: 'PhoneInput',
       file: 'bundle/react-phone-number-input.js',
-      sourcemap: true,
-      exports: 'named',
-      globals: {
-        'react': 'React',
-        'prop-types': 'PropTypes'
-      }
+        ...COMMON_OUTPUT
     }
   },
   {
     input: 'mobile/index.js',
-    plugins: [
-      resolveModules,
-      commonjs(),
-      json(),
-      terser()
-    ],
-    external: [
-      'react',
-      'prop-types'
-    ],
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
     output: {
-      format: 'umd',
-      name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-mobile.js',
-      sourcemap: true,
-      exports: 'named',
-      globals: {
-        'react': 'React',
-        'prop-types': 'PropTypes'
-      }
+      ...COMMON_OUTPUT
     }
   },
   {
     input: 'max/index.js',
-    plugins: [
-      resolveModules,
-      commonjs(),
-      json(),
-      terser()
-    ],
-    external: [
-      'react',
-      'prop-types'
-    ],
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
     output: {
-      format: 'umd',
-      name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-max.js',
-      sourcemap: true,
-      exports: 'named',
-      globals: {
-        'react': 'React',
-        'prop-types': 'PropTypes'
-      }
+      ...COMMON_OUTPUT
     }
   },
   {
     input: 'input/index.js',
-    plugins: [
-      resolveModules,
-      commonjs(),
-      json(),
-      terser()
-    ],
-    external: [
-      'react',
-      'prop-types'
-    ],
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
     output: {
-      format: 'umd',
-      name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-input.js',
-      sourcemap: true,
-      exports: 'named',
-      globals: {
-        'react': 'React',
-        'prop-types': 'PropTypes'
-      }
+      ...COMMON_OUTPUT
     }
   },
   {
     input: 'input-mobile/index.js',
-    plugins: [
-      resolveModules,
-      commonjs(),
-      json(),
-      terser()
-    ],
-    external: [
-      'react',
-      'prop-types'
-    ],
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
     output: {
-      format: 'umd',
-      name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-input-mobile.js',
-      sourcemap: true,
-      exports: 'named',
-      globals: {
-        'react': 'React',
-        'prop-types': 'PropTypes'
-      }
+      ...COMMON_OUTPUT
     }
   },
   {
     input: 'input-max/index.js',
-    plugins: [
-      resolveModules,
-      commonjs(),
-      json(),
-      terser()
-    ],
-    external: [
-      'react',
-      'prop-types'
-    ],
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
     output: {
-      format: 'umd',
-      name: 'PhoneInput',
       file: 'bundle/react-phone-number-input-input-max.js',
-      sourcemap: true,
-      exports: 'named',
-      globals: {
-        'react': 'React',
-        'prop-types': 'PropTypes'
-      }
+      ...COMMON_OUTPUT
     }
   }
 ]

@@ -8,11 +8,11 @@ import {
 	Value
 } from '../index.d';
 
-interface InputComponentProps {
+// These props are only for an HTML DOM environment
+// because they extend `React.InputHTMLAttributes<HTMLInputElement>`.
+interface InputComponentProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
 	value: string;
 	onChange(event: React.ChangeEvent<HTMLInputElement>): void;
-	// Any other properties.
-	[otherProperty: string]: any;
 }
 
 type InputComponent = (props: InputComponentProps) => JSX.Element | React.ComponentClass<InputComponentProps, any>;
@@ -24,10 +24,14 @@ export interface PropsWithoutSmartCaret<InputComponent> {
 	withCountryCallingCode?: boolean;
 	defaultCountry?: Country;
 	value?: Value;
-	onChange(value: Value?): void;
+	onChange(value?: Value): void;
 	inputComponent?: InputComponent;
 	useNationalFormatForDefaultCountryValue?: boolean;
-	// All other properties are passed through to the `<input/>` element.
+	// Because these props are for use in a non-HTML DOM environment,
+	// they can't extend `React.InputHTMLAttributes<HTMLInputElement>`,
+	// so `[otherProperty: string]: any` is added as a workaround
+	// for supporting any other properties that get passed down
+	// to the input component.
 	[otherProperty: string]: any;
 }
 

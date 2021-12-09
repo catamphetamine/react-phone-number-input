@@ -21,7 +21,11 @@ import {
 interface InputComponentProps {
 	value: Value;
 	onChangeText(value: Value): void;
-	// Any other properties.
+	// Because these props are for use in a non-HTML DOM environment,
+	// they can't extend `React.InputHTMLAttributes<HTMLInputElement>`,
+	// so `[otherProperty: string]: any` is added as a workaround
+	// for supporting any other properties that get passed down
+	// to the input component.
 	[otherProperty: string]: any;
 }
 

@@ -50,9 +50,14 @@ export type Labels = Partial<Record<Country | 'ZZ' | 'ext' | 'country' | 'phone'
 //   phone: string?,
 // }
 
-// `Props` are imported in `/react-hook-form/index.d.ts`
-// and in `/core/index.d.ts`.
-export interface Props {
+// `Props` are imported in:
+// * `/react-hook-form/index.d.ts`
+// * `/core/index.d.ts`.
+//
+// These props are only for an HTML DOM environment
+// because they extend `React.InputHTMLAttributes<HTMLInputElement>`.
+//
+export interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
 	value?: Value;
 	onChange(value?: Value): void;
 	onFocus?(event: React.FocusEvent<HTMLElement>): void;
@@ -83,8 +88,6 @@ export interface Props {
 	countryCallingCodeEditable?: boolean;
 	onCountryChange?(country?: Country): void;
 	focusInputOnCountrySelection?: boolean;
-	// All other properties are passed through to the `<input/>` element.
-	[otherProperty: string]: any;
 }
 
 // `State` is imported in `/core/index.d.ts`
