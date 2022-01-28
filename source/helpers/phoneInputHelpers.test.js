@@ -244,6 +244,29 @@ describe('phoneInputHelpers', () => {
 	})
 
 	it('should migrate parsed input for new country', () => {
+		// Country didn't change. Return the same digits.
+		getPhoneDigitsForNewCountry('', {
+			prevCountry: 'US',
+			newCountry: 'US',
+			metadata,
+			useNationalFormat: true
+		}).should.equal('')
+
+		// Country didn't change. Return the same digits.
+		getPhoneDigitsForNewCountry('123', {
+			prevCountry: 'US',
+			newCountry: 'US',
+			metadata,
+			useNationalFormat: true
+		}).should.equal('123')
+
+		// Country didn't change. Return the same digits.
+		getPhoneDigitsForNewCountry('+123', {
+			prevCountry: 'US',
+			newCountry: 'US',
+			metadata
+		}).should.equal('+123')
+
 		// No input. Returns `undefined`.
 		getPhoneDigitsForNewCountry('', {
 			prevCountry: 'RU',
@@ -318,7 +341,8 @@ describe('phoneInputHelpers', () => {
 		getPhoneDigitsForNewCountry('8', {
 			prevCountry: 'RU',
 			metadata
-		}).should.equal('')
+		// }).should.equal('')
+		}).should.equal('+7')
 
 		// Switching to "International". International number. No changes.
 		getPhoneDigitsForNewCountry('+78005553535', {
@@ -384,13 +408,14 @@ describe('phoneInputHelpers', () => {
 		expect(e164('+')).to.be.undefined
 
 		// International number.
-		e164('+7800').should.equal('+7800')
+		e164('+7800', null, metadata).should.equal('+7800')
 
 		// National number. Without country.
-		expect(e164('8800', null)).to.be.undefined
+		expect(e164('8800', null, metadata)).to.be.undefined
 
 		// National number. With country. Just national prefix.
-		expect(e164('8', 'RU', metadata)).to.be.undefined
+		// expect(e164('8', 'RU', metadata)).to.be.undefined
+		e164('8', 'RU', metadata).should.equal('+7')
 
 		// National number. With country.
 		e164('8800', 'RU', metadata).should.equal('+7800')
@@ -820,10 +845,12 @@ describe('phoneInputHelpers', () => {
 
 		// `phoneDigits` in international format.
 		// Country calling code and first digit.
+		// (which is assumed a "national prefix").
 		onChange('+78', '', 'RU').should.deep.equal({
 			phoneDigits: '8',
 			country: 'RU',
-			value: undefined
+			// value: undefined
+			value: '+7'
 		})
 
 		// `phoneDigits` in international format.
@@ -900,10 +927,12 @@ describe('phoneInputHelpers', () => {
 
 		// `phoneDigits` in international format.
 		// Country calling code and first digit.
+		// (which is assumed a "national prefix").
 		onChange('+78').should.deep.equal({
 			phoneDigits: '8',
 			country: 'RU',
-			value: undefined
+			// value: undefined
+			value: '+7'
 		})
 
 		// `phoneDigits` in international format.

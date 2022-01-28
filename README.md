@@ -167,7 +167,7 @@ Receives properties:
 
 * `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must do `React.forwardRef()` to the actual `<input/>` DOM element. Receives properties: `value: string`, `onChange(event: Event)`, and all the "rest" of the properties that're not handled by this library, like `type="tel"`, `autoComplete="tel"`, etc. Is a generic DOM `<input/>` by default.
 
-* `smartCaret: boolean?` — By default, the `<input/>` uses "smart" caret positioning. To turn that behavior off one can pass `smartCaret={false}` property.
+* `smartCaret: boolean?` — When the user attempts to insert a digit somewhere in the middle of a phone number, the caret position is moved right before the next available digit skipping any punctuation in between. This is called "smart" caret positioning. Another case would be the phone number format changing as a result of the user inserting the digit somewhere in the middle, which would require re-positioning the caret because all digit positions have changed. This "smart" caret positioning feature can be turned off by passing `smartCaret={false}` property: use it in case of any possible issues with caret position during phone number input.
 
 * `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
 

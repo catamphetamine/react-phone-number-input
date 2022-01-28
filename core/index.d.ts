@@ -3,15 +3,16 @@ import {
 	Labels,
 	Props as BaseProps,
 	State,
-	Value
+	Value,
+	DefaultInputComponentProps
 } from '../index.d';
 
-interface Props extends BaseProps {
+type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
   metadata: Metadata;
   labels: Labels;
 }
 
-type PhoneInputWithCountrySelectType = React.ComponentClass<Props, State<Props>>;
+type PhoneInputWithCountrySelectType<InputComponentProps = DefaultInputComponentProps> = React.ComponentClass<Props<InputComponentProps>, State<Props<InputComponentProps>>>;
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 

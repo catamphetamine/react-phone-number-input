@@ -5,7 +5,8 @@ import * as React from 'react';
 
 import {
   Metadata,
-  Labels
+  Labels,
+  DefaultInputComponentProps
 } from '../index.d';
 
 export {
@@ -17,12 +18,12 @@ import {
 	Props as BaseProps
 } from '../react-hook-form/index.d';
 
-interface Props extends BaseProps {
+type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
   metadata: Metadata;
   labels: Labels;
 }
 
-type PhoneInputWithCountrySelectComponentType = (props: Props) => JSX.Element;
+type PhoneInputWithCountrySelectComponentType<InputComponentProps = DefaultInputComponentProps> = (props: Props<InputComponentProps>) => JSX.Element;
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectComponentType;
 

@@ -4,7 +4,8 @@
 import * as React from 'react';
 
 import {
-  Metadata
+  Metadata,
+  DefaultInputComponentProps
 } from '../index.d';
 
 export {
@@ -16,11 +17,11 @@ import {
 	Props as BaseProps
 } from '../react-hook-form-input/index.d';
 
-interface Props extends BaseProps {
+type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
   metadata: Metadata;
 }
 
-type PhoneInputComponentType = (props: Props) => JSX.Element;
+type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps> = (props: Props<InputComponentProps>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputComponentType;
 

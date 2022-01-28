@@ -789,11 +789,15 @@ PhoneNumberInput.propTypes = {
 	numberInputProps: PropTypes.object,
 
 	/**
-	 * By default, the caret position is being "intelligently" managed
-	 * while a user inputs a phone number.
-	 * This "smart" caret behavior can be turned off
-	 * by passing `smartCaret={false}` property.
-	 * This is just an "escape hatch" for any possible caret position issues.
+	 * When the user attempts to insert a digit somewhere in the middle of a phone number,
+	 * the caret position is moved right before the next available digit skipping
+	 * any punctuation in between. This is called "smart" caret positioning.
+	 * Another case would be the phone number format changing as a result of
+	 * the user inserting the digit somewhere in the middle, which would require
+	 * re-positioning the caret because all digit positions have changed.
+	 * This "smart" caret positioning feature can be turned off by passing
+	 * `smartCaret={false}` property: use it in case of any possible issues
+	 * with caret position during phone number input.
 	 */
 	// Is `true` by default.
 	smartCaret: PropTypes.bool.isRequired,

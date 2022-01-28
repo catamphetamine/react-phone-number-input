@@ -11,8 +11,8 @@ function PhoneTextInput({
   onChange,
   ...rest
 }, ref) {
-  // Instead of `onChangeText` it could use `onChange`
-  // and get `value` from `nativeEvent.text`.
+  // Instead of `onChangeText(value: string)` it could use
+  // `onChange(nativeEvent: Event)` and get `value` from `nativeEvent.text`.
   const onChangeText = useCallback((value) => {
     onChange({
       preventDefault() { this.defaultPrevented = true },

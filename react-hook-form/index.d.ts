@@ -8,7 +8,8 @@ import { Control } from 'react-hook-form';
 import {
   Value,
   State,
-  Props as BaseProps
+  Props as BaseProps,
+  DefaultInputComponentProps
 } from '../index.d';
 
 export {
@@ -16,7 +17,9 @@ export {
   Value
 } from '../index.d';
 
-export interface ReactHookFormComponentProps {
+// `ReactHookFormComponentProps` are used in:
+// * `react-hook-form-input/index.d.ts`
+export type ReactHookFormComponentProps = {
   name: string;
   defaultValue?: Value;
   control: Control;
@@ -27,15 +30,11 @@ export interface ReactHookFormComponentProps {
   shouldUnregister?: boolean;
 }
 
-interface ReactHookFormComponentPropsOnChangeValue extends ReactHookFormComponentProps {
-  onChange?(value?: Value): void;
-  onBlur?(event: React.FocusEvent<HTMLElement>): void;
-}
+// `Props` are imported in:
+// * `react-hook-form-core/index.d.ts`
+export type Props<InputComponentProps> = BaseProps<InputComponentProps> & ReactHookFormComponentProps;
 
-export interface Props extends BaseProps, ReactHookFormComponentPropsOnChangeValue {
-}
-
-type PhoneInputWithCountrySelectType = React.ComponentClass<Props, State<Props>>
+type PhoneInputWithCountrySelectType<InputComponentProps = DefaultInputComponentProps> = React.ComponentClass<Props<InputComponentProps>, State<Props<InputComponentProps>>>
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 

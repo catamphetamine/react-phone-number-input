@@ -8,23 +8,23 @@ import {
 } from '../react-hook-form/index.d';
 
 import {
-  Props as BaseProps
+  Props as BaseProps,
+  Country,
+  Value
 } from '../input/index.d';
 
 export {
-	Country,
-	Value
-} from '../input/index.d';
+  DefaultInputComponentProps
+} from '../index.d';
 
-interface ReactHookFormComponentPropsOnChangeEvent extends ReactHookFormComponentProps {
-  onChange?(event: React.ChangeEvent<HTMLInputElement>): void;
-  onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
+// `Props` are used in:
+// * `react-hook-form-input-core/index.d.ts`
+export type Props<InputComponentProps> = BaseProps<InputComponentProps> & ReactHookFormComponentProps & {
+  // onChange?(event: React.ChangeEvent<HTMLInputElement>): void;
+  // onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
 }
 
-export interface Props extends BaseProps, ReactHookFormComponentPropsOnChangeEvent {
-}
-
-type PhoneInputType = (props: Props) => JSX.Element;
+type PhoneInputType<InputComponentProps = DefaultInputComponentProps> = (props: Props<InputComponentProps>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputType;
 

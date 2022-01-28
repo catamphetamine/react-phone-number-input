@@ -142,6 +142,10 @@ export function getPhoneDigitsForNewCountry(phoneDigits, {
 	metadata,
 	useNationalFormat
 }) {
+	if (prevCountry === newCountry) {
+		return phoneDigits
+	}
+
 	// If `parsed_input` is empty
 	// then no need to migrate anything.
 	if (!phoneDigits) {
@@ -241,6 +245,17 @@ export function getPhoneDigitsForNewCountry(phoneDigits, {
 			// the previously selected country phone prefix.
 			// Even if the phone number belongs to whole another country
 			// it will still be parsed into some national phone number.
+			//
+			// Ignore the now-uncovered `|| ''` code branch:
+			// previously `e164()` function could return an empty string
+			// even when `phoneDigits` were not empty.
+			// Now it always returns some `value` when there're any `phoneDigits`.
+			// Still, didn't remove the `|| ''` code branch just in case
+			// that logic changes somehow in some future, so there're no
+			// possible bugs related to that.
+			//
+			// (ignore the `|| ''` code branch)
+			/* istanbul ignore next */
 			return e164(phoneDigits, prevCountry, metadata) || ''
 		}
 	}
@@ -252,7 +267,7 @@ export function getPhoneDigitsForNewCountry(phoneDigits, {
  * Converts phone number digits to a (possibly incomplete) E.164 phone number.
  * @param  {string?} number - A possibly incomplete phone number digits string. Can be a possibly incomplete E.164 phone number.
  * @param  {string?} country
- * @param  {[object} metadata - `libphonenumber-js` metadata.
+ * @param  {object} metadata - `libphonenumber-js` metadata.
  * @return {string?}
  */
 export function e164(number, country, metadata) {
@@ -265,18 +280,44 @@ export function e164(number, country, metadata) {
 		if (number === '+') {
 			return
 		}
-		// If there are any digits then the `value` is returned as is.
-		return number
+		// Return a E.164 phone number.
+		//
+		// Could return `number` "as is" here, but there's a possibility
+		// that some user might incorrectly input an international number
+		// with a "national prefix". Such numbers aren't considered valid,
+		// but `libphonenumber-js` is "forgiving" when it comes to parsing
+		// user's input, and this input component follows that behavior.
+		//
+		const asYouType = new AsYouType(country, metadata)
+		asYouType.input(number)
+		// This function would return `undefined` only when `number` is `"+"`,
+		// but at this point it is known that `number` is not `"+"`.
+		return asYouType.getNumberValue()
 	}
 	// For non-international phone numbers
 	// an accompanying country code is required.
+	// The situation when `country` is `undefined`
+	// and a non-international phone number is passed
+	// to this function shouldn't happen.
 	if (!country) {
 		return
 	}
 	const partial_national_significant_number = getNationalSignificantNumberDigits(number, country, metadata)
-	if (partial_national_significant_number) {
-		return `+${getCountryCallingCode(country, metadata)}${partial_national_significant_number}`
-	}
+	//
+	// Even if no "national (significant) number" digits have been input,
+	// still return a non-`undefined` value.
+	// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/113
+	//
+	// For example, if the user has selected country `US` and entered `"1"`
+	// then that `"1"` is just a "national prefix" and no "national (significant) number"
+	// digits have been input yet. Still, return `"+1"` as `value` in such cases,
+	// because otherwise the app would think that the input is empty and mark it as such
+	// while in reality it isn't empty, which might be thought of as a "bug", or just
+	// a "weird" behavior.
+	//
+	// if (partial_national_significant_number) {
+		return `+${getCountryCallingCode(country, metadata)}${partial_national_significant_number || ''}`
+	// }
 }
 
 /**
@@ -387,13 +428,13 @@ export function onPhoneDigitsChange(phoneDigits, {
 			// If the user then starts inputting the national part digits,
 			// then `<input/>` value changes from `+xxx` to `y`
 			// because inputting anything while having the `<input/>` value
-			// selected results in erasing the `<input/>` value
+			// selected results in erasing the `<input/>` value.
 			// So, the component handles such case by restoring
-			// the intended `<input/>`` value: `+xxxy`.
+			// the intended `<input/>` value: `+xxxy`.
 			// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43
 			if (phoneDigits && phoneDigits[0] !== '+') {
 				phoneDigits = prefix + phoneDigits
-				value = phoneDigits
+				value = e164(phoneDigits, country, metadata)
 			} else {
 				phoneDigits = prefix
 			}
@@ -468,9 +509,24 @@ export function onPhoneDigitsChange(phoneDigits, {
 			if (phoneDigits === '+') {
 				value = undefined
 			} else if (country && getInternationalPhoneNumberPrefix(country, metadata).indexOf(phoneDigits) === 0) {
+				// Selected a `country` but started inputting an
+				// international phone number for another country.
+				// Even though the input value is non-empty,
+				// the `value` is assumed `undefined` in such case.
+				// The `country` will be reset (or re-selected)
+				// immediately after such mismatch has been detected
+				// by the phone number input component, and `value`
+				// will be set to the currently entered international prefix.
+				//
+				// For example, if selected `country` `"US"`
+				// and started inputting phone number `"+2"`
+				// then `value` `undefined` will be returned from this function,
+				// and then, immediately after that, `country` will be reset
+				// and the `value` will be set to `"+2"`.
+				//
 				value = undefined
 			} else {
-				value = phoneDigits
+				value = e164(phoneDigits, country, metadata)
 			}
 		} else {
 			value = e164(phoneDigits, country, metadata)
