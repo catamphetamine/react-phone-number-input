@@ -75,6 +75,7 @@ export type Props<InputComponentProps> = Omit<InputComponentProps, 'value' | 'on
 	onFocus?(event: React.FocusEvent<HTMLElement>): void;
 	onBlur?(event: React.FocusEvent<HTMLElement>): void;
 	disabled?: boolean;
+	readOnly?: boolean;
 	autoComplete?: string;
 	initialValueFormat?: 'national';
 	defaultCountry?: Country;

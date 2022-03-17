@@ -88,7 +88,7 @@ The phone number `<input/>` itself is implemented using [`input-format`](https:/
 
 #### CSS
 
-"With country select" component comes with a [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) stylesheet. All CSS class names start with `.PhoneInput`, and `:focus` state is styled via `.PhoneInput--focus` CSS class.
+"With country select" component comes with a [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) stylesheet. All CSS class names start with `.PhoneInput`. Additional "modifier" CSS classes: `.PhoneInput--focus` for `:focus`, `.PhoneInput--disabled` for `:disabled`, `.PhoneInput--readOnly` for `[readonly]`.
 
 The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for convenience. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
 
@@ -587,6 +587,7 @@ Receives properties:
 * `options: object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value: string?, label: string }`.
 * `iconComponent: PropTypes.elementType` — React component that renders a country icon: `<Icon country={value}/>`. If `country` is `undefined` then it renders an "International" icon.
 * `disabled: boolean?` — HTML `disabled` attribute.
+* `readOnly: boolean?` — HTML `readonly` attribute.
 * `tabIndex: (number|string)?` — HTML `tabIndex` attribute.
 * `className: string` — CSS class name.
 

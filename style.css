@@ -96,7 +96,8 @@
 	cursor: pointer;
 }
 
-.PhoneInputCountrySelect[disabled] {
+.PhoneInputCountrySelect[disabled],
+.PhoneInputCountrySelect[readonly] {
 	cursor: default;
 }
 
