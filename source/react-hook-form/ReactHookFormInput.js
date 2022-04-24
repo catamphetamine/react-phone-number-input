@@ -69,6 +69,11 @@ let ReactHookFormInput = ({
     }, [ref, setRef])
 
     const onChangeCombined = useCallback((value) => {
+      // `feact-hook-form` doesn't know how to properly handle `undefined` values.
+      // https://github.com/react-hook-form/react-hook-form/issues/2990
+      if (value === undefined) {
+        value = null
+      }
       onChange(value)
       if (onChange_) {
         onChange_(value)

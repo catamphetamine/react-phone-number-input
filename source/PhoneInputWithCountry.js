@@ -513,6 +513,8 @@ PhoneNumberInput.propTypes = {
 	 * Example:
 	 *
 	 * `"+12223333333"`
+	 *
+	 * Any "falsy" value like `undefined`, `null` or an empty string `""` is treated like "empty".
 	 */
 	value: PropTypes.string,
 
@@ -520,6 +522,8 @@ PhoneNumberInput.propTypes = {
 	 * A function of `value: string?`.
 	 *
 	 * Updates the `value` property as the user inputs a phone number.
+	 *
+	 * If the user erases the input value, the argument is `undefined`.
 	 */
 	onChange: PropTypes.func.isRequired,
 

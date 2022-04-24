@@ -1,5 +1,10 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.50 / 11.04.2022
+==================
+
+* [Fixed](https://github.com/catamphetamine/react-phone-number-input/issues/405) erasing `react-hook-form` component's value.
+
 3.1.37 / 03.11.2021
 ==================
 

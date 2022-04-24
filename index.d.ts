@@ -50,9 +50,10 @@ export type Labels = Partial<Record<Country | 'ZZ' | 'ext' | 'country' | 'phone'
 //   phone: string?,
 // }
 
-// `Props` are imported in:
-// * `/core/index.d.ts`.
+// `FeatureProps` are imported in:
 // * `/react-hook-form/index.d.ts`
+//
+// `Props` extend `FeatureProps` by adding `value` and `onChange` properties.
 //
 // The `Props` interface extends `React.InputHTMLAttributes<HTMLInputElement>`
 // in order to support "rest" props (any other props not used by this library).
@@ -69,9 +70,7 @@ export type Labels = Partial<Record<Country | 'ZZ' | 'ext' | 'country' | 'phone'
 // This `Props` interface can only be used in an HTML DOM environment
 // because it extends `React.InputHTMLAttributes<HTMLInputElement>`.
 //
-export type Props<InputComponentProps> = Omit<InputComponentProps, 'value' | 'onChange'> & {
-	value?: Value;
-	onChange(value?: Value): void;
+export type FeatureProps<InputComponentProps> = Omit<InputComponentProps, 'value' | 'onChange'> & {
 	onFocus?(event: React.FocusEvent<HTMLElement>): void;
 	onBlur?(event: React.FocusEvent<HTMLElement>): void;
 	disabled?: boolean;
@@ -101,6 +100,13 @@ export type Props<InputComponentProps> = Omit<InputComponentProps, 'value' | 'on
 	countryCallingCodeEditable?: boolean;
 	onCountryChange?(country?: Country): void;
 	focusInputOnCountrySelection?: boolean;
+}
+
+// `Props` are imported in:
+// * `/core/index.d.ts`
+export type Props<InputComponentProps> = FeatureProps<InputComponentProps> & {
+	value?: Value;
+	onChange(value?: Value): void;
 }
 
 // `State` is imported in:

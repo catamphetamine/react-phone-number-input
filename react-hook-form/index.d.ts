@@ -8,7 +8,7 @@ import { Control } from 'react-hook-form';
 import {
   Value,
   State,
-  Props as BaseProps,
+  FeatureProps as BaseProps,
   DefaultInputComponentProps
 } from '../index.d';
 
@@ -19,10 +19,10 @@ export {
 
 // `ReactHookFormComponentProps` are used in:
 // * `react-hook-form-input/index.d.ts`
-export type ReactHookFormComponentProps = {
+export type ReactHookFormComponentProps<FormValues> = {
   name: string;
   defaultValue?: Value;
-  control: Control;
+  control: Control<FormValues>;
   rules?: object;
   // A quote from `react-hook-form`:
   // Without `shouldUnregister: true`, an input value would be retained when input is removed.
@@ -32,9 +32,9 @@ export type ReactHookFormComponentProps = {
 
 // `Props` are imported in:
 // * `react-hook-form-core/index.d.ts`
-export type Props<InputComponentProps> = BaseProps<InputComponentProps> & ReactHookFormComponentProps;
+export type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps> & ReactHookFormComponentProps<FormValues>;
 
-type PhoneInputWithCountrySelectType<InputComponentProps = DefaultInputComponentProps> = React.ComponentClass<Props<InputComponentProps>, State<Props<InputComponentProps>>>
+type PhoneInputWithCountrySelectType<InputComponentProps = DefaultInputComponentProps, FormValues> = React.ComponentClass<Props<InputComponentProps, FormValues>, State<Props<InputComponentProps, FormValues>>>
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 

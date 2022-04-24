@@ -47,13 +47,14 @@ PhoneInput = React.forwardRef(PhoneInput)
 PhoneInput.propTypes = {
 	/**
 	 * The phone number (in E.164 format).
-	 * Examples: `undefined`, `"+12"`, `"+12133734253"`.
+	 * Examples: `"+12"`, `"+12133734253"`.
+	 * An "empty" `value` could be represented by any "falsy" value like `undefined`, `null` or an empty string `""`.
 	 */
 	value: PropTypes.string,
 
 	/**
 	 * A function of `value: string?`.
-	 * Updates the `value` property.
+	 * Updates the `value` property (to `undefined` in case it's empty).
 	 */
 	onChange: PropTypes.func.isRequired,
 

@@ -66,7 +66,7 @@ function Example() {
 
 The `value` argument of `onChange(value)` function will be the parsed phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. For example, if a user chooses "United States" and enters `(213) 373-4253` in the input field then `onChange(value)` will be called with `value` being `"+12133734253"`.
 
-Note: Don't pass an empty string `value`, pass `undefined` instead. Same's true for the `value` argument of `onChange` — when `value` is empty, it is `undefined`, not an empty string.
+Any ["falsy"](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) `value` like `undefined`, `null` or an empty string `""` is treated like "empty". In case of the `onChange()` function's `value` argument though it's always `undefined` for an "empty" `value`, i.e. when the user erases the input value, `onChange()` is called with `undefined` as an argument. Perhaps `null` would've been better, but historically it has been `undefined`.
 
 All unknown properties will be passed through to the phone number `<input/>` component.
 
@@ -163,7 +163,7 @@ Receives properties:
 
 * `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
 
-* `onChange(value: string?)` — Updates the `value`.
+* `onChange(value: string?)` — Updates the `value` (to `undefined` in case it's empty).
 
 * `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must do `React.forwardRef()` to the actual `<input/>` DOM element. Receives properties: `value: string`, `onChange(event: Event)`, and all the "rest" of the properties that're not handled by this library, like `type="tel"`, `autoComplete="tel"`, etc. Is a generic DOM `<input/>` by default.
 
@@ -580,8 +580,8 @@ React component for the country select. See [CountrySelect.js](https://gitlab.co
 Receives properties:
 
 * `name: string?` — HTML `name` attribute.
-* `value: string?` — The currently selected country code.
-* `onChange(value: string?)` — Updates the `value`.
+* `value: string?` — The currently selected country code (`undefined` in case of "International").
+* `onChange(value: string?)` — Updates the `value` (to `undefined` in case of "International").
 * `onFocus()` — Is used to toggle the `--focus` CSS class.
 * `onBlur()` — Is used to toggle the `--focus` CSS class.
 * `options: object[]` — The list of all selectable countries (including "International") each being an object of shape `{ value: string?, label: string }`.
@@ -613,7 +613,7 @@ React component for the phone number input field (a higher-order one). See [Inpu
 Receives properties:
 
 * `value : string` — The parsed phone number. E.g.: `""`, `"+"`, `"+123"`, `"123"`.
-* `onChange(value : string)` — Updates the `value`.
+* `onChange(value : string)` — Updates the `value` (to `undefined` in case it's empty).
 * `onFocus()` — Is used to toggle the `--focus` CSS class.
 * `onBlur()` — Is used to toggle the `--focus` CSS class.
 * `country : string?` — The currently selected country. `undefined` means "International" (no country selected).
