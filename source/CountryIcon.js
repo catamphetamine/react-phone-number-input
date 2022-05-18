@@ -14,7 +14,8 @@ export function createCountryIconComponent({
 	function CountryIcon({
 		country,
 		label,
-		aspectRatio
+		aspectRatio,
+		...rest
 	}) {
 		// `aspectRatio` is currently a hack for the default "International" icon
 		// to render it as a square when Unicode flag icons are used.
@@ -22,6 +23,7 @@ export function createCountryIconComponent({
 		const _aspectRatio = InternationalIcon === DefaultInternationalIcon ? aspectRatio : undefined
 		return (
 			<div
+				{...rest}
 				className={classNames('PhoneInputCountryIcon', {
 					'PhoneInputCountryIcon--square': _aspectRatio === 1,
 					'PhoneInputCountryIcon--border': country

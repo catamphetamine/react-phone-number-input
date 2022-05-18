@@ -97,6 +97,7 @@ export function CountrySelectWithIcon({
 			{/* Or an SVG flag icon. */}
 			{!(unicodeFlags && value) &&
 				<Icon
+					aria-hidden
 					country={value}
 					label={selectedOption && selectedOption.label}
 					aspectRatio={unicodeFlags ? 1 : undefined}/>
