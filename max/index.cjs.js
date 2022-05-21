@@ -1,8 +1,13 @@
 'use strict'
 
-var metadata = require('libphonenumber-js/metadata.min.json')
-var core = require('../core/index.commonjs')
-var createInput = require('../commonjs/PhoneInputBrowser').createInput
+// This file is deprecated.
+// It's the same as `index.cjs`, just with an added `.js` file extension.
+// It only exists for compatibility with the software that doesn't like `*.cjs` file extension.
+// https://gitlab.com/catamphetamine/libphonenumber-js/-/issues/61#note_950728292
+
+var metadata = require('libphonenumber-js/metadata.max.json')
+var core = require('../core/index.cjs')
+var createPhoneInput = require('../commonjs/PhoneInputWithCountryDefault.js').createPhoneInput
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)
@@ -10,7 +15,7 @@ function call(func, _arguments) {
 	return func.apply(this, args)
 }
 
-var PhoneInput = createInput(metadata)
+var PhoneInput = createPhoneInput(metadata)
 
 exports = module.exports = PhoneInput
 

@@ -5,7 +5,7 @@ import {
 	getSupportedCountryOptions,
 	isCountrySupportedWithError,
 	getSupportedCountries
-} from './countries'
+} from './countries.js'
 
 describe('helpers/countries', () => {
 	it('should sort country options (no `order`)', () => {

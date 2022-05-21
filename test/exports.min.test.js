@@ -7,7 +7,9 @@ import PhoneInput, {
 	getCountryCallingCode,
 	getCountries,
 	isSupportedCountry
-} from '../min/index'
+} from '../min/index.js'
+
+import Library from '../min/index.cjs'
 
 describe('exports/min', () => {
 	it('should export ES6', () => {
@@ -23,7 +25,6 @@ describe('exports/min', () => {
 	})
 
 	it('should export CommonJS', () => {
-		const Library = require('../min/index.commonjs')
 		Library.render.should.be.a('function')
 		Library.default.render.should.be.a('function')
 		Library.parsePhoneNumber('+78005553535').country.should.equal('RU')

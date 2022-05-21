@@ -1,9 +1,9 @@
 import React from 'react'
 
-import ReactHookFormInput from './ReactHookFormInput'
-import PhoneInput_ from '../PhoneInputBrowser'
+import ReactHookFormInput from './ReactHookFormInput.js'
+import PhoneInput_ from '../PhoneInputBrowser.js'
 
-import { metadata as metadataType } from '../PropTypes'
+import { metadata as metadataType } from '../PropTypes.js'
 
 export function createPhoneInput(defaultMetadata) {
   let PhoneInput = (props, ref) => {

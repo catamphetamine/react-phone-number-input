@@ -7,7 +7,9 @@ import PhoneInput, {
 	getCountryCallingCode,
 	getCountries,
 	isSupportedCountry
-} from '../core/index'
+} from '../core/index.js'
+
+import Library from '../core/index.cjs'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
 
@@ -25,7 +27,6 @@ describe('exports/core', () => {
 	})
 
 	it('should export CommonJS', () => {
-		const Library = require('../core/index.commonjs')
 		Library.render.should.be.a('function')
 		Library.default.render.should.be.a('function')
 		Library.parsePhoneNumber('+78005553535', metadata).country.should.equal('RU')

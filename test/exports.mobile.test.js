@@ -7,7 +7,9 @@ import PhoneInput, {
 	getCountryCallingCode,
 	getCountries,
 	isSupportedCountry
-} from '../mobile/index'
+} from '../mobile/index.js'
+
+import Library from '../mobile/index.cjs'
 
 describe('exports/mobile', () => {
 	it('should export ES6', () => {
@@ -23,7 +25,6 @@ describe('exports/mobile', () => {
 	})
 
 	it('should export CommonJS', () => {
-		const Library = require('../mobile/index.commonjs')
 		Library.render.should.be.a('function')
 		Library.default.render.should.be.a('function')
 		Library.parsePhoneNumber('+78005553535').country.should.equal('RU')

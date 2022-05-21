@@ -1,1 +1,1 @@
-export { default } from '../modules/react-hook-form/PhoneInputWithCountry'
+export { default } from '../modules/react-hook-form/PhoneInputWithCountry.js'

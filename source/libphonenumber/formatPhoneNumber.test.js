@@ -1,4 +1,4 @@
-import _formatPhoneNumber, { formatPhoneNumberIntl as _formatPhoneNumberIntl } from './formatPhoneNumber'
+import _formatPhoneNumber, { formatPhoneNumberIntl as _formatPhoneNumberIntl } from './formatPhoneNumber.js'
 import metadata from 'libphonenumber-js/metadata.min.json'
 
 function call(func, _arguments) {

@@ -8,7 +8,7 @@
 // 	})
 
 // 	it('should export CommonJS', () => {
-// 		const Library = require('../input/index.commonjs')
+// 		const Library = require('../input/index.cjs')
 // 		Library.render.should.be.a('function')
 // 		Library.default.render.should.be.a('function')
 // 	})

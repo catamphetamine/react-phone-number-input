@@ -1,10 +1,15 @@
 {
   "private": true,
-  "name": "react-phone-number-input-flags",
-  "version": "1.0.0",
-  "main": "index.commonjs.js",
+  "name": "react-phone-number-input/flags",
+  "main": "index.cjs",
   "module": "index.js",
-  "sideEffects": [
-    "*.css"
-  ]
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
+  "sideEffects": false
 }

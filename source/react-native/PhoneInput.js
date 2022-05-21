@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PhoneTextInput from './PhoneTextInput'
-import PhoneInput_ from '../PhoneInput'
-import InputBasic from '../InputBasic'
+import PhoneTextInput from './PhoneTextInput.js'
+import PhoneInput_ from '../PhoneInput.js'
+import InputBasic from '../InputBasic.js'
 
-import { metadata as metadataType } from '../PropTypes'
+import { metadata as metadataType } from '../PropTypes.js'
 
 /**
  * This is an _experimental_ React Native component.

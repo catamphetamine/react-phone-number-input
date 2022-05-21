@@ -85,14 +85,14 @@ export type FeatureProps<InputComponentProps> = Omit<InputComponentProps, 'value
 	flags?: Flags;
 	flagComponent?: Flag;
 	addInternationalOption?: boolean;
-	internationalIcon?: React.ReactType;
+	internationalIcon?: React.ElementType;
 	countryOptionsOrder?: CountryOption[];
 	style?: object;
 	className?: string;
-	countrySelectComponent?: React.ReactType;
+	countrySelectComponent?: React.ElementType;
 	countrySelectProps?: object;
-	inputComponent?: React.ReactType;
-	containerComponent?: React.ReactType;
+	inputComponent?: React.ElementType;
+	containerComponent?: React.ElementType;
 	numberInputProps?: object;
 	smartCaret?: boolean;
 	international?: boolean;

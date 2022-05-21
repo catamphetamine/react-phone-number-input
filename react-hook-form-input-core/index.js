@@ -1,1 +1,1 @@
-export { default } from '../modules/react-hook-form/PhoneInput'
+export { default } from '../modules/react-hook-form/PhoneInput.js'

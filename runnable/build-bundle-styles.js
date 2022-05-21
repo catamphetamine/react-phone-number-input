@@ -1,9 +1,9 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
-var autoprefixer = require('autoprefixer')
-var postcssCustomProperties = require('postcss-custom-properties')
-var postcss = require('postcss')
+import autoprefixer from 'autoprefixer'
+import postcssCustomProperties from 'postcss-custom-properties'
+import postcss from 'postcss'
 
 RegExp.escape = function (string) {
 	const specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g")
@@ -17,16 +17,16 @@ String.prototype.replace_all = function (what, with_what) {
 
 function transformStyle(inPath, outPath) {
   outPath = outPath || inPath
-  const text = fs.readFileSync(path.join(__dirname, inPath), 'utf8')
+  const text = fs.readFileSync(path.resolve(inPath), 'utf8')
   return postcss([
     autoprefixer(),
     postcssCustomProperties()
   ]).process(text, { from: undefined }).then((result) => {
     result.warnings().forEach((warn) => console.warn(warn.toString()))
-    fs.writeFileSync(path.join(__dirname, outPath), result.css)
+    fs.writeFileSync(path.resolve(outPath), result.css)
   })
 }
 
 Promise.all([
-  transformStyle('../style.css', '../bundle/style.css')
+  transformStyle('./style.css', './bundle/style.css')
 ])

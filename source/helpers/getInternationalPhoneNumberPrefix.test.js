@@ -1,6 +1,6 @@
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPrefix'
+import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPrefix.js'
 
 describe('getInternationalPhoneNumberPrefix', () => {
 	it('should prepend leading digits when generating international phone number prefix', () => {

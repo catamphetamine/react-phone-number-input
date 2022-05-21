@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import usePhoneDigits from './usePhoneDigits'
+import usePhoneDigits from './usePhoneDigits.js'
 
 function PhoneInput({
 	Component,

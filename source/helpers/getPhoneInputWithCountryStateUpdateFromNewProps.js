@@ -2,12 +2,12 @@ import {
 	getInitialPhoneDigits,
 	getCountryForPartialE164Number,
 	parsePhoneNumber
-} from './phoneInputHelpers'
+} from './phoneInputHelpers.js'
 
 import {
 	isCountrySupportedWithError,
 	getSupportedCountries
-} from './countries'
+} from './countries.js'
 
 export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, prevProps, state) {
 	const {

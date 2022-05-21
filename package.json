@@ -1,9 +1,136 @@
 {
   "name": "react-phone-number-input",
-  "version": "3.1.53",
+  "version": "3.2.0",
   "description": "Telephone number input React component",
-  "main": "min/index.commonjs.js",
+  "main": "min/index.cjs",
   "module": "min/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./min/index.js",
+      "require": "./min/index.cjs"
+    },
+    "./core": {
+      "types": "./core/index.d.ts",
+      "import": "./core/index.js",
+      "require": "./core/index.cjs"
+    },
+    "./min": {
+      "types": "./min/index.d.ts",
+      "import": "./min/index.js",
+      "require": "./min/index.cjs"
+    },
+    "./max": {
+      "types": "./max/index.d.ts",
+      "import": "./max/index.js",
+      "require": "./max/index.cjs"
+    },
+    "./mobile": {
+      "types": "./mobile/index.d.ts",
+      "import": "./mobile/index.js",
+      "require": "./mobile/index.cjs"
+    },
+    "./flags": {
+      "types": "./flags/index.d.ts",
+      "import": "./flags/index.js",
+      "require": "./flags/index.cjs"
+    },
+    "./input": {
+      "types": "./input/index.d.ts",
+      "import": "./input/index.js",
+      "require": "./input/index.cjs"
+    },
+    "./input-core": {
+      "types": "./input-core/index.d.ts",
+      "import": "./input-core/index.js",
+      "require": "./input-core/index.cjs"
+    },
+    "./input-min": {
+      "types": "./input-min/index.d.ts",
+      "import": "./input-min/index.js",
+      "require": "./input-min/index.cjs"
+    },
+    "./input-max": {
+      "types": "./input-max/index.d.ts",
+      "import": "./input-max/index.js",
+      "require": "./input-max/index.cjs"
+    },
+    "./input-mobile": {
+      "types": "./input-mobile/index.d.ts",
+      "import": "./input-mobile/index.js",
+      "require": "./input-mobile/index.cjs"
+    },
+    "./react-hook-form": {
+      "types": "./react-hook-form/index.d.ts",
+      "import": "./react-hook-form/index.js",
+      "require": "./react-hook-form/index.cjs"
+    },
+    "./react-hook-form-core": {
+      "types": "./react-hook-form-core/index.d.ts",
+      "import": "./react-hook-form-core/index.js",
+      "require": "./react-hook-form-core/index.cjs"
+    },
+    "./react-hook-form-input": {
+      "types": "./react-hook-form-input/index.d.ts",
+      "import": "./react-hook-form-input/index.js",
+      "require": "./react-hook-form-input/index.cjs"
+    },
+    "./react-hook-form-input-core": {
+      "types": "./react-hook-form-input-core/index.d.ts",
+      "import": "./react-hook-form-input-core/index.js",
+      "require": "./react-hook-form-input-core/index.cjs"
+    },
+    "./react-native-input": {
+      "types": "./react-native-input/index.d.ts",
+      "import": "./react-native-input/index.js",
+      "require": "./react-native-input/index.cjs"
+    },
+    "./style.css": "./style.css",
+    "./package.json": "./package.json",
+    "./locale/ar": "./locale/ar.json",
+    "./locale/ar.json": "./locale/ar.json",
+    "./locale/cz": "./locale/cz.json",
+    "./locale/cz.json": "./locale/cz.json",
+    "./locale/de": "./locale/de.json",
+    "./locale/de.json": "./locale/de.json",
+    "./locale/el": "./locale/el.json",
+    "./locale/el.json": "./locale/el.json",
+    "./locale/en": "./locale/en.json",
+    "./locale/en.json": "./locale/en.json",
+    "./locale/es": "./locale/es.json",
+    "./locale/es.json": "./locale/es.json",
+    "./locale/fi": "./locale/fi.json",
+    "./locale/fi.json": "./locale/fi.json",
+    "./locale/fr": "./locale/fr.json",
+    "./locale/fr.json": "./locale/fr.json",
+    "./locale/he": "./locale/he.json",
+    "./locale/he.json": "./locale/he.json",
+    "./locale/it": "./locale/it.json",
+    "./locale/it.json": "./locale/it.json",
+    "./locale/nb": "./locale/nb.json",
+    "./locale/nb.json": "./locale/nb.json",
+    "./locale/nl": "./locale/nl.json",
+    "./locale/nl.json": "./locale/nl.json",
+    "./locale/pl": "./locale/pl.json",
+    "./locale/pl.json": "./locale/pl.json",
+    "./locale/pt-BR": "./locale/pt-BR.json",
+    "./locale/pt-BR.json": "./locale/pt-BR.json",
+    "./locale/pt": "./locale/pt.json",
+    "./locale/pt.json": "./locale/pt.json",
+    "./locale/ru": "./locale/ru.json",
+    "./locale/ru.json": "./locale/ru.json",
+    "./locale/sk": "./locale/sk.json",
+    "./locale/sk.json": "./locale/sk.json",
+    "./locale/sv": "./locale/sv.json",
+    "./locale/sv.json": "./locale/sv.json",
+    "./locale/tr": "./locale/tr.json",
+    "./locale/tr.json": "./locale/tr.json",
+    "./locale/ua": "./locale/ua.json",
+    "./locale/ua.json": "./locale/ua.json",
+    "./locale/vi": "./locale/vi.json",
+    "./locale/vi.json": "./locale/vi.json"
+  },
   "sideEffects": [
     "*.css"
   ],
@@ -12,60 +139,65 @@
     "react-dom": ">=16.8"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
-    "country-flag-icons": "^1.0.2",
-    "input-format": "^0.3.7",
-    "libphonenumber-js": "^1.10.3",
-    "prop-types": "^15.7.2"
+    "classnames": "^2.3.1",
+    "country-flag-icons": "^1.5.2",
+    "input-format": "^0.3.8",
+    "libphonenumber-js": "^1.10.4",
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.8",
-    "@babel/core": "^7.7.7",
-    "@babel/node": "^7.7.7",
-    "@babel/plugin-proposal-class-properties": "^7.7.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
-    "@babel/plugin-transform-destructuring": "^7.7.4",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.0",
     "@babel/polyfill": "^7.7.0",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
-    "@babel/register": "^7.7.7",
-    "autoprefixer": "^8.6.4",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-istanbul": "^6.0.0",
-    "chai": "^3.5.0",
-    "cross-env": "^5.1.4",
+    "@babel/preset-env": "^7.18.0",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/register": "^7.17.7",
+    "autoprefixer": "^10.4.7",
+    "babel-loader": "^8.2.5",
+    "babel-plugin-istanbul": "^6.1.1",
+    "chai": "^4.3.6",
+    "cross-env": "^7.0.3",
     "esm": "^3.2.25",
-    "flagpack": "^1.0.4",
-    "mocha": "^8.1.3",
-    "npm-run-all": "^1.4.0",
-    "nyc": "^15.0.0",
-    "postcss": "^8.4.6",
-    "postcss-custom-properties": "^10.0.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "flagpack": "^1.0.5",
+    "handlebars": "^4.5.3",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^10.0.0",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "postcss": "^8.4.14",
+    "postcss-custom-properties": "^12.1.7",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-styleguidist": "^11.2.0",
-    "rimraf": "^2.5.0",
-    "rollup": "^2.28.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.74.1",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^7.0.2",
-    "webpack": "^4.41.5"
+    "webpack": "^5.72.1"
   },
   "scripts": {
-    "generate-docs": "styleguidist build --config react-styleguidist.js",
-    "test": "mocha --bail --require @babel/register --require esm --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
-    "test-coverage": "cross-env NODE_ENV=test nyc mocha --require esm --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
+    "generate-docs": "styleguidist build --config react-styleguidist.cjs",
+    "test": "node --experimental-json-modules node_modules/mocha/bin/_mocha --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
+    "test-coverage": "npm-run-all build-commonjs-clean build-commonjs-package.json build-commonjs-modules-with-tests test-coverage:commonjs",
+    "test-coverage:commonjs": "node --experimental-json-modules node_modules/istanbul/lib/cli.js cover -x \"*.test.js\" -x \"commonjs/DOM/**/*.js\" -x \"react/DOM/**/*.js\" -x \"commonjs/utility/shallowEqual.js\" -x \"commonjs/utility/debounce.js\" -x \"commonjs/utility/debug.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require regenerator-runtime --require ./test/setup.js \"commonjs/**/*.test.js\" --recursive",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "browser-build": "rollup --config rollup.config.js",
-    "clean-for-build": "rimraf ./commonjs/**/* ./modules/**/*",
+    "browser-build": "rollup --config rollup.config.mjs",
+    "clean-for-build": "npm-run-all build-commonjs-clean build-es6-clean",
+    "build-commonjs-clean": "rimraf ./commonjs/**/*",
+    "build-commonjs": "npm-run-all build-commonjs-modules build-commonjs-package.json",
     "build-commonjs-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps --ignore *.test.js",
+    "build-commonjs-modules-with-tests": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps",
+    "build-commonjs-package.json": "node runnable/create-commonjs-package-json.js",
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",
-    "build": "npm-run-all clean-for-build build-commonjs-modules build-es6-modules browser-build build-styles",
-    "build-styles": "babel-node runnable/build-bundle-styles",
-    "fix-locales": "babel-node runnable/fix-locales",
-    "verify-flag-existence": "babel-node runnable/verify-flag-existence",
-    "prepublishOnly": "npm-run-all fix-locales verify-flag-existence build test"
+    "build-es6-clean": "rimraf ./modules/**/*",
+    "build": "npm-run-all clean-for-build build-commonjs build-es6-modules browser-build build-styles",
+    "build-styles": "node runnable/build-bundle-styles",
+    "fix-locales": "node --experimental-json-modules runnable/fix-locales",
+    "generate-locale-exports": "node runnable/generate-locale-exports",
+    "verify-flag-existence": "node --experimental-json-modules runnable/verify-flag-existence",
+    "prepublishOnly": "npm-run-all generate-locale-exports fix-locales verify-flag-existence build test"
   },
   "repository": {
     "type": "git",

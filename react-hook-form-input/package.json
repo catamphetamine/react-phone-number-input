@@ -1,8 +1,15 @@
 {
   "private": true,
   "name": "react-phone-number-input/react-hook-form-input",
-  "version": "1.0.0",
-  "main": "index.commonjs.js",
+  "main": "index.cjs",
   "module": "index.js",
-  "sideEffects": []
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
+  "sideEffects": false
 }

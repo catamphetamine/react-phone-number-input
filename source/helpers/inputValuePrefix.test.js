@@ -1,6 +1,6 @@
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-import { getInputValuePrefix, removeInputValuePrefix } from './inputValuePrefix'
+import { getInputValuePrefix, removeInputValuePrefix } from './inputValuePrefix.js'
 
 describe('inputValuePrefix', () => {
 	it('should get input value prefix', () => {

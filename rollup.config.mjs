@@ -3,9 +3,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import { terser } from 'rollup-plugin-terser'
 
-const resolveModules = resolve({
-//   only: ['lodash']
-})
+const resolveModules = resolve()
 
 const COMMON_PLUGINS = [
   resolveModules,

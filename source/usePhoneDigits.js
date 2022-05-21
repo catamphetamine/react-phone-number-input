@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { AsYouType, getCountryCallingCode, parseDigits } from 'libphonenumber-js/core'
 
-import getInternationalPhoneNumberPrefix from './helpers/getInternationalPhoneNumberPrefix'
+import getInternationalPhoneNumberPrefix from './helpers/getInternationalPhoneNumberPrefix.js'
 
 /**
  * Returns `[phoneDigits, setPhoneDigits]`.

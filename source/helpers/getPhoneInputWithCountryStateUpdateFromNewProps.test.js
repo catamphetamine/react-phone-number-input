@@ -1,6 +1,6 @@
 import metadata from 'libphonenumber-js/metadata.min.json'
 
-import _getPhoneInputWithCountryStateUpdateFromNewProps from './getPhoneInputWithCountryStateUpdateFromNewProps'
+import _getPhoneInputWithCountryStateUpdateFromNewProps from './getPhoneInputWithCountryStateUpdateFromNewProps.js'
 
 function getPhoneInputWithCountryStateUpdateFromNewProps(newProps, prevProps, state) {
 	return _getPhoneInputWithCountryStateUpdateFromNewProps(

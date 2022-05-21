@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import InputSmart from './InputSmart'
-import InputBasic from './InputBasic'
+import InputSmart from './InputSmart.js'
+import InputBasic from './InputBasic.js'
 
-import { CountrySelectWithIcon as CountrySelect } from './CountrySelect'
+import { CountrySelectWithIcon as CountrySelect } from './CountrySelect.js'
 
-import Flag from './Flag'
-import InternationalIcon from './InternationalIcon'
+import Flag from './Flag.js'
+import InternationalIcon from './InternationalIcon.js'
 
 import {
 	sortCountryOptions,
@@ -16,14 +16,14 @@ import {
 	getSupportedCountries,
 	getSupportedCountryOptions,
 	getCountries
-} from './helpers/countries'
+} from './helpers/countries.js'
 
-import { createCountryIconComponent } from './CountryIcon'
+import { createCountryIconComponent } from './CountryIcon.js'
 
 import {
 	metadata as metadataPropType,
 	labels as labelsPropType
-} from './PropTypes'
+} from './PropTypes.js'
 
 import {
 	getPreSelectedCountry,
@@ -34,15 +34,15 @@ import {
 	getInitialPhoneDigits,
 	onPhoneDigitsChange,
 	e164
-} from './helpers/phoneInputHelpers'
+} from './helpers/phoneInputHelpers.js'
 
-import getPhoneInputWithCountryStateUpdateFromNewProps from './helpers/getPhoneInputWithCountryStateUpdateFromNewProps'
+import getPhoneInputWithCountryStateUpdateFromNewProps from './helpers/getPhoneInputWithCountryStateUpdateFromNewProps.js'
 
 class PhoneNumberInput_ extends React.PureComponent {
-	inputRef = React.createRef()
-
 	constructor(props) {
 		super(props)
+
+		this.inputRef = React.createRef()
 
 		const {
 			value,

@@ -1,8 +1,13 @@
 'use strict'
 
+// This file is deprecated.
+// It's the same as `index.cjs`, just with an added `.js` file extension.
+// It only exists for compatibility with the software that doesn't like `*.cjs` file extension.
+// https://gitlab.com/catamphetamine/libphonenumber-js/-/issues/61#note_950728292
+
 var metadata = require('libphonenumber-js/metadata.mobile.json')
-var core = require('../core/index.commonjs')
-var createInput = require('../commonjs/PhoneInputBrowser').createInput
+var core = require('../core/index.cjs')
+var createInput = require('../commonjs/PhoneInputBrowser.js').createInput
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)

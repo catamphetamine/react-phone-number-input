@@ -1,4 +1,4 @@
-import metadata from 'libphonenumber-js/metadata.full.json'
+import metadata from 'libphonenumber-js/metadata.max.json'
 
 import {
 	parsePhoneNumber as _parsePhoneNumber,
@@ -9,9 +9,9 @@ import {
 	getCountries as _getCountries,
 	getCountryCallingCode as _getCountryCallingCode,
 	isSupportedCountry as _isSupportedCountry
-} from '../core/index'
+} from '../core/index.js'
 
-import { createPhoneInput } from '../modules/PhoneInputWithCountryDefault'
+import { createPhoneInput } from '../modules/PhoneInputWithCountryDefault.js'
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)

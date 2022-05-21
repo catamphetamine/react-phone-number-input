@@ -1,4 +1,5 @@
-import Flags from '../flags/index'
+import Flags from '../flags/index.js'
+import Library from '../flags/index.cjs'
 
 describe('exports/flags', () => {
 	it('should export ES6', () => {
@@ -6,7 +7,6 @@ describe('exports/flags', () => {
 	}).timeout(60000)
 
 	it('should export CommonJS', () => {
-		const Library = require('../flags/index.commonjs')
-		Library.default.RU.should.be.a('function')
+		Library.RU.should.be.a('function')
 	}).timeout(60000)
 })

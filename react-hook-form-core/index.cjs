@@ -1,6 +1,6 @@
 'use strict'
 
-var PhoneInputWithCountry = require('../commonjs/react-hook-form/PhoneInputWithCountry').default
+var PhoneInputWithCountry = require('../commonjs/react-hook-form/PhoneInputWithCountry.js').default
 
 exports = module.exports = PhoneInputWithCountry
 

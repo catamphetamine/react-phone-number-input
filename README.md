@@ -686,6 +686,32 @@ To check whether a country code is supported, use [`isSupportedCountry()`](#issu
 
 This library comes with TypeScript "typings". If you happen to find any bugs in those, create an issue.
 
+## Tests
+
+This component comes with 100% code coverage for the core `./source/helpers` directory.
+
+To run tests:
+
+```
+npm test
+```
+
+To generate a code coverage report:
+
+```
+npm run test-coverage
+```
+
+The code coverage report can be viewed by opening `./coverage/lcov-report/index.html`.
+
+The `handlebars@4.5.3` [work](https://github.com/handlebars-lang/handlebars.js/issues/1646#issuecomment-578306544)[around](https://github.com/facebook/jest/issues/9396#issuecomment-573328488) in `devDependencies` is for the test coverage to not produce empty reports:
+
+```
+Handlebars: Access has been denied to resolve the property "statements" because it is not an "own property" of its parent.
+You can add a runtime option to disable the check or this warning:
+See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details
+```
+
 ## GitHub
 
 On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3) my account (erasing all my repos, issues and comments) without any notice or explanation. Because of that, all source codes had to be promptly moved to [GitLab](https://gitlab.com/catamphetamine/react-phone-number-input). GitHub repo is now deprecated, and the latest source codes can be found on GitLab, which is also the place to report any issues.

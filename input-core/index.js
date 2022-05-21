@@ -1,4 +1,4 @@
-export { default as default } from '../modules/PhoneInputBrowser'
+export { default as default } from '../modules/PhoneInputBrowser.js'
 
 export {
 	default as parsePhoneNumber,
@@ -9,4 +9,4 @@ export {
 	isSupportedCountry
 } from 'libphonenumber-js/core'
 
-export { default as formatPhoneNumber, formatPhoneNumberIntl } from '../modules/libphonenumber/formatPhoneNumber'
+export { default as formatPhoneNumber, formatPhoneNumberIntl } from '../modules/libphonenumber/formatPhoneNumber.js'

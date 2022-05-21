@@ -1,8 +1,8 @@
 'use strict'
 
-var metadata = require('libphonenumber-js/metadata.full.json')
-var core = require('../core/index.commonjs')
-var createPhoneInput = require('../commonjs/PhoneInputWithCountryDefault').createPhoneInput
+var metadata = require('libphonenumber-js/metadata.max.json')
+var core = require('../core/index.cjs')
+var createInput = require('../commonjs/PhoneInputBrowser.js').createInput
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)
@@ -10,7 +10,7 @@ function call(func, _arguments) {
 	return func.apply(this, args)
 }
 
-var PhoneInput = createPhoneInput(metadata)
+var PhoneInput = createInput(metadata)
 
 exports = module.exports = PhoneInput
 

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import DefaultInternationalIcon from './InternationalIcon'
-import Flag from './Flag'
+import DefaultInternationalIcon from './InternationalIcon.js'
+import Flag from './Flag.js'
 
 export function createCountryIconComponent({
 	flags,

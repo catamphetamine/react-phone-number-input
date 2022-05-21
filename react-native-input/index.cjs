@@ -1,7 +1,7 @@
 'use strict'
 
 var metadata = require('libphonenumber-js/metadata.min.json')
-var createPhoneInput = require('../commonjs/react-native/PhoneInput').createPhoneInput
+var createPhoneInput = require('../commonjs/react-native/PhoneInput.js').createPhoneInput
 
 var PhoneInput = createPhoneInput(metadata)
 

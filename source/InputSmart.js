@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Input from 'input-format/react'
 import { AsYouType, parsePhoneNumberCharacter } from 'libphonenumber-js/core'
 
-import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix'
+import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix.js'
 
 export function createInput(defaultMetadata)
 {

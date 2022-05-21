@@ -4,7 +4,7 @@ import parsePhoneNumber_, {
 	Metadata
 } from 'libphonenumber-js/core'
 
-import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPrefix'
+import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPrefix.js'
 
 /**
  * Decides which country should be pre-selected

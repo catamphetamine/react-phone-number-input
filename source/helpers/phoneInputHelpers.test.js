@@ -15,7 +15,7 @@ import {
 	getNationalSignificantNumberDigits,
 	couldNumberBelongToCountry,
 	trimNumber
-} from './phoneInputHelpers'
+} from './phoneInputHelpers.js'
 
 import metadata from 'libphonenumber-js/metadata.min.json'
 
@@ -235,7 +235,7 @@ describe('phoneInputHelpers', () => {
 		phoneNumber.nationalNumber.should.equal('8005553535')
 
 		// No `value` passed.
-		expect(parsePhoneNumber(null, metadata)).to.equal.undefined
+		expect(parsePhoneNumber(null, metadata)).to.be.undefined
 	})
 
 	it('should generate national number digits', () => {

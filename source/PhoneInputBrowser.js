@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PhoneInput_ from './PhoneInput'
-import InputSmart from './InputSmart'
-import InputBasic from './InputBasic'
+import PhoneInput_ from './PhoneInput.js'
+import InputSmart from './InputSmart.js'
+import InputBasic from './InputBasic.js'
 
 export function createInput(defaultMetadata) {
 	function PhoneInput({

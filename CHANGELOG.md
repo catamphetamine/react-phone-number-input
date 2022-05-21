@@ -1,5 +1,10 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.2.0 / 21.05.2022
+==================
+
+* Migrated to "ES Module" exports.
+
 3.1.50 / 11.04.2022
 ==================
 
