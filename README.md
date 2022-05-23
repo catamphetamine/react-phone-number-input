@@ -213,7 +213,7 @@ Use:
 
 ```js
 import PhoneInput from 'react-phone-number-input/input'
-import en from 'react-phone-number-input/locale/en.json'
+import en from 'react-phone-number-input/locale/en'
 import CountrySelect from './CountrySelect'
 
 function Example() {
@@ -437,7 +437,7 @@ The `labels` format is:
 An example of using translated `labels`:
 
 ```js
-import ru from 'react-phone-number-input/locale/ru.json'
+import ru from 'react-phone-number-input/locale/ru'
 
 <PhoneInput ... labels={ru}/>
 ```
@@ -446,7 +446,7 @@ import ru from 'react-phone-number-input/locale/ru.json'
 
 This component uses [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js) which provides different "metadata" sets, "metadata" being a list of phone number parsing and formatting rules for all countries. The complete list of those rules is huge, so `libphonenumber-js` provides a way to optimize bundle size by choosing between `max`, `min`, `mobile` and "custom" metadata:
 
-* `max` — The complete metadata set, is about `145 kB` in size (`libphonenumber-js/metadata.full.json`). Choose this when you need the most strict version of `isValid()`, or if you need to detect phone number type ("fixed line", "mobile", etc).
+* `max` — The complete metadata set, is about `145 kB` in size (`libphonenumber-js/metadata.max.json`). Choose this when you need the most strict version of `isValid()`, or if you need to detect phone number type ("fixed line", "mobile", etc).
 
 * `min` — (default) The smallest metadata set, is about `80 kB` in size (`libphonenumber-js/metadata.min.json`). Choose this by default: when you don't need to detect phone number type ("fixed line", "mobile", etc), or when a basic version of `isValid()` is enough. The `min` metadata set doesn't contain the regular expressions for phone number digits validation (via [`.isValid()`](#isvalid)) and detecting phone number type (via [`.getType()`](#gettype)) for most countries. In this case, `.isValid()` still performs some basic phone number validation (for example, checks phone number length), but it doesn't validate phone number digits themselves the way `max` metadata validation does.
 

@@ -17,7 +17,7 @@ import {
 	trimNumber
 } from './phoneInputHelpers.js'
 
-import metadata from 'libphonenumber-js/metadata.min.json'
+import metadata from 'libphonenumber-js/min/metadata'
 
 describe('phoneInputHelpers', () => {
 	it('should get pre-selected country', () => {

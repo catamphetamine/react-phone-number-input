@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Telephone number input React component",
   "main": "min/index.cjs",
   "module": "min/index.js",
@@ -88,48 +88,174 @@
     },
     "./style.css": "./style.css",
     "./package.json": "./package.json",
-    "./locale/ar": "./locale/ar.json",
-    "./locale/ar.json": "./locale/ar.json",
-    "./locale/cz": "./locale/cz.json",
-    "./locale/cz.json": "./locale/cz.json",
-    "./locale/de": "./locale/de.json",
-    "./locale/de.json": "./locale/de.json",
-    "./locale/el": "./locale/el.json",
-    "./locale/el.json": "./locale/el.json",
-    "./locale/en": "./locale/en.json",
-    "./locale/en.json": "./locale/en.json",
-    "./locale/es": "./locale/es.json",
-    "./locale/es.json": "./locale/es.json",
-    "./locale/fi": "./locale/fi.json",
-    "./locale/fi.json": "./locale/fi.json",
-    "./locale/fr": "./locale/fr.json",
-    "./locale/fr.json": "./locale/fr.json",
-    "./locale/he": "./locale/he.json",
-    "./locale/he.json": "./locale/he.json",
-    "./locale/it": "./locale/it.json",
-    "./locale/it.json": "./locale/it.json",
-    "./locale/nb": "./locale/nb.json",
-    "./locale/nb.json": "./locale/nb.json",
-    "./locale/nl": "./locale/nl.json",
-    "./locale/nl.json": "./locale/nl.json",
-    "./locale/pl": "./locale/pl.json",
-    "./locale/pl.json": "./locale/pl.json",
-    "./locale/pt-BR": "./locale/pt-BR.json",
-    "./locale/pt-BR.json": "./locale/pt-BR.json",
-    "./locale/pt": "./locale/pt.json",
-    "./locale/pt.json": "./locale/pt.json",
-    "./locale/ru": "./locale/ru.json",
-    "./locale/ru.json": "./locale/ru.json",
-    "./locale/sk": "./locale/sk.json",
-    "./locale/sk.json": "./locale/sk.json",
-    "./locale/sv": "./locale/sv.json",
-    "./locale/sv.json": "./locale/sv.json",
-    "./locale/tr": "./locale/tr.json",
-    "./locale/tr.json": "./locale/tr.json",
-    "./locale/ua": "./locale/ua.json",
-    "./locale/ua.json": "./locale/ua.json",
-    "./locale/vi": "./locale/vi.json",
-    "./locale/vi.json": "./locale/vi.json"
+    "./locale/ar": {
+      "import": "./locale/ar.json.js",
+      "require": "./locale/ar.json"
+    },
+    "./locale/ar.json": {
+      "import": "./locale/ar.json.js",
+      "require": "./locale/ar.json"
+    },
+    "./locale/cz": {
+      "import": "./locale/cz.json.js",
+      "require": "./locale/cz.json"
+    },
+    "./locale/cz.json": {
+      "import": "./locale/cz.json.js",
+      "require": "./locale/cz.json"
+    },
+    "./locale/de": {
+      "import": "./locale/de.json.js",
+      "require": "./locale/de.json"
+    },
+    "./locale/de.json": {
+      "import": "./locale/de.json.js",
+      "require": "./locale/de.json"
+    },
+    "./locale/el": {
+      "import": "./locale/el.json.js",
+      "require": "./locale/el.json"
+    },
+    "./locale/el.json": {
+      "import": "./locale/el.json.js",
+      "require": "./locale/el.json"
+    },
+    "./locale/en": {
+      "import": "./locale/en.json.js",
+      "require": "./locale/en.json"
+    },
+    "./locale/en.json": {
+      "import": "./locale/en.json.js",
+      "require": "./locale/en.json"
+    },
+    "./locale/es": {
+      "import": "./locale/es.json.js",
+      "require": "./locale/es.json"
+    },
+    "./locale/es.json": {
+      "import": "./locale/es.json.js",
+      "require": "./locale/es.json"
+    },
+    "./locale/fi": {
+      "import": "./locale/fi.json.js",
+      "require": "./locale/fi.json"
+    },
+    "./locale/fi.json": {
+      "import": "./locale/fi.json.js",
+      "require": "./locale/fi.json"
+    },
+    "./locale/fr": {
+      "import": "./locale/fr.json.js",
+      "require": "./locale/fr.json"
+    },
+    "./locale/fr.json": {
+      "import": "./locale/fr.json.js",
+      "require": "./locale/fr.json"
+    },
+    "./locale/he": {
+      "import": "./locale/he.json.js",
+      "require": "./locale/he.json"
+    },
+    "./locale/he.json": {
+      "import": "./locale/he.json.js",
+      "require": "./locale/he.json"
+    },
+    "./locale/it": {
+      "import": "./locale/it.json.js",
+      "require": "./locale/it.json"
+    },
+    "./locale/it.json": {
+      "import": "./locale/it.json.js",
+      "require": "./locale/it.json"
+    },
+    "./locale/nb": {
+      "import": "./locale/nb.json.js",
+      "require": "./locale/nb.json"
+    },
+    "./locale/nb.json": {
+      "import": "./locale/nb.json.js",
+      "require": "./locale/nb.json"
+    },
+    "./locale/nl": {
+      "import": "./locale/nl.json.js",
+      "require": "./locale/nl.json"
+    },
+    "./locale/nl.json": {
+      "import": "./locale/nl.json.js",
+      "require": "./locale/nl.json"
+    },
+    "./locale/pl": {
+      "import": "./locale/pl.json.js",
+      "require": "./locale/pl.json"
+    },
+    "./locale/pl.json": {
+      "import": "./locale/pl.json.js",
+      "require": "./locale/pl.json"
+    },
+    "./locale/pt-BR": {
+      "import": "./locale/pt-BR.json.js",
+      "require": "./locale/pt-BR.json"
+    },
+    "./locale/pt-BR.json": {
+      "import": "./locale/pt-BR.json.js",
+      "require": "./locale/pt-BR.json"
+    },
+    "./locale/pt": {
+      "import": "./locale/pt.json.js",
+      "require": "./locale/pt.json"
+    },
+    "./locale/pt.json": {
+      "import": "./locale/pt.json.js",
+      "require": "./locale/pt.json"
+    },
+    "./locale/ru": {
+      "import": "./locale/ru.json.js",
+      "require": "./locale/ru.json"
+    },
+    "./locale/ru.json": {
+      "import": "./locale/ru.json.js",
+      "require": "./locale/ru.json"
+    },
+    "./locale/sk": {
+      "import": "./locale/sk.json.js",
+      "require": "./locale/sk.json"
+    },
+    "./locale/sk.json": {
+      "import": "./locale/sk.json.js",
+      "require": "./locale/sk.json"
+    },
+    "./locale/sv": {
+      "import": "./locale/sv.json.js",
+      "require": "./locale/sv.json"
+    },
+    "./locale/sv.json": {
+      "import": "./locale/sv.json.js",
+      "require": "./locale/sv.json"
+    },
+    "./locale/tr": {
+      "import": "./locale/tr.json.js",
+      "require": "./locale/tr.json"
+    },
+    "./locale/tr.json": {
+      "import": "./locale/tr.json.js",
+      "require": "./locale/tr.json"
+    },
+    "./locale/ua": {
+      "import": "./locale/ua.json.js",
+      "require": "./locale/ua.json"
+    },
+    "./locale/ua.json": {
+      "import": "./locale/ua.json.js",
+      "require": "./locale/ua.json"
+    },
+    "./locale/vi": {
+      "import": "./locale/vi.json.js",
+      "require": "./locale/vi.json"
+    },
+    "./locale/vi.json": {
+      "import": "./locale/vi.json.js",
+      "require": "./locale/vi.json"
+    }
   },
   "sideEffects": [
     "*.css"
@@ -140,9 +266,9 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
-    "country-flag-icons": "^1.5.2",
+    "country-flag-icons": "^1.5.3",
     "input-format": "^0.3.8",
-    "libphonenumber-js": "^1.10.4",
+    "libphonenumber-js": "^1.10.5",
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
@@ -192,9 +318,10 @@
     "build-commonjs-package.json": "node runnable/create-commonjs-package-json.js",
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",
     "build-es6-clean": "rimraf ./modules/**/*",
-    "build": "npm-run-all clean-for-build build-commonjs build-es6-modules browser-build build-styles",
+    "build": "npm-run-all clean-for-build build-commonjs fix-locale-import-in-default-component build-es6-modules browser-build build-styles",
     "build-styles": "node runnable/build-bundle-styles",
     "fix-locales": "node --experimental-json-modules runnable/fix-locales",
+    "fix-locale-import-in-default-component": "node --experimental-json-modules runnable/fix-locale-import-in-default-component",
     "generate-locale-exports": "node runnable/generate-locale-exports",
     "verify-flag-existence": "node --experimental-json-modules runnable/verify-flag-existence",
     "prepublishOnly": "npm-run-all generate-locale-exports fix-locales verify-flag-existence build test"

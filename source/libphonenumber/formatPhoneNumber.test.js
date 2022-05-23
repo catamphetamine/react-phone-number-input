@@ -1,5 +1,5 @@
 import _formatPhoneNumber, { formatPhoneNumberIntl as _formatPhoneNumberIntl } from './formatPhoneNumber.js'
-import metadata from 'libphonenumber-js/metadata.min.json'
+import metadata from 'libphonenumber-js/min/metadata'
 
 function call(func, _arguments) {
 	var args = Array.prototype.slice.call(_arguments)

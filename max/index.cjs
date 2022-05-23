@@ -1,6 +1,6 @@
 'use strict'
 
-var metadata = require('libphonenumber-js/metadata.max.json')
+var metadata = require('libphonenumber-js/max/metadata')
 var core = require('../core/index.cjs')
 var createPhoneInput = require('../commonjs/PhoneInputWithCountryDefault.js').createPhoneInput
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import labels from '../locale/en.json'
+import labels from '../locale/en.json.js'
 
 import {
 	metadata as metadataPropType,

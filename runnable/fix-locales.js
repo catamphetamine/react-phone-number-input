@@ -17,7 +17,7 @@ for (const country of getCountries()) {
 }
 
 // For each locale.
-fs.readdirSync(path.resolve('./locale')).map((name) => {
+fs.readdirSync(path.resolve('./locale')).filter(name => name.endsWith('.json')).map((name) => {
 	if (name === 'en.json') {
 		return
 	}

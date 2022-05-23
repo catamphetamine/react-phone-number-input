@@ -5,7 +5,7 @@
 // It only exists for compatibility with the software that doesn't like `*.cjs` file extension.
 // https://gitlab.com/catamphetamine/libphonenumber-js/-/issues/61#note_950728292
 
-var metadata = require('libphonenumber-js/metadata.min.json')
+var metadata = require('libphonenumber-js/min/metadata')
 var createPhoneInput = require('../commonjs/react-hook-form/PhoneInput.js').createPhoneInput
 
 var PhoneInput = createPhoneInput(metadata)

@@ -1,6 +1,11 @@
 import fs from 'fs'
 import path from 'path'
 
+// Stupid Node.js can't even `import` JSON files.
+// https://stackoverflow.com/questions/72348042/typeerror-err-unknown-file-extension-unknown-file-extension-json-for-node
+// Using a `*.json.js` duplicate file workaround.
+createLocaleJsonJsFiles(getAllLocales())
+
 addLocaleExports(getAllLocales())
 
 /**
@@ -30,8 +35,14 @@ function addLocaleExports(ALL_LOCALES) {
 	packageJson.exports = {
 		...packageJson.exports,
 		...ALL_LOCALES.reduce((all, locale) => {
-			all[`./locale/${locale}`] = `./locale/${locale}.json`
-			all[`./locale/${locale}.json`] = `./locale/${locale}.json`
+			all[`./locale/${locale}`] = {
+				import: `./locale/${locale}.json.js`,
+				require: `./locale/${locale}.json`
+			}
+			all[`./locale/${locale}.json`] = {
+				import: `./locale/${locale}.json.js`,
+				require: `./locale/${locale}.json`
+			}
 			return all
 		}, {})
 	}
@@ -42,4 +53,14 @@ function addLocaleExports(ALL_LOCALES) {
 
 function readJsonFromFile(path) {
 	return JSON.parse(fs.readFileSync(path, 'utf8'))
+}
+
+// Stupid Node.js can't even `import` JSON files.
+// https://stackoverflow.com/questions/72348042/typeerror-err-unknown-file-extension-unknown-file-extension-json-for-node
+// Using a `*.json.js` duplicate file workaround.
+function createLocaleJsonJsFiles(locales) {
+	for (const locale of locales) {
+		const localeData = readJsonFromFile(`./locale/${locale}.json`)
+		fs.writeFileSync(`./locale/${locale}.json.js`, 'export default ' + JSON.stringify(localeData, null, 2), 'utf8')
+	}
 }

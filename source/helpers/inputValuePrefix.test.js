@@ -1,4 +1,4 @@
-import metadata from 'libphonenumber-js/metadata.min.json'
+import metadata from 'libphonenumber-js/min/metadata'
 
 import { getInputValuePrefix, removeInputValuePrefix } from './inputValuePrefix.js'
 

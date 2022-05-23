@@ -1,4 +1,4 @@
-import metadata from 'libphonenumber-js/metadata.max.json'
+import metadata from 'libphonenumber-js/max/metadata'
 
 import {
 	parsePhoneNumber as _parsePhoneNumber,

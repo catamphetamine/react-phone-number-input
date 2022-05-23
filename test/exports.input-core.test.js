@@ -11,7 +11,7 @@ import PhoneInput, {
 
 import Library from '../input-core/index.cjs'
 
-import metadata from 'libphonenumber-js/metadata.min.json'
+import metadata from 'libphonenumber-js/min/metadata'
 
 describe('exports/input-core', () => {
 	it('should export ES6', () => {
