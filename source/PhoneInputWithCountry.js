@@ -177,7 +177,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			locales,
 			metadata
 		} = this.props
-		return useMemoCountrySelectOptions(() => {
+		return this.useMemoCountrySelectOptions(() => {
 			return sortCountryOptions(
 				getCountrySelectOptions({
 					countries: countries || getCountries(metadata),
@@ -195,6 +195,17 @@ class PhoneNumberInput_ extends React.PureComponent {
 			labels,
 			metadata
 		])
+	}
+
+	useMemoCountrySelectOptions(generator, dependencies) {
+		if (
+			!this.countrySelectOptionsMemoDependencies ||
+			!areEqualArrays(dependencies, this.countrySelectOptionsMemoDependencies)
+		) {
+			this.countrySelectOptionsMemo = generator()
+			this.countrySelectOptionsMemoDependencies = dependencies
+		}
+		return this.countrySelectOptionsMemo
 	}
 
 	getFirstSupportedCountry({ countries }) {
@@ -965,17 +976,6 @@ PhoneNumberInput.defaultProps = {
 }
 
 export default PhoneNumberInput
-
-let countrySelectOptionsMemo
-let countrySelectOptionsMemoDependencies
-function useMemoCountrySelectOptions(generator, dependencies) {
-	if (!countrySelectOptionsMemoDependencies ||
-		!areEqualArrays(dependencies, countrySelectOptionsMemoDependencies)) {
-		countrySelectOptionsMemo = generator()
-		countrySelectOptionsMemoDependencies = dependencies
-	}
-	return countrySelectOptionsMemo
-}
 
 function areEqualArrays(a, b) {
 	if (a.length !== b.length) {
