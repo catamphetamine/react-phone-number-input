@@ -40,8 +40,11 @@ interface FlagProps {
 
 type Flag = (props: FlagProps) => JSX.Element;
 
+// `LabelKey` is imported in `/locale/{locale}.json.d.ts`.
+export type LabelKey = Country | 'ZZ' | 'ext' | 'country' | 'phone';
+
 // `Labels` are imported in `/core/index.d.ts`.
-export type Labels = Partial<Record<Country | 'ZZ' | 'ext' | 'country' | 'phone', string>>;
+export type Labels = Partial<Record<LabelKey, string>>;
 
 // export type Labels = Partial<Record<Country, string>> & {
 //   ZZ: string?,

@@ -6,6 +6,8 @@ import path from 'path'
 // Using a `*.json.js` duplicate file workaround.
 createLocaleJsonJsFiles(getAllLocales())
 
+createLocaleJsonTypeScriptDefinitionFiles(getAllLocales())
+
 addLocaleExports(getAllLocales())
 
 /**
@@ -36,10 +38,12 @@ function addLocaleExports(ALL_LOCALES) {
 		...packageJson.exports,
 		...ALL_LOCALES.reduce((all, locale) => {
 			all[`./locale/${locale}`] = {
+      		types:  `./locale/${locale}.json.d.ts`,
 				import: `./locale/${locale}.json.js`,
 				require: `./locale/${locale}.json`
 			}
 			all[`./locale/${locale}.json`] = {
+      		types:  `./locale/${locale}.json.d.ts`,
 				import: `./locale/${locale}.json.js`,
 				require: `./locale/${locale}.json`
 			}
@@ -62,5 +66,19 @@ function createLocaleJsonJsFiles(locales) {
 	for (const locale of locales) {
 		const localeData = readJsonFromFile(`./locale/${locale}.json`)
 		fs.writeFileSync(`./locale/${locale}.json.js`, 'export default ' + JSON.stringify(localeData, null, 2), 'utf8')
+	}
+}
+
+function createLocaleJsonTypeScriptDefinitionFiles(locales) {
+	for (const locale of locales) {
+		fs.writeFileSync(
+			`./locale/${locale}.json.d.ts`,
+			`
+import { LabelKey } from '../index'
+type Locale = { [key in LabelKey]: string }
+const Locale: Locale
+export default Locale
+			`.trim()
+		)
 	}
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "Telephone number input React component",
   "main": "min/index.cjs",
   "module": "min/index.js",
@@ -89,170 +89,212 @@
     "./style.css": "./style.css",
     "./package.json": "./package.json",
     "./locale/ar": {
+      "types": "./locale/ar.json.d.ts",
       "import": "./locale/ar.json.js",
       "require": "./locale/ar.json"
     },
     "./locale/ar.json": {
+      "types": "./locale/ar.json.d.ts",
       "import": "./locale/ar.json.js",
       "require": "./locale/ar.json"
     },
     "./locale/cz": {
+      "types": "./locale/cz.json.d.ts",
       "import": "./locale/cz.json.js",
       "require": "./locale/cz.json"
     },
     "./locale/cz.json": {
+      "types": "./locale/cz.json.d.ts",
       "import": "./locale/cz.json.js",
       "require": "./locale/cz.json"
     },
     "./locale/de": {
+      "types": "./locale/de.json.d.ts",
       "import": "./locale/de.json.js",
       "require": "./locale/de.json"
     },
     "./locale/de.json": {
+      "types": "./locale/de.json.d.ts",
       "import": "./locale/de.json.js",
       "require": "./locale/de.json"
     },
     "./locale/el": {
+      "types": "./locale/el.json.d.ts",
       "import": "./locale/el.json.js",
       "require": "./locale/el.json"
     },
     "./locale/el.json": {
+      "types": "./locale/el.json.d.ts",
       "import": "./locale/el.json.js",
       "require": "./locale/el.json"
     },
     "./locale/en": {
+      "types": "./locale/en.json.d.ts",
       "import": "./locale/en.json.js",
       "require": "./locale/en.json"
     },
     "./locale/en.json": {
+      "types": "./locale/en.json.d.ts",
       "import": "./locale/en.json.js",
       "require": "./locale/en.json"
     },
     "./locale/es": {
+      "types": "./locale/es.json.d.ts",
       "import": "./locale/es.json.js",
       "require": "./locale/es.json"
     },
     "./locale/es.json": {
+      "types": "./locale/es.json.d.ts",
       "import": "./locale/es.json.js",
       "require": "./locale/es.json"
     },
     "./locale/fi": {
+      "types": "./locale/fi.json.d.ts",
       "import": "./locale/fi.json.js",
       "require": "./locale/fi.json"
     },
     "./locale/fi.json": {
+      "types": "./locale/fi.json.d.ts",
       "import": "./locale/fi.json.js",
       "require": "./locale/fi.json"
     },
     "./locale/fr": {
+      "types": "./locale/fr.json.d.ts",
       "import": "./locale/fr.json.js",
       "require": "./locale/fr.json"
     },
     "./locale/fr.json": {
+      "types": "./locale/fr.json.d.ts",
       "import": "./locale/fr.json.js",
       "require": "./locale/fr.json"
     },
     "./locale/he": {
+      "types": "./locale/he.json.d.ts",
       "import": "./locale/he.json.js",
       "require": "./locale/he.json"
     },
     "./locale/he.json": {
+      "types": "./locale/he.json.d.ts",
       "import": "./locale/he.json.js",
       "require": "./locale/he.json"
     },
     "./locale/it": {
+      "types": "./locale/it.json.d.ts",
       "import": "./locale/it.json.js",
       "require": "./locale/it.json"
     },
     "./locale/it.json": {
+      "types": "./locale/it.json.d.ts",
       "import": "./locale/it.json.js",
       "require": "./locale/it.json"
     },
     "./locale/nb": {
+      "types": "./locale/nb.json.d.ts",
       "import": "./locale/nb.json.js",
       "require": "./locale/nb.json"
     },
     "./locale/nb.json": {
+      "types": "./locale/nb.json.d.ts",
       "import": "./locale/nb.json.js",
       "require": "./locale/nb.json"
     },
     "./locale/nl": {
+      "types": "./locale/nl.json.d.ts",
       "import": "./locale/nl.json.js",
       "require": "./locale/nl.json"
     },
     "./locale/nl.json": {
+      "types": "./locale/nl.json.d.ts",
       "import": "./locale/nl.json.js",
       "require": "./locale/nl.json"
     },
     "./locale/pl": {
+      "types": "./locale/pl.json.d.ts",
       "import": "./locale/pl.json.js",
       "require": "./locale/pl.json"
     },
     "./locale/pl.json": {
+      "types": "./locale/pl.json.d.ts",
       "import": "./locale/pl.json.js",
       "require": "./locale/pl.json"
     },
     "./locale/pt-BR": {
+      "types": "./locale/pt-BR.json.d.ts",
       "import": "./locale/pt-BR.json.js",
       "require": "./locale/pt-BR.json"
     },
     "./locale/pt-BR.json": {
+      "types": "./locale/pt-BR.json.d.ts",
       "import": "./locale/pt-BR.json.js",
       "require": "./locale/pt-BR.json"
     },
     "./locale/pt": {
+      "types": "./locale/pt.json.d.ts",
       "import": "./locale/pt.json.js",
       "require": "./locale/pt.json"
     },
     "./locale/pt.json": {
+      "types": "./locale/pt.json.d.ts",
       "import": "./locale/pt.json.js",
       "require": "./locale/pt.json"
     },
     "./locale/ru": {
+      "types": "./locale/ru.json.d.ts",
       "import": "./locale/ru.json.js",
       "require": "./locale/ru.json"
     },
     "./locale/ru.json": {
+      "types": "./locale/ru.json.d.ts",
       "import": "./locale/ru.json.js",
       "require": "./locale/ru.json"
     },
     "./locale/sk": {
+      "types": "./locale/sk.json.d.ts",
       "import": "./locale/sk.json.js",
       "require": "./locale/sk.json"
     },
     "./locale/sk.json": {
+      "types": "./locale/sk.json.d.ts",
       "import": "./locale/sk.json.js",
       "require": "./locale/sk.json"
     },
     "./locale/sv": {
+      "types": "./locale/sv.json.d.ts",
       "import": "./locale/sv.json.js",
       "require": "./locale/sv.json"
     },
     "./locale/sv.json": {
+      "types": "./locale/sv.json.d.ts",
       "import": "./locale/sv.json.js",
       "require": "./locale/sv.json"
     },
     "./locale/tr": {
+      "types": "./locale/tr.json.d.ts",
       "import": "./locale/tr.json.js",
       "require": "./locale/tr.json"
     },
     "./locale/tr.json": {
+      "types": "./locale/tr.json.d.ts",
       "import": "./locale/tr.json.js",
       "require": "./locale/tr.json"
     },
     "./locale/ua": {
+      "types": "./locale/ua.json.d.ts",
       "import": "./locale/ua.json.js",
       "require": "./locale/ua.json"
     },
     "./locale/ua.json": {
+      "types": "./locale/ua.json.d.ts",
       "import": "./locale/ua.json.js",
       "require": "./locale/ua.json"
     },
     "./locale/vi": {
+      "types": "./locale/vi.json.d.ts",
       "import": "./locale/vi.json.js",
       "require": "./locale/vi.json"
     },
     "./locale/vi.json": {
+      "types": "./locale/vi.json.d.ts",
       "import": "./locale/vi.json.js",
       "require": "./locale/vi.json"
     }
@@ -268,7 +310,7 @@
     "classnames": "^2.3.1",
     "country-flag-icons": "^1.5.4",
     "input-format": "^0.3.8",
-    "libphonenumber-js": "^1.10.8",
+    "libphonenumber-js": "^1.10.9",
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
