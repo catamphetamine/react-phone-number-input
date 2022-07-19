@@ -1,10 +1,12 @@
 import fs from 'fs'
+import fsPromises from 'fs/promises'
 import path from 'path'
 
 // Stupid Node.js can't even `import` JSON files.
 // https://stackoverflow.com/questions/72348042/typeerror-err-unknown-file-extension-unknown-file-extension-json-for-node
 // Using a `*.json.js` duplicate file workaround.
 createLocaleJsonJsFiles(getAllLocales())
+await createLocaleDTsFiles(getAllLocales())
 
 addLocaleExports(getAllLocales())
 
@@ -63,4 +65,18 @@ function createLocaleJsonJsFiles(locales) {
 		const localeData = readJsonFromFile(`./locale/${locale}.json`)
 		fs.writeFileSync(`./locale/${locale}.json.js`, 'export default ' + JSON.stringify(localeData, null, 2), 'utf8')
 	}
+}
+
+async function createLocaleDTsFiles(locales) {
+	const dTs = `type Locale = { [K in keyof import('../index').Labels]: string }
+const Locale: Locale
+export default Locale
+`;
+
+  return Promise.all([
+    locales.flatMap((locale) => [
+      fsPromises.writeFile(`./locale/${locale}.d.ts`, dTs),
+      fsPromises.writeFile(`./locale/${locale}.json.d.ts`, dTs),
+    ]),
+  ]);
 }
