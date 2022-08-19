@@ -15,7 +15,8 @@ export {
 } from '../index.d';
 
 import {
-	Props as BaseProps
+	Props as BaseProps,
+	DefaultFormValues
 } from '../react-hook-form/index.d';
 
 type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps, FormValues> & {
@@ -23,7 +24,7 @@ type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps, For
   labels: Labels;
 }
 
-type PhoneInputWithCountrySelectComponentType<InputComponentProps = DefaultInputComponentProps, FormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputWithCountrySelectComponentType<InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectComponentType;
 

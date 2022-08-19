@@ -4,7 +4,8 @@
 import * as React from 'react';
 
 import {
-  ReactHookFormComponentProps
+  ReactHookFormComponentProps,
+  DefaultFormValues
 } from '../react-hook-form/index.d';
 
 import {
@@ -24,7 +25,7 @@ export type Props<InputComponentProps, FormValues> = BaseProps<InputComponentPro
   // onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
 }
 
-type PhoneInputType<InputComponentProps = DefaultInputComponentProps, FormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputType<InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputType;
 

@@ -17,11 +17,15 @@ import {
 	Props as BaseProps
 } from '../react-hook-form-input/index.d';
 
+import {
+	DefaultFormValues
+} from '../react-hook-form/index.d';
+
 type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps, FormValues> & {
   metadata: Metadata;
 }
 
-type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps, FormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputComponentType;
 
