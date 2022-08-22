@@ -90,7 +90,7 @@ The phone number `<input/>` itself is implemented using [`input-format`](https:/
 
 "With country select" component comes with a [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) stylesheet. All CSS class names start with `.PhoneInput`. Additional "modifier" CSS classes: `.PhoneInput--focus` for `:focus`, `.PhoneInput--disabled` for `:disabled`, `.PhoneInput--readOnly` for `[readonly]`.
 
-The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for convenience. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
+The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for convenience. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties). Want to learn more about CSS [Click Here](https://www.scaler.com/topics/css)
 
 Some of the CSS variables:
 
