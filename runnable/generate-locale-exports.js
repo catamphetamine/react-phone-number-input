@@ -76,7 +76,7 @@ function createLocaleJsonTypeScriptDefinitionFiles(locales) {
 			`
 import { LabelKey } from '../index'
 type Locale = { [key in LabelKey]: string }
-const Locale: Locale
+declare const Locale: Locale
 export default Locale
 			`.trim()
 		)
