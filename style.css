@@ -8,7 +8,7 @@
 	--PhoneInputCountrySelectArrow-marginLeft: var(--PhoneInputCountrySelect-marginRight);
 	--PhoneInputCountrySelectArrow-borderWidth: 1px;
 	--PhoneInputCountrySelectArrow-opacity: 0.45;
-	--PhoneInputCountrySelectArrow-color: inherit;
+	--PhoneInputCountrySelectArrow-color: currentColor;
 	--PhoneInputCountrySelectArrow-color--focus: var(--PhoneInput-color--focus);
 	--PhoneInputCountrySelectArrow-transform: rotate(45deg);
 	--PhoneInputCountryFlag-aspectRatio: 1.5;

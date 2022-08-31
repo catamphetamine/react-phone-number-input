@@ -149,7 +149,7 @@ export default {
   "MH": "Ilhas Marshall",
   "MK": "Macedónia, Antiga República Jugoslava da",
   "ML": "Mali",
-  "MM": "Birmânia",
+  "MM": "Myanmar",
   "MN": "Mongólia",
   "MO": "Macau",
   "MP": "Ilhas Marianas do Norte",

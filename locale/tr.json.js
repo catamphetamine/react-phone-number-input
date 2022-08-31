@@ -149,7 +149,7 @@ export default {
   "MH": "Marshall Adaları",
   "MK": "Kuzey Makedonya",
   "ML": "Mali",
-  "MM": "Burma",
+  "MM": "Myanmar",
   "MN": "Moğolistan",
   "MO": "Makao",
   "MP": "Kuzey Mariana Adaları",

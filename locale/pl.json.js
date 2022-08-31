@@ -149,7 +149,7 @@ export default {
   "MH": "Wyspy Marshalla",
   "MK": "Macedonia",
   "ML": "Mali",
-  "MM": "Birma",
+  "MM": "Mjanma",
   "MN": "Mongolia",
   "MO": "Makau",
   "MP": "Mariany Północne",

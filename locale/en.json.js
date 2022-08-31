@@ -149,7 +149,7 @@ export default {
   "MH": "Marshall Islands",
   "MK": "North Macedonia",
   "ML": "Mali",
-  "MM": "Burma",
+  "MM": "Myanmar",
   "MN": "Mongolia",
   "MO": "Macao",
   "MP": "Northern Mariana Islands",

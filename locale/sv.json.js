@@ -149,7 +149,7 @@ export default {
   "MH": "Marshallöarna",
   "MK": "Nordmakedonien",
   "ML": "Mali",
-  "MM": "Burma",
+  "MM": "Myanmar",
   "MN": "Mongoliet",
   "MO": "Macau",
   "MP": "Nordmarianerna",

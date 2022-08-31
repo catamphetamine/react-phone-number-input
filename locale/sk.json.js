@@ -149,7 +149,7 @@ export default {
   "MH": "Marshallové ostrovy",
   "MK": "Severné Macedónsko",
   "ML": "Mali",
-  "MM": "Barma",
+  "MM": "Mjanmarsko",
   "MN": "Mongolsko",
   "MO": "Macao",
   "MP": "Severné Mariany",

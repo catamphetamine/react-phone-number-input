@@ -149,7 +149,7 @@ export default {
   "MH": "Marshalleilanden",
   "MK": "Noord-Macedonië",
   "ML": "Mali",
-  "MM": "Birma",
+  "MM": "Myanmar",
   "MN": "Mongolië",
   "MO": "Macau",
   "MP": "Noordelijke Marianen",
