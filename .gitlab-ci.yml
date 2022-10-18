@@ -3,7 +3,10 @@ image: node:12
 pages:
   script:
   - npm install
-  - npm run generate-docs
+  - mkdir ./react-styleguidist/project
+  - cp .babelrc ./react-styleguidist/project/
+  - cp --recursive ./source ./react-styleguidist/project/
+  - npm run generate-docs:core
   - npm run build
   - mv ./bundle ./public
   - cp --recursive ./website/* ./public/

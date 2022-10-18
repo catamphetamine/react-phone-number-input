@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { getCountries, isSupportedCountry } from 'libphonenumber-js/min'
 
-import en from '../locale/en.json'
+import en from '../locale/en.json' assert { type: 'json' }
 
 const countries = Object.keys(en).filter(_ => _.length === 2 && _.toUpperCase() === _)
 countries.sort()

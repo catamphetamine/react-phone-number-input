@@ -32,3 +32,5 @@ npm-debug.log
 /modules/
 
 /bundle/
+
+/react-styleguidist/project

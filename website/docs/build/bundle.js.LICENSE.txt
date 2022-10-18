@@ -33,8 +33,6 @@ object-assign
 
 /*! clipboard-copy. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
-/*! https://mths.be/regenerate v1.3.3 by @mathias | MIT license */
-
 /*! https://mths.be/regenerate v1.4.2 by @mathias | MIT license */
 
 /**

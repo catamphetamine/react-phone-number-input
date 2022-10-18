@@ -750,7 +750,7 @@ import PhoneInput from 'react-phone-number-input/react-responsive-ui'
 
 									<Highlight lang="jsx">
 {`// Country names in Russian.
-import ru from 'react-phone-number-input/locale/ru.json'
+import ru from 'react-phone-number-input/locale/ru'
 
 <PhoneInput
   labels={ru}
@@ -1161,7 +1161,7 @@ International: {value && formatPhoneNumberIntl(value)}
 
 									<Highlight lang="jsx">
 {`import Input, { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
-import countryNames from 'react-phone-number-input/locale/en.json'
+import countryNames from 'react-phone-number-input/locale/en'
 
 // Outputs: [AC, AD, AE, ...]
 console.log(getCountries())
@@ -1354,7 +1354,7 @@ console.log("+" + getCountryCallingCode("US"))
 									<Highlight lang="jsx">
 {`import PropTypes from 'prop-types'
 import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
-import en from 'react-phone-number-input/locale/en.json'
+import en from 'react-phone-number-input/locale/en'
 
 const CountrySelect = ({ value, onChange, labels, ...rest }) => (
   <select
