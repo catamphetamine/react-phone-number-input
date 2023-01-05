@@ -24,14 +24,14 @@ type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps, For
   labels: Labels;
 }
 
-type PhoneInputWithCountrySelectComponentType<InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 // Could also export the component that would accept custom "generics",
 // but seems like it would also introduce some inconvenience when using `typeof PhoneInputWithCountrySelect`
 // for defining the type of the `props`.
 // https://github.com/catamphetamine/react-phone-number-input/issues/414#issuecomment-1220679025
-// type PhoneInputWithCountrySelectComponentType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+// type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
-declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectComponentType;
+declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 
 export default PhoneInputWithCountrySelect;

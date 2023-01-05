@@ -9,7 +9,9 @@ import {
 	DefaultInputComponentProps
 } from '../index.d';
 
-type InputComponent<InputComponentProps> = (props: InputComponentProps) => JSX.Element | React.ComponentClass<InputComponentProps, any>;
+type InputComponent<InputComponentProps> =
+  | ((props: InputComponentProps) => JSX.Element | React.ComponentClass<InputComponentProps, any>)
+  | React.ForwardRefExoticComponent<InputComponentProps & React.RefAttributes<HTMLInputElement>>;
 
 type FeaturePropsWithoutSmartCaret<InputComponentProps> = Omit<InputComponentProps, 'value' | 'onChange'> & {
 	country?: Country;
@@ -39,7 +41,7 @@ export type Props<InputComponentProps> = PropsWithoutSmartCaret<InputComponentPr
 	smartCaret?: boolean;
 }
 
-type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps> = (props: Props<InputComponentProps>) => JSX.Element;
+type PhoneInputComponentType = <InputComponentProps = DefaultInputComponentProps>(props: Props<InputComponentProps>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputComponentType;
 

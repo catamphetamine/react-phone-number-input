@@ -41,7 +41,7 @@ type DefaultInputComponentProps = {
 	[anyProperty: string]: any;
 }
 
-type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps> = (props: Props<InputComponentProps>) => JSX.Element;
+type PhoneInputComponentType = <InputComponentProps = DefaultInputComponentProps>(props: Props<InputComponentProps>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputComponentType;
 

@@ -25,7 +25,7 @@ export type Props<InputComponentProps, FormValues> = BaseProps<InputComponentPro
   // onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
 }
 
-type PhoneInputType<InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues> = (props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 // Could also export the component that would accept custom "generics",
 // but seems like it would also introduce some inconvenience when using `typeof PhoneInput`

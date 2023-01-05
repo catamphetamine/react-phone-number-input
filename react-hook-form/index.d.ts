@@ -34,9 +34,11 @@ export type ReactHookFormComponentProps<FormValues> = {
 // * `react-hook-form-core/index.d.ts`
 export type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps> & ReactHookFormComponentProps<FormValues>;
 
+// `DefaultFormValues` are imported in:
+// * `react-hook-form-core/index.d.ts`
 export type DefaultFormValues = Record<string, any>;
 
-type PhoneInputWithCountrySelectType<InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues> = React.ComponentClass<Props<InputComponentProps, FormValues>, State<Props<InputComponentProps, FormValues>>>
+type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 // Could also export the component that would accept custom "generics", if the component was a function,
 // but seems like it would also introduce some inconvenience when using `typeof PhoneInputWithCountrySelect`

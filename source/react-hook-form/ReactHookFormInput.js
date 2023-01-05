@@ -68,8 +68,11 @@ let ReactHookFormInput = ({
       // }
     }, [ref, setRef])
 
+    // This function may not work correctly when `defaultValues` are set for the input
+    // and the user clears the input value manually: the default value may re-appear as a result.
+    // https://github.com/catamphetamine/react-phone-number-input/issues/405#issuecomment-1295885201
     const onChangeCombined = useCallback((value) => {
-      // `feact-hook-form` doesn't know how to properly handle `undefined` values.
+      // `react-hook-form` doesn't know how to properly handle `undefined` values.
       // https://github.com/react-hook-form/react-hook-form/issues/2990
       if (value === undefined) {
         value = null

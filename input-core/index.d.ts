@@ -16,7 +16,7 @@ type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
 	metadata: Metadata;
 }
 
-type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps> = (props: Props<InputComponentProps>) => JSX.Element;
+type PhoneInputComponentType = <InputComponentProps = DefaultInputComponentProps>(props: Props<InputComponentProps>) => JSX.Element;
 
 declare const PhoneInput: PhoneInputComponentType;
 
