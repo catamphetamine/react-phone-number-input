@@ -1,5 +1,7 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+<!-- Maybe change empty value from `undefined` to `null`. -->
+
 3.2.0 / 21.05.2022
 ==================
 

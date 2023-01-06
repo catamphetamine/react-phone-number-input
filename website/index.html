@@ -19,10 +19,14 @@
 
 		<!-- React 16 -->
 		<script crossorigin src="https://unpkg.com/react@16.10.2/umd/react.production.min.js"></script>
+		<!-- <script crossorigin src="https://unpkg.com/react@16.10.2/umd/react.development.js"></script> -->
 		<script crossorigin src="https://unpkg.com/react-dom@16.10.2/umd/react-dom.production.min.js"></script>
 
 		<!-- PropTypes -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.7.2/prop-types.min.js"></script>
+
+		<!-- `react-hook-form` -->
+		<script src="https://unpkg.com/react-hook-form@7.41.5/dist/index.umd.js"></script>
 
 		<!-- Babel 6 -->
 		<script src="./lib/babel.min.js"></script>
@@ -60,7 +64,23 @@
 		<script src="./react-phone-number-input.js"></script>
 
 		<script>
-			window.PhoneInput = window.PhoneInput.default
+			window.PhoneInputWithoutCountrySelect = window.PhoneInput.default
+		</script>
+
+		<script src="./react-phone-number-input-react-hook-form.js"></script>
+
+		<script>
+			window.PhoneInputWithCountrySelectReactHookForm = window.PhoneInput.default
+		</script>
+
+		<script src="./react-phone-number-input-react-hook-form-input.js"></script>
+
+		<script>
+			window.PhoneInputReactHookForm = window.PhoneInput.default
+		</script>
+
+		<script>
+			window.PhoneInput = window.PhoneInputWithoutCountrySelect
 		</script>
 
 		<script src="./lib/libphonenumber-max.js"></script>
@@ -1678,9 +1698,86 @@ const [country, setCountry] = useState()
 								<code>value</code>: {this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry && <code>{this.state.valueNoCountrySelectLimitMaxLengthNoCountryOrDefaultCountry}</code>}
 							</p>
 						</section>
+
+						<section>
+							<h1>
+								<code className="default">react-hook-form</code>
+							</h1>
+
+			            <br/>
+
+							With country select
+
+							<br/>
+			            <br/>
+
+							<ReactHookFormExample/>
+
+							<br/>
+							<br/>
+
+							Without country select
+
+							<br/>
+			            <br/>
+
+							<ReactHookFormInputExample/>
+						</section>
 						</React.Fragment>
 					)
 				}
+			}
+
+			function ReactHookFormExample() {
+			   const { control, handleSubmit } = ReactHookForm.useForm()
+
+			   const onSubmit = (values) => {
+			      alert('Phone input value: ' + values.phone)
+			   }
+
+			   return (
+			      <React.Fragment>
+			         <form onSubmit={handleSubmit(onSubmit)}>
+		               <PhoneInputWithCountrySelectReactHookForm
+		                  name="phone"
+		                  control={control}
+		                  defaultCountry="CO"
+		               />
+
+			            <br/>
+
+			            <button type="submit">
+			               Submit
+			            </button>
+			         </form>
+			      </React.Fragment>
+			   );
+			}
+
+			function ReactHookFormInputExample() {
+			   const { control, handleSubmit } = ReactHookForm.useForm()
+
+			   const onSubmit = (values) => {
+			      alert('Phone input value: ' + values.phone)
+			   }
+
+			   return (
+			      <React.Fragment>
+			         <form onSubmit={handleSubmit(onSubmit)}>
+		               <PhoneInputReactHookForm
+		                  name="phone"
+		                  control={control}
+		               />
+
+			            <br/>
+			            <br/>
+
+			            <button type="submit">
+			               Submit
+			            </button>
+			         </form>
+			      </React.Fragment>
+			   );
 			}
 
 			ReactDOM.render

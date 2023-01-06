@@ -19,7 +19,8 @@ const COMMON_OUTPUT = {
   exports: 'named',
   globals: {
     'react': 'React',
-    'prop-types': 'PropTypes'
+    'prop-types': 'PropTypes',
+    'react-hook-form': 'ReactHookForm'
   }
 };
 
@@ -77,6 +78,24 @@ export default [
     external: COMMON_EXTERNAL,
     output: {
       file: 'bundle/react-phone-number-input-input-max.js',
+      ...COMMON_OUTPUT
+    }
+  },
+  {
+    input: 'react-hook-form/index.js',
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
+    output: {
+      file: 'bundle/react-phone-number-input-react-hook-form.js',
+      ...COMMON_OUTPUT
+    }
+  },
+  {
+    input: 'react-hook-form-input/index.js',
+    plugins: COMMON_PLUGINS,
+    external: COMMON_EXTERNAL,
+    output: {
+      file: 'bundle/react-phone-number-input-react-hook-form-input.js',
       ...COMMON_OUTPUT
     }
   }
