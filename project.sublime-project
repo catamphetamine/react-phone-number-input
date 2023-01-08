@@ -4,7 +4,7 @@
 		{
 			"follow_symlinks": true,
 			"path": ".",
-			"folder_exclude_patterns": ["node_modules", ".nyc_output", "react-phone-number-input/coverage", "commonjs", "react-phone-number-input/lib", "project.sublime-workspace", "bundle", "npm-debug.log", "modules", "website/lib", "website/docs/build"],
+			"folder_exclude_patterns": ["node_modules", ".nyc_output", "react-styleguidist", "coverage", "commonjs", "react-phone-number-input/lib", "project.sublime-workspace", "bundle", "npm-debug.log", "modules", "website/lib", "website/docs/build"],
 			"file_exclude_patterns": ["package-lock.json"]
 		}
 	],

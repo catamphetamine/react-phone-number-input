@@ -509,20 +509,14 @@ export function onPhoneDigitsChange(phoneDigits, {
 			if (phoneDigits === '+') {
 				value = undefined
 			} else if (country && getInternationalPhoneNumberPrefix(country, metadata).indexOf(phoneDigits) === 0) {
-				// Selected a `country` but started inputting an
-				// international phone number for another country.
-				// Even though the input value is non-empty,
-				// the `value` is assumed `undefined` in such case.
-				// The `country` will be reset (or re-selected)
-				// immediately after such mismatch has been detected
-				// by the phone number input component, and `value`
-				// will be set to the currently entered international prefix.
+				// Selected a `country` and started inputting an
+				// international phone number for this country
+				// but hasn't input any "national (significant) number" digits yet.
+				// In that case, assume `value` be `undefined`.
 				//
 				// For example, if selected `country` `"US"`
-				// and started inputting phone number `"+2"`
-				// then `value` `undefined` will be returned from this function,
-				// and then, immediately after that, `country` will be reset
-				// and the `value` will be set to `"+2"`.
+				// and started inputting phone number `"+1"`
+				// then `value` `undefined` will be returned from this function.
 				//
 				value = undefined
 			} else {
