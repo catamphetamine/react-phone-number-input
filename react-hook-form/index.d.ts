@@ -22,7 +22,9 @@ export {
 export type ReactHookFormComponentProps<FormValues> = {
   name: string;
   defaultValue?: Value;
-  control: Control<FormValues>;
+  // A developer should pass a `control` object that is returned from `useForm()` hook.
+  // Not required when using `<FormProvider/>`.
+  control?: Control<FormValues>;
   rules?: object;
   // A quote from `react-hook-form`:
   // Without `shouldUnregister: true`, an input value would be retained when input is removed.

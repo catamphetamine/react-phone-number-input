@@ -144,7 +144,9 @@ ReactHookFormInput.propTypes = {
   // Without `shouldUnregister: true`, an input value would be retained when input is removed.
   // Setting `shouldUnregister: true` makes the form behave more closer to native.
   shouldUnregister: PropTypes.bool,
-  control: PropTypes.object.isRequired,
+  // A developer should pass a `control` object that is returned from `useForm()` hook.
+  // Not required when using `<FormProvider/>`.
+  control: PropTypes.object,
   rules: PropTypes.object,
   onChange: PropTypes.func,
   onBlur: PropTypes.func

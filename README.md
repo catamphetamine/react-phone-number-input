@@ -510,7 +510,13 @@ import PhoneInputWithCountry from "react-phone-number-input/react-hook-form"
 import { useForm } from "react-hook-form"
 
 export default function Form() {
-  const { control, handleSubmit } = useForm()
+  const {
+    // Either pass a `control` property to the component
+    // or wrap it in a `<FormProvider/>`.
+    control,
+    handleSubmit
+  } = useForm()
+
   return (
     <form onSubmit={handleSubmit(...)}>
       <PhoneInput
