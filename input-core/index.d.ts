@@ -16,7 +16,7 @@ type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
 	metadata: Metadata;
 }
 
-type PhoneInputComponentType = <InputComponentProps = DefaultInputComponentProps>(props: Props<InputComponentProps>) => JSX.Element;
+type PhoneInputComponentType<InputComponentProps = DefaultInputComponentProps> = React.ForwardRefExoticComponent<Props<InputComponentProps> & React.RefAttributes<unknown>>
 
 declare const PhoneInput: PhoneInputComponentType;
 
