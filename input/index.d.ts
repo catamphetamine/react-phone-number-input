@@ -25,7 +25,7 @@ type FeaturePropsWithoutSmartCaret<InputComponentProps> = Omit<InputComponentPro
 // `PropsWithoutSmartCaret` are imported in:
 // * `/react-native/index.d.ts`.
 export type PropsWithoutSmartCaret<InputComponentProps> = FeaturePropsWithoutSmartCaret<InputComponentProps> & {
-	value?: Value;
+	value?: Value | undefined;
 	onChange(value?: Value): void;
 }
 

@@ -474,7 +474,13 @@ For "with country select" component, the `/core` export is `react-phone-number-i
 
 ## Bug reporting
 
-If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then follow the [bug reporting instructions in `libphonenumber-js` repo](https://gitlab.com/catamphetamine/libphonenumber-js#bug-reporting). Otherwise report issues in this repo.
+If you think that the phone number parsing/formatting/validation engine malfunctions for a particular phone number then it could be for several reasons:
+
+* `libphonenumber-js`, which is what this package uses internally, parses/formats/validates phone numbers incorrectly. To test if that's the case, follow the instructions outlined in the [bug reporting section of `libphonenumber-js` repo readme](https://gitlab.com/catamphetamine/libphonenumber-js#bug-reporting).
+
+* `react-phone-number-input`'s exported `isValidPhoneNumber()` function is a "stripped-down" "min" version of the same function exported from `libphonenumber-js` package, so if you think that the validation is too lax, use the `isValidPhoneNumber()` function from `libphonenumber-js/max` package instead.
+
+* In other cases, report issues in this repo.
 
 ## Autocomplete
 
