@@ -415,33 +415,49 @@ export function onPhoneDigitsChange(phoneDigits, {
 	metadata
 }) {
 	if (international && countryCallingCodeEditable === false) {
-		const prefix = getInternationalPhoneNumberPrefix(country, metadata)
-		// The `<input/>` value must start with the country calling code.
-		if (phoneDigits.indexOf(prefix) !== 0) {
-			let value
-			// If a phone number input is declared as
-			// `international` and `withCountryCallingCode`,
-			// then it's gonna be non-empty even before the user
-			// has input anything in it.
-			// This will result in its contents (the country calling code part)
-			// being selected when the user tabs into such field.
-			// If the user then starts inputting the national part digits,
-			// then `<input/>` value changes from `+xxx` to `y`
-			// because inputting anything while having the `<input/>` value
-			// selected results in erasing the `<input/>` value.
-			// So, the component handles such case by restoring
-			// the intended `<input/>` value: `+xxxy`.
-			// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43
-			if (phoneDigits && phoneDigits[0] !== '+') {
-				phoneDigits = prefix + phoneDigits
-				value = e164(phoneDigits, country, metadata)
-			} else {
-				phoneDigits = prefix
-			}
-			return {
-				phoneDigits,
-				value,
-				country
+		if (country) {
+			// For international phone numbers written with non-editable country calling code,
+			// the `<input/>` value must always start with that non-editable country calling code.
+			const prefix = getInternationalPhoneNumberPrefix(country, metadata)
+			// If the input value doesn't start with the non-editable country calling code,
+			// it should be fixed.
+			if (phoneDigits.indexOf(prefix) !== 0) {
+				let value
+				// If a phone number input is declared as
+				// `international: true` and `countryCallingCodeEditable: false`,
+				// then the value of the `<input/>` is gonna be non-empty at all times,
+				// even before the user has started to input any digits in the input field,
+				// because the country calling code is always there by design.
+				//
+				// The fact that the input value is always non-empty results in a side effect:
+				// whenever a user tabs into such input field, its value gets automatically selected.
+				// If at that moment in time the user starts typing in the national digits of the phone number,
+				// the selected `<input/>` value gets automatically replaced by those typed-in digits
+				// so the value changes from `+xxx` to `y`, because inputting anything while having
+				// the `<input/>` value selected results in erasing that `<input/>` value.
+				//
+				// This component handles such cases by restoring the `<input/>` value to what
+				// it should be in such cases: `+xxxy`.
+				// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43
+				//
+				const hasStartedTypingInNationalNumberDigitsHavingInputValueSelected = phoneDigits && phoneDigits[0] !== '+'
+				if (hasStartedTypingInNationalNumberDigitsHavingInputValueSelected) {
+					// Fix the input value to what it should be: `y` → `+xxxy`.
+					phoneDigits = prefix + phoneDigits
+					value = e164(phoneDigits, country, metadata)
+				} else {
+					// In other cases, simply reset the `<input/>` value, because there're only two
+					// possible cases:
+					// * The user has selected the `<input/>` value and then hit Delete/Backspace to erase it.
+					// * The user has pasted an international phone number for another country calling code,
+					//   which is considered a non-valid value.
+					phoneDigits = prefix
+				}
+				return {
+					phoneDigits,
+					value,
+					country
+				}
 			}
 		}
 	}
