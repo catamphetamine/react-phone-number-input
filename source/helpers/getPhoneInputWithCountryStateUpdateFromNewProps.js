@@ -4,6 +4,8 @@ import {
 	parsePhoneNumber
 } from './phoneInputHelpers.js'
 
+import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPrefix.js'
+
 import {
 	isCountrySupportedWithError,
 	getSupportedCountries
@@ -145,6 +147,26 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 					countries: supportedCountries,
 					metadata
 				})
+				// In cases when multiple countries correspond to the same country calling code,
+				// the phone number digits of `newValue` have to be matched against country-specific
+				// regular expressions in order to determine the exact country.
+				// Sometimes, that algorithm can't decide for sure which country does the phone number belong to,
+				// for example when the digits of `newValue` don't match any of those regular expressions.
+				// and the country of the phone number couldn't be determined.
+				// In those cases, people prefer the component to show the flag of the `defaultCountry`
+				// if the phone number could potentially belong to that `defaultCountry`.
+				// At least that's how the component behaves when a user pastes an international
+				// phone number into the input field: for example, when `defaultCountry` is `"US"`
+				// and the user pastes value "+1 555 555 5555" into the input field, it keep showing "US" flag.
+				// So when setting new `value` property externally, the component should behave the same way:
+				// it should select the `defaultCountry` when the new `value` could potentially belong
+				// to that country in cases when the exact country can't be determined.
+				// https://github.com/catamphetamine/react-phone-number-input/issues/413#issuecomment-1536219404
+				if (!parsedCountry) {
+					if (newValue.indexOf(getInternationalPhoneNumberPrefix(newDefaultCountry, metadata)) === 0) {
+						parsedCountry = newDefaultCountry
+					}
+				}
 			}
 		}
 		let hasUserSelectedACountryUpdate
