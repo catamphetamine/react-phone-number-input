@@ -14,7 +14,7 @@ import {
   Value
 } from '../input/index.d';
 
-export {
+import {
   DefaultInputComponentProps
 } from '../index.d';
 
