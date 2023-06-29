@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 
-import { Control } from 'react-hook-form';
+import { Control, FieldValues } from 'react-hook-form';
 
 import {
   Value,
@@ -19,7 +19,7 @@ export {
 
 // `ReactHookFormComponentProps` are used in:
 // * `react-hook-form-input/index.d.ts`
-export type ReactHookFormComponentProps<FormValues> = {
+export type ReactHookFormComponentProps<FormValues extends FieldValues> = {
   name: string;
   defaultValue?: Value;
   // A developer should pass a `control` object that is returned from `useForm()` hook.
@@ -34,19 +34,19 @@ export type ReactHookFormComponentProps<FormValues> = {
 
 // `Props` are imported in:
 // * `react-hook-form-core/index.d.ts`
-export type Props<InputComponentProps, FormValues> = BaseProps<InputComponentProps> & ReactHookFormComponentProps<FormValues>;
+export type Props<InputComponentProps, FormValues extends FieldValues> = BaseProps<InputComponentProps> & ReactHookFormComponentProps<FormValues>;
 
 // `DefaultFormValues` are imported in:
 // * `react-hook-form-core/index.d.ts`
-export type DefaultFormValues = Record<string, any>;
+export type DefaultFormValues = FieldValues;
 
-type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 // Could also export the component that would accept custom "generics", if the component was a function,
 // but seems like it would also introduce some inconvenience when using `typeof PhoneInputWithCountrySelect`
 // for defining the type of the `props`.
 // https://github.com/catamphetamine/react-phone-number-input/issues/414#issuecomment-1220679025
-// type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+// type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 
