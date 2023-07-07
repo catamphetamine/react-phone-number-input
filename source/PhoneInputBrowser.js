@@ -7,14 +7,23 @@ import InputBasic from './InputBasic.js'
 
 export function createInput(defaultMetadata) {
 	function PhoneInput({
-		smartCaret,
+		// `<input type="tel"/>`.
+		type = 'tel',
+		// Remember (and autofill) the value as a phone number.
+		autoComplete = 'tel',
+		smartCaret = true,
+		metadata = defaultMetadata,
 		...rest
 	}, ref) {
 		return (
 			<PhoneInput_
 				{...rest}
+				type={type}
+				autoComplete={autoComplete}
+				metadata={metadata}
 				ref={ref}
-				Component={smartCaret ? InputSmart : InputBasic} />
+				Component={smartCaret ? InputSmart : InputBasic}
+			/>
 		)
 	}
 
@@ -39,34 +48,12 @@ export function createInput(defaultMetadata) {
 		 * This is just an "escape hatch" for any possible caret position issues.
 		 */
 		// Is `true` by default.
-		smartCaret: PropTypes.bool.isRequired,
+		smartCaret: PropTypes.bool,
 
 		/**
 		 * `libphonenumber-js` metadata.
 		 */
-		metadata: PropTypes.object.isRequired
-	}
-
-	PhoneInput.defaultProps = {
-		/**
-		 * HTML `<input/>` `type="tel"`.
-		 */
-		type: 'tel',
-
-		/**
-		 * Remember (and autofill) the value as a phone number.
-		 */
-		autoComplete: 'tel',
-
-		/**
-		 * Set to `false` to use "basic" caret instead of the "smart" one.
-		 */
-		smartCaret: true,
-
-		/**
-		 * `libphonenumber-js` metadata.
-		 */
-		metadata: defaultMetadata
+		metadata: PropTypes.object
 	}
 
 	return PhoneInput

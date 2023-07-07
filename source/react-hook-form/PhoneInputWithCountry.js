@@ -7,12 +7,17 @@ import PhoneInputWithCountry_ from '../PhoneInputWithCountryDefault.js'
 import { metadata as metadataType } from '../PropTypes.js'
 
 export function createPhoneInput(defaultMetadata) {
-  let PhoneInputWithCountry = (props, ref) => {
+  let PhoneInputWithCountry = ({
+    metadata = defaultMetadata,
+    ...rest
+  }, ref) => {
     return (
       <ReactHookFormInput
-        {...props}
+        {...rest}
         ref={ref}
-        Component={PhoneInputWithCountry_}/>
+        metadata={metadata}
+        Component={PhoneInputWithCountry_}
+      />
     )
   }
 
@@ -20,10 +25,6 @@ export function createPhoneInput(defaultMetadata) {
 
   PhoneInputWithCountry.propTypes = {
     metadata: metadataType.isRequired
-  }
-
-  PhoneInputWithCountry.defaultProps = {
-    metadata: defaultMetadata
   }
 
   return PhoneInputWithCountry

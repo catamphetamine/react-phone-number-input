@@ -6,23 +6,24 @@ import PhoneInput_ from '../PhoneInputBrowser.js'
 import { metadata as metadataType } from '../PropTypes.js'
 
 export function createPhoneInput(defaultMetadata) {
-  let PhoneInput = (props, ref) => {
+  let PhoneInput = ({
+    metadata = defaultMetadata,
+    ...rest
+  }, ref) => {
     return (
       <ReactHookFormInput
-        {...props}
+        {...rest}
         ref={ref}
-        Component={PhoneInput_}/>
+        metadata={metadata}
+        Component={PhoneInput_}
+      />
     )
   }
 
   PhoneInput = React.forwardRef(PhoneInput)
 
   PhoneInput.propTypes = {
-    metadata: metadataType.isRequired
-  }
-
-  PhoneInput.defaultProps = {
-    metadata: defaultMetadata
+    metadata: metadataType
   }
 
   return PhoneInput

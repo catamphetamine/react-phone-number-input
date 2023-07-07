@@ -12,13 +12,19 @@ import { metadata as metadataType } from '../PropTypes.js'
  * Feedback thread: https://github.com/catamphetamine/react-phone-number-input/issues/296
  */
 export function createPhoneInput(defaultMetadata) {
-	let PhoneInput = ({ inputComponent, ...rest }, ref) => (
+	let PhoneInput = ({
+		inputComponent,
+		metadata = defaultMetadata,
+		...rest
+	}, ref) => (
 		<PhoneInput_
 			{...rest}
 			ref={ref}
+			metadata={metadata}
 			Component={InputBasic}
 			inputComponent={PhoneTextInput}
-			TextInputComponent={inputComponent} />
+			TextInputComponent={inputComponent}
+		/>
 	)
 
 	PhoneInput = React.forwardRef(PhoneInput)
@@ -34,13 +40,6 @@ export function createPhoneInput(defaultMetadata) {
 		 * `libphonenumber-js` metadata.
 		 */
 		metadata: metadataType.isRequired
-	}
-
-	PhoneInput.defaultProps = {
-		/**
-		 * `libphonenumber-js` metadata.
-		 */
-		metadata: defaultMetadata
 	}
 
 	return PhoneInput

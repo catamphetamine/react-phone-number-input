@@ -18,7 +18,7 @@ export function createInput(defaultMetadata)
 		country,
 		international,
 		withCountryCallingCode,
-		metadata,
+		metadata = defaultMetadata,
 		...rest
 	}, ref) {
 		const format = useCallback((value) => {
@@ -45,6 +45,7 @@ export function createInput(defaultMetadata)
 				template
 			}
 		}, [country, metadata])
+
 		return (
 			<Input
 				{...rest}
@@ -107,11 +108,7 @@ export function createInput(defaultMetadata)
 		/**
 		 * `libphonenumber-js` metadata.
 		 */
-		metadata: PropTypes.object.isRequired
-	}
-
-	InputSmart.defaultProps = {
-		metadata: defaultMetadata
+		metadata: PropTypes.object
 	}
 
 	return InputSmart

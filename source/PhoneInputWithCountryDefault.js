@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import labels from '../locale/en.json.js'
+import defaultLabels from '../locale/en.json.js'
 
 import {
 	metadata as metadataPropType,
@@ -11,18 +11,22 @@ import {
 import PhoneInput from './PhoneInputWithCountry.js'
 
 export function createPhoneInput(defaultMetadata) {
-	const PhoneInputDefault = React.forwardRef((props, ref) => (
-		<PhoneInput ref={ref} {...props}/>
+	const PhoneInputDefault = React.forwardRef(({
+		metadata = defaultMetadata,
+		labels = defaultLabels,
+		...rest
+	}, ref) => (
+		<PhoneInput
+			{...rest}
+			ref={ref}
+			metadata={metadata}
+			labels={labels}
+		/>
 	))
 
 	PhoneInputDefault.propTypes = {
-		metadata: metadataPropType.isRequired,
-		labels: labelsPropType.isRequired
-	}
-
-	PhoneInputDefault.defaultProps = {
-		metadata: defaultMetadata,
-		labels
+		metadata: metadataPropType,
+		labels: labelsPropType
 	}
 
 	return PhoneInputDefault

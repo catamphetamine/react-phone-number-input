@@ -7,8 +7,11 @@ import { TextInput } from 'react-native'
  * Feedback thread: https://github.com/catamphetamine/react-phone-number-input/issues/296
  */
 function PhoneTextInput({
-  TextInputComponent,
   onChange,
+  // By default, shows phone number suggestion(s) when the user focuses the input field.
+  autoCompleteType = 'tel',
+  // By default, uses the default React Native `TextInput` component.
+  TextInputComponent = TextInput,
   ...rest
 }, ref) {
   // Instead of `onChangeText(value: string)` it could use
@@ -28,9 +31,11 @@ function PhoneTextInput({
   return (
     <TextInputComponent
       ref={ref}
+      autoCompleteType={autoCompleteType}
       keyboardType="phone-pad"
       onChangeText={onChangeText}
-      {...rest}/>
+      {...rest}
+    />
   )
 }
 
@@ -57,18 +62,6 @@ PhoneTextInput.propTypes = {
    * The input field component.
    */
   TextInputComponent: PropTypes.elementType.isRequired
-}
-
-PhoneTextInput.defaultProps = {
-  /**
-   * Shows phone number suggestion(s) when the user focuses the input field.
-   */
-  autoCompleteType: 'tel',
-
-  /**
-   * By default, uses the default React Native `TextInput` component.
-   */
-  TextInputComponent: TextInput
 }
 
 export default PhoneTextInput

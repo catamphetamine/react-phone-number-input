@@ -22,8 +22,8 @@ export function createInput(defaultMetadata) {
 		country,
 		international,
 		withCountryCallingCode,
-		metadata,
-		inputComponent: Input,
+		metadata = defaultMetadata,
+		inputComponent: Input = 'input',
 		...rest
 	}, ref) {
 		const prefix = getInputValuePrefix({
@@ -120,17 +120,12 @@ export function createInput(defaultMetadata) {
 		/**
 		 * `libphonenumber-js` metadata.
 		 */
-		metadata: PropTypes.object.isRequired,
+		metadata: PropTypes.object,
 
 		/**
 		 * The `<input/>` component.
 		 */
-		inputComponent: PropTypes.elementType.isRequired
-	}
-
-	InputBasic.defaultProps = {
-		metadata: defaultMetadata,
-		inputComponent: 'input'
+		inputComponent: PropTypes.elementType
 	}
 
 	return InputBasic

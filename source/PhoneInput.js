@@ -7,7 +7,7 @@ function PhoneInput({
 	Component,
 	country,
 	defaultCountry,
-	useNationalFormatForDefaultCountryValue,
+	useNationalFormatForDefaultCountryValue = true,
 	value,
 	onChange,
 	metadata,
@@ -111,26 +111,12 @@ PhoneInput.propTypes = {
 	 * To format the initial `value` of `defaultCountry` as an international number instead
 	 * set `useNationalFormatForDefaultCountryValue` property to `true`.
 	 */
-	useNationalFormatForDefaultCountryValue: PropTypes.bool.isRequired,
+	useNationalFormatForDefaultCountryValue: PropTypes.bool,
 
 	/**
 	 * `libphonenumber-js` metadata.
 	 */
 	metadata: PropTypes.object.isRequired
-}
-
-PhoneInput.defaultProps = {
-	/**
-	 * Set to `true` to force international phone number format
-	 * (without "country calling code") when `country` is specified.
-	 */
-	// international: false,
-
-	/**
-	 * Prefer national format when formatting E.164 phone number `value`
-	 * corresponding to `defaultCountry`.
-	 */
-	useNationalFormatForDefaultCountryValue: true
 }
 
 export default PhoneInput

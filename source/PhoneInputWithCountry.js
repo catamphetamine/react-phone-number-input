@@ -514,7 +514,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 // This wrapper is only to `.forwardRef()` to the `<input/>`.
 const PhoneNumberInput = React.forwardRef((props, ref) => (
-	<PhoneNumberInput_ {...props} inputRef={ref}/>
+	<PhoneNumberInput_ {...withDefaultProps(props)} inputRef={ref}/>
 ))
 
 PhoneNumberInput.propTypes = {
@@ -583,7 +583,7 @@ PhoneNumberInput.propTypes = {
 	 *  what was submitted previously".
 	 */
 	// (is `"tel"` by default)
-	autoComplete: PropTypes.string.isRequired,
+	autoComplete: PropTypes.string,
 
 	/**
 	 * Set to `"national"` to show the initial `value` in
@@ -639,7 +639,7 @@ PhoneNumberInput.propTypes = {
 	 *
 	 * See the `locales` directory for examples.
 	 */
-	labels: labelsPropType.isRequired,
+	labels: labelsPropType,
 
 	/**
 	 * Country `<select/>` options are sorted by their labels.
@@ -682,7 +682,7 @@ PhoneNumberInput.propTypes = {
 	 * one should check the `CHANGELOG.md` every time before updating this library,
 	 * otherwise there's a possibility that some new country flag would be missing.
 	 */
-	flagUrl: PropTypes.string.isRequired,
+	flagUrl: PropTypes.string,
 
 	/**
 	 * Custom country flag icon components.
@@ -718,12 +718,12 @@ PhoneNumberInput.propTypes = {
 	 * * `flagUrl: string` — The `flagUrl` property (see above).
 	 * * `flags: object` — The `flags` property (see above).
 	 */
-	flagComponent: PropTypes.elementType.isRequired,
+	flagComponent: PropTypes.elementType,
 
 	/**
 	 * Set to `false` to remove the "International" option from country `<select/>`.
 	 */
-	addInternationalOption: PropTypes.bool.isRequired,
+	addInternationalOption: PropTypes.bool,
 
 	/**
 	 * "International" icon component.
@@ -733,7 +733,7 @@ PhoneNumberInput.propTypes = {
 	 *
 	 * * `title: string` — "International" country option label.
 	 */
-	internationalIcon: PropTypes.elementType.isRequired,
+	internationalIcon: PropTypes.elementType,
 
 	/**
 	 * Can be used to place some countries on top of the list of country `<select/>` options.
@@ -776,7 +776,7 @@ PhoneNumberInput.propTypes = {
 	 * * `tabIndex: (number|string)?` — HTML `tabIndex` attribute.
 	 * * `className: string` — CSS class name.
 	 */
-	countrySelectComponent: PropTypes.elementType.isRequired,
+	countrySelectComponent: PropTypes.elementType,
 
 	/**
 	 * Country `<select/>` component props.
@@ -798,7 +798,7 @@ PhoneNumberInput.propTypes = {
 	 *
 	 * Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 	 */
-	inputComponent: PropTypes.elementType.isRequired,
+	inputComponent: PropTypes.elementType,
 
 	/**
 	 * Wrapping `<div/>` component.
@@ -808,7 +808,7 @@ PhoneNumberInput.propTypes = {
 	 * * `style: object` — A component CSS style object.
 	 * * `className: string` — Classes to attach to the component, typically changes when component focuses or blurs.
 	 */
-	containerComponent: PropTypes.elementType.isRequired,
+	containerComponent: PropTypes.elementType,
 
 	/**
 	 * Phone number `<input/>` component props.
@@ -827,7 +827,7 @@ PhoneNumberInput.propTypes = {
 	 * with caret position during phone number input.
 	 */
 	// Is `true` by default.
-	smartCaret: PropTypes.bool.isRequired,
+	smartCaret: PropTypes.bool,
 
 	/**
 	 * Set to `true` to force "international" phone number format.
@@ -840,14 +840,14 @@ PhoneNumberInput.propTypes = {
 	 * If set to `true`, the phone number input will get trimmed
 	 * if it exceeds the maximum length for the country.
 	 */
-	limitMaxLength: PropTypes.bool.isRequired,
+	limitMaxLength: PropTypes.bool,
 
 	/**
 	 * If set to `false`, and `international` is `true`, then
 	 * users won't be able to erase the "country calling part"
 	 * of a phone number in the `<input/>`.
 	 */
-	countryCallingCodeEditable: PropTypes.bool.isRequired,
+	countryCallingCodeEditable: PropTypes.bool,
 
 	/**
 	 * `libphonenumber-js` metadata.
@@ -855,7 +855,7 @@ PhoneNumberInput.propTypes = {
 	 * Can be used to pass custom `libphonenumber-js` metadata
 	 * to reduce the overall bundle size for those who compile "custom" metadata.
 	 */
-	metadata: metadataPropType.isRequired,
+	metadata: metadataPropType,
 
 	/**
 	 * Is called every time the selected country changes:
@@ -880,10 +880,10 @@ PhoneNumberInput.propTypes = {
 	 *  does not automatically cause a change of context unless the user
 	 *  has been advised of the behaviour before using the component."
 	 */
-	focusInputOnCountrySelection: PropTypes.bool.isRequired
+	focusInputOnCountrySelection: PropTypes.bool
 }
 
-PhoneNumberInput.defaultProps = {
+const defaultProps = {
 	/**
 	 * Remember (and autofill) the value as a phone number.
 	 */
@@ -951,12 +951,6 @@ PhoneNumberInput.defaultProps = {
 	addInternationalOption: true,
 
 	/**
-	 * If set to `true` the phone number input will get trimmed
-	 * if it exceeds the maximum length for the country.
-	 */
-	limitMaxLength: false,
-
-	/**
 	 * If set to `false`, and `international` is `true`, then
 	 * users won't be able to erase the "country calling part"
 	 * of a phone number in the `<input/>`.
@@ -973,6 +967,18 @@ PhoneNumberInput.defaultProps = {
 	 *  has been advised of the behaviour before using the component."
 	 */
 	focusInputOnCountrySelection: true
+}
+
+function withDefaultProps(props) {
+	props = { ...props }
+
+	for (const key in defaultProps) {
+		if (props[key] === undefined) {
+			props[key] = defaultProps[key]
+		}
+	}
+
+	return props
 }
 
 export default PhoneNumberInput
