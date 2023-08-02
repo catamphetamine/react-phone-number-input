@@ -152,9 +152,12 @@ export function getPhoneDigitsForNewCountry(phoneDigits, {
 		if (useNationalFormat) {
 			return ''
 		} else {
-			// If `phoneDigits` is empty then set `phoneDigits` to
-			// `+{getCountryCallingCode(newCountry)}`.
-			return getInternationalPhoneNumberPrefix(newCountry, metadata)
+			if (newCountry) {
+				// If `phoneDigits` is empty then set `phoneDigits` to
+				// `+{getCountryCallingCode(newCountry)}`.
+				return getInternationalPhoneNumberPrefix(newCountry, metadata)
+			}
+			return ''
 		}
 	}
 

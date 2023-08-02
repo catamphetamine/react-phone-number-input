@@ -397,6 +397,14 @@ describe('phoneInputHelpers', () => {
 			newCountry: 'US',
 			metadata
 		}).should.equal('+1222')
+
+		// `newCountry` is `undefined`.
+		// `phoneDigits` are `undefined`.
+		// `useNationalFormat` is `undefined`.
+		getPhoneDigitsForNewCountry(undefined, {
+			prevCountry: 'US',
+			metadata
+		}).should.equal('')
 	})
 
 	it('should format phone number in e164', () =>

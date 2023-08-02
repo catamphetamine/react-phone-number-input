@@ -163,8 +163,10 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 				// to that country in cases when the exact country can't be determined.
 				// https://github.com/catamphetamine/react-phone-number-input/issues/413#issuecomment-1536219404
 				if (!parsedCountry) {
-					if (newValue.indexOf(getInternationalPhoneNumberPrefix(newDefaultCountry, metadata)) === 0) {
-						parsedCountry = newDefaultCountry
+					if (newDefaultCountry) {
+						if (newValue.indexOf(getInternationalPhoneNumberPrefix(newDefaultCountry, metadata)) === 0) {
+							parsedCountry = newDefaultCountry
+						}
 					}
 				}
 			}
