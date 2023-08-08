@@ -61,7 +61,7 @@ PhoneTextInput.propTypes = {
   /**
    * The input field component.
    */
-  TextInputComponent: PropTypes.elementType.isRequired
+  TextInputComponent: PropTypes.elementType
 }
 
 export default PhoneTextInput

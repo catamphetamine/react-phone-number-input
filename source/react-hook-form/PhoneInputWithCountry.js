@@ -24,7 +24,7 @@ export function createPhoneInput(defaultMetadata) {
   PhoneInputWithCountry = React.forwardRef(PhoneInputWithCountry)
 
   PhoneInputWithCountry.propTypes = {
-    metadata: metadataType.isRequired
+    metadata: metadataType
   }
 
   return PhoneInputWithCountry

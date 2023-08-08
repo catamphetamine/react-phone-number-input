@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import usePhoneDigits from './usePhoneDigits.js'
 
+import { metadata as metadataType } from './PropTypes.js'
+
 function PhoneInput({
 	Component,
 	country,
@@ -116,7 +118,7 @@ PhoneInput.propTypes = {
 	/**
 	 * `libphonenumber-js` metadata.
 	 */
-	metadata: PropTypes.object.isRequired
+	metadata: metadataType
 }
 
 export default PhoneInput
