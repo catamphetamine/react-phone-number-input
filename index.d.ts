@@ -159,5 +159,6 @@ export {
 	isPossiblePhoneNumber,
 	getCountryCallingCode,
 	getCountries,
-	isSupportedCountry
+	isSupportedCountry,
+	PhoneNumber
 } from 'libphonenumber-js/min';

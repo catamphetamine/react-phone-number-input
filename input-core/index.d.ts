@@ -32,5 +32,6 @@ export {
 	getCountries,
 	isSupportedCountry,
 	Country,
-	Value
+	Value,
+	PhoneNumber
 } from '../core/index.d';

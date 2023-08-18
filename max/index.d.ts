@@ -9,5 +9,6 @@ export {
 	getCountries,
 	isSupportedCountry,
 	Country,
-	Value
+	Value,
+	PhoneNumber
 } from '../index.d';
