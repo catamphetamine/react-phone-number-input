@@ -39,7 +39,7 @@ export function createPhoneInput(defaultMetadata) {
 		/**
 		 * `libphonenumber-js` metadata.
 		 */
-		metadata: metadataType.isRequired
+		metadata: metadataType
 	}
 
 	return PhoneInput

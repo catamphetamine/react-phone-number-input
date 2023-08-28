@@ -25,13 +25,13 @@ type CountryOption = 'XX' | '🌐' | '|' | '...' | '…' | Country;
 // `Flags` are imported in `flags/index.d.ts`.
 export type Flags = Partial<Record<Country, EmbeddedFlag>>;
 
-interface EmbeddedFlagProps {
+export interface EmbeddedFlagProps {
 	title: string;
 }
 
 type EmbeddedFlag = (props: EmbeddedFlagProps) => JSX.Element;
 
-interface FlagProps {
+export interface FlagProps {
 	country: Country;
 	countryName: string;
 	flagUrl?: string;
