@@ -7,6 +7,8 @@ export default function CountrySelect({
 	value,
 	onChange,
 	options,
+	disabled,
+	readOnly,
 	...rest
 }) {
 	const onChange_ = useCallback((event) => {
@@ -23,6 +25,8 @@ export default function CountrySelect({
 	return (
 		<select
 			{...rest}
+			disabled={disabled || readOnly}
+			readOnly={readOnly}
 			value={value || 'ZZ'}
 			onChange={onChange_}>
 			{options.map(({ value, label, divider }) => (
@@ -56,7 +60,15 @@ CountrySelect.propTypes = {
 		value: PropTypes.string,
 		label: PropTypes.string,
 		divider: PropTypes.bool
-	})).isRequired
+	})).isRequired,
+
+	// `readonly` attribute doesn't work on a `<select/>`.
+	// https://github.com/catamphetamine/react-phone-number-input/issues/419#issuecomment-1764384480
+	// https://www.delftstack.com/howto/html/html-select-readonly/
+	// To work around that, if `readOnly: true` property is passed
+	// to this component, it behaves analogous to `disabled: true`.
+	disabled: PropTypes.bool,
+	readOnly: PropTypes.bool
 }
 
 const DIVIDER_STYLE = {
