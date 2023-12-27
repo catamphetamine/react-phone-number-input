@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import Input from 'input-format/react'
-import { AsYouType, parsePhoneNumberCharacter } from 'libphonenumber-js/core'
+import { AsYouType } from 'libphonenumber-js/core'
 
 import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix.js'
+import parsePhoneNumberCharacter from './helpers/parsePhoneNumberCharacter.js'
 
 export function createInput(defaultMetadata)
 {

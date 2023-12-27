@@ -403,7 +403,7 @@ export function getCountryForPartialE164Number(partialE164Number, {
  * @param  {boolean} international - Set to `true` to force international phone number format (leading `+`). Set to `false` to force "national" phone number format. Is `undefined` by default.
  * @param  {boolean} limitMaxLength — Whether to enable limiting phone number max length.
  * @param  {object} metadata - `libphonenumber-js` metadata.
- * @return {object} An object of shape `{ input, country, value }`.
+ * @return {object} An object of shape `{ phoneDigits, country, value }`. `phoneDigits` returned here are a "normalized" version of the original `phoneDigits`. The returned `phoneDigits` shouldn't be used anywhere except for passing it as `prevPhoneDigits` parameter to this same function on next input change event.
  */
 export function onPhoneDigitsChange(phoneDigits, {
 	prevPhoneDigits,
@@ -572,6 +572,9 @@ export function onPhoneDigitsChange(phoneDigits, {
 	}
 
 	return {
+		// `phoneDigits` returned here are a "normalized" version of the original `phoneDigits`.
+		// The returned `phoneDigits` shouldn't be used anywhere except for passing it as
+		// `prevPhoneDigits` parameter to this same function on next input change event.
 		phoneDigits,
 		country,
 		value

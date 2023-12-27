@@ -295,6 +295,10 @@ class PhoneNumberInput_ extends React.PureComponent {
 		} = this.state
 
 		const {
+			// `phoneDigits` returned here are a "normalized" version of the original `phoneDigits`.
+			// The returned `phoneDigits` shouldn't be used anywhere except for passing it as
+			// `prevPhoneDigits` parameter to the same `onPhoneDigitsChange()` function
+			// on next input change event.
 			phoneDigits,
 			country,
 			value
