@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "3.3.8",
+  "version": "3.3.9",
   "description": "Telephone number input React component",
   "main": "min/index.cjs",
   "module": "min/index.js",
@@ -317,6 +317,16 @@
       "types": "./locale/vi.json.d.ts",
       "import": "./locale/vi.json.js",
       "require": "./locale/vi.json"
+    },
+    "./locale/zh": {
+      "types": "./locale/zh.json.d.ts",
+      "import": "./locale/zh.json.js",
+      "require": "./locale/zh.json"
+    },
+    "./locale/zh.json": {
+      "types": "./locale/zh.json.d.ts",
+      "import": "./locale/zh.json.js",
+      "require": "./locale/zh.json"
     }
   },
   "sideEffects": [
