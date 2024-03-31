@@ -6,6 +6,8 @@ import { AsYouType } from 'libphonenumber-js/core'
 import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix.js'
 import parsePhoneNumberCharacter from './helpers/parsePhoneNumberCharacter.js'
 
+import useInputKeyDownHandler from './useInputKeyDownHandler.js'
+
 export function createInput(defaultMetadata)
 {
 	/**
@@ -16,6 +18,7 @@ export function createInput(defaultMetadata)
 	 * Relies on being run in a DOM environment for calling caret positioning functions.
 	 */
 	function InputSmart({
+		onKeyDown,
 		country,
 		international,
 		withCountryCallingCode,
@@ -47,12 +50,18 @@ export function createInput(defaultMetadata)
 			}
 		}, [country, metadata])
 
+		const _onKeyDown = useInputKeyDownHandler({
+			onKeyDown,
+			international
+		})
+
 		return (
 			<Input
 				{...rest}
 				ref={ref}
 				parse={parsePhoneNumberCharacter}
-				format={format}/>
+				format={format}
+				onKeyDown={_onKeyDown}/>
 		)
 	}
 
@@ -73,6 +82,12 @@ export function createInput(defaultMetadata)
 		 * Updates the `value` property.
 		 */
 		onChange: PropTypes.func.isRequired,
+
+		/**
+		 * A function of `event: Event`.
+		 * Handles `keydown` events.
+		 */
+		onKeyDown: PropTypes.func,
 
 		/**
 		 * A two-letter country code for formatting `value`

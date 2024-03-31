@@ -1,6 +1,8 @@
-import React, { useRef, useCallback, useImperativeHandle } from 'react'
+import React, { useCallback, useImperativeHandle } from 'react'
 import { Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
+
+import useExternalRef from '../useExternalRef.js'
 
 let ReactHookFormInput = ({
   Component,
@@ -12,19 +14,8 @@ let ReactHookFormInput = ({
   onChange: onChange_,
   onBlur: onBlur_,
   ...rest
-}, ref) => {
-  const internalRef = useRef()
-
-  const setRef = useCallback((instance) => {
-    internalRef.current = instance
-    if (ref) {
-      if (typeof ref === 'function') {
-        ref(instance)
-      } else {
-        ref.current = instance
-      }
-    }
-  }, [ref])
+}, externalRef) => {
+  const [internalRef, refPassthrough] = useExternalRef(externalRef)
 
   // `feact-hook-form` doesn't know how to properly handle `undefined` values.
   // https://github.com/react-hook-form/react-hook-form/issues/2990
@@ -56,17 +47,6 @@ let ReactHookFormInput = ({
         }
       }))
     // }
-
-    const setComponentRef = useCallback((instance) => {
-      setRef(instance)
-      // if (ref) {
-      //   if (typeof ref === 'function') {
-      //     ref(instance)
-      //   } else {
-      //     ref.current = instance
-      //   }
-      // }
-    }, [ref, setRef])
 
     // This function may not work correctly when `defaultValues` are set for the input
     // and the user clears the input value manually: the default value may re-appear as a result.
@@ -100,7 +80,7 @@ let ReactHookFormInput = ({
       <Component
         {...rest}
         {...restReactHookFormControlledFieldProps}
-        ref={setComponentRef}
+        ref={refPassthrough}
         onChange={onChangeCombined}
         onBlur={onBlurCombined}/>
     )

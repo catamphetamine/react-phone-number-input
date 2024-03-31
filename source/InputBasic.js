@@ -4,6 +4,8 @@ import { parseIncompletePhoneNumber, formatIncompletePhoneNumber } from 'libphon
 
 import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix.js'
 
+import useInputKeyDownHandler from './useInputKeyDownHandler.js'
+
 export function createInput(defaultMetadata) {
 	/**
 	 * `InputBasic` is the most basic implementation of a `Component`
@@ -19,6 +21,7 @@ export function createInput(defaultMetadata) {
 	function InputBasic({
 		value,
 		onChange,
+		onKeyDown,
 		country,
 		international,
 		withCountryCallingCode,
@@ -41,7 +44,15 @@ export function createInput(defaultMetadata) {
 			// which would give the same `"123"` value
 			// which would then be formatted back to `"(123)"`
 			// and so a user wouldn't be able to erase the phone number.
-			// Working around this issue with this simple hack.
+			//
+			// This issue is worked around with this simple hack:
+			// when "old" and "new" parsed values are the same,
+			// it checks if the "new" formatted value could be obtained
+			// from the "old" formatted value by erasing some (or no) characters at the right side.
+			// If it could then it's likely that the user has hit a Backspace key
+			// and what they really intended was to erase a rightmost digit rather than
+			// a rightmost punctuation character.
+			//
 			if (newValue === value) {
 				const newValueFormatted = format(prefix, newValue, country, metadata)
 				if (newValueFormatted.indexOf(event.target.value) === 0) {
@@ -58,12 +69,18 @@ export function createInput(defaultMetadata) {
 			metadata
 		])
 
+		const _onKeyDown = useInputKeyDownHandler({
+			onKeyDown,
+			international
+		})
+
 		return (
 			<Input
 				{...rest}
 				ref={ref}
 				value={format(prefix, value, country, metadata)}
-				onChange={_onChange}/>
+				onChange={_onChange}
+				onKeyDown={_onKeyDown}/>
 		)
 	}
 
@@ -84,6 +101,12 @@ export function createInput(defaultMetadata) {
 		 * Updates the `value` property.
 		 */
 		onChange: PropTypes.func.isRequired,
+
+		/**
+		 * A function of `event: Event`.
+		 * Handles `keydown` events.
+		 */
+		onKeyDown: PropTypes.func,
 
 		/**
 		 * A two-letter country code for formatting `value`

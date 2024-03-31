@@ -20,6 +20,8 @@ import {
 
 import { createCountryIconComponent } from './CountryIcon.js'
 
+import { setRefsValue } from './useExternalRef.js'
+
 import {
 	metadata as metadataPropType,
 	labels as labelsPropType
@@ -155,16 +157,10 @@ class PhoneNumberInput_ extends React.PureComponent {
 		}
 	}
 
+	// This function mimicks `refSetter` function returned from `useExternalRef()` hook
+	// because this class-like React component can't use the `useExternalRef()` hook.
 	setInputRef = (instance) => {
-		this.inputRef.current = instance
-		const { inputRef: ref } = this.props
-		if (ref) {
-			if (typeof ref === 'function') {
-				ref(instance)
-			} else {
-				ref.current = instance
-			}
-		}
+		setRefsValue([this.props.inputRef, this.inputRef], instance)
 	}
 
 	getCountrySelectOptions({ countries }) {
@@ -496,6 +492,8 @@ class PhoneNumberInput_ extends React.PureComponent {
 					autoComplete={autoComplete}
 					{...numberInputProps}
 					{...rest}
+					international={international ? true : undefined}
+					withCountryCallingCode={international ? true : undefined}
 					name={name}
 					metadata={metadata}
 					country={country}
