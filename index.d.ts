@@ -95,8 +95,9 @@ export type FeatureProps<InputComponentProps> = Omit<InputComponentProps, 'value
 	countrySelectComponent?: React.ElementType;
 	countrySelectProps?: object;
 	inputComponent?: React.ElementType;
-	containerComponent?: React.ElementType;
 	numberInputProps?: object;
+	containerComponent?: React.ElementType;
+	containerComponentProps?: object;
 	smartCaret?: boolean;
 	international?: boolean;
 	limitMaxLength?: boolean;

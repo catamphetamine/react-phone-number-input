@@ -424,6 +424,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 			// Container `<div/>` properties.
 			containerComponent: ContainerComponent,
+			containerComponentProps,
 
 			// Get "rest" properties (passed through to number `<input/>`).
 			defaultCountry,
@@ -464,6 +465,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		return (
 			<ContainerComponent
+				{...containerComponentProps}
 				style={style}
 				className={classNames(className, 'PhoneInput', {
 					'PhoneInput--focus': isFocused,
@@ -803,6 +805,11 @@ PhoneNumberInput.propTypes = {
 	inputComponent: PropTypes.elementType,
 
 	/**
+	 * Phone number `<input/>` component props.
+	 */
+	numberInputProps: PropTypes.object,
+
+	/**
 	 * Wrapping `<div/>` component.
 	 *
 	 * Receives properties:
@@ -813,9 +820,9 @@ PhoneNumberInput.propTypes = {
 	containerComponent: PropTypes.elementType,
 
 	/**
-	 * Phone number `<input/>` component props.
+	 * Wrapping `<div/>` component props.
 	 */
-	numberInputProps: PropTypes.object,
+	containerComponentProps: PropTypes.object,
 
 	/**
 	 * When the user attempts to insert a digit somewhere in the middle of a phone number,
