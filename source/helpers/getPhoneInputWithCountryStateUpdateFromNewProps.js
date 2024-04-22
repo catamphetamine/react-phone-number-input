@@ -1,7 +1,8 @@
 import {
 	getInitialPhoneDigits,
 	getCountryForPartialE164Number,
-	parsePhoneNumber
+	parsePhoneNumber,
+	couldNumberBelongToCountry
 } from './phoneInputHelpers.js'
 
 import getInternationalPhoneNumberPrefix from './getInternationalPhoneNumberPrefix.js'
@@ -38,7 +39,8 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 		// then don't override that already selected country
 		// if the `defaultCountry` property changes.
 		// That's what `hasUserSelectedACountry` flag is for.
-		hasUserSelectedACountry
+		hasUserSelectedACountry,
+		latestCountrySelectedByUser
 	} = state
 
 	const _getInitialPhoneDigits = (parameters) => getInitialPhoneDigits({
@@ -67,6 +69,7 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 			}),
 			value: undefined,
 			country: newDefaultCountry,
+			latestCountrySelectedByUser: undefined,
 			hasUserSelectedACountry: undefined
 		}
 	}
@@ -147,6 +150,7 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 					countries: supportedCountries,
 					metadata
 				})
+
 				// In cases when multiple countries correspond to the same country calling code,
 				// the phone number digits of `newValue` have to be matched against country-specific
 				// regular expressions in order to determine the exact country.
@@ -171,15 +175,38 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 				}
 			}
 		}
-		let hasUserSelectedACountryUpdate
-		if (!newValue) {
-			// Reset `hasUserSelectedACountry` flag in `state`.
-			hasUserSelectedACountryUpdate = {
+
+		let userCountrySelectionHistoryStateUpdate
+		if (newValue) {
+			// If the latest country that has been manually selected by the user
+			// no longer corresponds to the new value then reset it.
+			if (latestCountrySelectedByUser) {
+				const couldNewValueCorrespondToLatestCountrySelectedByUser =
+					parsedCountry
+						? latestCountrySelectedByUser === parsedCountry
+						: couldNumberBelongToCountry(newValue, latestCountrySelectedByUser, metadata)
+
+				if (couldNewValueCorrespondToLatestCountrySelectedByUser) {
+					if (!parsedCountry) {
+						parsedCountry = latestCountrySelectedByUser
+					}
+				} else {
+					userCountrySelectionHistoryStateUpdate = {
+						latestCountrySelectedByUser: undefined
+					}
+				}
+			}
+		} else {
+			// When the `value` property is being reset "externally",
+			// reset any tracking of the country that the user has previously selected.
+			userCountrySelectionHistoryStateUpdate = {
+				latestCountrySelectedByUser: undefined,
 				hasUserSelectedACountry: undefined
 			}
 		}
+
 		return {
-			...hasUserSelectedACountryUpdate,
+			...userCountrySelectionHistoryStateUpdate,
 			phoneDigits: _getInitialPhoneDigits({
 				phoneNumber,
 				value: newValue,
@@ -197,7 +224,7 @@ export default function getPhoneInputWithCountryStateUpdateFromNewProps(props, p
 	// So no need to update state.
 }
 
-function valuesAreEqual(value1, value2) {
+export function valuesAreEqual(value1, value2) {
 	// If `value` has been set to `null` externally then convert it to `undefined`.
 	//
 	// For example, `react-hook-form` sets `value` to `null` when the user clears the input.

@@ -29,6 +29,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			phoneDigits: undefined,
 			value: undefined,
 			country: 'RU',
+			latestCountrySelectedByUser: undefined,
 			hasUserSelectedACountry: undefined
 		})
 	})
@@ -46,6 +47,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			phoneDigits: '+7',
 			value: undefined,
 			country: 'RU',
+			latestCountrySelectedByUser: undefined,
 			hasUserSelectedACountry: undefined
 		})
 	})
@@ -175,8 +177,25 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			country: 'RU',
 			phoneDigits: undefined,
 			value: undefined,
+			latestCountrySelectedByUser: undefined,
 			hasUserSelectedACountry: undefined
 		})
+	})
+
+	it('should get state update from new props (`value` changed: `undefined` and `null` are treated the same)', () => {
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
+			{
+				value: null,
+				defaultCountry: 'RU'
+			},
+			{
+				value: null,
+				defaultCountry: 'RU'
+			},
+			{
+				value: undefined
+			}
+		)).to.be.undefined
 	})
 
 	// https://github.com/catamphetamine/react-phone-number-input/issues/377
@@ -189,6 +208,82 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			country: 'RU',
 			phoneDigits: '+78',
 			value: '+78'
+		})
+	})
+
+	// https://github.com/catamphetamine/react-phone-number-input/issues/377
+	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+1' },
+			{},
+			{}
+		).should.deep.equal({
+			country: undefined,
+			phoneDigits: '+1',
+			value: '+1'
+		})
+	})
+
+	// https://github.com/catamphetamine/react-phone-number-input/issues/377
+	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+1', defaultCountry: 'CA' },
+			{},
+			{}
+		).should.deep.equal({
+			country: 'CA',
+			phoneDigits: '+1',
+			value: '+1'
+		})
+	})
+
+	// https://github.com/catamphetamine/react-phone-number-input/issues/377
+	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country) (default country doesn\'t match the number)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+1', defaultCountry: 'RU' },
+			{},
+			{}
+		).should.deep.equal({
+			country: undefined,
+			phoneDigits: '+1',
+			value: '+1'
+		})
+	})
+
+	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country) (default country doesn\'t match the number) (has latest manually selected country) (latest manually selected country fits the number)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+1', defaultCountry: 'RU' },
+		{},
+			{ latestCountrySelectedByUser: 'US' }
+		).should.deep.equal({
+			country: 'US',
+			phoneDigits: '+1',
+			value: '+1'
+		})
+	})
+
+	it('should get state update from new props (`value` changed: undefined -> +1) (new country is not ambiguous) (has default country) (default country doesn\'t match the number) (has latest manually selected country) (latest manually selected country does match the parsed country)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+33', defaultCountry: 'RU' },
+			{},
+			{ latestCountrySelectedByUser: 'FR' }
+		).should.deep.equal({
+			country: 'FR',
+			phoneDigits: '+33',
+			value: '+33'
+		})
+	})
+
+	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country) (default country doesn\'t match the number) (has latest manually selected country) (the latest manually selected country doesn\'t match the number)', () => {
+		getPhoneInputWithCountryStateUpdateFromNewProps(
+			{ value: '+1', defaultCountry: 'RU' },
+			{},
+			{ latestCountrySelectedByUser: 'FR' }
+		).should.deep.equal({
+			country: undefined,
+			latestCountrySelectedByUser: undefined,
+			phoneDigits: '+1',
+			value: '+1'
 		})
 	})
 

@@ -117,9 +117,31 @@ export type Props<InputComponentProps> = FeatureProps<InputComponentProps> & {
 // * `/core/index.d.ts`
 // * `/react-hook-form/index.d.ts`
 export interface State<Props> {
+	// The currently selected country: either automatically-selected or user-selected.
 	country?: Country;
+	// This is basically `props.countries` with some additional filtering
+	// that removes possibly non-existing country codes.
+	// For example, if `props.countries` is `["US", "XX"]` then `state.countries` is `["US"]`.
 	countries?: Country[];
+	// Tracks the latest country that the user has selected themself.
+	// This could be used when deciding which country flag to display
+	// when the component can't decide between a set of matching countries.
+	// For example, if the user has selected CA and then starts inputting a phone number
+	// and at some stage the phone number is determined to belong to US country,
+	// but then the user reconsiders and erases some of the digits — it should perhaps
+	// show CA flag instead of the US flag in such "both countries are possible" situation.
+	latestCountrySelectedByUser?: Country;
+	// If the user has already manually selected a country via the country select
+	// then don't override that already-selected country if the `defaultCountry` property
+	// value changes for some reason. The `hasUserSelectedACountry` flag is used to track that:
+	// whether the user has already selected any country or whether they haven't.
 	hasUserSelectedACountry?: boolean;
+	// The `value` property is duplicated in `state` in order to determine
+	// whether the `value` property has changed or not. Specifically, it is used
+	// in `getDerivedStateFromProps()` function to ignore a `getDerivedStateFromProps()` call
+	// that happens in `this.onChange()` right after `this.setState()`.
+	// If that `getDerivedStateFromProps()` call wasn't ignored then the country flag would
+	// reset itself on each input value change event.
 	value?: Value;
 	// `phoneDigits` are the parsed phone number digits,
 	// including a leading `+`, if present.

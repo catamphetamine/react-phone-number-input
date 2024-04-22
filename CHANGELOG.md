@@ -2,6 +2,11 @@
 
 <!-- Maybe change empty value from `undefined` to `null`. -->
 
+3.4.0 / 22.04.2024
+==================
+
+* In response to a recently reported [issue](https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/228), changed the behavior of the "With Country Select" input in cases when the calling code corresponds to multiple possible countries (for example, `+1` calling code corresponds to both `US` and `CA`): now it will prefer showing the country flag that was selected manually by the user, or the default country flag.
+
 3.2.0 / 21.05.2022
 ==================
 

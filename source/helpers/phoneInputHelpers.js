@@ -357,15 +357,25 @@ function getMaxNumberLength(country, metadata) {
  * @param {string} partialE164Number - A possibly incomplete E.164 phone number.
  * @param {string?} country - Currently selected country.
  * @param {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
- * @param  {object} metadata - `libphonenumber-js` metadata.
+ * @param {string?} defaultCountry — Default country.
+ * @param {string?} latestCountrySelectedByUser — The latest country that has been manually selected by the user.
+ * @param {boolean?} required — Whether "International" option could be selected, meaning "no country is selected".
+ * @param {object} metadata - `libphonenumber-js` metadata.
  * @return {string?}
  */
 export function getCountryForPartialE164Number(partialE164Number, {
 	country,
 	countries,
+	defaultCountry,
+	latestCountrySelectedByUser,
 	required,
 	metadata
 }) {
+	// `partialE164Number` is supposed to be an E.164 phone number.
+
+	// `partialE164Number` is supposed to be non-empty when calling this function
+	// so it doesn't check for `if (!partialE164Number)`.
+
 	if (partialE164Number === '+') {
 		// Don't change the currently selected country yet.
 		return country
@@ -376,16 +386,41 @@ export function getCountryForPartialE164Number(partialE164Number, {
 	// If a phone number is being input in international form
 	// and the country can already be derived from it,
 	// then select that country.
-	if (derived_country && (!countries || (countries.indexOf(derived_country) >= 0))) {
-		return derived_country
+	if (derived_country) {
+		if (!countries || (countries.indexOf(derived_country) >= 0)) {
+			return derived_country
+		} else {
+			return undefined
+		}
 	}
-	// If "International" country option has not been disabled
-	// and the international phone number entered doesn't correspond
-	// to the currently selected country then reset the currently selected country.
-	else if (country &&
-		!required &&
-		!couldNumberBelongToCountry(partialE164Number, country, metadata)) {
-		return undefined
+	// Otherwise, if the phone number doesn't correspond to any particular country.
+	// If some country was previously selected.
+	else if (country) {
+		// If the international phone number entered could still correspond to the previously selected country
+		// and also to some other country or countries corresponding to the same calling code
+		// then it should reset the currently selected country to reflect the ambiguity.
+		if (couldNumberBelongToCountry(partialE164Number, country, metadata)) {
+			// Reset the country either to the latest one that was manually selected by the user
+			// or to the default country or just reset the country selection.
+			if (latestCountrySelectedByUser && couldNumberBelongToCountry(partialE164Number, latestCountrySelectedByUser, metadata)) {
+				return latestCountrySelectedByUser
+			} else if (defaultCountry && couldNumberBelongToCountry(partialE164Number, defaultCountry, metadata)) {
+				return defaultCountry
+			} else {
+				if (!required) {
+					// Just reset the currently selected country.
+					return undefined
+				}
+			}
+		} else {
+			// If "International" country option has not been disabled
+			// and the international phone number entered doesn't necessarily correspond to
+			// the currently selected country and it could not possibly correspond to it
+			// then reset the currently selected country.
+			if (!required) {
+				return undefined
+			}
+		}
 	}
 
 	// Don't change the currently selected country.
@@ -397,6 +432,8 @@ export function getCountryForPartialE164Number(partialE164Number, {
  * @param  {string?} phoneDigits — Parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
  * @param  {string?} prevPhoneDigits — Previous parsed `<input/>` value. Examples: `""`, `"+"`, `"+123"`, `"123"`.
  * @param  {string?} country - Currently selected country.
+ * @param  {string?} defaultCountry - Default country.
+ * @param  {string?} latestCountrySelectedByUser - The latest country that has been manually selected by the user.
  * @param  {boolean} countryRequired - Is selecting some country required.
  * @param  {function} getAnyCountry - Can be used to get any country when selecting some country required.
  * @param  {string[]?} countries - A list of available countries. If not passed then "all countries" are assumed.
@@ -409,6 +446,7 @@ export function onPhoneDigitsChange(phoneDigits, {
 	prevPhoneDigits,
 	country,
 	defaultCountry,
+	latestCountrySelectedByUser,
 	countryRequired,
 	getAnyCountry,
 	countries,
@@ -553,6 +591,11 @@ export function onPhoneDigitsChange(phoneDigits, {
 		country = getCountryForPartialE164Number(value, {
 			country,
 			countries,
+			defaultCountry,
+			latestCountrySelectedByUser,
+			// `countryRequired` flag is not passed here.
+			// Instead, it's explicitly checked a bit later in the code.
+			required: false,
 			metadata
 		})
 		// If `international` property is `false`, then it means
@@ -744,3 +787,17 @@ export function getInitialPhoneDigits({
 	}
 	return value
 }
+
+// function doesIncompletePhoneNumberCorrespondToASingleCountry(value, metadata) {
+// 	// Create "as you type" formatter.
+// 	const formatter = new AsYouType(undefined, metadata)
+// 	// Input partial national phone number.
+// 	formatter.input(value)
+// 	// Return the parsed partial national phone number.
+// 	const phoneNumber = formatter.getNumber()
+// 	if (phoneNumber) {
+// 		return phoneNumber.getPossibleCountries().length === 1
+// 	} else {
+// 		return false
+// 	}
+// }

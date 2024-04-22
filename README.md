@@ -716,6 +716,8 @@ npm run test-coverage
 
 The code coverage report can be viewed by opening `./coverage/lcov-report/index.html`.
 
+If the code coverage report is "empty" then it means that a newer version of `handlebars` was accidentally installed and should be reverted to `handlebars@4.5.3`.
+
 The `handlebars@4.5.3` [work](https://github.com/handlebars-lang/handlebars.js/issues/1646#issuecomment-578306544)[around](https://github.com/facebook/jest/issues/9396#issuecomment-573328488) in `devDependencies` is for the test coverage to not produce empty reports:
 
 ```

@@ -7,7 +7,7 @@ import {
 	getSupportedCountries
 } from './countries.js'
 
-describe('helpers/countries', () => {
+describe('sortCountryOptions', () => {
 	it('should sort country options (no `order`)', () => {
 		sortCountryOptions([
 			{
@@ -144,7 +144,9 @@ describe('helpers/countries', () => {
 			}
 		])
 	})
+})
 
+describe('getSupportedCountryOptions', () => {
 	it('should get supported country options', () => {
 		getSupportedCountryOptions([
 			'🌐',

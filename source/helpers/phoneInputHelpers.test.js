@@ -457,12 +457,15 @@ describe('phoneInputHelpers', () => {
 	it('should get country for partial E.164 number', () =>
 	{
 		// Just a '+' sign.
+		// Early return.
 		getCountryForPartialE164Number('+', {
 			country: 'RU',
 			countries: ['US', 'RU'],
 			metadata
 		}).should.equal('RU')
 
+		// Just a '+' sign.
+		// Early return.
 		expect(getCountryForPartialE164Number('+', {
 			countries: ['US', 'RU'],
 			metadata
@@ -474,6 +477,88 @@ describe('phoneInputHelpers', () => {
 			metadata
 		}).should.equal('RU')
 
+		// A country can be derived.
+		// But that country is not allowed.
+		expect(getCountryForPartialE164Number('+78005553535', {
+			countries: ['US'],
+			metadata
+		})).to.be.undefined
+
+		// A country can't be derived yet.
+		// And the currently selected country does fit the number.
+		// And the country is not ambiguous.
+		getCountryForPartialE164Number('+33', {
+			country: 'FR',
+			countries: ['FR', 'RU'],
+			metadata
+		}).should.equal('FR')
+
+		// A country can't be derived yet.
+		// And the currently selected country does fit the number.
+		// And the country is ambiguous.
+		expect(getCountryForPartialE164Number('+7', {
+			country: 'RU',
+			countries: ['RU'],
+			metadata
+		})).to.be.undefined
+
+		// A country can't be derived yet.
+		// And the currently selected country does fit the number.
+		// And the country is ambiguous.
+		// But some country is required to be selected.
+		getCountryForPartialE164Number('+7', {
+			country: 'RU',
+			countries: ['RU'],
+			required: true,
+			metadata
+		}).should.equal('RU')
+
+		// A country can't be derived yet.
+		// And the currently selected country does fit the number.
+		// And the country is ambiguous.
+		// And the user has manually selected that country.
+		getCountryForPartialE164Number('+7', {
+			country: 'RU',
+			countries: ['RU'],
+			latestCountrySelectedByUser: 'RU',
+			metadata
+		}).should.equal('RU')
+
+		// A country can't be derived yet.
+		// And the currently selected country does fit the number.
+		// And the country is ambiguous.
+		// And the user has manually selected some country
+		// but that country doesn't fit the number.
+		expect(getCountryForPartialE164Number('+7', {
+			country: 'RU',
+			countries: ['RU'],
+			latestCountrySelectedByUser: 'FR',
+			metadata
+		})).to.be.undefined
+
+		// A country can't be derived yet.
+		// But the currently selected country does fit the number.
+		// And the country is ambiguous.
+		// And the country is a default one.
+		getCountryForPartialE164Number('+7', {
+			country: 'RU',
+			countries: ['RU'],
+			defaultCountry: 'RU',
+			metadata
+		}).should.equal('RU')
+
+		// A country can't be derived yet.
+		// And the currently selected country does fit the number.
+		// And the country is ambiguous.
+		// And there is some default country
+		// but that country doesn't fit the number.
+		expect(getCountryForPartialE164Number('+7', {
+			country: 'RU',
+			countries: ['RU'],
+			defaultCountry: 'FR',
+			metadata
+		})).to.be.undefined
+
 		// A country can't be derived yet.
 		// And the currently selected country doesn't fit the number.
 		expect(getCountryForPartialE164Number('+7', {
@@ -482,6 +567,8 @@ describe('phoneInputHelpers', () => {
 			metadata
 		})).to.be.undefined
 
+		// A country can't be derived yet.
+		// And the currently selected country doesn't fit the number.
 		expect(getCountryForPartialE164Number('+12', {
 			country: 'FR',
 			countries: ['FR', 'US'],
@@ -490,7 +577,8 @@ describe('phoneInputHelpers', () => {
 
 		// A country can't be derived yet.
 		// And the currently selected country doesn't fit the number.
-		// Bit "International" option is not available.
+		// Bit "International" option is not available
+		// so some country is required to be selected.
 		getCountryForPartialE164Number('+7', {
 			country: 'FR',
 			countries: ['FR', 'RU'],
@@ -498,6 +586,10 @@ describe('phoneInputHelpers', () => {
 			metadata
 		}).should.equal('FR')
 
+		// A country can't be derived yet.
+		// And the currently selected country doesn't fit the number.
+		// Bit "International" option is not available
+		// so some country is required to be selected.
 		getCountryForPartialE164Number('+12', {
 			country: 'FR',
 			countries: ['FR', 'US'],
@@ -625,6 +717,9 @@ describe('phoneInputHelpers', () => {
 	})
 
 	it('should handle phone digits change', () => {
+		// Doesn't really support passing an `undefined` value.
+		// I dunno why doesn't it throw an error here.
+		// Anyway, since this test already existed, I didn't remove it.
 		onPhoneDigitsChange(undefined, {
 			country: 'RU',
 			metadata
@@ -658,8 +753,20 @@ describe('phoneInputHelpers', () => {
 			value: '+1213'
 		})
 
+		// Will reset an automatically selected country when it's ambiguous.
 		onPhoneDigitsChange('213', {
 			country: 'US',
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '213',
+			country: undefined,
+			value: '+1213'
+		})
+
+		// Won't reset a default selected country when it's ambiguous.
+		onPhoneDigitsChange('213', {
+			country: 'US',
+			defaultCountry: 'US',
 			metadata
 		}).should.deep.equal({
 			phoneDigits: '213',
@@ -667,8 +774,22 @@ describe('phoneInputHelpers', () => {
 			value: '+1213'
 		})
 
+		// Won't reset a manually selected country when it's ambiguous.
+		onPhoneDigitsChange('213', {
+			country: 'US',
+			latestCountrySelectedByUser: 'US',
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '213',
+			country: 'US',
+			value: '+1213'
+		})
+
+		// When inputting a valid number for another country
+		// it should switch to that other country.
 		onPhoneDigitsChange('+78005553535', {
 			country: 'US',
+			defaultCountry: 'US',
 			metadata
 		}).should.deep.equal({
 			phoneDigits: '+78005553535',
@@ -676,10 +797,11 @@ describe('phoneInputHelpers', () => {
 			value: '+78005553535'
 		})
 
-		// Won't reset an already selected country.
-
+		// Won't reset an already selected default country when it is ambiguous.
+		// Full number entered.
 		onPhoneDigitsChange('+15555555555', {
 			country: 'US',
+			defaultCountry: 'US',
 			metadata
 		}).should.deep.equal({
 			phoneDigits: '+15555555555',
@@ -687,9 +809,33 @@ describe('phoneInputHelpers', () => {
 			value: '+15555555555'
 		})
 
+		// Won't reset an already manually selected country when it is ambiguous.
+		// Full number entered.
+		onPhoneDigitsChange('+15555555555', {
+			country: 'US',
+			latestCountrySelectedByUser: 'US',
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '+15555555555',
+			country: 'US',
+			value: '+15555555555'
+		})
+
+		// Will reset an automatically selected country when it is ambiguous.
+		// Full number entered.
+		onPhoneDigitsChange('+15555555555', {
+			country: 'US',
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '+15555555555',
+			country: undefined,
+			value: '+15555555555'
+		})
+
 		// Should reset the country if it has likely been automatically
-		// selected based on international phone number input
-		// and the user decides to erase all input.
+		// selected based on international phone number input,
+		// and the user decides to erase all input,
+		// and the country neither was selected manually by either not it is a default one.
 		onPhoneDigitsChange('', {
 			prevPhoneDigits: '+78005553535',
 			country: 'RU',
@@ -701,9 +847,10 @@ describe('phoneInputHelpers', () => {
 		})
 
 		// Should reset the country if it has likely been automatically
-		// selected based on international phone number input
-		// and the user decides to erase all input.
-		// Should reset to default country.
+		// selected based on international phone number input,
+		// and the user decides to erase all input,
+		// and the country neither was selected manually by either not it is a default one.
+		// Should reset the country to the default one.
 		onPhoneDigitsChange('', {
 			prevPhoneDigits: '+78005553535',
 			country: 'RU',
@@ -794,6 +941,7 @@ describe('phoneInputHelpers', () => {
 	})
 
 	it('should handle phone digits change (`international: true` and `countryCallingCodeEditable: false`) (reset incompatible international input)', () => {
+		// With `country`.
 		onPhoneDigitsChange('+1', {
 			prevPhoneDigits: '+78005553535',
 			country: 'RU',
@@ -804,6 +952,23 @@ describe('phoneInputHelpers', () => {
 			phoneDigits: '+7',
 			country: 'RU',
 			value: undefined
+		})
+
+		// Without `country`.
+		// Not possible because passing `countryCallingCodeEditable: false` flag
+		// automatically means that some country calling code is specified
+		// meaning that there is a `country`.
+		// Still, test coverage requires the "else path" to be covered.
+		onPhoneDigitsChange('+1', {
+			prevPhoneDigits: '+78005553535',
+			country: undefined,
+			international: true,
+			countryCallingCodeEditable: false,
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '+1',
+			country: undefined,
+			value: '+1'
 		})
 	})
 
@@ -836,7 +1001,8 @@ describe('phoneInputHelpers', () => {
 	})
 
 	it('should handle phone digits change (`international: false`)', () => {
-		const onChange = (phoneDigits, prevPhoneDigits, country) => onPhoneDigitsChange(phoneDigits, {
+		const onChange = (phoneDigits, prevPhoneDigits, country, rest) => onPhoneDigitsChange(phoneDigits, {
+			...rest,
 			prevPhoneDigits,
 			country,
 			international: false,
@@ -854,7 +1020,34 @@ describe('phoneInputHelpers', () => {
 		// `phoneDigits` in international format.
 		// Country calling code and first digit.
 		// (which is assumed a "national prefix").
+		// Reset an automatically selected country.
 		onChange('+78', '', 'RU').should.deep.equal({
+			phoneDigits: '8',
+			country: undefined,
+			// value: undefined
+			value: '+7'
+		})
+
+		// `phoneDigits` in international format.
+		// Country calling code and first digit.
+		// (which is assumed a "national prefix").
+		// Won't reset a manually selected country.
+		onChange('+78', '', 'RU', {
+			latestCountrySelectedByUser: 'RU'
+		}).should.deep.equal({
+			phoneDigits: '8',
+			country: 'RU',
+			// value: undefined
+			value: '+7'
+		})
+
+		// `phoneDigits` in international format.
+		// Country calling code and first digit.
+		// (which is assumed a "national prefix").
+		// Won't reset an automatically selected default country.
+		onChange('+78', '', 'RU', {
+			defaultCountry: 'RU'
+		}).should.deep.equal({
 			phoneDigits: '8',
 			country: 'RU',
 			// value: undefined
@@ -863,7 +1056,30 @@ describe('phoneInputHelpers', () => {
 
 		// `phoneDigits` in international format.
 		// Country calling code and first two digits.
+		// Reset an automatically selected country.
 		onChange('+121', '', 'US').should.deep.equal({
+			phoneDigits: '21',
+			country: undefined,
+			value: '+121'
+		})
+
+		// `phoneDigits` in international format.
+		// Country calling code and first two digits.
+		// Won't reset a manually selected country.
+		onChange('+121', '', 'US', {
+			latestCountrySelectedByUser: 'US'
+		}).should.deep.equal({
+			phoneDigits: '21',
+			country: 'US',
+			value: '+121'
+		})
+
+		// `phoneDigits` in international format.
+		// Country calling code and first two digits.
+		// Won't reset an automatically selected default country.
+		onChange('+121', '', 'US', {
+			defaultCountry: 'US'
+		}).should.deep.equal({
 			phoneDigits: '21',
 			country: 'US',
 			value: '+121'
@@ -878,7 +1094,30 @@ describe('phoneInputHelpers', () => {
 
 		// `phoneDigits` in international format.
 		// Another country: just trims the `+`.
+		// Reset an automatically selected country.
 		onChange('+78005553535', '', 'US').should.deep.equal({
+			phoneDigits: '78005553535',
+			country: undefined,
+			value: '+178005553535'
+		})
+
+		// `phoneDigits` in international format.
+		// Another country: just trims the `+`.
+		// Won't reset a manually selected country.
+		onChange('+78005553535', '', 'US', {
+			latestCountrySelectedByUser: 'US'
+		}).should.deep.equal({
+			phoneDigits: '78005553535',
+			country: 'US',
+			value: '+178005553535'
+		})
+
+		// `phoneDigits` in international format.
+		// Another country: just trims the `+`.
+		// Won't reset an automatically selected default country.
+		onChange('+78005553535', '', 'US', {
+			defaultCountry: 'US'
+		}).should.deep.equal({
 			phoneDigits: '78005553535',
 			country: 'US',
 			value: '+178005553535'

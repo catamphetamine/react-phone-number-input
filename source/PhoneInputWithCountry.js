@@ -30,6 +30,7 @@ import {
 import {
 	getPreSelectedCountry,
 	getCountrySelectOptions,
+	couldNumberBelongToCountry,
 	parsePhoneNumber,
 	generateNationalNumberDigits,
 	getPhoneDigitsForNewCountry,
@@ -255,6 +256,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 
 		this.setState({
 			country: newCountry,
+			latestCountrySelectedByUser: newCountry,
 			hasUserSelectedACountry: true,
 			phoneDigits: newPhoneDigits,
 			value: newValue
@@ -287,7 +289,8 @@ class PhoneNumberInput_ extends React.PureComponent {
 		const {
 			countries,
 			phoneDigits: prevPhoneDigits,
-			country: currentlySelectedCountry
+			country: currentlySelectedCountry,
+			latestCountrySelectedByUser
 		} = this.state
 
 		const {
@@ -303,6 +306,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			country: currentlySelectedCountry,
 			countryRequired: !addInternationalOption,
 			defaultCountry,
+			latestCountrySelectedByUser,
 			getAnyCountry: () => this.getFirstSupportedCountry({ countries }),
 			countries,
 			international,
@@ -315,6 +319,11 @@ class PhoneNumberInput_ extends React.PureComponent {
 			phoneDigits,
 			value,
 			country
+		}
+
+		// Reset `latestCountrySelectedByUser` if it no longer fits the `value`.
+		if (latestCountrySelectedByUser && value && !couldNumberBelongToCountry(value, latestCountrySelectedByUser, metadata)) {
+			stateUpdate.latestCountrySelectedByUser = undefined
 		}
 
 		if (countryCallingCodeEditable === false) {

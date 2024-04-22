@@ -1,3 +1,4 @@
+// Ignores weird istanbul error: "else path not taken".
 import { isSupportedCountry } from 'libphonenumber-js/core'
 export { getCountries } from 'libphonenumber-js/core'
 
