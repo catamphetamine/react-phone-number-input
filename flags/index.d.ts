@@ -1,6 +1,6 @@
 import {
 	Flags
-} from '../index.d';
+} from '../index.d.js';
 
 declare const flags: Flags;
 

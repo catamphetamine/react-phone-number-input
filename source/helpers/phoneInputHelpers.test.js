@@ -454,6 +454,90 @@ describe('phoneInputHelpers', () => {
 		trimNumber('+121355535351', 'US', metadata).should.equal('+12135553535')
 	})
 
+	it('should get country when inputting a national phone number for +1 calling code (`defaultCountry`)', () =>
+	{
+		// Issue:
+		// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/228#note_1888308944
+
+		// Starts inputting a phone number for default country `US`,
+		// but then input value becomes `3107385` which is considered valid for `CA` country,
+		// as per Google's metadata.
+		onPhoneDigitsChange('3107385', {
+			prevPhoneDigits: '310738',
+			country: 'US',
+			defaultCountry: 'US',
+			latestCountrySelectedByUser: undefined,
+			countryRequired: false,
+			getAnyCountry: () => 'RU',
+			international: undefined,
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '3107385',
+			country: 'CA',
+			value: '+13107385'
+		})
+
+		// Continues inputting the phone number  for default country `US`,
+		// and the input value becomes `31073850` which is no longer considered valid for `CA` country,
+		// so it should switch the country back to `US`.
+		onPhoneDigitsChange('31073850', {
+			prevPhoneDigits: '3107385',
+			country: 'CA',
+			defaultCountry: 'US',
+			latestCountrySelectedByUser: undefined,
+			countryRequired: false,
+			getAnyCountry: () => 'RU',
+			international: undefined,
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '31073850',
+			country: 'US',
+			value: '+131073850'
+		})
+	})
+
+	it('should get country when inputting a national phone number for +1 calling code (`latestCountrySelectedByUser`)', () =>
+	{
+		// Issue:
+		// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/228#note_1888308944
+
+		// Starts inputting a phone number for default country `US`,
+		// but then input value becomes `3107385` which is considered valid for `CA` country,
+		// as per Google's metadata.
+		onPhoneDigitsChange('3107385', {
+			prevPhoneDigits: '310738',
+			country: 'US',
+			defaultCountry: undefined,
+			latestCountrySelectedByUser: 'US',
+			countryRequired: false,
+			getAnyCountry: () => 'RU',
+			international: undefined,
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '3107385',
+			country: 'CA',
+			value: '+13107385'
+		})
+
+		// Continues inputting the phone number  for default country `US`,
+		// and the input value becomes `31073850` which is no longer considered valid for `CA` country,
+		// so it should switch the country back to `US`.
+		onPhoneDigitsChange('31073850', {
+			prevPhoneDigits: '3107385',
+			country: 'CA',
+			defaultCountry: undefined,
+			latestCountrySelectedByUser: 'US',
+			countryRequired: false,
+			getAnyCountry: () => 'RU',
+			international: undefined,
+			metadata
+		}).should.deep.equal({
+			phoneDigits: '31073850',
+			country: 'US',
+			value: '+131073850'
+		})
+	})
+
 	it('should get country for partial E.164 number', () =>
 	{
 		// Just a '+' sign.

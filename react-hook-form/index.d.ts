@@ -7,21 +7,21 @@ import { Control, FieldValues } from 'react-hook-form';
 
 import {
   Value,
-  State,
+  ExternalValue,
   FeatureProps as BaseProps,
   DefaultInputComponentProps
-} from '../index.d';
+} from '../index.d.js';
 
 export {
   Country,
   Value
-} from '../index.d';
+} from '../index.d.js';
 
 // `ReactHookFormComponentProps` are used in:
 // * `react-hook-form-input/index.d.ts`
 export type ReactHookFormComponentProps<FormValues extends FieldValues> = {
   name: string;
-  defaultValue?: Value;
+  defaultValue?: Value | ExternalValue;
   // A developer should pass a `control` object that is returned from `useForm()` hook.
   // Not required when using `<FormProvider/>`.
   control?: Control<FormValues>;

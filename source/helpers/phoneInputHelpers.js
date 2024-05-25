@@ -455,6 +455,9 @@ export function onPhoneDigitsChange(phoneDigits, {
 	countryCallingCodeEditable,
 	metadata
 }) {
+	// When the input is in `international` and `countryCallingCodeEditable={false}` mode,
+	// the `country` should not change. If the user attempted to overwrite the country callling code part,
+	// the component should reset it back to the correct country calling code for the `country`.
 	if (international && countryCallingCodeEditable === false) {
 		if (country) {
 			// For international phone numbers written with non-editable country calling code,

@@ -6,11 +6,11 @@ import * as React from 'react';
 import {
 	Metadata,
 	DefaultInputComponentProps
-} from '../index.d';
+} from '../index.d.js';
 
 import {
 	Props as BaseProps
-} from '../input/index.d';
+} from '../input/index.d.js';
 
 type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
 	metadata: Metadata;
@@ -34,4 +34,4 @@ export {
 	Country,
 	Value,
 	PhoneNumber
-} from '../core/index.d';
+} from '../core/index.d.js';

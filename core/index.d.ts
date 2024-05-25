@@ -4,8 +4,14 @@ import {
 	Props as BaseProps,
 	State,
 	Value,
+	ExternalValue,
 	DefaultInputComponentProps
-} from '../index.d';
+} from '../index.d.js';
+
+export {
+	Country,
+	Value
+} from '../index.d.js';
 
 type Props<InputComponentProps> = BaseProps<InputComponentProps> & {
   metadata: Metadata;
@@ -18,8 +24,8 @@ declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 
 export default PhoneInputWithCountrySelect;
 
-export function formatPhoneNumber(value: Value, metadata: Metadata): string;
-export function formatPhoneNumberIntl(value: Value, metadata: Metadata): string;
+export function formatPhoneNumber(value: Value | ExternalValue, metadata: Metadata): string;
+export function formatPhoneNumberIntl(value: Value | ExternalValue, metadata: Metadata): string;
 
 export {
 	default as parsePhoneNumber,
@@ -28,7 +34,5 @@ export {
 	getCountryCallingCode,
 	getCountries,
 	isSupportedCountry,
-	Country,
-	Value,
 	PhoneNumber
 } from 'libphonenumber-js/core';

@@ -9,17 +9,17 @@ import {
   Metadata,
   Labels,
   DefaultInputComponentProps
-} from '../index.d';
+} from '../index.d.js';
 
 export {
 	Country,
 	Value
-} from '../index.d';
+} from '../index.d.js';
 
 import {
 	Props as BaseProps,
 	DefaultFormValues
-} from '../react-hook-form/index.d';
+} from '../react-hook-form/index.d.js';
 
 type Props<InputComponentProps, FormValues extends FieldValues> = BaseProps<InputComponentProps, FormValues> & {
   metadata: Metadata;

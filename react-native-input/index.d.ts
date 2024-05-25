@@ -4,26 +4,26 @@
 import * as React from 'react';
 
 import {
-	Country,
 	Value,
+	ExternalValue,
 	Metadata
-} from '../index.d';
+} from '../index.d.js';
 
 export {
 	Country,
 	Value
-} from '../index.d';
+} from '../index.d.js';
 
 import {
 	PropsWithoutSmartCaret
-} from '../input/index.d';
+} from '../input/index.d.js';
 
 // The default React.Native input component accepts properties:
 // * `value: string`
 // * `onChangeText(value: string): void`
 // * Any other React.Native-specific input component properties
 type UnderlyingInputComponentProps<OriginalUnderlyingInputComponentProps> = Omit<OriginalUnderlyingInputComponentProps, 'value' | 'onChangeText'> & {
-	value: Value;
+	value?: Value | ExternalValue;
 	onChangeText(value: Value): void;
 };
 

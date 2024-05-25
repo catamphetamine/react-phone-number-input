@@ -11,4 +11,4 @@ export {
 	Country,
 	Value,
 	PhoneNumber
-} from '../index.d';
+} from '../index.d.js';

@@ -8,17 +8,20 @@ import { FieldValues } from 'react-hook-form';
 import {
   ReactHookFormComponentProps,
   DefaultFormValues
-} from '../react-hook-form/index.d';
+} from '../react-hook-form/index.d.js';
 
 import {
   FeatureProps as BaseProps,
-  Country,
-  Value
-} from '../input/index.d';
+} from '../input/index.d.js';
 
 import {
   DefaultInputComponentProps
-} from '../index.d';
+} from '../index.d.js';
+
+export {
+  Country,
+  Value
+} from '../index.d.js';
 
 // `Props` are used in:
 // * `react-hook-form-input-core/index.d.ts`

@@ -12,6 +12,7 @@ import {
 export type Metadata = MetadataJson;
 
 export type Value = E164Number;
+export type ExternalValue = string;
 
 // `Country` type could be used in the application's code.
 export type Country = CountryCode;
@@ -109,7 +110,11 @@ export type FeatureProps<InputComponentProps> = Omit<InputComponentProps, 'value
 // `Props` are imported in:
 // * `/core/index.d.ts`
 export type Props<InputComponentProps> = FeatureProps<InputComponentProps> & {
-	value?: Value;
+	// The `value` type could be `Value` or `string`.
+	// `string` was specifically added to allow for passing the `value` property
+	// that was received from an external source such as a database.
+	// https://gitlab.com/catamphetamine/libphonenumber-js/-/issues/144#note_1921382409
+	value?: Value | ExternalValue;
 	onChange(value?: Value): void;
 }
 
@@ -173,8 +178,8 @@ declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 
 export default PhoneInputWithCountrySelect;
 
-export function formatPhoneNumber(value: Value): string;
-export function formatPhoneNumberIntl(value: Value): string;
+export function formatPhoneNumber(value: Value | ExternalValue): string;
+export function formatPhoneNumberIntl(value: Value | ExternalValue): string;
 
 export {
 	default as parsePhoneNumber,

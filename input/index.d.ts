@@ -6,8 +6,9 @@ import * as React from 'react';
 import {
 	Country,
 	Value,
+	ExternalValue,
 	DefaultInputComponentProps
-} from '../index.d';
+} from '../index.d.js';
 
 type InputComponent<InputComponentProps> =
   | ((props: InputComponentProps) => JSX.Element | React.ComponentClass<InputComponentProps, any>)
@@ -25,7 +26,7 @@ type FeaturePropsWithoutSmartCaret<InputComponentProps> = Omit<InputComponentPro
 // `PropsWithoutSmartCaret` are imported in:
 // * `/react-native/index.d.ts`.
 export type PropsWithoutSmartCaret<InputComponentProps> = FeaturePropsWithoutSmartCaret<InputComponentProps> & {
-	value?: Value | undefined;
+	value?: Value | ExternalValue;
 	onChange(value?: Value): void;
 }
 
@@ -59,4 +60,4 @@ export {
 	Country,
 	Value,
 	PhoneNumber
-} from '../index.d';
+} from '../index.d.js';
