@@ -60,6 +60,11 @@
 		<script>
 			window.getCountryCallingCode = window.PhoneInput.getCountryCallingCode
 			window.getCountries = window.PhoneInput.getCountries
+
+			window.formatPhoneNumber = window.PhoneInput.formatPhoneNumber
+			window.formatPhoneNumberIntl = window.PhoneInput.formatPhoneNumberIntl
+			window.isValidPhoneNumber = window.PhoneInput.isValidPhoneNumber
+			window.isPossiblePhoneNumber = window.PhoneInput.isPossiblePhoneNumber
 		</script>
 
 		<script src="./react-phone-number-input.js"></script>
@@ -1242,13 +1247,20 @@ International: {value && formatPhoneNumberIntl(value)}
 										<br/>
 										<strong>Is valid:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).isValid() ? 'true' : 'false'}</code>}
 										<br/>
+										{/* <strong>Is valid (2):</strong> {this.state.value_validation && <code>{isValidPhoneNumber(this.state.value_validation) ? 'true' : 'false'}</code>} */}
+										<br/>
 										<strong>Local:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatNational()}</code>}
 										<br/>
 										<strong>International:</strong> {this.state.value_validation && libphonenumber.parsePhoneNumberFromString(this.state.value_validation) && <code>{libphonenumber.parsePhoneNumberFromString(this.state.value_validation).formatInternational()}</code>}
 									</p>
 
 									<Highlight lang="jsx">
-{`import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
+{`import PhoneInput, {
+	formatPhoneNumber,
+	formatPhoneNumberIntl,
+	isPossiblePhoneNumber,
+	isValidPhoneNumber
+} from 'react-phone-number-input'
 
 <PhoneInput
   placeholder="Enter phone number"
@@ -1584,13 +1596,21 @@ console.log("+" + getCountryCallingCode("US"))
 									</h1>
 
 									<p>
-										A custom <code>inputComponent</code> can be passed to render it instead of the standard DOM <code>&lt;input/&gt;</code>.
+										To render a custom input component instead of the standard DOM <code>&lt;input/&gt;</code>, pass the custom input component as the <code>inputComponent</code> property value.
 										<br/>
-										It must behave as a standard DOM <code>&lt;input/&gt;</code>: support <code>ref</code>, accept a string <code>value</code>, and call <code>onChange(event)</code> whenever it's changed.
+										<br/>
+										A custom input component must behave just like a standard DOM <code>&lt;input/&gt;</code>:
+										<ul>
+											<li>Use <code>forwardRef()</code>.</li>
+											<li>Receive a string <code>value</code> property.</li>
+											<li>Receive an <code>onChange</code> property and call <code>onChange(event)</code> whenever the input value changes.</li>
+										</ul>
 									</p>
 
 									<Highlight lang="jsx">
 {`import Input from 'react-phone-number-input/input'
+
+const CustomInput = React.forwardRef((props, ref) => (...))
 
 <Input
   value={value}

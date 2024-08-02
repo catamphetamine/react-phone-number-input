@@ -2,6 +2,13 @@
 
 <!-- Maybe change empty value from `undefined` to `null`. -->
 
+3.4.5 / 02.08.2024
+==================
+
+* Added a validation console error message when an incorrect `value` is supplied: when supplied, `value` must be in `E.164` format (no punctuation).
+
+* Fixed the demo page having an old copy of `libphonenumber-js`.
+
 3.4.0 / 22.04.2024
 ==================
 

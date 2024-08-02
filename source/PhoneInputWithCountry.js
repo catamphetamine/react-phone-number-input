@@ -10,6 +10,8 @@ import { CountrySelectWithIcon as CountrySelect } from './CountrySelect.js'
 import Flag from './Flag.js'
 import InternationalIcon from './InternationalIcon.js'
 
+import { validateE164Number } from './helpers/isE164Number.js'
+
 import {
 	sortCountryOptions,
 	isCountrySupportedWithError,
@@ -69,6 +71,13 @@ class PhoneNumberInput_ extends React.PureComponent {
 			if (!this.isCountrySupportedWithError(defaultCountry)) {
 				defaultCountry = undefined
 			}
+		}
+
+		// Validate that the initially-supplied `value` is in `E.164` format.
+		// Because sometimes people attempt to supply a `value` like "+1 (879) 490-8676".
+		// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/231#note_2016334796
+		if (value) {
+			validateE164Number(value)
 		}
 
 		// Validate `countries`.
