@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Input from 'input-format/react'
 import { AsYouType } from 'libphonenumber-js/core'
 
-import { getInputValuePrefix, removeInputValuePrefix } from './helpers/inputValuePrefix.js'
+import { getPrefixForFormattingValueAsPhoneNumber, removePrefixFromFormattedPhoneNumber } from './helpers/inputValuePrefix.js'
 import parsePhoneNumberCharacter from './helpers/parsePhoneNumberCharacter.js'
 
 import useInputKeyDownHandler from './useInputKeyDownHandler.js'
@@ -20,39 +20,44 @@ export function createInput(defaultMetadata)
 	function InputSmart({
 		onKeyDown,
 		country,
-		international,
-		withCountryCallingCode,
+		inputFormat,
 		metadata = defaultMetadata,
 		...rest
 	}, ref) {
 		const format = useCallback((value) => {
 			// "As you type" formatter.
 			const formatter = new AsYouType(country, metadata)
-			const prefix = getInputValuePrefix({
+
+			const prefix = getPrefixForFormattingValueAsPhoneNumber({
+				inputFormat,
 				country,
-				international,
-				withCountryCallingCode,
 				metadata
 			})
+
 			// Format the number.
 			let text = formatter.input(prefix + value)
 			let template = formatter.getTemplate()
+
 			if (prefix) {
-				text = removeInputValuePrefix(text, prefix)
+				text = removePrefixFromFormattedPhoneNumber(text, prefix)
 				// `AsYouType.getTemplate()` can be `undefined`.
 				if (template) {
-					template = removeInputValuePrefix(template, prefix)
+					template = removePrefixFromFormattedPhoneNumber(template, prefix)
 				}
 			}
+
 			return {
 				text,
 				template
 			}
-		}, [country, metadata])
+		}, [
+			country,
+			metadata
+		])
 
 		const _onKeyDown = useInputKeyDownHandler({
 			onKeyDown,
-			international
+			inputFormat
 		})
 
 		return (
@@ -61,7 +66,8 @@ export function createInput(defaultMetadata)
 				ref={ref}
 				parse={parsePhoneNumberCharacter}
 				format={format}
-				onKeyDown={_onKeyDown}/>
+				onKeyDown={_onKeyDown}
+			/>
 		)
 	}
 
@@ -96,30 +102,21 @@ export function createInput(defaultMetadata)
 		 * If no `country` is passed then `value`
 		 * is formatted as an international phone number.
 		 * (e.g. `+7 800 555 35 35`)
-		 * Perhaps the `country` property should have been called `defaultCountry`
-		 * because if `value` is an international number then `country` is ignored.
+		 * This property should've been called `defaultCountry`
+		 * because it only applies when the user inputs a phone number in a national format
+		 * and is completely ignored when the user inputs a phone number in an international format.
 		 */
 		country: PropTypes.string,
 
 		/**
-		 * If `country` property is passed along with `international={true}` property
-		 * then the phone number will be input in "international" format for that `country`
-		 * (without "country calling code").
-		 * For example, if `country="US"` property is passed to "without country select" input
-		 * then the phone number will be input in the "national" format for `US` (`(213) 373-4253`).
-		 * But if both `country="US"` and `international={true}` properties are passed then
-		 * the phone number will be input in the "international" format for `US` (`213 373 4253`)
-		 * (without "country calling code" `+1`).
+		 * The format that the input field value is being input/output in.
 		 */
-		international: PropTypes.bool,
-
-		/**
-		 * If `country` and `international` properties are set,
-		 * then by default it won't include "country calling code" in the input field.
-		 * To change that, pass `withCountryCallingCode` property,
-		 * and it will include "country calling code" in the input field.
-		 */
-		withCountryCallingCode: PropTypes.bool,
+		inputFormat : PropTypes.oneOf([
+			'INTERNATIONAL',
+			'NATIONAL_PART_OF_INTERNATIONAL',
+			'NATIONAL',
+			'INTERNATIONAL_OR_NATIONAL'
+		]).isRequired,
 
 		/**
 		 * `libphonenumber-js` metadata.

@@ -97,23 +97,24 @@ export function CountrySelectWithIcon({
 				{...rest}
 				value={value}
 				options={options}
-				className={classNames('PhoneInputCountrySelect', className)}/>
+				className={classNames('PhoneInputCountrySelect', className)}
+			/>
 
-			{/* Either a Unicode flag icon. */}
-			{(unicodeFlags && value) &&
-				<div className="PhoneInputCountryIconUnicode">
-					{getUnicodeFlagIcon(value)}
-				</div>
-			}
-
-			{/* Or an SVG flag icon. */}
-			{!(unicodeFlags && value) &&
-				<Icon
-					aria-hidden
-					country={value}
-					label={selectedOption && selectedOption.label}
-					aspectRatio={unicodeFlags ? 1 : undefined}/>
-			}
+			{/* Either a Unicode flag icon or an SVG flag icon. */}
+			{selectedOption && (
+				unicodeFlags && value ? (
+					<div className="PhoneInputCountryIconUnicode">
+						{getUnicodeFlagIcon(value)}
+					</div>
+				) : (
+					<Icon
+						aria-hidden
+						country={value}
+						label={selectedOption.label}
+						aspectRatio={unicodeFlags ? 1 : undefined}
+					/>
+				)
+			)}
 
 			<Arrow/>
 		</div>
@@ -137,8 +138,18 @@ function DefaultArrowComponent() {
 
 function getSelectedOption(options, value) {
 	for (const option of options) {
-		if (!option.divider && option.value === value) {
-			return option
+		if (!option.divider) {
+			if (isSameOptionValue(option.value, value)) {
+				return option
+			}
 		}
 	}
+}
+
+function isSameOptionValue(value1, value2) {
+	// `undefined` is identical to `null`: both mean "no country selected".
+	if (value1 === undefined || value1 === null) {
+		return value2 === undefined || value2 === null
+	}
+	return value1 === value2
 }

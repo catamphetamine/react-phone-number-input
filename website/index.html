@@ -1077,7 +1077,12 @@ import ru from 'react-phone-number-input/locale/ru'
   onChange={setValue}/>
 `}
 									</Highlight>
+								</section>
 
+								<section>
+									<h1>
+										Force international format <span style={{ fontWeight: 'normal' }}>(country code not editable)</span>
+									</h1>
 									<p>
 										In the example above, the "country calling code" part of a phone number is editable. To make it non-editable, pass <code>countryCallingCodeEditable={'{false}'}</code> property.
 									</p>
@@ -1139,7 +1144,7 @@ import ru from 'react-phone-number-input/locale/ru'
 
 								<section>
 									<h1>
-										<code className="default">initialValueFormat</code>
+										<code className="default">initialValueFormat</code> <span style={{ fontWeight: 'normal' }}>( international / national )</span>
 									</h1>
 
 									<p>
@@ -1368,9 +1373,10 @@ International: {value && formatPhoneNumberIntl(value)}
 									</p>
 
 									<p>
-										It can be imported from <code>react-phone-number-input/input</code> subpackage:
+										It can be imported from <code>react-phone-number-input/input</code> subpackage.
 									</p>
 
+									{/*
 									<form>
 										<Input
 											placeholder="Enter phone number"
@@ -1381,12 +1387,13 @@ International: {value && formatPhoneNumberIntl(value)}
 									<p>
 										<code>value</code>: {this.state.valueWithoutCountrySelect && <code>{this.state.valueWithoutCountrySelect}</code>}
 									</p>
+									*/}
 
 									<Highlight lang="jsx">
 {`import Input from 'react-phone-number-input/input'
 
 <Input
-  placeholder="Enter phone number"
+  ...
   value={value}
   onChange={setValue}/>
 `}
@@ -1490,7 +1497,7 @@ console.log("+" + getCountryCallingCode("US"))
 									</p>
 
 									<p>
-										To include the "country calling code" part in the <code>&lt;input/&gt;</code>, pass <code>withCountryCallingCode</code> property.
+										To include the (non-editable) "country calling code" part in the <code>&lt;input/&gt;</code>, pass <code>withCountryCallingCode</code> property.
 									</p>
 
 									<p>
@@ -1562,11 +1569,11 @@ console.log("+" + getCountryCallingCode("US"))
 
 								<section>
 									<h1>
-										No <code className="default">country</code>
+										International input for any country
 									</h1>
 
 									<p>
-										If no <code>country</code> or <code>defaultCountry</code> are specified then the phone number can only be input in international format.
+										When no <code>country</code> or <code>defaultCountry</code> are specified, the phone number can only be input in international format (for any country).
 									</p>
 
 									<form>

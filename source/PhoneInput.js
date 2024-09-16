@@ -18,10 +18,11 @@ function PhoneInput({
 	...rest
 }, ref) {
 	// "Phone digits" includes not only "digits" but also a `+` sign.
-	const [
+	const {
 		phoneDigits,
-		setPhoneDigits
-	] = usePhoneDigits({
+		setPhoneDigits,
+		inputFormat
+	} = usePhoneDigits({
 		value,
 		onChange,
 		country,
@@ -31,16 +32,25 @@ function PhoneInput({
 		useNationalFormatForDefaultCountryValue,
 		metadata
 	})
+
+	// * Passing `international` property is deprecated.
+	// * Passing `withCountryCallingCode` property is deprecated.
+	// * Passing `country` property: it should've been called `defaultCountry` instead
+	//   because it only applies when the user inputs a phone number in a national format
+	//   and is completely ignored when the user inputs a phone number in an international format.
+
 	return (
 		<Component
 			{...rest}
 			ref={ref}
 			metadata={metadata}
+			inputFormat={inputFormat}
 			international={international}
 			withCountryCallingCode={withCountryCallingCode}
 			country={country || defaultCountry}
 			value={phoneDigits}
-			onChange={setPhoneDigits} />
+			onChange={setPhoneDigits}
+		/>
 	)
 }
 
@@ -104,6 +114,7 @@ PhoneInput.propTypes = {
 	/**
 	 * A component that renders the `<input/>` itself and also
 	 * parses and formats its `value` as the user inputs it.
+	 * See `InputBasic.js` and `InputSmart.js` for an example.
 	 */
 	Component: PropTypes.elementType.isRequired,
 

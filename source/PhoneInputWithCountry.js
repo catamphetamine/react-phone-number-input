@@ -183,6 +183,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 			locales,
 			metadata
 		} = this.props
+
 		return this.useMemoCountrySelectOptions(() => {
 			return sortCountryOptions(
 				getCountrySelectOptions({

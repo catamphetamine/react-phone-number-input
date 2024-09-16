@@ -54,6 +54,12 @@ export type Labels = Partial<Record<LabelKey, string>>;
 //   phone: string?,
 // }
 
+// type InputFormat =
+// 	'INTERNATIONAL' |
+// 	'NATIONAL_PART_OF_INTERNATIONAL' |
+// 	'NATIONAL' |
+// 	'INTERNATIONAL_OR_NATIONAL'
+
 // `FeatureProps` are imported in:
 // * `/react-hook-form/index.d.ts`
 //

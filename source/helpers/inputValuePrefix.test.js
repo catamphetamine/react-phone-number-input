@@ -1,31 +1,30 @@
 import metadata from 'libphonenumber-js/min/metadata'
 
-import { getInputValuePrefix, removeInputValuePrefix } from './inputValuePrefix.js'
+import { getPrefixForFormattingValueAsPhoneNumber, removePrefixFromFormattedPhoneNumber } from './inputValuePrefix.js'
 
 describe('inputValuePrefix', () => {
 	it('should get input value prefix', () => {
-		getInputValuePrefix({
+		getPrefixForFormattingValueAsPhoneNumber({
 			country: 'RU',
 			metadata
 		}).should.equal('')
 
-		getInputValuePrefix({
+		getPrefixForFormattingValueAsPhoneNumber({
 			country: 'RU',
-			international: true,
-			withCountryCallingCode: true,
+			inputFormat: 'INTERNATIONAL',
 			metadata
 		}).should.equal('')
 
-		getInputValuePrefix({
+		getPrefixForFormattingValueAsPhoneNumber({
 			country: 'RU',
-			international: true,
+			inputFormat: 'NATIONAL_PART_OF_INTERNATIONAL',
 			metadata
 		}).should.equal('+7')
 	})
 
 	it('should remove input value prefix', () => {
-		removeInputValuePrefix('+78005553535', '+7').should.equal('8005553535')
-		removeInputValuePrefix('+7 800 555 35 35', '+7').should.equal('800 555 35 35')
-		removeInputValuePrefix('8 (800) 555-35-35', '').should.equal('8 (800) 555-35-35')
+		removePrefixFromFormattedPhoneNumber('+78005553535', '+7').should.equal('8005553535')
+		removePrefixFromFormattedPhoneNumber('+7 800 555 35 35', '+7').should.equal('800 555 35 35')
+		removePrefixFromFormattedPhoneNumber('8 (800) 555-35-35', '').should.equal('8 (800) 555-35-35')
 	})
 })

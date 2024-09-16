@@ -1,17 +1,16 @@
 import { getCountryCallingCode } from 'libphonenumber-js/core'
 
-export function getInputValuePrefix({
+export function getPrefixForFormattingValueAsPhoneNumber({
+	inputFormat,
 	country,
-	international,
-	withCountryCallingCode,
 	metadata
 }) {
-	return country && international && !withCountryCallingCode ?
+	return inputFormat === 'NATIONAL_PART_OF_INTERNATIONAL' ?
 		`+${getCountryCallingCode(country, metadata)}` :
 		''
 }
 
-export function removeInputValuePrefix(value, prefix) {
+export function removePrefixFromFormattedPhoneNumber(value, prefix) {
 	if (prefix) {
 		value = value.slice(prefix.length)
 		if (value[0] === ' ') {

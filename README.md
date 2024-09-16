@@ -151,25 +151,40 @@ Doesn't require any CSS.
 
 Receives properties:
 
-* `country: string?` — If `country` is specified then the phone number can only be input in "national" (not "international") format, and will be parsed as a phone number belonging to the `country`. Must be a supported [country code](#country-code). Example: `country="US"`.
+* `country: string?` — If `country` is specified then the input value will be formatted (and parsed) as a phone number that belongs to the `country`. `country` must be a supported [country code](#country-code). Example: `country="US"`.
 
-* `international: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (`+1` when `country` is `US`) is not included in the input field: that could be changed by passing `withCountryCallingCode` property (see below). So, if `country` is `US` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (`(213) 373-4253`). But if `country` is `"US"` and `international` property is `true` then the phone number can only be input in the "international" format for `US` (`213 373 4253`) without the "country calling code" part (`+1`). This could be used for implementing phone number input components that show "country calling code" part before the input field and then the user can fill in the rest of their phone number digits in the input field.
+* `international: boolean?` — Controls whether the input value should be formatted (and parsed) as an "international" phone number as opposed to "national". When this property is omitted, its default value will be determined based on the values of other properties such as `country` or `defaultCountry`:
+  * When `country` is specified:
+    * When `international` property is not specified then the default value for `international` property is `false` meaning that the phone number can only be input in "national" format for that `country`.
+      * Example: if `country` is `"US"` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (e.g. `"(213) 373-4253"`).
+    * When `international` property is explicitly set to `true` then the phone number can only be input in "international" format for that `country`.
+      * By default, the "country calling code" part (e.g. `"+1"` when `country` is `"US"`) is not included in the input field.
+        * Example: if `country` is `"US"` and `international` property is `true` then the phone number can only be input in the "international" format for `US` (e.g. `"213 373 4253"`), that is without the "country calling code" part (`"+1"`).
+        * This could be used for implementing phone number input components that show "country calling code" part separately before the input field.
+      * If `withCountryCallingCode` property is explicitly set to `true` then the "country calling code" part (e.g. `"+1"` when `country` is `"US"`) is included in the input field (but still isn't editable).
+        * Example: if `country` is `"US"` and `international` property is `true` and `withCountryCallingCode` property is `true` then the phone number can only be input in the "international" format for `US` (e.g. `"+1 213 373 4253"`), including the "country calling code" part `"+1"` (which isn't editable though).
+  * When `defaultCountry` is specified then the phone number could be input either in "national" or "international" format for that `defaultCountry`, so `international` property shouldn't be used in this case.
+  * When no `defaultCountry` or `country` are specified, the phone number can only be input in "international" format (for any country), so `international` property shouldn't be passed and is `true` by default.
 
 * `withCountryCallingCode: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (example: `+1` when `country` is `US`) is not included in the input field. To change that, pass `withCountryCallingCode` property, and it will include the "country calling code" part in the input field. See the demo for an example.
 
-* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Must be a supported [country code](#country-code). Example: `defaultCountry="US"`.
+* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Must be a supported [country code](#country-code). Example: `defaultCountry="US"`.
 
-* If neither `country` nor `defaultCountry` are specified then the phone number can only be input in "international" format.
+* `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
 
 * `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
 
 * `onChange(value: string?)` — Updates the `value` (to `undefined` in case it's empty).
 
-* `inputComponent: component?` — A custom `<input/>` component can be passed. In that case, it must do `React.forwardRef()` to the actual `<input/>` DOM element. Receives properties: `value: string`, `onChange(event: Event)`, and all the "rest" of the properties that're not handled by this library, like `type="tel"`, `autoComplete="tel"`, etc. Is a generic DOM `<input/>` by default.
+* `inputComponent: component?` — Custom input component.
+  * By default, it's a generic DOM `<input/>` component.
+  * Any custom input component implementation must use `React.forwardRef()` to "forward" `ref` to the underlying "core" `<input/>` component.
+  * Receives properties:
+    * `value: string`
+    * `onChange(event: Event)`
+    * Any other properties that were passed to `<PhoneInput/>` and aren't specifically handled by this library. For example, `type="tel"`, `autoComplete="tel"`, etc.
 
 * `smartCaret: boolean?` — When the user attempts to insert a digit somewhere in the middle of a phone number, the caret position is moved right before the next available digit skipping any punctuation in between. This is called "smart" caret positioning. Another case would be the phone number format changing as a result of the user inserting the digit somewhere in the middle, which would require re-positioning the caret because all digit positions have changed. This "smart" caret positioning feature can be turned off by passing `smartCaret={false}` property: use it in case of any possible issues with caret position during phone number input.
-
-* `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
 
 See the [demo](http://catamphetamine.gitlab.io/react-phone-number-input/) for the examples.
 
@@ -555,35 +570,29 @@ Both components accept properties:
 
 <!-- * `shouldUnregister` — (optional) (advanced) Same as `shouldUnregister` parameter of `register()` (see `react-hook-form` docs for more info). Pass `true` to clear the value from form values on input component unmount: for example, when showing or hiding phone input field. `shouldUnregister` can also be set globally for all fields when passed as a parameter to `useForm()`. -->
 
-## Customizing
+## Customization
 
 "With country select" `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry):
 
-* `inputComponent` — Custom phone number `<input/>` component.
-
 <!-- * `containerComponent` — Custom wrapping `<div/>` component. -->
 
-* `metadata` — Custom `libphonenumber-js` ["metadata"](#min-vs-max-vs-mobile).
+* `metadata` — Custom `libphonenumber-js` ["metadata"](#min-vs-max-vs-mobile). Could be used to supply "metadata" that only contains a small subset of countries.
 
-* `labels` — Custom translation (including country names).
+* `labels` — Custom translation "messages": country names, miscellanous labels. Example for English: [`react-phone-number-input/locale/en.json`](https://gitlab.com/catamphetamine/react-phone-number-input/-/blob/master/locale/en.json)
 
-* `internationalIcon` — Custom "International" icon.
+* [`inputComponent`](#inputcomponent) — Custom phone number `<input/>` component.
 
-* `flagComponent` — Custom flag icon component.
+* [`countrySelectComponent`](#countryselectcomponent) — Custom country `<select/>` component.
 
-* `countrySelectComponent` — Custom country `<select/>` component.
+* [`internationalIcon`](#internationalicon) — Custom "International" icon component.
 
-* `countrySelectProps.arrowComponent` — Custom arrow component of the default country `<select/>`.
+* [`flagComponent`](#flagcomponent) — Custom flag icon component.
 
-### `react-phone-number-input/core`
+* `countrySelectProps.arrowComponent` — Custom "arrow" component of the default country `<select/>`. Renders an "arrow" "dropdown" icon. Doesn't receive any properties.
 
-"With country select" component imported from `react-phone-number-input/core` subpackage doesn't have default values for the following properties:
+All those customization properties have their default values which are, therefore, always included in the application bundle, regardless of whether those default property values get overridden by any custom ones.
 
-* `metadata`
-
-* `labels`
-
-It could be used by developers who'd like to provide their own custom-generated metadata that supports a smaller set of countries.
+Those who'd like to exclude the default values just for `metadata` and `labels` properties could `import` the component from `react-phone-number-input/core` subpackage rather than from `react-phone-number-input` package.
 
 #### `countrySelectComponent`
 
@@ -605,7 +614,9 @@ Receives properties:
 
 #### `inputComponent`
 
-React component for the phone number input field. Is `"input"` by default meaning that it renders a standard DOM `<input/>`.
+A React component for the phone number input field. Is `"input"` by default, meaning that it renders a standard DOM `<input/>`.
+
+Any custom input component implementation must use `React.forwardRef()` to "forward" `ref` to the underlying "core" `<input/>` component.
 
 Receives properties:
 
@@ -614,8 +625,6 @@ Receives properties:
 * `onFocus()` — Is used to toggle the `--focus` CSS class.
 * `onBlur(event: Event)` — Is used to toggle the `--focus` CSS class.
 * Other properties like `type="tel"` or `autoComplete="tel"` that should be passed through to the DOM `<input/>`.
-
-Must also use `React.forwardRef()` to "forward" `ref` to the `<input/>`.
 
 <!--
 #### `inputComponent`
@@ -634,6 +643,28 @@ Receives properties:
 
 Must also either use `React.forwardRef()` to "forward" `ref` to the `<input/>` or implement `.focus()` method.
 -->
+
+#### `flagComponent`
+
+Renders a country flag icon.
+
+Receives properties:
+
+* `country: string` — A two-letter ISO country code. Example: `"RU"`.
+* `countryName: string` — Country name. Example: `"Russia"`.
+* `flags?: object` — An object that contains a flag icon component for each country. Same as the [`flags`](https://catamphetamine.gitlab.io/react-phone-number-input/docs/#phoneinputwithcountry) property of the `react-phone-number-input` component.
+* `flagUrl?: string` — A template for a country flag icon image URL. Same as the [`flagUrl`](https://catamphetamine.gitlab.io/react-phone-number-input/docs/#phoneinputwithcountry) property of the `react-phone-number-input` component.
+* `className: string` — CSS class name.
+
+#### `internationalIcon`
+
+Renders an "International" icon. For example, the default one is a globe icon. The icon is shown instead of a country flag when the phone number is in international format (i.e. starts with a `+` character) but is either incomplete or doesn't belong to any known country.
+
+Receives properties:
+
+* `title: string` — [ARIA](https://developer.mozilla.org/docs/Web/Accessibility/ARIA) label.
+* `aspectRatio: number` — Icon aspect ratio: `width / height`.
+* `className: string` — CSS class name.
 
 <!--
 #### `containerComponent`

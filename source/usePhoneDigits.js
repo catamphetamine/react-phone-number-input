@@ -3,6 +3,7 @@ import { AsYouType, getCountryCallingCode, parseDigits } from 'libphonenumber-js
 
 import getInternationalPhoneNumberPrefix from './helpers/getInternationalPhoneNumberPrefix.js'
 import { validateE164Number } from './helpers/isE164Number.js'
+import { removePrefixFromFormattedPhoneNumber } from './helpers/inputValuePrefix.js'
 
 /**
  * Returns `[phoneDigits, setPhoneDigits]`.
@@ -18,6 +19,28 @@ export default function usePhoneDigits({
 	useNationalFormatForDefaultCountryValue,
 	metadata
 }) {
+	// Validate the use of `withCountryCallingCode` property.
+	if (typeof withCountryCallingCode === 'boolean' && !(country && international)) {
+		console.error('[react-phone-number-input] `withCountryCallingCode` property can only be used together with `country` and `international` properties')
+	}
+
+	// Validate the use of `country` and `defaultCountry` properties.
+	if (country && defaultCountry) {
+		console.error('[react-phone-number-input] When `country` property is passed, `defaultCountry` property has no effect and therefore shouldn\'t be passed')
+	}
+
+	// Validate the use of `international` property.
+	if (typeof international === 'boolean' && !country) {
+		console.error('[react-phone-number-input] `international` property can only be used together with `country` property')
+	}
+
+	const inputFormat = getInputFormat({
+		international,
+		country,
+		defaultCountry,
+		withCountryCallingCode
+	})
+
 	const countryMismatchDetected = useRef()
 	const onCountryMismatch = (value, country, actualCountry) => {
 		console.error(`[react-phone-number-input] Expected phone number ${value} to correspond to country ${country} but ${actualCountry ? 'in reality it corresponds to country ' + actualCountry : 'it doesn\'t'}.`)
@@ -35,9 +58,8 @@ export default function usePhoneDigits({
 		return getPhoneDigitsForValue(
 			value,
 			country,
-			international,
-			withCountryCallingCode,
 			defaultCountry,
+			inputFormat,
 			useNationalFormatForDefaultCountryValue,
 			metadata,
 			(...args) => {
@@ -51,10 +73,15 @@ export default function usePhoneDigits({
 
 	// This is only used to detect `country` property change.
 	const [prevCountry, setPrevCountry] = useState(country)
+
 	// This is only used to detect `defaultCountry` property change.
 	const [prevDefaultCountry, setPrevDefaultCountry] = useState(defaultCountry)
-	// `phoneDigits` is the `value` passed to the `<input/>`.
+
+	// `phoneDigits` is the a property that gets passed to the `<input/>` component as its "value":
+	// * `phoneDigits` is the `<input value/>` property.
+	// * `value` is the `<PhoneInput value/>` property.
 	const [phoneDigits, setPhoneDigits] = useState(getInitialPhoneDigits())
+
 	// This is only used to detect `value` property changes.
 	const [valueForPhoneDigits, setValueForPhoneDigits] = useState(value)
 
@@ -67,7 +94,7 @@ export default function usePhoneDigits({
 		if (!phoneDigits) {
 			return
 		}
-		if (country && international && !withCountryCallingCode) {
+		if (inputFormat === 'NATIONAL_PART_OF_INTERNATIONAL') {
 			phoneDigits = `+${getCountryCallingCode(country, metadata)}${phoneDigits}`
 		}
 		// Return the E.164 phone number value.
@@ -135,12 +162,12 @@ export default function usePhoneDigits({
 	const onSetPhoneDigits = useCallback((phoneDigits) => {
 		let value
 		if (country) {
-			if (international && withCountryCallingCode) {
+			if (inputFormat === 'INTERNATIONAL') {
 				// The `<input/>` value must start with the country calling code.
 				const prefix = getInternationalPhoneNumberPrefix(country, metadata)
 				if (phoneDigits.indexOf(prefix) !== 0) {
 					// If a user tabs into a phone number input field
-					// that is `international` and `withCountryCallingCode`,
+					// that is in `withCountryCallingCode` mode,
 					// and then starts inputting local phone number digits,
 					// the first digit would get "swallowed" if the fix below wasn't implemented.
 					// https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/43
@@ -172,9 +199,7 @@ export default function usePhoneDigits({
 					}
 				}
 			} else {
-				// Entering phone number either in "national" format
-				// when `country` has been specified, or in "international" format
-				// when `country` has been specified but `withCountryCallingCode` hasn't.
+				// Entering phone number either in "NATIONAL" or in "NATIONAL_PART_OF_INTERNATIONAL" format.
 				// Therefore, `+` is not allowed.
 				if (phoneDigits && phoneDigits[0] === '+') {
 					// Remove the `+`.
@@ -197,8 +222,7 @@ export default function usePhoneDigits({
 		setValueForPhoneDigits(value)
 	}, [
 		country,
-		international,
-		withCountryCallingCode,
+		inputFormat,
 		defaultCountry,
 		metadata,
 		setPhoneDigits,
@@ -207,18 +231,18 @@ export default function usePhoneDigits({
 		countryMismatchDetected
 	])
 
-	return [
+	return {
 		phoneDigits,
-		onSetPhoneDigits
-	]
+		setPhoneDigits: onSetPhoneDigits,
+		inputFormat
+	}
 }
 
 /**
  * Returns phone number input field value for a E.164 phone number `value`.
  * @param  {string} [value]
  * @param  {string} [country]
- * @param  {boolean} [international]
- * @param  {boolean} [withCountryCallingCode]
+ * @param  {string} [inputFormat]
  * @param  {string} [defaultCountry]
  * @param  {boolean} [useNationalFormatForDefaultCountryValue]
  * @param  {object} metadata
@@ -227,14 +251,13 @@ export default function usePhoneDigits({
 function getPhoneDigitsForValue(
 	value,
 	country,
-	international,
-	withCountryCallingCode,
 	defaultCountry,
+	inputFormat,
 	useNationalFormatForDefaultCountryValue,
 	metadata,
 	onCountryMismatch
 ) {
-	if (country && international && withCountryCallingCode) {
+	if (country && inputFormat === 'INTERNATIONAL') {
 		const prefix = getInternationalPhoneNumberPrefix(country, metadata)
 		if (value) {
 			if (value.indexOf(prefix) !== 0) {
@@ -244,26 +267,44 @@ function getPhoneDigitsForValue(
 		}
 		return prefix
 	}
+
 	if (!value) {
 		return ''
 	}
+
 	if (!country && !defaultCountry) {
 		return value
 	}
+
 	const asYouType = new AsYouType(undefined, metadata)
 	asYouType.input(value)
 	const phoneNumber = asYouType.getNumber()
+
 	if (phoneNumber) {
 		if (country) {
+			// Check for `country` property mismatch for the actual `value`.
 			if (phoneNumber.country && phoneNumber.country !== country) {
 				onCountryMismatch(value, country, phoneNumber.country)
 			} else if (phoneNumber.countryCallingCode !== getCountryCallingCode(country, metadata)) {
 				onCountryMismatch(value, country)
 			}
-			if (international) {
-				return phoneNumber.nationalNumber
+			switch (inputFormat) {
+				case 'NATIONAL':
+					return parseDigits(phoneNumber.formatNational())
+				case 'NATIONAL_PART_OF_INTERNATIONAL':
+					return parseDigits(
+						removePrefixFromFormattedPhoneNumber(
+							phoneNumber.formatInternational(),
+							getInternationalPhoneNumberPrefix(country, metadata)
+						)
+					)
+				case 'INTERNATIONAL':
+					throw new Error('`inputFormat: "INTERNATIONAL"` case should\'ve already been handled earlier in the code')
+				case 'INTERNATIONAL_OR_NATIONAL':
+					throw new Error('`inputFormat: "INTERNATIONAL_OR_NATIONAL"` is not possible when `country` is fixed')
+				default:
+					throw new Error(`Unknown \`inputFormat\`: ${inputFormat}`)
 			}
-			return parseDigits(phoneNumber.formatNational())
 		} else {
 			// `phoneNumber.countryCallingCode` is compared here  instead of
 			// `phoneNumber.country`, because, for example, a person could have
@@ -293,4 +334,19 @@ function getPhoneDigitsForValue(
 	} else {
 		return ''
 	}
+}
+
+function getInputFormat({
+	international,
+	country,
+	defaultCountry,
+	withCountryCallingCode
+}) {
+	return country ? (
+		international ? (
+			withCountryCallingCode ? 'INTERNATIONAL' : 'NATIONAL_PART_OF_INTERNATIONAL'
+		) : 'NATIONAL'
+	) : (
+		defaultCountry ? 'INTERNATIONAL_OR_NATIONAL' : 'INTERNATIONAL'
+	)
 }

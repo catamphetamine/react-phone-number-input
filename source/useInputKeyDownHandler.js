@@ -7,16 +7,19 @@ import { useCallback } from 'react'
 // https://github.com/catamphetamine/react-phone-number-input/issues/442
 export default function useInputKeyDownHandler({
 	onKeyDown,
-	international
+	inputFormat
 }) {
 	return useCallback((event) => {
-		if (event.keyCode === BACKSPACE_KEY_CODE && international) {
+		// Usability:
+		// Don't allow the user to erase a leading "+" character when "international" input mode is forced.
+		// That indicates to the user that they can't possibly enter the phone number in a non-international format.
+		if (event.keyCode === BACKSPACE_KEY_CODE && inputFormat === 'INTERNATIONAL') {
 			// It checks `event.target` here for being an `<input/>` element
 			// because "keydown" events may bubble from arbitrary child elements
 			// so there's no guarantee that `event.target` represents an `<input/>` element.
 			// Also, since `inputComponent` is not neceesarily an `<input/>`, this check is required too.
 			if (event.target instanceof HTMLInputElement) {
-				if (getCaretPosition(event.target) === AFTER_LEADING_PLUS_CARET_POSITION) {
+				if (getCaretPosition(event.target) === LEADING_PLUS.length) {
 					event.preventDefault()
 					return
 				}
@@ -27,11 +30,9 @@ export default function useInputKeyDownHandler({
 		}
 	}, [
 		onKeyDown,
-		international
+		inputFormat
 	])
 }
-
-const BACKSPACE_KEY_CODE = 8
 
 // Gets the caret position in an `<input/>` field.
 // The caret position starts with `0` which means "before the first character".
@@ -39,4 +40,6 @@ function getCaretPosition(element) {
 	return element.selectionStart
 }
 
-const AFTER_LEADING_PLUS_CARET_POSITION = '+'.length
+const BACKSPACE_KEY_CODE = 8
+
+const LEADING_PLUS = '+'
