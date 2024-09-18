@@ -22,6 +22,14 @@ export function createInput(defaultMetadata)
 		country,
 		inputFormat,
 		metadata = defaultMetadata,
+		//
+		// The rest of the properties listed here are just to get the `rest` props
+		// that will be passed to the DOM `<input/>` element.
+		//
+		// `international` property is deprecated and is not used.
+		international,
+		// `withCountryCallingCode` property is deprecated and is not used.
+		withCountryCallingCode,
 		...rest
 	}, ref) {
 		const format = useCallback((value) => {
