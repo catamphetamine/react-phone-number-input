@@ -513,6 +513,7 @@ class PhoneNumberInput_ extends React.PureComponent {
 					autoComplete={autoComplete}
 					{...numberInputProps}
 					{...rest}
+					inputFormat={international === true ? 'INTERNATIONAL' : (international === false ? 'NATIONAL' : 'INTERNATIONAL_OR_NATIONAL')}
 					international={international ? true : undefined}
 					withCountryCallingCode={international ? true : undefined}
 					name={name}
@@ -860,7 +861,8 @@ PhoneNumberInput.propTypes = {
 	/**
 	 * Set to `true` to force "international" phone number format.
 	 * Set to `false` to force "national" phone number format.
-	 * By default it's `undefined` meaning that it doesn't enforce any phone number format.
+	 * By default it's `undefined` meaning that it doesn't enforce any phone number format:
+	 * the user can input their phone number in either "national" or "international" format.
 	 */
 	international: PropTypes.bool,
 
