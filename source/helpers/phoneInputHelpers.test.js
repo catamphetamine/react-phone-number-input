@@ -790,13 +790,13 @@ describe('phoneInputHelpers', () => {
 			value: undefined
 		})
 
-		onPhoneDigitsChange('+78', {
+		onPhoneDigitsChange('+330', {
 			metadata,
-			country: 'RU'
+			country: 'FR'
 		}).should.deep.equal({
-			phoneDigits: '+78',
-			country: 'RU',
-			value: '+78'
+			phoneDigits: '+330',
+			country: 'FR',
+			value: '+33'
 		})
 	})
 
@@ -1259,19 +1259,18 @@ describe('phoneInputHelpers', () => {
 		// `phoneDigits` in international format.
 		// Country calling code and first digit.
 		// (which is assumed a "national prefix").
-		onChange('+78').should.deep.equal({
-			phoneDigits: '8',
-			country: 'RU',
-			// value: undefined
-			value: '+7'
+		onChange('+330').should.deep.equal({
+			phoneDigits: '',
+			country: 'FR',
+			value: undefined
 		})
 
 		// `phoneDigits` in international format.
-		// Country calling code and first two digits.
-		onChange('+3311').should.deep.equal({
-			phoneDigits: '11',
+		// Country calling code, national prefix and first "significant" digit.
+		onChange('+3301').should.deep.equal({
+			phoneDigits: '1',
 			country: 'FR',
-			value: '+3311'
+			value: '+331'
 		})
 
 		// `phoneDigits` in international format.

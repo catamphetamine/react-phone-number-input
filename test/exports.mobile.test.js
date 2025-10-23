@@ -14,7 +14,7 @@ import Library from '../mobile/index.cjs'
 describe('exports/mobile', () => {
 	it('should export ES6', () => {
 		PhoneInput.render.should.be.a('function')
-		parsePhoneNumber('+78005553535').country.should.equal('RU')
+		parsePhoneNumber('+33109758351').country.should.equal('FR')
 		formatPhoneNumber('+12133734253').should.equal('(213) 373-4253')
 		formatPhoneNumberIntl('+12133734253').should.equal('+1 213 373 4253')
 		isValidPhoneNumber('+12133734253').should.equal(true)
@@ -27,7 +27,7 @@ describe('exports/mobile', () => {
 	it('should export CommonJS', () => {
 		Library.render.should.be.a('function')
 		Library.default.render.should.be.a('function')
-		Library.parsePhoneNumber('+78005553535').country.should.equal('RU')
+		Library.parsePhoneNumber('+33109758351').country.should.equal('FR')
 		Library.formatPhoneNumber('+12133734253').should.equal('(213) 373-4253')
 		Library.formatPhoneNumberIntl('+12133734253').should.equal('+1 213 373 4253')
 		Library.isValidPhoneNumber('+12133734253').should.equal(true)
