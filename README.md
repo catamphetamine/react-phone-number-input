@@ -250,6 +250,15 @@ function Example() {
 ```
 </details>
 
+### Automatic country selection
+
+To automatically select the user's country, you'll need an external service that determines location based on IP address or geolocation.
+While this library doesn't include such a service, it works seamlessly alongside one.
+
+Check the template below for CMS integration with a free-forever tier:
+
+[![Use Template](https://croct.com/button)](https://croct.com/templates/interface/form/react-phone-number-input)
+
 ## React Native
 
 This library also includes a React Native version of a "without country select" component. Post bug reports and suggestions in the [feedback thread](https://github.com/catamphetamine/react-phone-number-input/issues/296).
