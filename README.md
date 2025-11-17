@@ -735,9 +735,9 @@ Without country select:
 
 A "country code" is a [two-letter ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) (like `US`).
 
-This library supports all [officially assigned](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) ISO alpha-2 country codes, plus a few extra ones like: `AC` ([Ascension Island](https://en.wikipedia.org/wiki/Ascension_Island)), `TA` ([Tristan da Cunha](https://en.wikipedia.org/wiki/Tristan_da_Cunha)), `XK` ([Kosovo](https://en.wikipedia.org/wiki/Kosovo)).
+This library supports all [officially assigned](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) ISO alpha-2 country codes, plus a few [additional](https://www.npmjs.com/package/libphonenumber-js#country-code) unofficial ones that're used in Google's `libphonenumber`: Ascension Island (`AC`), Tristan da Cunha (`TA`), Kosovo (`XK`).
 
-To check whether a country code is supported, use [`isSupportedCountry()`](#issupportedcountrycountry-string-boolean) function.
+To check whether a certain two-letter country code is supported by this library, use [`isSupportedCountry()`](#issupportedcountrycountry-string-boolean) function.
 
 ## TypeScript
 
