@@ -407,54 +407,68 @@ import PhoneInput from 'react-phone-number-input'
 
 ## Localization
 
-Language translations can be applied using the `labels` property. This component comes pre-packaged with several [translations](https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale). Submit pull requests for adding new language translations.
+Language translation can be applied by passing a custom `labels` property value. This component comes pre-packaged with several importable [translations](https://gitlab.com/catamphetamine/react-phone-number-input/tree/master/locale).
+
+```js
+import russianLabels from 'react-phone-number-input/locale/ru'
+
+<PhoneInput labels={russianLabels} .../>
+```
+
+If labels for a certain language are missing, one could submit a pull request to add those.
 
 <details>
-<summary>Where to get country names for any language.</summary>
+<summary>Where could one get the list of country names for a given language.</summary>
 
 ####
 
-Country names can be copy-pasted from [`github.com/umpirsky/country-list`](https://github.com/umpirsky/country-list/blob/master/data/).
+There's a myriad sources on the internet. Modern web browsers even have an official [built-in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames/of) list of country names in all languages.
+
+For example, one could copy country names from [`github.com/umpirsky/country-list`](https://github.com/umpirsky/country-list/blob/master/data/).
 
 ```js
+import countryNamesInRussian from 'country-list/data/ru/country.json'
+
+// Outputs a JSON with the country names.
 JSON.stringify(
-  Object.keys(countries).sort()
-    .reduce((all, country) => ({ ...all, [country]: countries[country] }), {}),
+  Object.keys(countryNamesInRussian).sort()
+    .reduce((all, country) => ({
+      ...all,
+      [country]: countries[country]
+    }), {}),
   null,
   '\t'
 )
-````
-
-Also note that a country names list generated from `umpirsky/country-list` won't include Ascension Island (`AC`) and Tristan da Cunha (`TA`) — they will need to be added manually.
+```
 </details>
 
 ####
 
-The `labels` format is:
+Note that because this library uses `libphonenumber-js` for phone number parsing/formatting, it has to support the [additional](https://www.npmjs.com/package/libphonenumber-js#country-code) "countries" that aren't officially countries. For example, one will have to manually include the names for Ascension Island (`AC`), Tristan da Cunha (`TA`) and Kosovo (`XK`).
+
+Also, one will have to manually include miscellaneous labels:
+* `country` — is used as an `aria-label` for the country `<select/>` dropdown. It could also be used as a label for a hypothetical country name autocomplete input field.
+* `ZZ` — is used when no country is selected.
+* `phone` — could hypothetically be used as a label for the phone number input field.
+* `ext` — could hypothetically be used as a label for a phone number extension input field.
+
+####
+
+The final format for a translation file is:
 
 ```js
 {
-  // Can be used as a label for country input.
-  // Country `<select/>` uses this as its default `aria-label`.
   "country": "Phone number country",
-  // Can be used as a label for phone number input.
   "phone": "Phone",
-  // Can be used as a label for phone number extension input.
   "ext": "ext.",
-  // Country names.
-  "AB": "Abkhazia",
-  "AC": "Ascension Island",
+  // The rest are country names, including "unofficial" ones like `AC`, `TA`, `XK`, and `ZZ` for "International".
+  ...,
+  "RO": "Romania",
+  "RS": "Serbia",
+  "RU": "Russia",
   ...,
   "ZZ": "International"
 }
-```
-
-An example of using translated `labels`:
-
-```js
-import ru from 'react-phone-number-input/locale/ru'
-
-<PhoneInput ... labels={ru}/>
 ```
 
 ## `min` vs `max` vs `mobile`
