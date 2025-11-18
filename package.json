@@ -1,6 +1,6 @@
 {
   "name": "react-phone-number-input",
-  "version": "3.4.13",
+  "version": "3.4.14",
   "description": "Telephone number input React component",
   "main": "min/index.cjs",
   "module": "min/index.js",
@@ -379,8 +379,8 @@
   "dependencies": {
     "classnames": "^2.5.1",
     "country-flag-icons": "^1.5.17",
-    "input-format": "^0.3.10",
-    "libphonenumber-js": "^1.12.24",
+    "input-format": "^0.3.14",
+    "libphonenumber-js": "^1.12.27",
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
@@ -436,15 +436,15 @@
     "build-commonjs": "npm-run-all build-commonjs-modules build-commonjs-package.json",
     "build-commonjs-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps --ignore *.test.js",
     "build-commonjs-modules-with-tests": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./commonjs --source-maps",
-    "build-commonjs-package.json": "node runnable/create-commonjs-package-json.js",
+    "build-commonjs-package.json": "node scripts/create-commonjs-package-json.js",
     "build-es6-modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./modules --source-maps --ignore *.test.js",
     "build-es6-clean": "rimraf ./modules/**/*",
     "build": "npm-run-all clean-for-build build:dependencies build:demo build-commonjs fix-locale-import-in-default-component build-es6-modules browser-build build-styles",
-    "build-styles": "node runnable/build-bundle-styles",
-    "fix-locales": "node --experimental-json-modules runnable/fix-locales",
-    "fix-locale-import-in-default-component": "node --experimental-json-modules runnable/fix-locale-import-in-default-component",
-    "generate-locale-exports": "node runnable/generate-locale-exports",
-    "verify-flag-existence": "node --experimental-json-modules runnable/verify-flag-existence",
+    "build-styles": "node scripts/build-bundle-styles",
+    "fix-locales": "node --experimental-json-modules scripts/fix-locales",
+    "fix-locale-import-in-default-component": "node --experimental-json-modules scripts/fix-locale-import-in-default-component",
+    "generate-locale-exports": "node scripts/generate-locale-exports",
+    "verify-flag-existence": "node --experimental-json-modules scripts/verify-flag-existence",
     "prepublishOnly": "npm-run-all generate-locale-exports fix-locales verify-flag-existence build test"
   },
   "repository": {

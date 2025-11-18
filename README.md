@@ -5,9 +5,9 @@
 
 International phone number `<input/>` for React.
 
-[<img src="https://gitlab.com/catamphetamine/react-phone-number-input/-/raw/master/docs/images/first-glance-local.png" width="270" height="113"/>](http://catamphetamine.gitlab.io/react-phone-number-input/)
+[<img src="https://gitlab.com/catamphetamine/react-phone-number-input/-/raw/master/docs/images/first-glance-local.png" width="270" height="113"/>](https://catamphetamine.gitlab.io/react-phone-number-input/)
 
-[See Demo](http://catamphetamine.gitlab.io/react-phone-number-input/)
+[See Demo](https://catamphetamine.gitlab.io/react-phone-number-input/)
 
 <!-- This is a readme for the latest version (`3.x`) of the library. The previous version (`2.x`) readme could be found on [github](https://github.com/catamphetamine/react-phone-number-input/tree/2.x) until they removed it. For migrating from `2.x` to `3.x` see the [changelog](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/CHANGELOG.md). -->
 
@@ -35,17 +35,17 @@ International phone number `<input/>` for React.
 npm install react-phone-number-input --save
 ```
 
-If you're not using a bundler then use a [standalone version from a CDN](https://gitlab.com/catamphetamine/react-phone-number-input/#cdn).
+Alternatively, one could include it on a web page [directly](#cdn) via a `<script/>` tag.
 
-The component uses [`libphonenumber-js`](https://www.npmjs.com/package/libphonenumber-js) for phone number parsing and formatting.
+This component installs [`libphonenumber-js`](https://www.npmjs.com/package/libphonenumber-js) dependency for phone number parsing and formatting.
 
 ## Use
 
-The component comes in two variants: "with country select" and "without country select".
+This component comes in two variants: "with country select" and "without country select".
 
 ## With country select
 
-"With country select" component requires two properties: `value` and `onChange(value)`. [See the list of all available `props`](http://catamphetamine.gitlab.io/react-phone-number-input/docs/index.html#phoneinputwithcountry).
+"With country select" component requires two properties: `value` and `onChange(value)`. [See the list of all available `props`](https://catamphetamine.gitlab.io/react-phone-number-input/docs/index.html#phoneinputwithcountry).
 
 ```js
 import 'react-phone-number-input/style.css'
@@ -66,7 +66,7 @@ function Example() {
 
 The `value` argument of `onChange(value)` function will be the parsed phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. For example, if a user chooses "United States" and enters `(213) 373-4253` in the input field then `onChange(value)` will be called with `value` being `"+12133734253"`.
 
-Any ["falsy"](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) `value` like `undefined`, `null` or an empty string `""` is treated like "empty". In case of the `onChange()` function's `value` argument though it's always `undefined` for an "empty" `value`, i.e. when the user erases the input value, `onChange()` is called with `undefined` as an argument. Perhaps `null` would've been better, but historically it has been `undefined`.
+Any ["falsy"](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) `value` like `undefined`, `null` or an empty string `""` is treated like "empty". In case of the `onChange()` function's `value` argument though it's always `undefined` for an "empty" `value`, i.e. when the user clears the input value, `onChange()` is called with `undefined` as an argument. Perhaps `null` would've been better, but historically it has been `undefined`.
 
 All unknown properties will be passed through to the phone number `<input/>` component.
 
@@ -90,7 +90,7 @@ The phone number `<input/>` itself is implemented using [`input-format`](https:/
 
 "With country select" component comes with a [`style.css`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) stylesheet. All CSS class names start with `.PhoneInput`. Additional "modifier" CSS classes: `.PhoneInput--focus` for `:focus`, `.PhoneInput--disabled` for `:disabled`, `.PhoneInput--readOnly` for `[readonly]`.
 
-The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for convenience. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](http://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
+The stylesheet uses [native CSS variables](https://medium.freecodecamp.org/learn-css-variables-in-5-minutes-80cf63b4025d) for convenience. Native CSS variables work in all modern browsers, but older ones like Internet Explorer [wont't support them](https://caniuse.com/#search=var). For compatibility with such older browsers one can use a CSS transformer like [PostCSS](https://postcss.org/) with a "CSS custom properties" plugin like [`postcss-custom-properties`](https://github.com/postcss/postcss-custom-properties).
 
 Some of the CSS variables:
 
@@ -126,51 +126,54 @@ Or include the `style.css` file directly from a [CDN](#cdn) if you don't have to
 
 ## Without country select
 
-"Without country select" component is just a phone number `<input/>`.
+"Without country select" component is just a minimal "barebones" phone number `<input/>`, without any CSS.
 
 ```js
 import PhoneInput from 'react-phone-number-input/input'
 
 function Example() {
-  // `value` will be the parsed phone number in E.164 format.
+  // `value` holds the parsed phone number (in E.164 format).
+  // When the input is empty, or when there's not enough digits, value is `undefined`.
+  //
   // Example: "+12133734253".
+  //
   const [value, setValue] = useState()
-  // If `country` property is not passed
-  // then "International" format is used.
-  // Otherwise, "National" format is used.
+
+  // Specifying a `country` only allows input of phone numbers belonging to that specific country.
+  // Not specifying a `country` only allows input of any phone number in international format
+  // (i.e. starting with a "+").
+  //
   return (
     <PhoneInput
       country="US"
       value={value}
-      onChange={setValue} />
+      onChange={setValue}
+    />
   )
 }
 ```
 
-Doesn't require any CSS.
+Available properties:
 
-Receives properties:
+* `country: string?` — If `country` is specified then it only allows input of phone numbers that belong to that specific country. When specified, the value must be a supported [country code](#country-code). Example: `country="US"`.
 
-* `country: string?` — If `country` is specified then the input value will be formatted (and parsed) as a phone number that belongs to the `country`. `country` must be a supported [country code](#country-code). Example: `country="US"`.
+* `defaultCountry: string?` — If `defaultCountry` is specified then phone numbers can be input either in "international" format for any country or in "national" format for that specific country. Basically, it imposes a `country` restriction but only on phone numbers in "national" format while allowing any phone numbers in "international" format. In other words: "When the country is not specified in the phone number itself, assume it to be ... by default". When specified, the value must be a supported [country code](#country-code). Example: `defaultCountry="US"`.
 
-* `international: boolean?` — Controls whether the input value should be formatted (and parsed) as an "international" phone number as opposed to "national". When this property is omitted, its default value will be determined based on the values of other properties such as `country` or `defaultCountry`:
-  * When `country` is specified:
-    * When `international` property is not specified then the default value for `international` property is `false` meaning that the phone number can only be input in "national" format for that `country`.
-      * Example: if `country` is `"US"` and `international` property is not passed then the phone number can only be input in the "national" format for `US` (e.g. `"(213) 373-4253"`).
-    * When `international` property is explicitly set to `true` then the phone number can only be input in "international" format for that `country`.
-      * By default, the "country calling code" part (e.g. `"+1"` when `country` is `"US"`) is not included in the input field.
-        * Example: if `country` is `"US"` and `international` property is `true` then the phone number can only be input in the "international" format for `US` (e.g. `"213 373 4253"`), that is without the "country calling code" part (`"+1"`).
-        * This could be used for implementing phone number input components that show "country calling code" part separately before the input field.
-      * If `withCountryCallingCode` property is explicitly set to `true` then the "country calling code" part (e.g. `"+1"` when `country` is `"US"`) is included in the input field (but still isn't editable).
-        * Example: if `country` is `"US"` and `international` property is `true` and `withCountryCallingCode` property is `true` then the phone number can only be input in the "international" format for `US` (e.g. `"+1 213 373 4253"`), including the "country calling code" part `"+1"` (which isn't editable though).
-  * When `defaultCountry` is specified then the phone number could be input either in "national" or "international" format for that `defaultCountry`, so `international` property shouldn't be used in this case.
-  * When no `defaultCountry` or `country` are specified, the phone number can only be input in "international" format (for any country), so `international` property shouldn't be passed and is `true` by default.
+* `international: boolean?` — Controls which phone number format is allowed: "international" or "national" (or both). Set to `true` to only allow "international" format. Set to `false` to only allow "national" format.
+  * When `international` property is not explicitly specified, its default value will be determined based on the values of other properties such as `country` or `defaultCountry`:
+    * When `country` is specified, the default value of `international` property is `false`, meaning that the phone number can only be input in "national" format for that `country`.
+    * When `defaultCountry` is specified, the phone number could be input either in "international" format or in "national" format for the `defaultCountry`, so the default value of `international` property stays `undefined`.
+    * When no `country` or `defaultCountry` are specified, the phone number can only be input in "international" format (without any country restrictions), so the default value of the `international` property is `true`.
+  * When `country` is specified and `international` property is explicitly set to `true`, the phone number can only be input in "international" format for that `country`.
+    * In that case, by default, the "country calling code" part — for example, `"+1"` when `country` is `"US"` — is not included in the input field.
+      * Example: if `country` is `"US"` and `international` property is `true` then the phone number can only be input in "international" format for `US`, without the leading `"+1"` part, so it would look like `"213 373 4253"` rather than `"+1 213 373 4253"`.
+      * This is done intentionally so that a developer could build their own multi-country phone number input component where the "country calling code" part like `"+1"` is selectable separately before the main input field.
+      * To disable this behavior, set `withCountryCallingCode` property to `true`, and the "country calling code" part like `"+1"` will be part of the input field, but be aware that it still won't be editable because otherwise it would contradict the `country` property.
+        * Example: if `country` is `"US"` and `international` property is `true` and `withCountryCallingCode` property is `true` then the phone number can only be input in "international" format for `US`, with the fixed leading `"+1"` part, so it would look like `"+1 213 373 4253"`.
 
-* `withCountryCallingCode: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part (example: `+1` when `country` is `US`) is not included in the input field. To change that, pass `withCountryCallingCode` property, and it will include the "country calling code" part in the input field. See the demo for an example.
+* `withCountryCallingCode: boolean?` — If `country` is specified and `international` property is `true` then the phone number can only be input in "international" format for that `country`. By default, the "country calling code" part — for example, `+1` when `country` is `US` — is not included in the input field. To change that, set `withCountryCallingCode` property to `true`, and it will include the "country calling code" part in the input field, although it will still be non-editable. See the demo for an example.
 
-* `defaultCountry: string?` — If `defaultCountry` is specified then the phone number can be input both in "international" format and "national" format. A phone number that's being input in "national" format will be parsed as a phone number belonging to the `defaultCountry`. Must be a supported [country code](#country-code). Example: `defaultCountry="US"`.
-
-* `useNationalFormatForDefaultCountryValue: boolean?` — When `defaultCountry` is defined and the initial `value` corresponds to `defaultCountry`, then the `value` will be formatted as a national phone number by default. To format the initial `value` of `defaultCountry` as an international number instead set `useNationalFormatForDefaultCountryValue` property to `false`.
+* `useNationalFormatForDefaultCountryValue: boolean?` — By default, when `defaultCountry` is defined and the initial phone number belongs to the `defaultCountry`, that initial phone number is formatted in "national" format. A developer might rather prefer it to use "international" format for that, in which case set `useNationalFormatForDefaultCountryValue` property value to `false`.
 
 * `value: string?` — Phone number `value`. Examples: `undefined`, `"+12133734253"`.
 
@@ -186,7 +189,7 @@ Receives properties:
 
 * `smartCaret: boolean?` — When the user attempts to insert a digit somewhere in the middle of a phone number, the caret position is moved right before the next available digit skipping any punctuation in between. This is called "smart" caret positioning. Another case would be the phone number format changing as a result of the user inserting the digit somewhere in the middle, which would require re-positioning the caret because all digit positions have changed. This "smart" caret positioning feature can be turned off by passing `smartCaret={false}` property: use it in case of any possible issues with caret position during phone number input.
 
-See the [demo](http://catamphetamine.gitlab.io/react-phone-number-input/) for the examples.
+See the [demo](https://catamphetamine.gitlab.io/react-phone-number-input/) for the examples.
 
 For those who want to pass custom `metadata` there's `react-phone-number-input/input-core` sub-package.
 
@@ -263,18 +266,22 @@ function Example() {
   return (
     <PhoneInput
       style={...}
-      defaultCountry="US"
+      country="US"
       value={value}
-      onChange={setValue} />
+      onChange={setValue}
+    />
   )
 }
 ```
 
 Accepts the same properties as the web version of "without country select" component, with the following differences:
 
-* `smartCaret: boolean?` property is not accepted because "smart caret" positioning feature is not implemented in the React Native component.
+* `smartCaret: boolean?` property is not supported because "smart caret" positioning feature is not implemented in the React Native component.
 
-* `inputComponent: component?` — A custom input field component can be passed. In that case, it must do `React.forwardRef()` to the actual input field. Receives properties: `value: string`, `onChangeText(value: string)`, and all the "rest" of the properties that're not handled by this library, like `keyboardType="phone-pad"`, `autoCompleteType="tel"`, etc. Is a generic `<TextInput/>` by default.
+* `inputComponent: component?` — By default, it renders a generic `<TextInput/>`. A custom input component can be passed. Such custom input component must `forwardRef()` to the underlying input field. The input component receives properties:
+  * `value: string`
+  * `onChangeText(value: string)`
+  * all the "rest" of the properties that're not handled by this library, like `keyboardType="phone-pad"`, `autoCompleteType="tel"`, etc.
 
 ## Utility
 
@@ -348,7 +355,7 @@ getCountryCallingCode('US') === '1'
 
 ### `isSupportedCountry(country: string): boolean`
 
-Checks if a [country](#country-code) is supported by this library.
+Checks if a given [country code](#country-code) is supported by this library.
 
 This is simply an alias for [`isSupportedCountry()`](https://gitlab.com/catamphetamine/libphonenumber-js#issupportedcountrycountry-string-boolean) from [`libphonenumber-js`](https://gitlab.com/catamphetamine/libphonenumber-js).
 
@@ -359,7 +366,7 @@ isSupportedCountry('US') === true
 
 ## Flags URL
 
-By default, all flags are linked from [`country-flag-icons`](https://gitlab.com/catamphetamine/country-flag-icons)'s [GitHub pages](https://purecatamphetamine.github.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry) property (which is `"https://purecatamphetamine.github.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
+By default, all flags are linked from [`country-flag-icons`](https://gitlab.com/catamphetamine/country-flag-icons)'s [GitHub pages](https://purecatamphetamine.github.io/country-flag-icons/3x2) website as `<img src="..."/>`s. Any other flag icons could be used instead by passing a custom [`flagUrl`](https://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry) property (which is `"https://purecatamphetamine.github.io/country-flag-icons/3x2/{XX}.svg"` by default) and specifying their aspect ratio via [`--PhoneInputCountryFlag-aspectRatio`](https://gitlab.com/catamphetamine/react-phone-number-input/blob/master/style.css) CSS variable (which is `1.5` by default, meaning "3x2" aspect ratio).
 
 For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag icons would be as simple as:
 
@@ -377,7 +384,7 @@ For example, using [`flagpack`](https://github.com/jackiboy/flagpack) "4x3" flag
 
 Linking flag icons as external `<img/>`s is only done to reduce the overall bundle size, because including all country flags in the code as inline `<svg/>`s would increase the bundle size by 44 kB (after gzip).
 
-If bundle size is not an issue (for example, for a standalone non-web application, or an "intranet" application), then all country flags can be included directly in the code by passing the [`flags`](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry) property:
+If bundle size is not an issue (for example, for a standalone non-web application, or an "intranet" application), then all country flags can be included directly in the code by passing the [`flags`](https://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry) property:
 
 ```js
 import PhoneInput from 'react-phone-number-input'
@@ -444,9 +451,9 @@ JSON.stringify(
 
 ####
 
-Note that because this library uses `libphonenumber-js` for phone number parsing/formatting, it has to support the [additional](https://www.npmjs.com/package/libphonenumber-js#country-code) "countries" that aren't officially countries. For example, one will have to manually include the names for Ascension Island (`AC`), Tristan da Cunha (`TA`) and Kosovo (`XK`).
+Note that this library uses the term ["country code"](#country-code) rather broadly, including both the official and [ISO-3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country codes and a few of unofficial "country codes", so a translation should include the labels for both official and unofficial "country codes".
 
-Also, one will have to manually include miscellaneous labels:
+Also, a translation should include the following miscellaneous labels:
 * `country` — is used as an `aria-label` for the country `<select/>` dropdown. It could also be used as a label for a hypothetical country name autocomplete input field.
 * `ZZ` — is used when no country is selected.
 * `phone` — could hypothetically be used as a label for the phone number input field.
@@ -461,7 +468,8 @@ The final format for a translation file is:
   "country": "Phone number country",
   "phone": "Phone",
   "ext": "ext.",
-  // The rest are country names, including "unofficial" ones like `AC`, `TA`, `XK`, and `ZZ` for "International".
+  // The rest are country names, including "unofficial" ones
+  // like `AC`, `TA`, `XK`, and `ZZ` for "International".
   ...,
   "RO": "Romania",
   "RS": "Serbia",
@@ -586,7 +594,7 @@ Both components accept properties:
 
 ## Customization
 
-"With country select" `<PhoneInput/>` component accepts some [customization properties](http://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry):
+"With country select" `<PhoneInput/>` component accepts some [customization properties](https://catamphetamine.gitlab.io/react-phone-number-input/docs#phoneinputwithcountry):
 
 <!-- * `containerComponent` — Custom wrapping `<div/>` component. -->
 
@@ -693,7 +701,7 @@ Receives properties:
 
 ## CDN
 
-One can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.net](https://jsdelivr.net)
+To include this library directly via a `<script/>` tag on a page, one can use any npm CDN service, e.g. [unpkg.com](https://unpkg.com) or [jsdelivr.com](https://jsdelivr.com)
 
 ```html
 <!-- Default ("min" metadata). -->
@@ -733,15 +741,11 @@ Without country select:
 
 ## Country code
 
-A "country code" is a [two-letter ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) (like `US`).
+A "country code" is a two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) like `"US"`, `"CA"`, etc.
 
-This library supports all [officially assigned](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) ISO alpha-2 country codes, plus a few [additional](https://www.npmjs.com/package/libphonenumber-js#country-code) unofficial ones that're used in Google's `libphonenumber`: Ascension Island (`AC`), Tristan da Cunha (`TA`), Kosovo (`XK`).
+However, this library uses `libphonenumber-js`'s [variant](https://www.npmjs.com/package/libphonenumber-js#country-code) of the "country code" term, which is rather broad and includes both the [official](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) ISO country codes and a few of unofficial "country codes". For that reason, a developer should use a "country code" returned from this library with caution in an application that only expects the official ISO "country codes" to exist. For example, such application will likely not have a label or a flag for such an unofficial "country code". In that case, a developer could manually transform an unofficial "country code" returned from this library to an official ISO country code of the most suitable "parent" country.
 
-To check whether a certain two-letter country code is supported by this library, use [`isSupportedCountry()`](#issupportedcountrycountry-string-boolean) function.
-
-## TypeScript
-
-This library comes with TypeScript "typings". If you happen to find any bugs in those, create an issue.
+To check whether a certain two-letter "country code" is supported by this library, use [`isSupportedCountry()`](#issupportedcountrycountry-string-boolean) function.
 
 ## Tests
 
