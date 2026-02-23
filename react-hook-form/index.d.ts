@@ -40,13 +40,13 @@ export type Props<InputComponentProps, FormValues extends FieldValues> = BasePro
 // * `react-hook-form-core/index.d.ts`
 export type DefaultFormValues = FieldValues;
 
-type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => React.JSX.Element;
 
 // Could also export the component that would accept custom "generics", if the component was a function,
 // but seems like it would also introduce some inconvenience when using `typeof PhoneInputWithCountrySelect`
 // for defining the type of the `props`.
 // https://github.com/catamphetamine/react-phone-number-input/issues/414#issuecomment-1220679025
-// type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+// type PhoneInputWithCountrySelectType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => React.JSX.Element;
 
 declare const PhoneInputWithCountrySelect: PhoneInputWithCountrySelectType;
 

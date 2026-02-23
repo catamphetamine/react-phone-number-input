@@ -30,7 +30,7 @@ export interface EmbeddedFlagProps {
 	title: string;
 }
 
-type EmbeddedFlag = (props: EmbeddedFlagProps) => JSX.Element;
+type EmbeddedFlag = (props: EmbeddedFlagProps) => React.JSX.Element;
 
 export interface FlagProps {
 	country: Country;
@@ -39,7 +39,7 @@ export interface FlagProps {
 	flags?: Flags;
 }
 
-type Flag = (props: FlagProps) => JSX.Element;
+type Flag = (props: FlagProps) => React.JSX.Element;
 
 // `LabelKey` is imported in `/locale/{locale}.json.d.ts`.
 export type LabelKey = Country | 'ZZ' | 'ext' | 'country' | 'phone';

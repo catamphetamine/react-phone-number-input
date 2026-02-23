@@ -27,13 +27,13 @@ type Props<InputComponentProps, FormValues extends FieldValues> = BaseProps<Inpu
   metadata: Metadata;
 }
 
-type PhoneInputType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+type PhoneInputType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => React.JSX.Element;
 
 // Could also export the component that would accept custom "generics",
 // but seems like it would also introduce some inconvenience when using `typeof PhoneInput`
 // for defining the type of the `props`.
 // https://github.com/catamphetamine/react-phone-number-input/issues/414#issuecomment-1220679025
-// type PhoneInputType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => JSX.Element;
+// type PhoneInputType = <InputComponentProps = DefaultInputComponentProps, FormValues extends FieldValues = DefaultFormValues>(props: Props<InputComponentProps, FormValues>) => React.JSX.Element;
 
 declare const PhoneInput: PhoneInputType;
 

@@ -11,7 +11,7 @@ import {
 } from '../index.d.js';
 
 type InputComponent<InputComponentProps> =
-  | ((props: InputComponentProps) => JSX.Element | React.ComponentClass<InputComponentProps, any>)
+  | ((props: InputComponentProps) => React.JSX.Element | React.ComponentClass<InputComponentProps, any>)
   | React.ForwardRefExoticComponent<InputComponentProps & React.RefAttributes<HTMLInputElement>>;
 
 type FeaturePropsWithoutSmartCaret<InputComponentProps> = Omit<InputComponentProps, 'value' | 'onChange'> & {
