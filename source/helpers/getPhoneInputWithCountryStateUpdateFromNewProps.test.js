@@ -1,3 +1,6 @@
+import { describe, it } from 'mocha'
+import { expect } from 'chai'
+
 import metadata from 'libphonenumber-js/min/metadata'
 
 import _getPhoneInputWithCountryStateUpdateFromNewProps from './getPhoneInputWithCountryStateUpdateFromNewProps.js'
@@ -18,14 +21,14 @@ function getPhoneInputWithCountryStateUpdateFromNewProps(newProps, prevProps, st
 
 describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	it('should get state update from new props (reset)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{
 				reset: true,
 				defaultCountry: 'RU'
 			},
 			{},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			phoneDigits: undefined,
 			value: undefined,
 			country: 'RU',
@@ -35,7 +38,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (reset) (international)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{
 				reset: true,
 				international: true,
@@ -43,7 +46,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			},
 			{},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			phoneDigits: '+7',
 			value: undefined,
 			country: 'RU',
@@ -65,7 +68,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (default country changed) (no `value`)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{
 				defaultCountry: 'RU'
 			},
@@ -73,7 +76,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 				defaultCountry: 'US'
 			},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'RU',
 			phoneDigits: undefined,
 			value: undefined
@@ -93,7 +96,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (default country changed) (`value` is intl prefix)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{
 				international: true,
 				defaultCountry: 'CA'
@@ -105,7 +108,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			{
 				value: '+1'
 			}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'CA',
 			phoneDigits: '+1',
 			value: undefined
@@ -145,7 +148,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (`value` changed: undefined -> value)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{
 				value: '+78005553535',
 				defaultCountry: 'FR'
@@ -154,7 +157,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 				defaultCountry: 'US'
 			},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'RU',
 			phoneDigits: '+78005553535',
 			value: '+78005553535'
@@ -162,7 +165,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (`value` changed: value -> undefined)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{
 				defaultCountry: 'RU'
 			},
@@ -173,7 +176,7 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 			{
 				value: '+78005553535'
 			}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'RU',
 			phoneDigits: undefined,
 			value: undefined,
@@ -200,11 +203,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 
 	// https://github.com/catamphetamine/react-phone-number-input/issues/377
 	it('should get state update from new props (`value` changed: undefined -> +33)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+33' },
 			{},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'FR',
 			phoneDigits: '+33',
 			value: '+33'
@@ -213,11 +216,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 
 	// https://github.com/catamphetamine/react-phone-number-input/issues/377
 	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+1' },
 			{},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: undefined,
 			phoneDigits: '+1',
 			value: '+1'
@@ -226,11 +229,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 
 	// https://github.com/catamphetamine/react-phone-number-input/issues/377
 	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+1', defaultCountry: 'CA' },
 			{},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'CA',
 			phoneDigits: '+1',
 			value: '+1'
@@ -239,11 +242,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 
 	// https://github.com/catamphetamine/react-phone-number-input/issues/377
 	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country) (default country doesn\'t match the number)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+1', defaultCountry: 'RU' },
 			{},
 			{}
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: undefined,
 			phoneDigits: '+1',
 			value: '+1'
@@ -251,11 +254,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country) (default country doesn\'t match the number) (has latest manually selected country) (latest manually selected country fits the number)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+1', defaultCountry: 'RU' },
 		{},
 			{ latestCountrySelectedByUser: 'US' }
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'US',
 			phoneDigits: '+1',
 			value: '+1'
@@ -263,11 +266,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (`value` changed: undefined -> +1) (new country is not ambiguous) (has default country) (default country doesn\'t match the number) (has latest manually selected country) (latest manually selected country does match the parsed country)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+33', defaultCountry: 'RU' },
 			{},
 			{ latestCountrySelectedByUser: 'FR' }
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: 'FR',
 			phoneDigits: '+33',
 			value: '+33'
@@ -275,11 +278,11 @@ describe('getPhoneInputWithCountryStateUpdateFromNewProps', () => {
 	})
 
 	it('should get state update from new props (`value` changed: undefined -> +1) (new country is ambiguous) (has default country) (default country doesn\'t match the number) (has latest manually selected country) (the latest manually selected country doesn\'t match the number)', () => {
-		getPhoneInputWithCountryStateUpdateFromNewProps(
+		expect(getPhoneInputWithCountryStateUpdateFromNewProps(
 			{ value: '+1', defaultCountry: 'RU' },
 			{},
 			{ latestCountrySelectedByUser: 'FR' }
-		).should.deep.equal({
+		)).to.deep.equal({
 			country: undefined,
 			latestCountrySelectedByUser: undefined,
 			phoneDigits: '+1',

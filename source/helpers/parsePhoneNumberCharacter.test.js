@@ -1,13 +1,16 @@
+import { describe, it } from 'mocha'
+import { expect } from 'chai'
+
 import parsePhoneNumberCharacter from './parsePhoneNumberCharacter.js'
 
 describe('parsePhoneNumberCharacter', () => {
 	it('should work with a new `context` argument in `parsePhoneNumberCharacter()` function (international number)', () => {
 		const context = {}
 
-		parsePhoneNumberCharacter('+', undefined, context).should.equal('+')
+		expect(parsePhoneNumberCharacter('+', undefined, context)).to.equal('+')
 		expect(context).to.deep.equal({})
 
-		parsePhoneNumberCharacter('1', '+', context).should.equal('1')
+		expect(parsePhoneNumberCharacter('1', '+', context)).to.equal('1')
 		expect(context).to.deep.equal({})
 
 		expect(parsePhoneNumberCharacter('+', '+1', context)).to.equal(undefined)
@@ -20,7 +23,7 @@ describe('parsePhoneNumberCharacter', () => {
 	it('should work with a new `context` argument in `parsePhoneNumberCharacter()` function (national number)', () => {
 		const context = {}
 
-		parsePhoneNumberCharacter('2', undefined, context).should.equal('2')
+		expect(parsePhoneNumberCharacter('2', undefined, context)).to.equal('2')
 		expect(context).to.deep.equal({})
 
 		expect(parsePhoneNumberCharacter('+', '2', context)).to.equal(undefined)

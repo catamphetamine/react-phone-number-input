@@ -1,3 +1,6 @@
+import { describe, it } from 'mocha'
+import { expect } from 'chai'
+
 import _formatPhoneNumber, { formatPhoneNumberIntl as _formatPhoneNumberIntl } from './formatPhoneNumber.js'
 import metadata from 'libphonenumber-js/min/metadata'
 
@@ -18,23 +21,23 @@ function formatPhoneNumberIntl() {
 describe('formatPhoneNumber', () => {
 	it('should format phone numbers', () => {
 		expect(() => formatPhoneNumber()).to.throw('must be a string')
-		// formatPhoneNumber().should.equal('')
-		formatPhoneNumber(null).should.equal('')
-		formatPhoneNumber('').should.equal('')
+		// expect(formatPhoneNumber()).to.equal('')
+		expect(formatPhoneNumber(null)).to.equal('')
+		expect(formatPhoneNumber('')).to.equal('')
 		expect(() => _formatPhoneNumber('+1', 'NATIONAL')).to.throw('`metadata` argument not passed')
 		expect(() => _formatPhoneNumber('+12133734253', undefined, metadata)).to.throw('Unknown "format"')
 		expect(() => _formatPhoneNumber('+12133734253', '123', metadata)).to.throw('Unknown "format"')
-		formatPhoneNumber('+1', 'NATIONAL').should.equal('')
-		formatPhoneNumber('+12133734253', 'NATIONAL').should.equal('(213) 373-4253')
-		formatPhoneNumber('+12133734253').should.equal('(213) 373-4253')
-		formatPhoneNumber('+12133734253', 'INTERNATIONAL').should.equal('+1 213 373 4253')
+		expect(formatPhoneNumber('+1', 'NATIONAL')).to.equal('')
+		expect(formatPhoneNumber('+12133734253', 'NATIONAL')).to.equal('(213) 373-4253')
+		expect(formatPhoneNumber('+12133734253')).to.equal('(213) 373-4253')
+		expect(formatPhoneNumber('+12133734253', 'INTERNATIONAL')).to.equal('+1 213 373 4253')
 		// Deprecated.
 		// Legacy `format`s.
-		formatPhoneNumber('+12133734253', 'National').should.equal('(213) 373-4253')
-		formatPhoneNumber('+12133734253', 'International').should.equal('+1 213 373 4253')
+		expect(formatPhoneNumber('+12133734253', 'National')).to.equal('(213) 373-4253')
+		expect(formatPhoneNumber('+12133734253', 'International')).to.equal('+1 213 373 4253')
 	})
 
 	it('should format international phone numbers', () => {
-		formatPhoneNumberIntl('+12133734253').should.equal('+1 213 373 4253')
+		expect(formatPhoneNumberIntl('+12133734253')).to.equal('+1 213 373 4253')
 	})
 })

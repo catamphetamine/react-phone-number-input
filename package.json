@@ -380,7 +380,7 @@
     "classnames": "^2.5.1",
     "country-flag-icons": "^1.6.14",
     "input-format": "^0.3.14",
-    "libphonenumber-js": "^1.12.37",
+    "libphonenumber-js": "^1.12.38",
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
@@ -420,9 +420,10 @@
     "generate-docs:core": "styleguidist build --config react-styleguidist/styleguide.config.js",
     "generate-docs:prepare": "rimraf ./react-styleguidist/project/**/* && copyfiles .babelrc source/**/* react-styleguidist/project",
     "generate-docs": "npm-run-all generate-docs:prepare generate-docs:core",
-    "test": "node --experimental-json-modules node_modules/mocha/bin/_mocha --bail --require ./test/setup.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
+    "test": "mocha --bail \"source/**/*.test.js\" \"test/*.test.js\" \"test/!(exports)/**/*.test.js\"",
+    "test:exports": "mocha --bail \"test/exports/**/*.test.js\"",
     "test-coverage": "npm-run-all build-commonjs-clean build-commonjs-package.json build-commonjs-modules-with-tests test-coverage:commonjs",
-    "test-coverage:commonjs": "node --experimental-json-modules node_modules/istanbul/lib/cli.js cover -x \"*.test.js\" -x \"commonjs/DOM/**/*.js\" -x \"react/DOM/**/*.js\" -x \"commonjs/utility/shallowEqual.js\" -x \"commonjs/utility/debounce.js\" -x \"commonjs/utility/debug.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require regenerator-runtime --require ./test/setup.js \"commonjs/**/*.test.js\" --recursive",
+    "test-coverage:commonjs": "istanbul cover -x \"*.test.js\" -x \"commonjs/DOM/**/*.js\" -x \"react/DOM/**/*.js\" -x \"commonjs/utility/shallowEqual.js\" -x \"commonjs/utility/debounce.js\" -x \"commonjs/utility/debug.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require regenerator-runtime --require ./test/setup.js \"commonjs/**/*.test.js\" --recursive",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "build:demo": "npm run build:demo:dependencies",
     "build:demo:dependencies": "npm-run-all build:demo:dependencies:libphonenumber-js build:demo:dependencies:libphonenumber-js-map build:demo:bundle:dependencies",
@@ -441,11 +442,11 @@
     "build-es6-clean": "rimraf ./modules/**/*",
     "build": "npm-run-all clean-for-build build:dependencies build:demo build-commonjs fix-locale-import-in-default-component build-es6-modules browser-build build-styles",
     "build-styles": "node scripts/build-bundle-styles",
-    "fix-locales": "node --experimental-json-modules scripts/fix-locales",
-    "fix-locale-import-in-default-component": "node --experimental-json-modules scripts/fix-locale-import-in-default-component",
+    "fix-locales": "node scripts/fix-locales",
+    "fix-locale-import-in-default-component": "node scripts/fix-locale-import-in-default-component",
     "generate-locale-exports": "node scripts/generate-locale-exports",
-    "verify-flag-existence": "node --experimental-json-modules scripts/verify-flag-existence",
-    "prepublishOnly": "npm-run-all generate-locale-exports fix-locales verify-flag-existence build test"
+    "verify-flag-existence": "node scripts/verify-flag-existence",
+    "prepublishOnly": "npm-run-all generate-locale-exports fix-locales verify-flag-existence build test test:exports"
   },
   "repository": {
     "type": "git",

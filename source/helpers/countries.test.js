@@ -1,3 +1,6 @@
+import { describe, it } from 'mocha'
+import { expect } from 'chai'
+
 import metadata from 'libphonenumber-js/min/metadata'
 
 import {
@@ -9,7 +12,7 @@ import {
 
 describe('sortCountryOptions', () => {
 	it('should sort country options (no `order`)', () => {
-		sortCountryOptions([
+		expect(sortCountryOptions([
 			{
 				value: 'RU',
 				label: 'Russia'
@@ -18,7 +21,7 @@ describe('sortCountryOptions', () => {
 				value: 'US',
 				label: 'United States'
 			}
-		]).should.deep.equal([
+		])).to.deep.equal([
 			{
 				value: 'RU',
 				label: 'Russia'
@@ -31,7 +34,7 @@ describe('sortCountryOptions', () => {
 	})
 
 	it('should sort country options (with a divider)', () => {
-		sortCountryOptions(
+		expect(sortCountryOptions(
 			[
 				{
 					value: 'RU',
@@ -43,7 +46,7 @@ describe('sortCountryOptions', () => {
 				}
 			],
 			['US', '|', 'RU']
-		).should.deep.equal([
+		)).to.deep.equal([
 			{
 				value: 'US',
 				label: 'United States'
@@ -59,7 +62,7 @@ describe('sortCountryOptions', () => {
 	})
 
 	it('should sort country options (with "...")', () => {
-		sortCountryOptions(
+		expect(sortCountryOptions(
 			[
 				{
 					value: 'RU',
@@ -71,7 +74,7 @@ describe('sortCountryOptions', () => {
 				}
 			],
 			['US', '|', '...']
-		).should.deep.equal([
+		)).to.deep.equal([
 			{
 				value: 'US',
 				label: 'United States'
@@ -87,7 +90,7 @@ describe('sortCountryOptions', () => {
 	})
 
 	it('should sort country options (with "…")', () => {
-		sortCountryOptions(
+		expect(sortCountryOptions(
 			[
 				{
 					value: 'RU',
@@ -99,7 +102,7 @@ describe('sortCountryOptions', () => {
 				}
 			],
 			['US', '|', '…']
-		).should.deep.equal([
+		)).to.deep.equal([
 			{
 				value: 'US',
 				label: 'United States'
@@ -115,7 +118,7 @@ describe('sortCountryOptions', () => {
 	})
 
 	it('should sort country options (with "🌐")', () => {
-		sortCountryOptions(
+		expect(sortCountryOptions(
 			[
 				{
 					value: 'RU',
@@ -130,7 +133,7 @@ describe('sortCountryOptions', () => {
 				}
 			],
 			['US', '🌐', '…']
-		).should.deep.equal([
+		)).to.deep.equal([
 			{
 				value: 'US',
 				label: 'United States'
@@ -148,7 +151,7 @@ describe('sortCountryOptions', () => {
 
 describe('getSupportedCountryOptions', () => {
 	it('should get supported country options', () => {
-		getSupportedCountryOptions([
+		expect(getSupportedCountryOptions([
 			'🌐',
 			'RU',
 			'XX',
@@ -157,7 +160,7 @@ describe('getSupportedCountryOptions', () => {
 			'…',
 			'...',
 			'.'
-		], metadata).should.deep.equal([
+		], metadata)).to.deep.equal([
 			'🌐',
 			'RU',
 			'|',
@@ -179,12 +182,12 @@ describe('getSupportedCountryOptions', () => {
 	})
 
 	it('should tell is country is supported with error', () => {
-		isCountrySupportedWithError('RU', metadata).should.equal(true)
-		isCountrySupportedWithError('XX', metadata).should.equal(false)
+		expect(isCountrySupportedWithError('RU', metadata)).to.equal(true)
+		expect(isCountrySupportedWithError('XX', metadata)).to.equal(false)
 	})
 
 	it('should get supported countries', () => {
-		getSupportedCountries(['RU', 'XX'], metadata).should.deep.equal(['RU'])
+		expect(getSupportedCountries(['RU', 'XX'], metadata)).to.deep.equal(['RU'])
 	})
 
 	it('should get supported countries (none supported)', () => {
